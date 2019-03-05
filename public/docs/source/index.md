@@ -30,7 +30,7 @@ APIs for managing users
 ```bash
 curl -X POST "http://localhost/comment" \
     -H "Content-Type: application/json" \
-    -d '{"title":"A783R5GsZMwr3BT4","body":"XuIITVn7ruqTTJVd","type":"wre6PDsJhu3lKvNF","author_id":14,"thumbnail":"YKzcVQxoNP7YfOOT"}'
+    -d '{"title":"ylWx1Ugnx9EmeByq","body":"8yxLaSCypqdnYLIw","type":"HvtDbF0ob60NeanJ","author_id":15,"thumbnail":"8VRkkc7EaFRp9Nb3"}'
 
 ```
 
@@ -43,11 +43,11 @@ let headers = {
 }
 
 let body = {
-    "title": "A783R5GsZMwr3BT4",
-    "body": "XuIITVn7ruqTTJVd",
-    "type": "wre6PDsJhu3lKvNF",
-    "author_id": 14,
-    "thumbnail": "YKzcVQxoNP7YfOOT"
+    "title": "ylWx1Ugnx9EmeByq",
+    "body": "8yxLaSCypqdnYLIw",
+    "type": "HvtDbF0ob60NeanJ",
+    "author_id": 15,
+    "thumbnail": "8VRkkc7EaFRp9Nb3"
 }
 
 fetch(url, {
@@ -82,7 +82,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/DelComment" \
     -H "Content-Type: application/json" \
-    -d '{"title":"E5imXDplGnH5QmJN","body":"qu0vx3m2AHpChO5P","type":"Gp1YyBZ0Odq41Bou","author_id":8,"thumbnail":"TU7W2bO2ZwHXgWVp"}'
+    -d '{"title":"fTPSB8uscJOCxuEl","body":"vyuSyAzd3Sa4fDGt","type":"iDwxTDA9C5j9nIox","author_id":6,"thumbnail":"EuwmlMJrKfVdvuQF"}'
 
 ```
 
@@ -95,11 +95,11 @@ let headers = {
 }
 
 let body = {
-    "title": "E5imXDplGnH5QmJN",
-    "body": "qu0vx3m2AHpChO5P",
-    "type": "Gp1YyBZ0Odq41Bou",
-    "author_id": 8,
-    "thumbnail": "TU7W2bO2ZwHXgWVp"
+    "title": "fTPSB8uscJOCxuEl",
+    "body": "vyuSyAzd3Sa4fDGt",
+    "type": "iDwxTDA9C5j9nIox",
+    "author_id": 6,
+    "thumbnail": "EuwmlMJrKfVdvuQF"
 }
 
 fetch(url, {
@@ -134,7 +134,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/Edit" \
     -H "Content-Type: application/json" \
-    -d '{"title":"8u7A63Ccg5X3OBIY","body":"IR5hsjYH4DExzbGL","type":"OPq68L1DFxX4mLw9","author_id":16,"thumbnail":"IMxSQcUhBmptnLsB"}'
+    -d '{"title":"4yIsdSjsjE2t6K0G","body":"ljMoD7hZ7160NClF","type":"DhsXo7jB4yndBw8B","author_id":9,"thumbnail":"UTOaRldPBPWpMNmB"}'
 
 ```
 
@@ -147,11 +147,11 @@ let headers = {
 }
 
 let body = {
-    "title": "8u7A63Ccg5X3OBIY",
-    "body": "IR5hsjYH4DExzbGL",
-    "type": "OPq68L1DFxX4mLw9",
-    "author_id": 16,
-    "thumbnail": "IMxSQcUhBmptnLsB"
+    "title": "4yIsdSjsjE2t6K0G",
+    "body": "ljMoD7hZ7160NClF",
+    "type": "DhsXo7jB4yndBw8B",
+    "author_id": 9,
+    "thumbnail": "UTOaRldPBPWpMNmB"
 }
 
 fetch(url, {
@@ -186,7 +186,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/Hide" \
     -H "Content-Type: application/json" \
-    -d '{"title":"EZFVf0nQM1KWcSNR","body":"BYE5kmSYlbxOMGtQ","type":"WfNHYteh9WzbDtPZ","author_id":9,"thumbnail":"YLqLhCmeyHccB4FM"}'
+    -d '{"title":"4FP250eN54BEZiFp","body":"Lw7W0J9WzjJvBWti","type":"xF1RzeRIzGPwEPkQ","author_id":16,"thumbnail":"L0SRiFWi5zYM9hsY"}'
 
 ```
 
@@ -199,11 +199,11 @@ let headers = {
 }
 
 let body = {
-    "title": "EZFVf0nQM1KWcSNR",
-    "body": "BYE5kmSYlbxOMGtQ",
-    "type": "WfNHYteh9WzbDtPZ",
-    "author_id": 9,
-    "thumbnail": "YLqLhCmeyHccB4FM"
+    "title": "4FP250eN54BEZiFp",
+    "body": "Lw7W0J9WzjJvBWti",
+    "type": "xF1RzeRIzGPwEPkQ",
+    "author_id": 16,
+    "thumbnail": "L0SRiFWi5zYM9hsY"
 }
 
 fetch(url, {
@@ -238,7 +238,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/unhide" \
     -H "Content-Type: application/json" \
-    -d '{"title":"aIEkLAUjBGaKSE0v","body":"EBsNV9ocmhwbFPVS","type":"Cvx85TVkncbjy7Tj","author_id":4,"thumbnail":"5hwRDEGZ2hM7cnCg"}'
+    -d '{"title":"U4ON6k71NqcX8ZCd","body":"PcAXnvbCFyJ4UVY4","type":"4jP0MSSFiyFjZXwt","author_id":6,"thumbnail":"p0MRd5L9Ih9u7fBs"}'
 
 ```
 
@@ -251,11 +251,11 @@ let headers = {
 }
 
 let body = {
-    "title": "aIEkLAUjBGaKSE0v",
-    "body": "EBsNV9ocmhwbFPVS",
-    "type": "Cvx85TVkncbjy7Tj",
-    "author_id": 4,
-    "thumbnail": "5hwRDEGZ2hM7cnCg"
+    "title": "U4ON6k71NqcX8ZCd",
+    "body": "PcAXnvbCFyJ4UVY4",
+    "type": "4jP0MSSFiyFjZXwt",
+    "author_id": 6,
+    "thumbnail": "p0MRd5L9Ih9u7fBs"
 }
 
 fetch(url, {
@@ -290,7 +290,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/moreComm" \
     -H "Content-Type: application/json" \
-    -d '{"title":"X4DzKCaxA8vBDloJ","body":"7Vid9N0lNJsCPOtU","type":"IA4d1UuENnBaAzrl","author_id":7,"thumbnail":"TOAYkWQQdN3ra1nk"}'
+    -d '{"title":"cW7IzqUaGITTRo0D","body":"gbpjo5SsJYDQMlJ1","type":"UbfyP2K4I9jkraiq","author_id":17,"thumbnail":"caY4Va8Xoaabnq5E"}'
 
 ```
 
@@ -303,11 +303,11 @@ let headers = {
 }
 
 let body = {
-    "title": "X4DzKCaxA8vBDloJ",
-    "body": "7Vid9N0lNJsCPOtU",
-    "type": "IA4d1UuENnBaAzrl",
-    "author_id": 7,
-    "thumbnail": "TOAYkWQQdN3ra1nk"
+    "title": "cW7IzqUaGITTRo0D",
+    "body": "gbpjo5SsJYDQMlJ1",
+    "type": "UbfyP2K4I9jkraiq",
+    "author_id": 17,
+    "thumbnail": "caY4Va8Xoaabnq5E"
 }
 
 fetch(url, {
@@ -342,7 +342,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/report" \
     -H "Content-Type: application/json" \
-    -d '{"title":"cwLKz9mzuW9uvytg","body":"rvksWBjfcRm2m8Nk","type":"gClC5d7qsnYE7gUn","author_id":17,"thumbnail":"gtxHpRvd59z3H4dB"}'
+    -d '{"title":"nEGR37KI3eq3CQJV","body":"QBCKar55WR5jDpCi","type":"NPafI8Gxvc5WhrrK","author_id":15,"thumbnail":"nvlqSa4h1jl5f6ES"}'
 
 ```
 
@@ -355,11 +355,11 @@ let headers = {
 }
 
 let body = {
-    "title": "cwLKz9mzuW9uvytg",
-    "body": "rvksWBjfcRm2m8Nk",
-    "type": "gClC5d7qsnYE7gUn",
-    "author_id": 17,
-    "thumbnail": "gtxHpRvd59z3H4dB"
+    "title": "nEGR37KI3eq3CQJV",
+    "body": "QBCKar55WR5jDpCi",
+    "type": "NPafI8Gxvc5WhrrK",
+    "author_id": 15,
+    "thumbnail": "nvlqSa4h1jl5f6ES"
 }
 
 fetch(url, {
@@ -394,7 +394,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/vote" \
     -H "Content-Type: application/json" \
-    -d '{"title":"a2doGQSFNmqZeFzn","body":"eGFQcSQvfy6HVTP3","type":"punmJluy0niEUQ60","author_id":1,"thumbnail":"5gkb23xbPB4PO4cJ"}'
+    -d '{"title":"DodXm50OOpahP43O","body":"0UcQJjwA7Xnjz2Dl","type":"XV8J3QhLCCa7gJpq","author_id":5,"thumbnail":"7e4WjxdXQB99t4Qn"}'
 
 ```
 
@@ -407,11 +407,11 @@ let headers = {
 }
 
 let body = {
-    "title": "a2doGQSFNmqZeFzn",
-    "body": "eGFQcSQvfy6HVTP3",
-    "type": "punmJluy0niEUQ60",
-    "author_id": 1,
-    "thumbnail": "5gkb23xbPB4PO4cJ"
+    "title": "DodXm50OOpahP43O",
+    "body": "0UcQJjwA7Xnjz2Dl",
+    "type": "XV8J3QhLCCa7gJpq",
+    "author_id": 5,
+    "thumbnail": "7e4WjxdXQB99t4Qn"
 }
 
 fetch(url, {
@@ -446,7 +446,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/save" \
     -H "Content-Type: application/json" \
-    -d '{"title":"8L3EsLEHLh7YpGfJ","body":"eZ62pIpxVxbeszdM","type":"jAOdooB49qdCqnQk","author_id":16,"thumbnail":"VyZEv63k5aXEmHES"}'
+    -d '{"title":"jYGVPzv0Yq9MYlKX","body":"HuzIKS8UwpRWE4WB","type":"GROJAcS5PLXIhLBG","author_id":4,"thumbnail":"qHXWwiYWeGTz4lQ4"}'
 
 ```
 
@@ -459,11 +459,11 @@ let headers = {
 }
 
 let body = {
-    "title": "8L3EsLEHLh7YpGfJ",
-    "body": "eZ62pIpxVxbeszdM",
-    "type": "jAOdooB49qdCqnQk",
-    "author_id": 16,
-    "thumbnail": "VyZEv63k5aXEmHES"
+    "title": "jYGVPzv0Yq9MYlKX",
+    "body": "HuzIKS8UwpRWE4WB",
+    "type": "GROJAcS5PLXIhLBG",
+    "author_id": 4,
+    "thumbnail": "qHXWwiYWeGTz4lQ4"
 }
 
 fetch(url, {
@@ -498,7 +498,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/unsave" \
     -H "Content-Type: application/json" \
-    -d '{"title":"qSByFAJTGeoYeeU0","body":"zZe56BuePEKPPeXs","type":"gltOtsOMuYBfmdQV","author_id":6,"thumbnail":"3xceilm4uKblNdUU"}'
+    -d '{"title":"c2xCjsKD2okVHBrk","body":"NIeRS8ohnWJwhcmf","type":"zIKHTzzDqULGSWTm","author_id":9,"thumbnail":"ayBKobwM6holi1nD"}'
 
 ```
 
@@ -511,11 +511,11 @@ let headers = {
 }
 
 let body = {
-    "title": "qSByFAJTGeoYeeU0",
-    "body": "zZe56BuePEKPPeXs",
-    "type": "gltOtsOMuYBfmdQV",
-    "author_id": 6,
-    "thumbnail": "3xceilm4uKblNdUU"
+    "title": "c2xCjsKD2okVHBrk",
+    "body": "NIeRS8ohnWJwhcmf",
+    "type": "zIKHTzzDqULGSWTm",
+    "author_id": 9,
+    "thumbnail": "ayBKobwM6holi1nD"
 }
 
 fetch(url, {
@@ -551,7 +551,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/sign_up" \
     -H "Content-Type: application/json" \
-    -d '{"title":"XQG5OiMpDSw9HXkl","body":"fXI0UC1OHepiMPjp","type":"fdbmuMyc2NA8mAFN","author_id":14,"thumbnail":"eAHeLOQhJdOPydVk"}'
+    -d '{"title":"f57NJCEfUcxUVg93","body":"8lrHdgAPA3bvG5Ks","type":"21alBevGFE7rs3kV","author_id":12,"thumbnail":"scfHgbuiOJN5UXpP"}'
 
 ```
 
@@ -564,11 +564,11 @@ let headers = {
 }
 
 let body = {
-    "title": "XQG5OiMpDSw9HXkl",
-    "body": "fXI0UC1OHepiMPjp",
-    "type": "fdbmuMyc2NA8mAFN",
-    "author_id": 14,
-    "thumbnail": "eAHeLOQhJdOPydVk"
+    "title": "f57NJCEfUcxUVg93",
+    "body": "8lrHdgAPA3bvG5Ks",
+    "type": "21alBevGFE7rs3kV",
+    "author_id": 12,
+    "thumbnail": "scfHgbuiOJN5UXpP"
 }
 
 fetch(url, {
@@ -603,7 +603,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/Sign_in" \
     -H "Content-Type: application/json" \
-    -d '{"title":"bomRYEFXaFAl5Dgu","body":"xMefx9WVsMss0H6f","type":"ha08w4HD5l6ZiCXC","author_id":2,"thumbnail":"12XsVYuMD4JwpXk1"}'
+    -d '{"title":"kwZl0ZN5731XCeXn","body":"TbYJZO7lvnpHbHze","type":"Qru8JpGnlRkxDau8","author_id":6,"thumbnail":"1RBrAZO0qu90uHVf"}'
 
 ```
 
@@ -616,11 +616,11 @@ let headers = {
 }
 
 let body = {
-    "title": "bomRYEFXaFAl5Dgu",
-    "body": "xMefx9WVsMss0H6f",
-    "type": "ha08w4HD5l6ZiCXC",
-    "author_id": 2,
-    "thumbnail": "12XsVYuMD4JwpXk1"
+    "title": "kwZl0ZN5731XCeXn",
+    "body": "TbYJZO7lvnpHbHze",
+    "type": "Qru8JpGnlRkxDau8",
+    "author_id": 6,
+    "thumbnail": "1RBrAZO0qu90uHVf"
 }
 
 fetch(url, {
@@ -655,7 +655,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/sign_out" \
     -H "Content-Type: application/json" \
-    -d '{"title":"DUNKZS6md9s9AThq","body":"DWxzVrvCP85s6tn0","type":"NA17M0IdcW4s7M2B","author_id":6,"thumbnail":"AZZlq0x48PbC8y6u"}'
+    -d '{"title":"CoI8cohQ619hyMma","body":"bwc6yWjxuSFt6D9Y","type":"0KrwNAbIf9ySvVVA","author_id":4,"thumbnail":"0yfHYKpXQvT0UZg1"}'
 
 ```
 
@@ -668,11 +668,11 @@ let headers = {
 }
 
 let body = {
-    "title": "DUNKZS6md9s9AThq",
-    "body": "DWxzVrvCP85s6tn0",
-    "type": "NA17M0IdcW4s7M2B",
-    "author_id": 6,
-    "thumbnail": "AZZlq0x48PbC8y6u"
+    "title": "CoI8cohQ619hyMma",
+    "body": "bwc6yWjxuSFt6D9Y",
+    "type": "0KrwNAbIf9ySvVVA",
+    "author_id": 4,
+    "thumbnail": "0yfHYKpXQvT0UZg1"
 }
 
 fetch(url, {
@@ -707,7 +707,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/del_msg" \
     -H "Content-Type: application/json" \
-    -d '{"title":"52KjdPUEianyB8Tq","body":"HyN8cSBYMvWemL1g","type":"gj5hACcE0B4jIg2d","author_id":10,"thumbnail":"poeGMcE5qaVZF0zC"}'
+    -d '{"title":"cJqFV763Gk33B2Jg","body":"Pfavns0o57BoMNYg","type":"kJTTbMJTcb73Ik1l","author_id":1,"thumbnail":"M3pU7MnoHuqp7eBS"}'
 
 ```
 
@@ -720,11 +720,11 @@ let headers = {
 }
 
 let body = {
-    "title": "52KjdPUEianyB8Tq",
-    "body": "HyN8cSBYMvWemL1g",
-    "type": "gj5hACcE0B4jIg2d",
-    "author_id": 10,
-    "thumbnail": "poeGMcE5qaVZF0zC"
+    "title": "cJqFV763Gk33B2Jg",
+    "body": "Pfavns0o57BoMNYg",
+    "type": "kJTTbMJTcb73Ik1l",
+    "author_id": 1,
+    "thumbnail": "M3pU7MnoHuqp7eBS"
 }
 
 fetch(url, {
@@ -759,7 +759,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/read_msg" \
     -H "Content-Type: application/json" \
-    -d '{"title":"Z0Bw2R0Ye7qIOdmi","body":"DIN63bYLUr63aOqU","type":"zfDCGlIERqEaJZAm","author_id":5,"thumbnail":"e9XpLYVc01wpZCez"}'
+    -d '{"title":"SEMQoPomFcfmqULT","body":"q7CrfCUi84PEyW7S","type":"Qj0BNrSGPcuSwS5C","author_id":11,"thumbnail":"3JXLny1yXQizkoXb"}'
 
 ```
 
@@ -772,11 +772,11 @@ let headers = {
 }
 
 let body = {
-    "title": "Z0Bw2R0Ye7qIOdmi",
-    "body": "DIN63bYLUr63aOqU",
-    "type": "zfDCGlIERqEaJZAm",
-    "author_id": 5,
-    "thumbnail": "e9XpLYVc01wpZCez"
+    "title": "SEMQoPomFcfmqULT",
+    "body": "q7CrfCUi84PEyW7S",
+    "type": "Qj0BNrSGPcuSwS5C",
+    "author_id": 11,
+    "thumbnail": "3JXLny1yXQizkoXb"
 }
 
 fetch(url, {
@@ -811,7 +811,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X PATCH "http://localhost/updateprefs" \
     -H "Content-Type: application/json" \
-    -d '{"title":"l8I0KJ5Oj4CRkarj","body":"jR1M6iLp3ZWzDzUq","type":"EPljkBEMHS0cx4aN","author_id":2,"thumbnail":"gg6rxKGgbzLr1VlJ"}'
+    -d '{"title":"0bBk693wdpVVXH3f","body":"oXXHLIStWQ0lpL2W","type":"A0mBd4AR5y5KE8uV","author_id":17,"thumbnail":"vJWQjCs3QPoKc0ZB"}'
 
 ```
 
@@ -824,11 +824,11 @@ let headers = {
 }
 
 let body = {
-    "title": "l8I0KJ5Oj4CRkarj",
-    "body": "jR1M6iLp3ZWzDzUq",
-    "type": "EPljkBEMHS0cx4aN",
-    "author_id": 2,
-    "thumbnail": "gg6rxKGgbzLr1VlJ"
+    "title": "0bBk693wdpVVXH3f",
+    "body": "oXXHLIStWQ0lpL2W",
+    "type": "A0mBd4AR5y5KE8uV",
+    "author_id": 17,
+    "thumbnail": "vJWQjCs3QPoKc0ZB"
 }
 
 fetch(url, {
@@ -863,7 +863,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/prefs" \
     -H "Content-Type: application/json" \
-    -d '{"title":"efa4N2p007iXKKlL","body":"80kWS8t5lvRWS9Bd","type":"dYDsNA3sh9gBFcsi","author_id":1,"thumbnail":"0cxiEBvDCxsYNwOo"}'
+    -d '{"title":"uUfPwZBLcSR23TV2","body":"wUcCxjiycz1Xzus3","type":"yN2gCncBgfVpnt3p","author_id":1,"thumbnail":"SzbF5uwrQKUNQKIA"}'
 
 ```
 
@@ -876,11 +876,11 @@ let headers = {
 }
 
 let body = {
-    "title": "efa4N2p007iXKKlL",
-    "body": "80kWS8t5lvRWS9Bd",
-    "type": "dYDsNA3sh9gBFcsi",
+    "title": "uUfPwZBLcSR23TV2",
+    "body": "wUcCxjiycz1Xzus3",
+    "type": "yN2gCncBgfVpnt3p",
     "author_id": 1,
-    "thumbnail": "0cxiEBvDCxsYNwOo"
+    "thumbnail": "SzbF5uwrQKUNQKIA"
 }
 
 fetch(url, {
@@ -920,7 +920,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/me" \
     -H "Content-Type: application/json" \
-    -d '{"title":"USBIBnmAGXeHf7yy","body":"YJIx1lVX4A5ZXGyw","type":"jZLEDu8UPIHr4EIE","author_id":19,"thumbnail":"ePjaWc1s74iCz3I2"}'
+    -d '{"title":"BiIDdA3sUrSxjcFF","body":"6V1YGqIuvNOB6YE9","type":"XHf38PHUK4lRp351","author_id":6,"thumbnail":"SKwsqc4IX4lepfkr"}'
 
 ```
 
@@ -933,11 +933,11 @@ let headers = {
 }
 
 let body = {
-    "title": "USBIBnmAGXeHf7yy",
-    "body": "YJIx1lVX4A5ZXGyw",
-    "type": "jZLEDu8UPIHr4EIE",
-    "author_id": 19,
-    "thumbnail": "ePjaWc1s74iCz3I2"
+    "title": "BiIDdA3sUrSxjcFF",
+    "body": "6V1YGqIuvNOB6YE9",
+    "type": "XHf38PHUK4lRp351",
+    "author_id": 6,
+    "thumbnail": "SKwsqc4IX4lepfkr"
 }
 
 fetch(url, {
@@ -977,7 +977,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/info" \
     -H "Content-Type: application/json" \
-    -d '{"title":"Rb2BVcVi7wabDjgd","body":"QTLCSwVRSBXwBrbN","type":"O1lOJu00zAOIvRxC","author_id":20,"thumbnail":"dorB9pB4LDr5AAcc"}'
+    -d '{"title":"IesIsztkvQ01w99J","body":"glNPiwyQ6K4ir6u5","type":"tKHNxlWxbVNblMt0","author_id":5,"thumbnail":"M3Y1CElTEMmUMnfe"}'
 
 ```
 
@@ -990,11 +990,11 @@ let headers = {
 }
 
 let body = {
-    "title": "Rb2BVcVi7wabDjgd",
-    "body": "QTLCSwVRSBXwBrbN",
-    "type": "O1lOJu00zAOIvRxC",
-    "author_id": 20,
-    "thumbnail": "dorB9pB4LDr5AAcc"
+    "title": "IesIsztkvQ01w99J",
+    "body": "glNPiwyQ6K4ir6u5",
+    "type": "tKHNxlWxbVNblMt0",
+    "author_id": 5,
+    "thumbnail": "M3Y1CElTEMmUMnfe"
 }
 
 fetch(url, {
@@ -1034,7 +1034,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/karma" \
     -H "Content-Type: application/json" \
-    -d '{"title":"jrwgd6vSAmlBfKyS","body":"rfl1E93WbQsE9VuL","type":"YzYiTnk3y2lhqrqz","author_id":18,"thumbnail":"hOMFwSs2VwKQ3Dec"}'
+    -d '{"title":"zvINIykwuIZc1LZW","body":"kudRn1QCbhfOdnc9","type":"MrjcwpEz7HnOepFC","author_id":12,"thumbnail":"uapB9QrPp7ad9lLg"}'
 
 ```
 
@@ -1047,11 +1047,11 @@ let headers = {
 }
 
 let body = {
-    "title": "jrwgd6vSAmlBfKyS",
-    "body": "rfl1E93WbQsE9VuL",
-    "type": "YzYiTnk3y2lhqrqz",
-    "author_id": 18,
-    "thumbnail": "hOMFwSs2VwKQ3Dec"
+    "title": "zvINIykwuIZc1LZW",
+    "body": "kudRn1QCbhfOdnc9",
+    "type": "MrjcwpEz7HnOepFC",
+    "author_id": 12,
+    "thumbnail": "uapB9QrPp7ad9lLg"
 }
 
 fetch(url, {
@@ -1091,7 +1091,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/messages" \
     -H "Content-Type: application/json" \
-    -d '{"title":"JBfLnSrj2wmXQQJS","body":"D8qVSuGJ2gZtpfWk","type":"GRwh0cf1TtbKvZQZ","author_id":3,"thumbnail":"ZtdPvDHAKybJqS3f"}'
+    -d '{"title":"MfA1bGmsdjHeA3Rt","body":"NDXXg9afqjqfdcme","type":"iIqsQmqmlODUtS9g","author_id":3,"thumbnail":"kqWrWE6Vixgnf3eH"}'
 
 ```
 
@@ -1104,11 +1104,11 @@ let headers = {
 }
 
 let body = {
-    "title": "JBfLnSrj2wmXQQJS",
-    "body": "D8qVSuGJ2gZtpfWk",
-    "type": "GRwh0cf1TtbKvZQZ",
+    "title": "MfA1bGmsdjHeA3Rt",
+    "body": "NDXXg9afqjqfdcme",
+    "type": "iIqsQmqmlODUtS9g",
     "author_id": 3,
-    "thumbnail": "ZtdPvDHAKybJqS3f"
+    "thumbnail": "kqWrWE6Vixgnf3eH"
 }
 
 fetch(url, {
@@ -1148,7 +1148,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/del_ac" \
     -H "Content-Type: application/json" \
-    -d '{"title":"1k4fww320ozmOAXf","body":"0Dx01XMwzVqom17A","type":"fSl3fNJ9FyWCCq9E","author_id":18,"thumbnail":"fQmsXnBXdEw8ViaV"}'
+    -d '{"title":"DJNCbiBzmIBcnug5","body":"Tkp5JjiDUV5tRbIj","type":"2JAKsqk5UUTmozm8","author_id":14,"thumbnail":"UBwEGIxDctP24QUk"}'
 
 ```
 
@@ -1161,11 +1161,11 @@ let headers = {
 }
 
 let body = {
-    "title": "1k4fww320ozmOAXf",
-    "body": "0Dx01XMwzVqom17A",
-    "type": "fSl3fNJ9FyWCCq9E",
-    "author_id": 18,
-    "thumbnail": "fQmsXnBXdEw8ViaV"
+    "title": "DJNCbiBzmIBcnug5",
+    "body": "Tkp5JjiDUV5tRbIj",
+    "type": "2JAKsqk5UUTmozm8",
+    "author_id": 14,
+    "thumbnail": "UBwEGIxDctP24QUk"
 }
 
 fetch(url, {
@@ -1200,7 +1200,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/del_user" \
     -H "Content-Type: application/json" \
-    -d '{"title":"Bn3O5nTKOn9FK8eB","body":"pbueHQtqkCk1fy7q","type":"lPgScQQctX2FV2r9","author_id":9,"thumbnail":"3i0SRLTnhjBKtVaw"}'
+    -d '{"title":"WEew1CgiFSEmU7Zs","body":"flJw57SK3wEhZK7f","type":"os9tIEdlo6gaGGZD","author_id":7,"thumbnail":"8ASQzXIVsiaQtDXo"}'
 
 ```
 
@@ -1213,11 +1213,11 @@ let headers = {
 }
 
 let body = {
-    "title": "Bn3O5nTKOn9FK8eB",
-    "body": "pbueHQtqkCk1fy7q",
-    "type": "lPgScQQctX2FV2r9",
-    "author_id": 9,
-    "thumbnail": "3i0SRLTnhjBKtVaw"
+    "title": "WEew1CgiFSEmU7Zs",
+    "body": "flJw57SK3wEhZK7f",
+    "type": "os9tIEdlo6gaGGZD",
+    "author_id": 7,
+    "thumbnail": "8ASQzXIVsiaQtDXo"
 }
 
 fetch(url, {
@@ -1252,7 +1252,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/add_mod" \
     -H "Content-Type: application/json" \
-    -d '{"title":"0KBZO6pMop40NSv0","body":"SCPInbXb16iDezGg","type":"ktHns4qXVqQdCq9e","author_id":11,"thumbnail":"2phTjVyQZpJwAVs6"}'
+    -d '{"title":"cWQ53AdF0ir6oAn5","body":"vPQwFFHRHckLbD8c","type":"qf40Z4At5t8gx6jt","author_id":12,"thumbnail":"BDXgwR5CgrIzEMfg"}'
 
 ```
 
@@ -1265,11 +1265,11 @@ let headers = {
 }
 
 let body = {
-    "title": "0KBZO6pMop40NSv0",
-    "body": "SCPInbXb16iDezGg",
-    "type": "ktHns4qXVqQdCq9e",
-    "author_id": 11,
-    "thumbnail": "2phTjVyQZpJwAVs6"
+    "title": "cWQ53AdF0ir6oAn5",
+    "body": "vPQwFFHRHckLbD8c",
+    "type": "qf40Z4At5t8gx6jt",
+    "author_id": 12,
+    "thumbnail": "BDXgwR5CgrIzEMfg"
 }
 
 fetch(url, {
@@ -1304,7 +1304,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/about" \
     -H "Content-Type: application/json" \
-    -d '{"title":"8DGyvHpNRhyCR65C","body":"Bqy96wtgxxi39O0K","type":"F2HTeedToVM4GS0o","author_id":4,"thumbnail":"AqUmMYFzTk9cdgrH"}'
+    -d '{"title":"vEE9iujUXgc0wOQQ","body":"BDLPTKXG6Bnz0GGK","type":"UBeCvED6TR6BDD3u","author_id":10,"thumbnail":"lwYXxP4xpYDFyF11"}'
 
 ```
 
@@ -1317,11 +1317,11 @@ let headers = {
 }
 
 let body = {
-    "title": "8DGyvHpNRhyCR65C",
-    "body": "Bqy96wtgxxi39O0K",
-    "type": "F2HTeedToVM4GS0o",
-    "author_id": 4,
-    "thumbnail": "AqUmMYFzTk9cdgrH"
+    "title": "vEE9iujUXgc0wOQQ",
+    "body": "BDLPTKXG6Bnz0GGK",
+    "type": "UBeCvED6TR6BDD3u",
+    "author_id": 10,
+    "thumbnail": "lwYXxP4xpYDFyF11"
 }
 
 fetch(url, {
@@ -1361,7 +1361,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/posts" \
     -H "Content-Type: application/json" \
-    -d '{"title":"V9WzDOhYLxIr0BwD","body":"zH7KNTfj47cktQGi","type":"cDz8EhdMRIPyEoKe","author_id":11,"thumbnail":"Cz3KEuVfHZ9Cbstg"}'
+    -d '{"title":"WU673k7U7GIwiNmc","body":"Ye2qIFmx9NpTYhLO","type":"voUvBvQVqABEMKMJ","author_id":6,"thumbnail":"eVaI5eFdJiNe9l8u"}'
 
 ```
 
@@ -1374,11 +1374,11 @@ let headers = {
 }
 
 let body = {
-    "title": "V9WzDOhYLxIr0BwD",
-    "body": "zH7KNTfj47cktQGi",
-    "type": "cDz8EhdMRIPyEoKe",
-    "author_id": 11,
-    "thumbnail": "Cz3KEuVfHZ9Cbstg"
+    "title": "WU673k7U7GIwiNmc",
+    "body": "Ye2qIFmx9NpTYhLO",
+    "type": "voUvBvQVqABEMKMJ",
+    "author_id": 6,
+    "thumbnail": "eVaI5eFdJiNe9l8u"
 }
 
 fetch(url, {
@@ -1413,7 +1413,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/subscribe" \
     -H "Content-Type: application/json" \
-    -d '{"title":"p0RGTrQb1uE3qEqt","body":"HHIM7unA43pezNzR","type":"K35hg1VchTAjTdPd","author_id":6,"thumbnail":"MFqrJ1DMY01aJhSw"}'
+    -d '{"title":"WfU0Kv7IzFMgrRyo","body":"MdWnpw0K7L4i9OUM","type":"WShlM8NdR1PO6amC","author_id":13,"thumbnail":"KlD7P3uk7dLVDJ78"}'
 
 ```
 
@@ -1426,11 +1426,11 @@ let headers = {
 }
 
 let body = {
-    "title": "p0RGTrQb1uE3qEqt",
-    "body": "HHIM7unA43pezNzR",
-    "type": "K35hg1VchTAjTdPd",
-    "author_id": 6,
-    "thumbnail": "MFqrJ1DMY01aJhSw"
+    "title": "WfU0Kv7IzFMgrRyo",
+    "body": "MdWnpw0K7L4i9OUM",
+    "type": "WShlM8NdR1PO6amC",
+    "author_id": 13,
+    "thumbnail": "KlD7P3uk7dLVDJ78"
 }
 
 fetch(url, {
@@ -1465,7 +1465,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/site_admin" \
     -H "Content-Type: application/json" \
-    -d '{"title":"BKthyni5hvxkWTiZ","body":"fmT6xuIcgIQTS1GK","type":"ZxR9YqI4eqcjckUw","author_id":9,"thumbnail":"G9uoMrf7VnvIxZrb"}'
+    -d '{"title":"8fJ0BY653DS0WMMY","body":"4BYPHlg8F0jUDB0P","type":"O2XSkAS9gP5STlKv","author_id":3,"thumbnail":"7wdamkt1ZEz8r6aR"}'
 
 ```
 
@@ -1478,11 +1478,11 @@ let headers = {
 }
 
 let body = {
-    "title": "BKthyni5hvxkWTiZ",
-    "body": "fmT6xuIcgIQTS1GK",
-    "type": "ZxR9YqI4eqcjckUw",
-    "author_id": 9,
-    "thumbnail": "G9uoMrf7VnvIxZrb"
+    "title": "8fJ0BY653DS0WMMY",
+    "body": "4BYPHlg8F0jUDB0P",
+    "type": "O2XSkAS9gP5STlKv",
+    "author_id": 3,
+    "thumbnail": "7wdamkt1ZEz8r6aR"
 }
 
 fetch(url, {
@@ -1517,7 +1517,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/search" \
     -H "Content-Type: application/json" \
-    -d '{"title":"2rEJMyLZbmQs1bsU","body":"WEjDATiccN4vRdQq","type":"ocuwSMoHqBRfrnab","author_id":16,"thumbnail":"Lx8sSTNAuodetXOL"}'
+    -d '{"title":"y9Sgfy07SNTmVcM4","body":"WLKCHDnjH2JokD0i","type":"dfymyZ6dXi6ZSEtj","author_id":19,"thumbnail":"cBFhFld6P7rF1nf3"}'
 
 ```
 
@@ -1530,11 +1530,11 @@ let headers = {
 }
 
 let body = {
-    "title": "2rEJMyLZbmQs1bsU",
-    "body": "WEjDATiccN4vRdQq",
-    "type": "ocuwSMoHqBRfrnab",
-    "author_id": 16,
-    "thumbnail": "Lx8sSTNAuodetXOL"
+    "title": "y9Sgfy07SNTmVcM4",
+    "body": "WLKCHDnjH2JokD0i",
+    "type": "dfymyZ6dXi6ZSEtj",
+    "author_id": 19,
+    "thumbnail": "cBFhFld6P7rF1nf3"
 }
 
 fetch(url, {
@@ -1574,7 +1574,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/trendings" \
     -H "Content-Type: application/json" \
-    -d '{"title":"pzE1H4InxcEQdlbA","body":"qFRtTFAJd0zgy6re","type":"vNzSXCC5Dm1SSuuE","author_id":9,"thumbnail":"modnicCYkSGMiNGB"}'
+    -d '{"title":"TXhMsxEMsIbYCprN","body":"2CDHFtYxtD3e8CaA","type":"rZIHMQdQ9TIa2wxE","author_id":19,"thumbnail":"rdgoUjapGgOKojBf"}'
 
 ```
 
@@ -1587,11 +1587,11 @@ let headers = {
 }
 
 let body = {
-    "title": "pzE1H4InxcEQdlbA",
-    "body": "qFRtTFAJd0zgy6re",
-    "type": "vNzSXCC5Dm1SSuuE",
-    "author_id": 9,
-    "thumbnail": "modnicCYkSGMiNGB"
+    "title": "TXhMsxEMsIbYCprN",
+    "body": "2CDHFtYxtD3e8CaA",
+    "type": "rZIHMQdQ9TIa2wxE",
+    "author_id": 19,
+    "thumbnail": "rdgoUjapGgOKojBf"
 }
 
 fetch(url, {
@@ -1631,7 +1631,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/hot_posts" \
     -H "Content-Type: application/json" \
-    -d '{"title":"5ELSbNybvdlsesUs","body":"x1j8ykX8LkIaamHN","type":"dAhQty3tqxnCetKY","author_id":10,"thumbnail":"RjvEHUUGbRTbVwac"}'
+    -d '{"title":"dHFDdUaFSjCntEYj","body":"gJbT4NgfEQneYDdv","type":"gwu1ZxMrv7Tyozo1","author_id":7,"thumbnail":"ZQppUgg1G9JcAu6Z"}'
 
 ```
 
@@ -1644,11 +1644,11 @@ let headers = {
 }
 
 let body = {
-    "title": "5ELSbNybvdlsesUs",
-    "body": "x1j8ykX8LkIaamHN",
-    "type": "dAhQty3tqxnCetKY",
-    "author_id": 10,
-    "thumbnail": "RjvEHUUGbRTbVwac"
+    "title": "dHFDdUaFSjCntEYj",
+    "body": "gJbT4NgfEQneYDdv",
+    "type": "gwu1ZxMrv7Tyozo1",
+    "author_id": 7,
+    "thumbnail": "ZQppUgg1G9JcAu6Z"
 }
 
 fetch(url, {
@@ -1688,7 +1688,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/remove" \
     -H "Content-Type: application/json" \
-    -d '{"title":"3vaCPkgoYChUCj42","body":"50RD977JiB7IS7hv","type":"1TVOGv8sIhDk3GvJ","author_id":5,"thumbnail":"X2I80c1Du2FjgGsO"}'
+    -d '{"title":"97UErEbjrsTmxPhz","body":"80BVN1WV5pAh5bG7","type":"SirBJTLllQtVIX3G","author_id":7,"thumbnail":"dX01EoELEFY6JacR"}'
 
 ```
 
@@ -1701,11 +1701,11 @@ let headers = {
 }
 
 let body = {
-    "title": "3vaCPkgoYChUCj42",
-    "body": "50RD977JiB7IS7hv",
-    "type": "1TVOGv8sIhDk3GvJ",
-    "author_id": 5,
-    "thumbnail": "X2I80c1Du2FjgGsO"
+    "title": "97UErEbjrsTmxPhz",
+    "body": "80BVN1WV5pAh5bG7",
+    "type": "SirBJTLllQtVIX3G",
+    "author_id": 7,
+    "thumbnail": "dX01EoELEFY6JacR"
 }
 
 fetch(url, {
@@ -1740,7 +1740,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/approve" \
     -H "Content-Type: application/json" \
-    -d '{"title":"Bbp73u2d6H9Q72QP","body":"QC3FRJMNejJqVO9E","type":"S716ilmOjhf4G877","author_id":4,"thumbnail":"ceuQCLTmKNeALjCL"}'
+    -d '{"title":"7Ir4RKhCrrbLRzku","body":"HkYZeaVhM8pZZ54K","type":"4RbQbAekI5p7Kw94","author_id":14,"thumbnail":"8aKuwyB9TPsO83wa"}'
 
 ```
 
@@ -1753,11 +1753,11 @@ let headers = {
 }
 
 let body = {
-    "title": "Bbp73u2d6H9Q72QP",
-    "body": "QC3FRJMNejJqVO9E",
-    "type": "S716ilmOjhf4G877",
-    "author_id": 4,
-    "thumbnail": "ceuQCLTmKNeALjCL"
+    "title": "7Ir4RKhCrrbLRzku",
+    "body": "HkYZeaVhM8pZZ54K",
+    "type": "4RbQbAekI5p7Kw94",
+    "author_id": 14,
+    "thumbnail": "8aKuwyB9TPsO83wa"
 }
 
 fetch(url, {
@@ -1792,7 +1792,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/review_reports" \
     -H "Content-Type: application/json" \
-    -d '{"title":"jIhQPZg5Q58bUqc2","body":"ANi7v5eNa7Alw7ix","type":"nipYdkkiixFO3Sv5","author_id":18,"thumbnail":"MvWNpmOG1C2FAICt"}'
+    -d '{"title":"OjWTDi4mxm2GX4ir","body":"hE6Fd3jRD1xFvVpT","type":"NYkTHOiP6Aahy2i8","author_id":18,"thumbnail":"SNpc8uvco9Ew61sK"}'
 
 ```
 
@@ -1805,11 +1805,11 @@ let headers = {
 }
 
 let body = {
-    "title": "jIhQPZg5Q58bUqc2",
-    "body": "ANi7v5eNa7Alw7ix",
-    "type": "nipYdkkiixFO3Sv5",
+    "title": "OjWTDi4mxm2GX4ir",
+    "body": "hE6Fd3jRD1xFvVpT",
+    "type": "NYkTHOiP6Aahy2i8",
     "author_id": 18,
-    "thumbnail": "MvWNpmOG1C2FAICt"
+    "thumbnail": "SNpc8uvco9Ew61sK"
 }
 
 fetch(url, {
@@ -1849,7 +1849,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/block_user" \
     -H "Content-Type: application/json" \
-    -d '{"title":"2s9rmw82S18V9jsG","body":"FAJVLF5o1LExBvHI","type":"7JVUvhy3wFVmpNRc","author_id":16,"thumbnail":"KqwACysLr2FhrAnc"}'
+    -d '{"title":"K4F3jiSMBaSpAm9v","body":"5ZXVVeHnHhvykwqr","type":"tdAaNxBBdchfO1RL","author_id":15,"thumbnail":"fqyghsXWDHwxJcCk"}'
 
 ```
 
@@ -1862,11 +1862,11 @@ let headers = {
 }
 
 let body = {
-    "title": "2s9rmw82S18V9jsG",
-    "body": "FAJVLF5o1LExBvHI",
-    "type": "7JVUvhy3wFVmpNRc",
-    "author_id": 16,
-    "thumbnail": "KqwACysLr2FhrAnc"
+    "title": "K4F3jiSMBaSpAm9v",
+    "body": "5ZXVVeHnHhvykwqr",
+    "type": "tdAaNxBBdchfO1RL",
+    "author_id": 15,
+    "thumbnail": "fqyghsXWDHwxJcCk"
 }
 
 fetch(url, {
@@ -1901,7 +1901,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/compose" \
     -H "Content-Type: application/json" \
-    -d '{"title":"ZTmwR31L1UFz5fpY","body":"Wb6qvCiNAJCOwIO9","type":"Swd71GSl4YncnrTs","author_id":11,"thumbnail":"GvT4QSZdKBOHfRlA"}'
+    -d '{"title":"FcBAkRwVV7Qhyaq1","body":"wQMo8k3CTpHCUphW","type":"azkvDWPz6HZesNOK","author_id":18,"thumbnail":"BhoH1IRH1XAM5eub"}'
 
 ```
 
@@ -1914,11 +1914,11 @@ let headers = {
 }
 
 let body = {
-    "title": "ZTmwR31L1UFz5fpY",
-    "body": "Wb6qvCiNAJCOwIO9",
-    "type": "Swd71GSl4YncnrTs",
-    "author_id": 11,
-    "thumbnail": "GvT4QSZdKBOHfRlA"
+    "title": "FcBAkRwVV7Qhyaq1",
+    "body": "wQMo8k3CTpHCUphW",
+    "type": "azkvDWPz6HZesNOK",
+    "author_id": 18,
+    "thumbnail": "BhoH1IRH1XAM5eub"
 }
 
 fetch(url, {
@@ -1953,7 +1953,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/user_date" \
     -H "Content-Type: application/json" \
-    -d '{"title":"CIwZkp8pdkIdQlBT","body":"9Glz58WjgdAtGC7w","type":"NNYNBYXJiAVOFJrD","author_id":20,"thumbnail":"TRZwM1OeBhqWTjsY"}'
+    -d '{"title":"IgYKS6HacZZBtDlY","body":"8l5l5CWrK1JhDZKf","type":"jlds5W6TbxGi9L8v","author_id":11,"thumbnail":"ZioWZR9bqNkep6c1"}'
 
 ```
 
@@ -1966,11 +1966,11 @@ let headers = {
 }
 
 let body = {
-    "title": "CIwZkp8pdkIdQlBT",
-    "body": "9Glz58WjgdAtGC7w",
-    "type": "NNYNBYXJiAVOFJrD",
-    "author_id": 20,
-    "thumbnail": "TRZwM1OeBhqWTjsY"
+    "title": "IgYKS6HacZZBtDlY",
+    "body": "8l5l5CWrK1JhDZKf",
+    "type": "jlds5W6TbxGi9L8v",
+    "author_id": 11,
+    "thumbnail": "ZioWZR9bqNkep6c1"
 }
 
 fetch(url, {
