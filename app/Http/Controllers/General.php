@@ -28,7 +28,7 @@ class General extends Controller
     * @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
     */
 
-      public function Trendings()
+      public function SortPostsBy()
       {return;}
 
 
@@ -41,7 +41,7 @@ class General extends Controller
       * @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
       */
 
-        public function HotPosts()
+        public function ApexNames()
         {return;}
 
 

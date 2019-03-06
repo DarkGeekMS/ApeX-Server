@@ -66,8 +66,8 @@ Route::post('/unsave', 'Comment@UnSave');
 // general
 
 Route::get('/search', 'General@Search');
-Route::get('/trendings', 'General@Trendings');
-Route::get('/hot_posts', 'General@HotPosts');
+Route::get('/sort_posts', 'General@SortPostsBy');
+Route::get('/Apex_names', 'General@ApexNames');
 
 
 
