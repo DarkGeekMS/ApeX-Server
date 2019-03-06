@@ -83,4 +83,4 @@ Route::get('/review_reports', 'Moderation@ReviewReports');
 
 Route::post('/block_user', 'User@Block');
 Route::post('/compose', 'User@Compose');
-Route::get('/user_date', 'User@JoinDate');
+Route::get('/user_data', 'User@UserDataByAccountID');
