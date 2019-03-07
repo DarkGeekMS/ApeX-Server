@@ -48,18 +48,18 @@
 <p>Welcome to the generated API reference.
 <a href="http://localhost/docs/collection.json">Get Postman Collection</a></p>
 <!-- END_INFO -->
-<h1>User management</h1>
-<p>APIs for managing users</p>
-<!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
-<h2>comment</h2>
+<h1>Account</h1>
+<p>Controls the authentication, info and messages of the accounts.</p>
+<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
+<h2>Registers new user into the website by storing their email, username and password.</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/comment" \
+<pre><code class="language-bash">curl -X POST "http://localhost/sign_up" \
     -H "Content-Type: application/json" \
-    -d '{"title":"ylWx1Ugnx9EmeByq","body":"8yxLaSCypqdnYLIw","type":"HvtDbF0ob60NeanJ","author_id":15,"thumbnail":"8VRkkc7EaFRp9Nb3"}'
+    -d '{"email":"NFhC8ByCA2bjCAlD","username":"HIPBGNGrbTK73AoN","password":"xE8MvzAmMyaZmWOu","verify_password":"EAPAngUs0F6MxVmx"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/comment");
+<pre><code class="language-javascript">const url = new URL("http://localhost/sign_up");
 
 let headers = {
     "Content-Type": "application/json",
@@ -67,11 +67,10 @@ let headers = {
 }
 
 let body = {
-    "title": "ylWx1Ugnx9EmeByq",
-    "body": "8yxLaSCypqdnYLIw",
-    "type": "HvtDbF0ob60NeanJ",
-    "author_id": 15,
-    "thumbnail": "8VRkkc7EaFRp9Nb3"
+    "email": "NFhC8ByCA2bjCAlD",
+    "username": "HIPBGNGrbTK73AoN",
+    "password": "xE8MvzAmMyaZmWOu",
+    "verify_password": "EAPAngUs0F6MxVmx"
 }
 
 fetch(url, {
@@ -81,8 +80,615 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token": "eyJhbGciOiJIUz.JV_adQssw5c.swdwhewfw"
+}</code></pre>
+<blockquote>
+<p>Example response (406):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Username already exists"
+}</code></pre>
+<blockquote>
+<p>Example response (406):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Email already exists"
+}</code></pre>
+<blockquote>
+<p>Example response (406):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Passwords don't match"
+}</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST comment</code></p>
+<p><code>POST sign_up</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>required</td>
+<td>The email of the user.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>required</td>
+<td>The choosen username.</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>required</td>
+<td>The choosen password.</td>
+</tr>
+<tr>
+<td>verify_password</td>
+<td>required</td>
+<td>optional</td>
+<td>string The repeated value of the password.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_3a06114e88089d07a3c29bdb6f844602 -->
+<!-- START_f2f2bd15a0a3125617af6284631682f0 -->
+<h2>Validates user&#039;s credentials and logs him in.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/Sign_in" \
+    -H "Content-Type: application/json" \
+    -d '{"username":"PGziSKktTVWmGUXt","password":"LVvufqaTwdKpTi3R","remember_me":true}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Sign_in");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "username": "PGziSKktTVWmGUXt",
+    "password": "LVvufqaTwdKpTi3R",
+    "remember_me": true
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token": "eyJhbGciOiJIUz.JV_adQssw5c.swdwhewfw"
+}</code></pre>
+<blockquote>
+<p>Example response (406):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Username is not found"
+}</code></pre>
+<blockquote>
+<p>Example response (406):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Wrong password for the given username"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST Sign_in</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>required</td>
+<td>The user's username.</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>required</td>
+<td>The user's password.</td>
+</tr>
+<tr>
+<td>remember_me</td>
+<td>boolean</td>
+<td>required</td>
+<td>whether to keep the user logged in or not.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_f2f2bd15a0a3125617af6284631682f0 -->
+<!-- START_99ada3ad1c00101e557456766317db7b -->
+<h2>Logs out a user.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/sign_out" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"m9oIePlkxymQE5hY"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sign_out");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "m9oIePlkxymQE5hY"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": 1
+}</code></pre>
+<blockquote>
+<p>Example response (406):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Already logged out"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST sign_out</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_99ada3ad1c00101e557456766317db7b -->
+<!-- START_cb128bb391940d8304e5ebb273373143 -->
+<h2>Delete private messages from the recipient&#039;s view of their inbox.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/del_msg" \
+    -H "Content-Type: application/json" \
+    -d '{"id":19,"token":"OYvfxW0p7FnTXpFx"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/del_msg");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": 19,
+    "token": "OYvfxW0p7FnTXpFx"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": 1
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "User doesn't have access to the given message"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST del_msg</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>required</td>
+<td>The id of the message to be deleted.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_cb128bb391940d8304e5ebb273373143 -->
+<!-- START_869a605c7c3ad87a651842dddd0f4492 -->
+<h2>Delete private messages from the recipient&#039;s view of their inbox</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/read_msg" \
+    -H "Content-Type: application/json" \
+    -d '{"id":3,"token":"y96wNEshxLDSJMHC"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/read_msg");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": 3,
+    "token": "y96wNEshxLDSJMHC"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": 1
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "User doesn't have access to the given message"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST read_msg</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>required</td>
+<td>The id of the message to be deleted.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_869a605c7c3ad87a651842dddd0f4492 -->
+<!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
+<h2>Updates the preferences of the user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "http://localhost/updateprefs" \
+    -H "Content-Type: application/json" \
+    -d '{"change_email":"sHaMsp2MVtM5v5Tl","change_password":"ROBLtbxngk67NoFi","deactivate_account":"y3iOywB6RH91VHFV","media_autoplay":true,"pm_notifications":true,"replies_notifications":true,"token":"yPXN0Bxwya6nTXRe"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/updateprefs");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "change_email": "sHaMsp2MVtM5v5Tl",
+    "change_password": "ROBLtbxngk67NoFi",
+    "deactivate_account": "y3iOywB6RH91VHFV",
+    "media_autoplay": true,
+    "pm_notifications": true,
+    "replies_notifications": true,
+    "token": "yPXN0Bxwya6nTXRe"
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": 1
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "User doesn't have access to the given message"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH updateprefs</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>change_email</td>
+<td>string</td>
+<td>required</td>
+<td>Enable changing the email</td>
+</tr>
+<tr>
+<td>change_password</td>
+<td>string</td>
+<td>required</td>
+<td>Enable changing the password</td>
+</tr>
+<tr>
+<td>deactivate_account</td>
+<td>string</td>
+<td>optional</td>
+<td>Enable deactivating the account</td>
+</tr>
+<tr>
+<td>media_autoplay</td>
+<td>boolean</td>
+<td>optional</td>
+<td>Enabling media autoplay</td>
+</tr>
+<tr>
+<td>pm_notifications</td>
+<td>boolean</td>
+<td>optional</td>
+<td>Enable pm notifications</td>
+</tr>
+<tr>
+<td>replies_notifications</td>
+<td>boolean</td>
+<td>optional</td>
+<td>Enable notifications for replies</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_e43f1f7cccba02a3ecbce11183ad7aeb -->
+<!-- START_ef6e49b2e94875eba15ce9b052785989 -->
+<h2>Returns the preferences of the user.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/prefs" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"6lR5NkSfU3oP7d6b"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/prefs");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "6lR5NkSfU3oP7d6b"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "change_email": 1,
+    "change_password": 0,
+    "deactivate_account": 1,
+    "media_autoplay": 0,
+    "pm_notifications": 1,
+    "replies_notifications": 0
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Cannot authorize the user"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET prefs</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_ef6e49b2e94875eba15ce9b052785989 -->
+<!-- START_8534272b69ec50dc79d73c26608ba48c -->
+<h2>Returns the identity of the user logged in</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/me" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"B7Srw145A1LYI6hK"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/me");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "B7Srw145A1LYI6hK"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "username": "Regina Falange"
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Cannot authorize the user"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET me</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_8534272b69ec50dc79d73c26608ba48c -->
+<!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
+<h2>info</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/info" \
+    -H "Content-Type: application/json" \
+    -d '{"title":"UvsKtdsTwtcdSZzm","body":"ySSHKSbRPUrvF7v4","type":"sDw4o2nYLli9zdxv","author_id":17,"thumbnail":"FBeyEsaLr59xiENv"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/info");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "title": "UvsKtdsTwtcdSZzm",
+    "body": "ySSHKSbRPUrvF7v4",
+    "type": "sDw4o2nYLli9zdxv",
+    "author_id": 17,
+    "thumbnail": "FBeyEsaLr59xiENv"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET info</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -126,6 +732,191 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
+<!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
+<!-- START_4849ce4d441fd19425e151ff49985f46 -->
+<h2>Returns the karma of the user</h2>
+<ul>
+<li>@bodyParam token JWT required Used to verify the user.</li>
+</ul>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/karma");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "karma": 4
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Cannot authorize the user"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET karma</code></p>
+<!-- END_4849ce4d441fd19425e151ff49985f46 -->
+<!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
+<h2>Returns a listing of the messages of the user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/messages" \
+    -H "Content-Type: application/json" \
+    -d '{"max":4,"token":"mLRa8UR0urM9NlhO"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/messages");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "max": 4,
+    "token": "mLRa8UR0urM9NlhO"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "after": "msg_110",
+    "limit": 14
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Cannot authorize the user"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET messages</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max</td>
+<td>integer</td>
+<td>optional</td>
+<td>the maximum number of messages to be returned</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
+<h1>Links and comments</h1>
+<p>controls the comments , replies and private messages for each user</p>
+<!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
+<h2>comment</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/comment" \
+    -H "Content-Type: application/json" \
+    -d '{"fullname":"5tCtA6J8XZDzGKOA","content":"9poJLapFLVoW0qP5","type":"wlQr8FC38OCuVGlO","author_id":19,"thumbnail":"jNPKpAN8jlXWWxLf"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/comment");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "fullname": "5tCtA6J8XZDzGKOA",
+    "content": "9poJLapFLVoW0qP5",
+    "type": "wlQr8FC38OCuVGlO",
+    "author_id": 19,
+    "thumbnail": "jNPKpAN8jlXWWxLf"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST comment</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fullname</td>
+<td>string</td>
+<td>required</td>
+<td>The type of the comment ( comment, reply , message).</td>
+</tr>
+<tr>
+<td>content</td>
+<td>string</td>
+<td>required</td>
+<td>The body of the request.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>optional</td>
+<td>The type of post to create. Defaults to 'textophonious'.</td>
+</tr>
+<tr>
+<td>author_id</td>
+<td>integer</td>
+<td>optional</td>
+<td>the ID of the author</td>
+</tr>
+<tr>
+<td>thumbnail</td>
+<td>image</td>
+<td>optional</td>
+<td>This is required if the post type is 'imagelicious'.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_4479052af7e53f808c3e66f3a63e68f3 -->
 <!-- START_80708de049dc3d985cb6e8aeae33393b -->
 <h2>DelComment</h2>
@@ -134,7 +925,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/DelComment" \
     -H "Content-Type: application/json" \
-    -d '{"title":"fTPSB8uscJOCxuEl","body":"vyuSyAzd3Sa4fDGt","type":"iDwxTDA9C5j9nIox","author_id":6,"thumbnail":"EuwmlMJrKfVdvuQF"}'
+    -d '{"title":"wYRz2Kuu2V9Qzq83","body":"UIgCbNf82oHye6r1","type":"VwBqSPPA5jmCnX5e","author_id":1,"thumbnail":"oGWJxiOLWAnaPAi4"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/DelComment");
 
@@ -144,11 +935,11 @@ let headers = {
 }
 
 let body = {
-    "title": "fTPSB8uscJOCxuEl",
-    "body": "vyuSyAzd3Sa4fDGt",
-    "type": "iDwxTDA9C5j9nIox",
-    "author_id": 6,
-    "thumbnail": "EuwmlMJrKfVdvuQF"
+    "title": "wYRz2Kuu2V9Qzq83",
+    "body": "UIgCbNf82oHye6r1",
+    "type": "VwBqSPPA5jmCnX5e",
+    "author_id": 1,
+    "thumbnail": "oGWJxiOLWAnaPAi4"
 }
 
 fetch(url, {
@@ -211,7 +1002,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/Edit" \
     -H "Content-Type: application/json" \
-    -d '{"title":"4yIsdSjsjE2t6K0G","body":"ljMoD7hZ7160NClF","type":"DhsXo7jB4yndBw8B","author_id":9,"thumbnail":"UTOaRldPBPWpMNmB"}'
+    -d '{"title":"5jvmPCbEiNv2XSnk","body":"5cbrIMUfKyXpZjaN","type":"f7KG31IFYqnvLLGK","author_id":9,"thumbnail":"4kLtfNZTmaRw9g96"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/Edit");
 
@@ -221,11 +1012,11 @@ let headers = {
 }
 
 let body = {
-    "title": "4yIsdSjsjE2t6K0G",
-    "body": "ljMoD7hZ7160NClF",
-    "type": "DhsXo7jB4yndBw8B",
+    "title": "5jvmPCbEiNv2XSnk",
+    "body": "5cbrIMUfKyXpZjaN",
+    "type": "f7KG31IFYqnvLLGK",
     "author_id": 9,
-    "thumbnail": "UTOaRldPBPWpMNmB"
+    "thumbnail": "4kLtfNZTmaRw9g96"
 }
 
 fetch(url, {
@@ -288,7 +1079,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/Hide" \
     -H "Content-Type: application/json" \
-    -d '{"title":"4FP250eN54BEZiFp","body":"Lw7W0J9WzjJvBWti","type":"xF1RzeRIzGPwEPkQ","author_id":16,"thumbnail":"L0SRiFWi5zYM9hsY"}'
+    -d '{"title":"BpTqbyAqWatfkrS7","body":"oY8rrxWVQBRs8Hrp","type":"qFOHu8zsfVurfD11","author_id":18,"thumbnail":"3FGoCM1QWQhhlj3U"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/Hide");
 
@@ -298,11 +1089,11 @@ let headers = {
 }
 
 let body = {
-    "title": "4FP250eN54BEZiFp",
-    "body": "Lw7W0J9WzjJvBWti",
-    "type": "xF1RzeRIzGPwEPkQ",
-    "author_id": 16,
-    "thumbnail": "L0SRiFWi5zYM9hsY"
+    "title": "BpTqbyAqWatfkrS7",
+    "body": "oY8rrxWVQBRs8Hrp",
+    "type": "qFOHu8zsfVurfD11",
+    "author_id": 18,
+    "thumbnail": "3FGoCM1QWQhhlj3U"
 }
 
 fetch(url, {
@@ -365,7 +1156,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/unhide" \
     -H "Content-Type: application/json" \
-    -d '{"title":"U4ON6k71NqcX8ZCd","body":"PcAXnvbCFyJ4UVY4","type":"4jP0MSSFiyFjZXwt","author_id":6,"thumbnail":"p0MRd5L9Ih9u7fBs"}'
+    -d '{"title":"1pkm5f8okha95wZo","body":"Su1VYZ2ZpTdyrNu3","type":"20IeQGA0pHWjmG8P","author_id":2,"thumbnail":"6LKn0pzcOmY0kgI7"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/unhide");
 
@@ -375,11 +1166,11 @@ let headers = {
 }
 
 let body = {
-    "title": "U4ON6k71NqcX8ZCd",
-    "body": "PcAXnvbCFyJ4UVY4",
-    "type": "4jP0MSSFiyFjZXwt",
-    "author_id": 6,
-    "thumbnail": "p0MRd5L9Ih9u7fBs"
+    "title": "1pkm5f8okha95wZo",
+    "body": "Su1VYZ2ZpTdyrNu3",
+    "type": "20IeQGA0pHWjmG8P",
+    "author_id": 2,
+    "thumbnail": "6LKn0pzcOmY0kgI7"
 }
 
 fetch(url, {
@@ -442,7 +1233,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/moreComm" \
     -H "Content-Type: application/json" \
-    -d '{"title":"cW7IzqUaGITTRo0D","body":"gbpjo5SsJYDQMlJ1","type":"UbfyP2K4I9jkraiq","author_id":17,"thumbnail":"caY4Va8Xoaabnq5E"}'
+    -d '{"title":"NihugjTNpTCOzQP2","body":"JUOxo174BTo3ji87","type":"uGuJrOJ3fPv74mSd","author_id":14,"thumbnail":"I6HFIN1sUXRFCugE"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/moreComm");
 
@@ -452,11 +1243,11 @@ let headers = {
 }
 
 let body = {
-    "title": "cW7IzqUaGITTRo0D",
-    "body": "gbpjo5SsJYDQMlJ1",
-    "type": "UbfyP2K4I9jkraiq",
-    "author_id": 17,
-    "thumbnail": "caY4Va8Xoaabnq5E"
+    "title": "NihugjTNpTCOzQP2",
+    "body": "JUOxo174BTo3ji87",
+    "type": "uGuJrOJ3fPv74mSd",
+    "author_id": 14,
+    "thumbnail": "I6HFIN1sUXRFCugE"
 }
 
 fetch(url, {
@@ -519,7 +1310,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/report" \
     -H "Content-Type: application/json" \
-    -d '{"title":"nEGR37KI3eq3CQJV","body":"QBCKar55WR5jDpCi","type":"NPafI8Gxvc5WhrrK","author_id":15,"thumbnail":"nvlqSa4h1jl5f6ES"}'
+    -d '{"title":"AFeDmyhMupYASWpy","body":"kWoFvgQpCUEZK6Gq","type":"3g3Jq3mfWjGGx3XT","author_id":18,"thumbnail":"vL2AwV71KKh8vOIk"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/report");
 
@@ -529,11 +1320,11 @@ let headers = {
 }
 
 let body = {
-    "title": "nEGR37KI3eq3CQJV",
-    "body": "QBCKar55WR5jDpCi",
-    "type": "NPafI8Gxvc5WhrrK",
-    "author_id": 15,
-    "thumbnail": "nvlqSa4h1jl5f6ES"
+    "title": "AFeDmyhMupYASWpy",
+    "body": "kWoFvgQpCUEZK6Gq",
+    "type": "3g3Jq3mfWjGGx3XT",
+    "author_id": 18,
+    "thumbnail": "vL2AwV71KKh8vOIk"
 }
 
 fetch(url, {
@@ -596,7 +1387,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/vote" \
     -H "Content-Type: application/json" \
-    -d '{"title":"DodXm50OOpahP43O","body":"0UcQJjwA7Xnjz2Dl","type":"XV8J3QhLCCa7gJpq","author_id":5,"thumbnail":"7e4WjxdXQB99t4Qn"}'
+    -d '{"title":"1cldLpwDKwB1OzDa","body":"pAwNg4Ddbggakmwd","type":"2QuPnV2wdW0QiLZP","author_id":7,"thumbnail":"cmBw1Roqf1bnfG1m"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/vote");
 
@@ -606,11 +1397,11 @@ let headers = {
 }
 
 let body = {
-    "title": "DodXm50OOpahP43O",
-    "body": "0UcQJjwA7Xnjz2Dl",
-    "type": "XV8J3QhLCCa7gJpq",
-    "author_id": 5,
-    "thumbnail": "7e4WjxdXQB99t4Qn"
+    "title": "1cldLpwDKwB1OzDa",
+    "body": "pAwNg4Ddbggakmwd",
+    "type": "2QuPnV2wdW0QiLZP",
+    "author_id": 7,
+    "thumbnail": "cmBw1Roqf1bnfG1m"
 }
 
 fetch(url, {
@@ -673,7 +1464,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/save" \
     -H "Content-Type: application/json" \
-    -d '{"title":"jYGVPzv0Yq9MYlKX","body":"HuzIKS8UwpRWE4WB","type":"GROJAcS5PLXIhLBG","author_id":4,"thumbnail":"qHXWwiYWeGTz4lQ4"}'
+    -d '{"title":"VpXPQH5UhLW3KBeP","body":"XprZDuYzHn6eQc6M","type":"2L5Cm9yVvEaJJNDr","author_id":9,"thumbnail":"Qp7LZHj4fk9Daqm3"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/save");
 
@@ -683,11 +1474,11 @@ let headers = {
 }
 
 let body = {
-    "title": "jYGVPzv0Yq9MYlKX",
-    "body": "HuzIKS8UwpRWE4WB",
-    "type": "GROJAcS5PLXIhLBG",
-    "author_id": 4,
-    "thumbnail": "qHXWwiYWeGTz4lQ4"
+    "title": "VpXPQH5UhLW3KBeP",
+    "body": "XprZDuYzHn6eQc6M",
+    "type": "2L5Cm9yVvEaJJNDr",
+    "author_id": 9,
+    "thumbnail": "Qp7LZHj4fk9Daqm3"
 }
 
 fetch(url, {
@@ -750,7 +1541,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/unsave" \
     -H "Content-Type: application/json" \
-    -d '{"title":"c2xCjsKD2okVHBrk","body":"NIeRS8ohnWJwhcmf","type":"zIKHTzzDqULGSWTm","author_id":9,"thumbnail":"ayBKobwM6holi1nD"}'
+    -d '{"title":"7bhWT8SVzTiICC6g","body":"RwuzGnqR56k2WJl5","type":"StKffWZhMZOtSCYz","author_id":17,"thumbnail":"dDuJigB6OXXG4QWt"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/unsave");
 
@@ -760,11 +1551,11 @@ let headers = {
 }
 
 let body = {
-    "title": "c2xCjsKD2okVHBrk",
-    "body": "NIeRS8ohnWJwhcmf",
-    "type": "zIKHTzzDqULGSWTm",
-    "author_id": 9,
-    "thumbnail": "ayBKobwM6holi1nD"
+    "title": "7bhWT8SVzTiICC6g",
+    "body": "RwuzGnqR56k2WJl5",
+    "type": "StKffWZhMZOtSCYz",
+    "author_id": 17,
+    "thumbnail": "dDuJigB6OXXG4QWt"
 }
 
 fetch(url, {
@@ -820,874 +1611,195 @@ fetch(url, {
 </tbody>
 </table>
 <!-- END_c73ea2693dc9203931a2533cdef33d33 -->
+<h1>User</h1>
+<p>Controls the user interaction with other users</p>
+<!-- START_1a7af546cd175bbafae3c156085b8064 -->
+<h2>Block a user, so he can&#039;t send private messages to the current user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"sxezgVMRshURqg8a","token":"mKPlX8ohbk0qFGZR"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "sxezgVMRshURqg8a",
+    "token": "mKPlX8ohbk0qFGZR"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST block_user</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>required</td>
+<td>the id of the user to be blocked.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_1a7af546cd175bbafae3c156085b8064 -->
+<!-- START_9a86fc0b67608be77b22a771d49949db -->
+<h2>Send a private message to another user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
+    -H "Content-Type: application/json" \
+    -d '{"to":"4iKgqzeYFeVcaRzI","subject":"Y9SpUq9dC14XUAdn","mes":"WTgdKAe23PLygbMn","token":"ZvK7KJn3TzQlbDgB"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "to": "4iKgqzeYFeVcaRzI",
+    "subject": "Y9SpUq9dC14XUAdn",
+    "mes": "WTgdKAe23PLygbMn",
+    "token": "ZvK7KJn3TzQlbDgB"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST compose</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>to</td>
+<td>string</td>
+<td>required</td>
+<td>The id of the user to be messaged.</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>string</td>
+<td>required</td>
+<td>The subject of the message.</td>
+</tr>
+<tr>
+<td>mes</td>
+<td>text</td>
+<td>optional</td>
+<td>the body of the message.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_9a86fc0b67608be77b22a771d49949db -->
+<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
+<h2>Return user public data to be seen by another user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/user_data" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"d5Uk86lZdgnL4x1F","token":"ikgzEDBFN6JcNyZj"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/user_data");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "d5Uk86lZdgnL4x1F",
+    "token": "ikgzEDBFN6JcNyZj"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET user_data</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>required</td>
+<td>The id of an existing user.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
 <h1>general</h1>
-<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
-<h2>sign_up</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/sign_up" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"f57NJCEfUcxUVg93","body":"8lrHdgAPA3bvG5Ks","type":"21alBevGFE7rs3kV","author_id":12,"thumbnail":"scfHgbuiOJN5UXpP"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sign_up");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "f57NJCEfUcxUVg93",
-    "body": "8lrHdgAPA3bvG5Ks",
-    "type": "21alBevGFE7rs3kV",
-    "author_id": 12,
-    "thumbnail": "scfHgbuiOJN5UXpP"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST sign_up</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_3a06114e88089d07a3c29bdb6f844602 -->
-<!-- START_f2f2bd15a0a3125617af6284631682f0 -->
-<h2>Sign_in</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Sign_in" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"kwZl0ZN5731XCeXn","body":"TbYJZO7lvnpHbHze","type":"Qru8JpGnlRkxDau8","author_id":6,"thumbnail":"1RBrAZO0qu90uHVf"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Sign_in");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "kwZl0ZN5731XCeXn",
-    "body": "TbYJZO7lvnpHbHze",
-    "type": "Qru8JpGnlRkxDau8",
-    "author_id": 6,
-    "thumbnail": "1RBrAZO0qu90uHVf"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST Sign_in</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_f2f2bd15a0a3125617af6284631682f0 -->
-<!-- START_99ada3ad1c00101e557456766317db7b -->
-<h2>sign_out</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/sign_out" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"CoI8cohQ619hyMma","body":"bwc6yWjxuSFt6D9Y","type":"0KrwNAbIf9ySvVVA","author_id":4,"thumbnail":"0yfHYKpXQvT0UZg1"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sign_out");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "CoI8cohQ619hyMma",
-    "body": "bwc6yWjxuSFt6D9Y",
-    "type": "0KrwNAbIf9ySvVVA",
-    "author_id": 4,
-    "thumbnail": "0yfHYKpXQvT0UZg1"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST sign_out</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_99ada3ad1c00101e557456766317db7b -->
-<!-- START_cb128bb391940d8304e5ebb273373143 -->
-<h2>del_msg</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_msg" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"cJqFV763Gk33B2Jg","body":"Pfavns0o57BoMNYg","type":"kJTTbMJTcb73Ik1l","author_id":1,"thumbnail":"M3pU7MnoHuqp7eBS"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_msg");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "cJqFV763Gk33B2Jg",
-    "body": "Pfavns0o57BoMNYg",
-    "type": "kJTTbMJTcb73Ik1l",
-    "author_id": 1,
-    "thumbnail": "M3pU7MnoHuqp7eBS"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST del_msg</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_cb128bb391940d8304e5ebb273373143 -->
-<!-- START_869a605c7c3ad87a651842dddd0f4492 -->
-<h2>read_msg</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/read_msg" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"SEMQoPomFcfmqULT","body":"q7CrfCUi84PEyW7S","type":"Qj0BNrSGPcuSwS5C","author_id":11,"thumbnail":"3JXLny1yXQizkoXb"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/read_msg");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "SEMQoPomFcfmqULT",
-    "body": "q7CrfCUi84PEyW7S",
-    "type": "Qj0BNrSGPcuSwS5C",
-    "author_id": 11,
-    "thumbnail": "3JXLny1yXQizkoXb"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST read_msg</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_869a605c7c3ad87a651842dddd0f4492 -->
-<!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
-<h2>updateprefs</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X PATCH "http://localhost/updateprefs" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"0bBk693wdpVVXH3f","body":"oXXHLIStWQ0lpL2W","type":"A0mBd4AR5y5KE8uV","author_id":17,"thumbnail":"vJWQjCs3QPoKc0ZB"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/updateprefs");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "0bBk693wdpVVXH3f",
-    "body": "oXXHLIStWQ0lpL2W",
-    "type": "A0mBd4AR5y5KE8uV",
-    "author_id": 17,
-    "thumbnail": "vJWQjCs3QPoKc0ZB"
-}
-
-fetch(url, {
-    method: "PATCH",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>PATCH updateprefs</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_e43f1f7cccba02a3ecbce11183ad7aeb -->
-<!-- START_ef6e49b2e94875eba15ce9b052785989 -->
-<h2>prefs</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/prefs" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"uUfPwZBLcSR23TV2","body":"wUcCxjiycz1Xzus3","type":"yN2gCncBgfVpnt3p","author_id":1,"thumbnail":"SzbF5uwrQKUNQKIA"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/prefs");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "uUfPwZBLcSR23TV2",
-    "body": "wUcCxjiycz1Xzus3",
-    "type": "yN2gCncBgfVpnt3p",
-    "author_id": 1,
-    "thumbnail": "SzbF5uwrQKUNQKIA"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET prefs</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_ef6e49b2e94875eba15ce9b052785989 -->
-<!-- START_8534272b69ec50dc79d73c26608ba48c -->
-<h2>me</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/me" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"BiIDdA3sUrSxjcFF","body":"6V1YGqIuvNOB6YE9","type":"XHf38PHUK4lRp351","author_id":6,"thumbnail":"SKwsqc4IX4lepfkr"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/me");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "BiIDdA3sUrSxjcFF",
-    "body": "6V1YGqIuvNOB6YE9",
-    "type": "XHf38PHUK4lRp351",
-    "author_id": 6,
-    "thumbnail": "SKwsqc4IX4lepfkr"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET me</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_8534272b69ec50dc79d73c26608ba48c -->
-<!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
-<h2>info</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/info" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"IesIsztkvQ01w99J","body":"glNPiwyQ6K4ir6u5","type":"tKHNxlWxbVNblMt0","author_id":5,"thumbnail":"M3Y1CElTEMmUMnfe"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/info");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "IesIsztkvQ01w99J",
-    "body": "glNPiwyQ6K4ir6u5",
-    "type": "tKHNxlWxbVNblMt0",
-    "author_id": 5,
-    "thumbnail": "M3Y1CElTEMmUMnfe"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET info</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
-<!-- START_4849ce4d441fd19425e151ff49985f46 -->
-<h2>karma</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"zvINIykwuIZc1LZW","body":"kudRn1QCbhfOdnc9","type":"MrjcwpEz7HnOepFC","author_id":12,"thumbnail":"uapB9QrPp7ad9lLg"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/karma");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "zvINIykwuIZc1LZW",
-    "body": "kudRn1QCbhfOdnc9",
-    "type": "MrjcwpEz7HnOepFC",
-    "author_id": 12,
-    "thumbnail": "uapB9QrPp7ad9lLg"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET karma</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_4849ce4d441fd19425e151ff49985f46 -->
-<!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
-<h2>messages</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/messages" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"MfA1bGmsdjHeA3Rt","body":"NDXXg9afqjqfdcme","type":"iIqsQmqmlODUtS9g","author_id":3,"thumbnail":"kqWrWE6Vixgnf3eH"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/messages");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "MfA1bGmsdjHeA3Rt",
-    "body": "NDXXg9afqjqfdcme",
-    "type": "iIqsQmqmlODUtS9g",
-    "author_id": 3,
-    "thumbnail": "kqWrWE6Vixgnf3eH"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET messages</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
 <!-- START_518c2787d7457d13136ce9ab90c7822b -->
 <h2>del_ac</h2>
 <blockquote>
@@ -1695,7 +1807,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/del_ac" \
     -H "Content-Type: application/json" \
-    -d '{"title":"DJNCbiBzmIBcnug5","body":"Tkp5JjiDUV5tRbIj","type":"2JAKsqk5UUTmozm8","author_id":14,"thumbnail":"UBwEGIxDctP24QUk"}'
+    -d '{"title":"bK3m9PaT7jeGGlF5","body":"DMpSSznIH0imxgLX","type":"92sJ2nRrRu9IPlJK","author_id":13,"thumbnail":"syzP89nctNBx08pV"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/del_ac");
 
@@ -1705,11 +1817,11 @@ let headers = {
 }
 
 let body = {
-    "title": "DJNCbiBzmIBcnug5",
-    "body": "Tkp5JjiDUV5tRbIj",
-    "type": "2JAKsqk5UUTmozm8",
-    "author_id": 14,
-    "thumbnail": "UBwEGIxDctP24QUk"
+    "title": "bK3m9PaT7jeGGlF5",
+    "body": "DMpSSznIH0imxgLX",
+    "type": "92sJ2nRrRu9IPlJK",
+    "author_id": 13,
+    "thumbnail": "syzP89nctNBx08pV"
 }
 
 fetch(url, {
@@ -1772,7 +1884,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/del_user" \
     -H "Content-Type: application/json" \
-    -d '{"title":"WEew1CgiFSEmU7Zs","body":"flJw57SK3wEhZK7f","type":"os9tIEdlo6gaGGZD","author_id":7,"thumbnail":"8ASQzXIVsiaQtDXo"}'
+    -d '{"title":"03xGSn3TBDz3wP4i","body":"YEiDF1ZB3RHhkeBX","type":"UMo4O5Ospv74LeYv","author_id":4,"thumbnail":"Oj1OkBFY9qUyOvnq"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/del_user");
 
@@ -1782,11 +1894,11 @@ let headers = {
 }
 
 let body = {
-    "title": "WEew1CgiFSEmU7Zs",
-    "body": "flJw57SK3wEhZK7f",
-    "type": "os9tIEdlo6gaGGZD",
-    "author_id": 7,
-    "thumbnail": "8ASQzXIVsiaQtDXo"
+    "title": "03xGSn3TBDz3wP4i",
+    "body": "YEiDF1ZB3RHhkeBX",
+    "type": "UMo4O5Ospv74LeYv",
+    "author_id": 4,
+    "thumbnail": "Oj1OkBFY9qUyOvnq"
 }
 
 fetch(url, {
@@ -1849,7 +1961,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/add_mod" \
     -H "Content-Type: application/json" \
-    -d '{"title":"cWQ53AdF0ir6oAn5","body":"vPQwFFHRHckLbD8c","type":"qf40Z4At5t8gx6jt","author_id":12,"thumbnail":"BDXgwR5CgrIzEMfg"}'
+    -d '{"title":"qDhEuewLKa3gAi0V","body":"DpekK8uscHq5nAB6","type":"7a6QUSHrTVle1eIM","author_id":12,"thumbnail":"Hd1XuKO0K0O0f4pd"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/add_mod");
 
@@ -1859,11 +1971,11 @@ let headers = {
 }
 
 let body = {
-    "title": "cWQ53AdF0ir6oAn5",
-    "body": "vPQwFFHRHckLbD8c",
-    "type": "qf40Z4At5t8gx6jt",
+    "title": "qDhEuewLKa3gAi0V",
+    "body": "DpekK8uscHq5nAB6",
+    "type": "7a6QUSHrTVle1eIM",
     "author_id": 12,
-    "thumbnail": "BDXgwR5CgrIzEMfg"
+    "thumbnail": "Hd1XuKO0K0O0f4pd"
 }
 
 fetch(url, {
@@ -1926,7 +2038,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/about" \
     -H "Content-Type: application/json" \
-    -d '{"title":"vEE9iujUXgc0wOQQ","body":"BDLPTKXG6Bnz0GGK","type":"UBeCvED6TR6BDD3u","author_id":10,"thumbnail":"lwYXxP4xpYDFyF11"}'
+    -d '{"title":"3sxbu5ERLnGbZUK3","body":"o8jutMlzplJuvpPR","type":"KocF84lkCq2qFdM3","author_id":18,"thumbnail":"kD7oT6Y07hZoxoFg"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/about");
 
@@ -1936,11 +2048,11 @@ let headers = {
 }
 
 let body = {
-    "title": "vEE9iujUXgc0wOQQ",
-    "body": "BDLPTKXG6Bnz0GGK",
-    "type": "UBeCvED6TR6BDD3u",
-    "author_id": 10,
-    "thumbnail": "lwYXxP4xpYDFyF11"
+    "title": "3sxbu5ERLnGbZUK3",
+    "body": "o8jutMlzplJuvpPR",
+    "type": "KocF84lkCq2qFdM3",
+    "author_id": 18,
+    "thumbnail": "kD7oT6Y07hZoxoFg"
 }
 
 fetch(url, {
@@ -2007,7 +2119,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/posts" \
     -H "Content-Type: application/json" \
-    -d '{"title":"WU673k7U7GIwiNmc","body":"Ye2qIFmx9NpTYhLO","type":"voUvBvQVqABEMKMJ","author_id":6,"thumbnail":"eVaI5eFdJiNe9l8u"}'
+    -d '{"title":"nPTJXUtKc6ISXZrL","body":"leVzHWwmnDnfQduS","type":"pPR4p7ZAVMaoFL7b","author_id":14,"thumbnail":"7CNnRYSATKVRuYTR"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/posts");
 
@@ -2017,11 +2129,11 @@ let headers = {
 }
 
 let body = {
-    "title": "WU673k7U7GIwiNmc",
-    "body": "Ye2qIFmx9NpTYhLO",
-    "type": "voUvBvQVqABEMKMJ",
-    "author_id": 6,
-    "thumbnail": "eVaI5eFdJiNe9l8u"
+    "title": "nPTJXUtKc6ISXZrL",
+    "body": "leVzHWwmnDnfQduS",
+    "type": "pPR4p7ZAVMaoFL7b",
+    "author_id": 14,
+    "thumbnail": "7CNnRYSATKVRuYTR"
 }
 
 fetch(url, {
@@ -2084,7 +2196,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/subscribe" \
     -H "Content-Type: application/json" \
-    -d '{"title":"WfU0Kv7IzFMgrRyo","body":"MdWnpw0K7L4i9OUM","type":"WShlM8NdR1PO6amC","author_id":13,"thumbnail":"KlD7P3uk7dLVDJ78"}'
+    -d '{"title":"5wiJyObBEL2qz66w","body":"grbmLpWMC7k5wEr6","type":"Xx7NViWhp3ZYZGQI","author_id":6,"thumbnail":"OK1WGHMxZ5x6KUwN"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/subscribe");
 
@@ -2094,11 +2206,11 @@ let headers = {
 }
 
 let body = {
-    "title": "WfU0Kv7IzFMgrRyo",
-    "body": "MdWnpw0K7L4i9OUM",
-    "type": "WShlM8NdR1PO6amC",
-    "author_id": 13,
-    "thumbnail": "KlD7P3uk7dLVDJ78"
+    "title": "5wiJyObBEL2qz66w",
+    "body": "grbmLpWMC7k5wEr6",
+    "type": "Xx7NViWhp3ZYZGQI",
+    "author_id": 6,
+    "thumbnail": "OK1WGHMxZ5x6KUwN"
 }
 
 fetch(url, {
@@ -2161,7 +2273,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/site_admin" \
     -H "Content-Type: application/json" \
-    -d '{"title":"8fJ0BY653DS0WMMY","body":"4BYPHlg8F0jUDB0P","type":"O2XSkAS9gP5STlKv","author_id":3,"thumbnail":"7wdamkt1ZEz8r6aR"}'
+    -d '{"title":"Z0JfN40wTATe8TKN","body":"4HrvR8s9hlJBCdt0","type":"D5oD3U2eGuSmpTjB","author_id":17,"thumbnail":"4UYrz89PnrCgLvY6"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/site_admin");
 
@@ -2171,11 +2283,11 @@ let headers = {
 }
 
 let body = {
-    "title": "8fJ0BY653DS0WMMY",
-    "body": "4BYPHlg8F0jUDB0P",
-    "type": "O2XSkAS9gP5STlKv",
-    "author_id": 3,
-    "thumbnail": "7wdamkt1ZEz8r6aR"
+    "title": "Z0JfN40wTATe8TKN",
+    "body": "4HrvR8s9hlJBCdt0",
+    "type": "D5oD3U2eGuSmpTjB",
+    "author_id": 17,
+    "thumbnail": "4UYrz89PnrCgLvY6"
 }
 
 fetch(url, {
@@ -2238,7 +2350,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/search" \
     -H "Content-Type: application/json" \
-    -d '{"title":"y9Sgfy07SNTmVcM4","body":"WLKCHDnjH2JokD0i","type":"dfymyZ6dXi6ZSEtj","author_id":19,"thumbnail":"cBFhFld6P7rF1nf3"}'
+    -d '{"title":"H7BWs2EbHrUeRYPS","body":"51pwE3FEuNdCbqfH","type":"ZN1MLeRu3jbU8HD4","author_id":14,"thumbnail":"TpLCXY7986zp3MRn"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/search");
 
@@ -2248,11 +2360,11 @@ let headers = {
 }
 
 let body = {
-    "title": "y9Sgfy07SNTmVcM4",
-    "body": "WLKCHDnjH2JokD0i",
-    "type": "dfymyZ6dXi6ZSEtj",
-    "author_id": 19,
-    "thumbnail": "cBFhFld6P7rF1nf3"
+    "title": "H7BWs2EbHrUeRYPS",
+    "body": "51pwE3FEuNdCbqfH",
+    "type": "ZN1MLeRu3jbU8HD4",
+    "author_id": 14,
+    "thumbnail": "TpLCXY7986zp3MRn"
 }
 
 fetch(url, {
@@ -2312,16 +2424,16 @@ fetch(url, {
 </tbody>
 </table>
 <!-- END_c0f505b72e10817948e65eb5eb744708 -->
-<!-- START_ee89138ce9c25aef47e41236b3459dc6 -->
-<h2>trendings</h2>
+<!-- START_05b3f813d60fda460fbe53c065926a61 -->
+<h2>sort_posts</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/trendings" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/sort_posts" \
     -H "Content-Type: application/json" \
-    -d '{"title":"TXhMsxEMsIbYCprN","body":"2CDHFtYxtD3e8CaA","type":"rZIHMQdQ9TIa2wxE","author_id":19,"thumbnail":"rdgoUjapGgOKojBf"}'
+    -d '{"title":"ldeKGmzLlbYMJazM","body":"JEt8JHS01xXQXMje","type":"p7gzPNZg2b2mC77L","author_id":10,"thumbnail":"szpCi5KMXwUvgRgV"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/trendings");
+<pre><code class="language-javascript">const url = new URL("http://localhost/sort_posts");
 
 let headers = {
     "Content-Type": "application/json",
@@ -2329,11 +2441,11 @@ let headers = {
 }
 
 let body = {
-    "title": "TXhMsxEMsIbYCprN",
-    "body": "2CDHFtYxtD3e8CaA",
-    "type": "rZIHMQdQ9TIa2wxE",
-    "author_id": 19,
-    "thumbnail": "rdgoUjapGgOKojBf"
+    "title": "ldeKGmzLlbYMJazM",
+    "body": "JEt8JHS01xXQXMje",
+    "type": "p7gzPNZg2b2mC77L",
+    "author_id": 10,
+    "thumbnail": "szpCi5KMXwUvgRgV"
 }
 
 fetch(url, {
@@ -2348,7 +2460,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET trendings</code></p>
+<p><code>GET sort_posts</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2392,17 +2504,17 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_ee89138ce9c25aef47e41236b3459dc6 -->
-<!-- START_99ecc95fd34f9a2d55575f35ccff8f1c -->
-<h2>hot_posts</h2>
+<!-- END_05b3f813d60fda460fbe53c065926a61 -->
+<!-- START_aab40918c3a3f4e3512a9b2c1177ea2b -->
+<h2>Apex_names</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/hot_posts" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/Apex_names" \
     -H "Content-Type: application/json" \
-    -d '{"title":"dHFDdUaFSjCntEYj","body":"gJbT4NgfEQneYDdv","type":"gwu1ZxMrv7Tyozo1","author_id":7,"thumbnail":"ZQppUgg1G9JcAu6Z"}'
+    -d '{"title":"qCB0Lbthue1Ivhvo","body":"78N8YuV3FKXJXlly","type":"IKcN8F1GykcOFw41","author_id":20,"thumbnail":"FW0PZuUQllDtwlBk"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/hot_posts");
+<pre><code class="language-javascript">const url = new URL("http://localhost/Apex_names");
 
 let headers = {
     "Content-Type": "application/json",
@@ -2410,11 +2522,11 @@ let headers = {
 }
 
 let body = {
-    "title": "dHFDdUaFSjCntEYj",
-    "body": "gJbT4NgfEQneYDdv",
-    "type": "gwu1ZxMrv7Tyozo1",
-    "author_id": 7,
-    "thumbnail": "ZQppUgg1G9JcAu6Z"
+    "title": "qCB0Lbthue1Ivhvo",
+    "body": "78N8YuV3FKXJXlly",
+    "type": "IKcN8F1GykcOFw41",
+    "author_id": 20,
+    "thumbnail": "FW0PZuUQllDtwlBk"
 }
 
 fetch(url, {
@@ -2429,7 +2541,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET hot_posts</code></p>
+<p><code>GET Apex_names</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2473,7 +2585,7 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_99ecc95fd34f9a2d55575f35ccff8f1c -->
+<!-- END_aab40918c3a3f4e3512a9b2c1177ea2b -->
 <!-- START_b885f7f4714d80477084c1fd4bf3e729 -->
 <h2>remove</h2>
 <blockquote>
@@ -2481,7 +2593,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/remove" \
     -H "Content-Type: application/json" \
-    -d '{"title":"97UErEbjrsTmxPhz","body":"80BVN1WV5pAh5bG7","type":"SirBJTLllQtVIX3G","author_id":7,"thumbnail":"dX01EoELEFY6JacR"}'
+    -d '{"title":"YKsC7cT1z2llAek1","body":"oJ1lMAsgDHEMGzZ6","type":"LdD34qwMdqS3Vaox","author_id":17,"thumbnail":"V751HmpothMMre1f"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/remove");
 
@@ -2491,11 +2603,11 @@ let headers = {
 }
 
 let body = {
-    "title": "97UErEbjrsTmxPhz",
-    "body": "80BVN1WV5pAh5bG7",
-    "type": "SirBJTLllQtVIX3G",
-    "author_id": 7,
-    "thumbnail": "dX01EoELEFY6JacR"
+    "title": "YKsC7cT1z2llAek1",
+    "body": "oJ1lMAsgDHEMGzZ6",
+    "type": "LdD34qwMdqS3Vaox",
+    "author_id": 17,
+    "thumbnail": "V751HmpothMMre1f"
 }
 
 fetch(url, {
@@ -2558,7 +2670,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/approve" \
     -H "Content-Type: application/json" \
-    -d '{"title":"7Ir4RKhCrrbLRzku","body":"HkYZeaVhM8pZZ54K","type":"4RbQbAekI5p7Kw94","author_id":14,"thumbnail":"8aKuwyB9TPsO83wa"}'
+    -d '{"title":"g5CtKYugZVALOwct","body":"jtx3o1vbZcikCHYU","type":"thuC2bhDiiWpzdPJ","author_id":9,"thumbnail":"Z7Dd3sMGCPtdlUPi"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/approve");
 
@@ -2568,11 +2680,11 @@ let headers = {
 }
 
 let body = {
-    "title": "7Ir4RKhCrrbLRzku",
-    "body": "HkYZeaVhM8pZZ54K",
-    "type": "4RbQbAekI5p7Kw94",
-    "author_id": 14,
-    "thumbnail": "8aKuwyB9TPsO83wa"
+    "title": "g5CtKYugZVALOwct",
+    "body": "jtx3o1vbZcikCHYU",
+    "type": "thuC2bhDiiWpzdPJ",
+    "author_id": 9,
+    "thumbnail": "Z7Dd3sMGCPtdlUPi"
 }
 
 fetch(url, {
@@ -2635,7 +2747,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/review_reports" \
     -H "Content-Type: application/json" \
-    -d '{"title":"OjWTDi4mxm2GX4ir","body":"hE6Fd3jRD1xFvVpT","type":"NYkTHOiP6Aahy2i8","author_id":18,"thumbnail":"SNpc8uvco9Ew61sK"}'
+    -d '{"title":"kru3czNv9kB7Jv6b","body":"oGCxWlR6hKYRvDJc","type":"y8VclQByIQExxBRH","author_id":3,"thumbnail":"HwemcZexRe0Qko2b"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/review_reports");
 
@@ -2645,11 +2757,11 @@ let headers = {
 }
 
 let body = {
-    "title": "OjWTDi4mxm2GX4ir",
-    "body": "hE6Fd3jRD1xFvVpT",
-    "type": "NYkTHOiP6Aahy2i8",
-    "author_id": 18,
-    "thumbnail": "SNpc8uvco9Ew61sK"
+    "title": "kru3czNv9kB7Jv6b",
+    "body": "oGCxWlR6hKYRvDJc",
+    "type": "y8VclQByIQExxBRH",
+    "author_id": 3,
+    "thumbnail": "HwemcZexRe0Qko2b"
 }
 
 fetch(url, {
@@ -2709,241 +2821,6 @@ fetch(url, {
 </tbody>
 </table>
 <!-- END_ce137a9fb84ef6789f44be899ecab3fe -->
-<!-- START_1a7af546cd175bbafae3c156085b8064 -->
-<h2>block_user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"K4F3jiSMBaSpAm9v","body":"5ZXVVeHnHhvykwqr","type":"tdAaNxBBdchfO1RL","author_id":15,"thumbnail":"fqyghsXWDHwxJcCk"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "K4F3jiSMBaSpAm9v",
-    "body": "5ZXVVeHnHhvykwqr",
-    "type": "tdAaNxBBdchfO1RL",
-    "author_id": 15,
-    "thumbnail": "fqyghsXWDHwxJcCk"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST block_user</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_1a7af546cd175bbafae3c156085b8064 -->
-<!-- START_9a86fc0b67608be77b22a771d49949db -->
-<h2>compose</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"FcBAkRwVV7Qhyaq1","body":"wQMo8k3CTpHCUphW","type":"azkvDWPz6HZesNOK","author_id":18,"thumbnail":"BhoH1IRH1XAM5eub"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "FcBAkRwVV7Qhyaq1",
-    "body": "wQMo8k3CTpHCUphW",
-    "type": "azkvDWPz6HZesNOK",
-    "author_id": 18,
-    "thumbnail": "BhoH1IRH1XAM5eub"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST compose</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_9a86fc0b67608be77b22a771d49949db -->
-<!-- START_f0b4e6662ec08c711effced61a4a1985 -->
-<h2>user_date</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/user_date" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"IgYKS6HacZZBtDlY","body":"8l5l5CWrK1JhDZKf","type":"jlds5W6TbxGi9L8v","author_id":11,"thumbnail":"ZioWZR9bqNkep6c1"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/user_date");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "IgYKS6HacZZBtDlY",
-    "body": "8l5l5CWrK1JhDZKf",
-    "type": "jlds5W6TbxGi9L8v",
-    "author_id": 11,
-    "thumbnail": "ZioWZR9bqNkep6c1"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET user_date</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_f0b4e6662ec08c711effced61a4a1985 -->
       </div>
       <div class="dark-box">
                         <div class="lang-selector">
