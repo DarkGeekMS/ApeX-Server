@@ -31,7 +31,7 @@ controls the comments , replies and private messages for each user
 ```bash
 curl -X POST "http://localhost/comment" \
     -H "Content-Type: application/json" \
-    -d '{"name":"5ly0qKWFTyTBPLq4","content":"23FvxCAC9US99dVM","parent_ID":"hhlMWuE4fBvdGXCH","AuthID":"zIy3ZaZ6vAfraClK"}'
+    -d '{"name":"z8lEqM9DnaLgDTZv","content":"QDkXgALZNLMO0rrl","parent_ID":"v87dT4hraL0XTRUO","AuthID":"q4facdJcoXwL3qka"}'
 
 ```
 
@@ -44,10 +44,10 @@ let headers = {
 }
 
 let body = {
-    "name": "5ly0qKWFTyTBPLq4",
-    "content": "23FvxCAC9US99dVM",
-    "parent_ID": "hhlMWuE4fBvdGXCH",
-    "AuthID": "zIy3ZaZ6vAfraClK"
+    "name": "z8lEqM9DnaLgDTZv",
+    "content": "QDkXgALZNLMO0rrl",
+    "parent_ID": "v87dT4hraL0XTRUO",
+    "AuthID": "q4facdJcoXwL3qka"
 }
 
 fetch(url, {
@@ -82,7 +82,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/DelComment" \
     -H "Content-Type: application/json" \
-    -d '{"name":"fT803dM1FTSeX4Yi","ID":"IkMMkI72xAc6StMs"}'
+    -d '{"name":"lBTRrx2jJNFN9ajn","ID":"oicSSED4dg3qKeXc"}'
 
 ```
 
@@ -95,8 +95,8 @@ let headers = {
 }
 
 let body = {
-    "name": "fT803dM1FTSeX4Yi",
-    "ID": "IkMMkI72xAc6StMs"
+    "name": "lBTRrx2jJNFN9ajn",
+    "ID": "oicSSED4dg3qKeXc"
 }
 
 fetch(url, {
@@ -129,7 +129,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/Edit" \
     -H "Content-Type: application/json" \
-    -d '{"name":"HJXxzFd3spsrrStF","content":"fVHtIrrQdVxIv6Hi","ID":"zTY1MOxuZnOakZpA"}'
+    -d '{"name":"8paQxfaadueSQXn5","content":"H3tDPzkBStdB2Wy0","ID":"uWDgp73UuTASTWJV"}'
 
 ```
 
@@ -142,9 +142,9 @@ let headers = {
 }
 
 let body = {
-    "name": "HJXxzFd3spsrrStF",
-    "content": "fVHtIrrQdVxIv6Hi",
-    "ID": "zTY1MOxuZnOakZpA"
+    "name": "8paQxfaadueSQXn5",
+    "content": "H3tDPzkBStdB2Wy0",
+    "ID": "uWDgp73UuTASTWJV"
 }
 
 fetch(url, {
@@ -178,7 +178,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/Hide" \
     -H "Content-Type: application/json" \
-    -d '{"name":"DLurINP95Qm3UQjK","ID":"ssCdVEIMk9oypURj"}'
+    -d '{"name":"Vva8Ekx6LFZCJc09","ID":"jv03kidQ1o9pVjOJ"}'
 
 ```
 
@@ -191,8 +191,8 @@ let headers = {
 }
 
 let body = {
-    "name": "DLurINP95Qm3UQjK",
-    "ID": "ssCdVEIMk9oypURj"
+    "name": "Vva8Ekx6LFZCJc09",
+    "ID": "jv03kidQ1o9pVjOJ"
 }
 
 fetch(url, {
@@ -225,7 +225,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/unhide" \
     -H "Content-Type: application/json" \
-    -d '{"name":"zSs56PYeFWmuT1Qt","ID":"cTo93DtECaa4Suwb"}'
+    -d '{"name":"7r5nZKkkPNYVB7ay","ID":"T997AVfp9MIW71au"}'
 
 ```
 
@@ -238,8 +238,8 @@ let headers = {
 }
 
 let body = {
-    "name": "zSs56PYeFWmuT1Qt",
-    "ID": "cTo93DtECaa4Suwb"
+    "name": "7r5nZKkkPNYVB7ay",
+    "ID": "T997AVfp9MIW71au"
 }
 
 fetch(url, {
@@ -272,7 +272,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/moreComm" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"3OurhHTecvUBrXPs","children":"KO9sJzPcM2PPJ5GA","ID":"3wnxBS9N8CBCWsgB"}'
+    -d '{"parent":"JW0LzTnYCMxB6mpk","children":"pG8oPgml6nqh6SMW","ID":"CyOf8fIFL6ZzukTh"}'
 
 ```
 
@@ -285,9 +285,9 @@ let headers = {
 }
 
 let body = {
-    "parent": "3OurhHTecvUBrXPs",
-    "children": "KO9sJzPcM2PPJ5GA",
-    "ID": "3wnxBS9N8CBCWsgB"
+    "parent": "JW0LzTnYCMxB6mpk",
+    "children": "pG8oPgml6nqh6SMW",
+    "ID": "CyOf8fIFL6ZzukTh"
 }
 
 fetch(url, {
@@ -328,7 +328,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/report" \
     -H "Content-Type: application/json" \
-    -d '{"name":"3yDd4cITHt8Llvoh","reason":1,"ID":"MXa6zTu1f3P7KbzP"}'
+    -d '{"name":"hqgzgg1EmOEBjslc","reason":12,"ID":"xxV4xZnb8oerPlYL"}'
 
 ```
 
@@ -341,9 +341,9 @@ let headers = {
 }
 
 let body = {
-    "name": "3yDd4cITHt8Llvoh",
-    "reason": 1,
-    "ID": "MXa6zTu1f3P7KbzP"
+    "name": "hqgzgg1EmOEBjslc",
+    "reason": 12,
+    "ID": "xxV4xZnb8oerPlYL"
 }
 
 fetch(url, {
@@ -377,7 +377,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/vote" \
     -H "Content-Type: application/json" \
-    -d '{"name":"ziaWfFhirTsIS88z","dirction":11,"ID":"0lnL4rPv8hV0NFFs"}'
+    -d '{"name":"1xDV6zWY3vbFt0oI","dirction":3,"ID":"Yqy9KssmT0ZmBlr6"}'
 
 ```
 
@@ -390,9 +390,9 @@ let headers = {
 }
 
 let body = {
-    "name": "ziaWfFhirTsIS88z",
-    "dirction": 11,
-    "ID": "0lnL4rPv8hV0NFFs"
+    "name": "1xDV6zWY3vbFt0oI",
+    "dirction": 3,
+    "ID": "Yqy9KssmT0ZmBlr6"
 }
 
 fetch(url, {
@@ -419,13 +419,15 @@ Parameter | Type | Status | Description
 <!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
 
 <!-- START_3a7b8eca0c87791144dc77858615f215 -->
-## save
+## Save
+Saving a link or a comment
+
 > Example request:
 
 ```bash
 curl -X POST "http://localhost/save" \
     -H "Content-Type: application/json" \
-    -d '{"title":"dQRM7Wt37OrVtkyi","body":"8thPNkdJlNkiEPRA","type":"R9UdGn37D96Zqpla","author_id":17,"thumbnail":"xDaCC706CflsyGlB"}'
+    -d '{"ID":"VqQTEJaqfKlDuqjQ","token":"sXmOYA1KJVrNjH5J"}'
 
 ```
 
@@ -438,11 +440,8 @@ let headers = {
 }
 
 let body = {
-    "title": "dQRM7Wt37OrVtkyi",
-    "body": "8thPNkdJlNkiEPRA",
-    "type": "R9UdGn37D96Zqpla",
-    "author_id": 17,
-    "thumbnail": "xDaCC706CflsyGlB"
+    "ID": "VqQTEJaqfKlDuqjQ",
+    "token": "sXmOYA1KJVrNjH5J"
 }
 
 fetch(url, {
@@ -462,22 +461,21 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
+    ID | string |  required  | The ID of the comment or link.
+    token | JWT |  required  | Used to verify the user.
 
 <!-- END_3a7b8eca0c87791144dc77858615f215 -->
 
 <!-- START_c73ea2693dc9203931a2533cdef33d33 -->
-## unsave
+## Unsave
+Unsaving a link or a comment
+
 > Example request:
 
 ```bash
 curl -X POST "http://localhost/unsave" \
     -H "Content-Type: application/json" \
-    -d '{"title":"S9MH8qRXzjQqX9qY","body":"1T4rmHyWfAlqy3qM","type":"4IVjycZBtJvSqIAD","author_id":14,"thumbnail":"3j7mnzu7kmyKX0mA"}'
+    -d '{"ID":"m2y0Vfsop0xXPpJj","token":"tTNnCkvFvYLT5FC8"}'
 
 ```
 
@@ -490,11 +488,8 @@ let headers = {
 }
 
 let body = {
-    "title": "S9MH8qRXzjQqX9qY",
-    "body": "1T4rmHyWfAlqy3qM",
-    "type": "4IVjycZBtJvSqIAD",
-    "author_id": 14,
-    "thumbnail": "3j7mnzu7kmyKX0mA"
+    "ID": "m2y0Vfsop0xXPpJj",
+    "token": "tTNnCkvFvYLT5FC8"
 }
 
 fetch(url, {
@@ -514,13 +509,312 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
+    ID | string |  required  | The ID of the comment or link.
+    token | JWT |  required  | Used to verify the user.
 
 <!-- END_c73ea2693dc9203931a2533cdef33d33 -->
+
+#Adminstration
+
+APIs for managing the controls of admins and moderators
+<!-- START_518c2787d7457d13136ce9ab90c7822b -->
+## DeleteApexCom
+Deleting the subreddit by the admin
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/del_ac" \
+    -H "Content-Type: application/json" \
+    -d '{"SubredditID":"KKRPGJ6TxrFLHlQx","token":"3OMKXC79PnDvQ359"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/del_ac");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "SubredditID": "KKRPGJ6TxrFLHlQx",
+    "token": "3OMKXC79PnDvQ359"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST del_ac`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    SubredditID | string |  required  | The ID of the subreddit to be deleted.
+    token | JWT |  required  | Used to verify the admin.
+
+<!-- END_518c2787d7457d13136ce9ab90c7822b -->
+
+<!-- START_ef7b81f691245619539d9452a88ace88 -->
+## DeleteUser
+Deleting a user by the admin
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/del_user" \
+    -H "Content-Type: application/json" \
+    -d '{"UserID":"AWMXb8u0MfApTbjE","Reason":"LFIfZ11KK7BK8oL2","token":"exn1DYn3RHPczwcW"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/del_user");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "UserID": "AWMXb8u0MfApTbjE",
+    "Reason": "LFIfZ11KK7BK8oL2",
+    "token": "exn1DYn3RHPczwcW"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST del_user`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    UserID | string |  required  | The ID of the user to be deleted.
+    Reason | string |  optional  | The reason for deleting the user.
+    token | JWT |  required  | Used to verify the admin.
+
+<!-- END_ef7b81f691245619539d9452a88ace88 -->
+
+<!-- START_0277897590e5bd3534956fc7b78f21cd -->
+## AddModerator
+Adding a moderator for a subreddit
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/add_mod" \
+    -H "Content-Type: application/json" \
+    -d '{"SubredditID":"kXs7VXbiKziPiBQY","token":"qtpGUno1UcA5ild1"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/add_mod");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "SubredditID": "kXs7VXbiKziPiBQY",
+    "token": "qtpGUno1UcA5ild1"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST add_mod`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    SubredditID | string |  required  | The ID of the subreddit.
+    token | JWT |  required  | Used to verify the moderator.
+
+<!-- END_0277897590e5bd3534956fc7b78f21cd -->
+
+#User
+
+Controls the user interaction with other users
+<!-- START_1a7af546cd175bbafae3c156085b8064 -->
+## Block a user, so he can&#039;t send private messages to the current user
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/block_user" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"zz2PsNnK4cAZQMpQ","token":"0YfWtFg2JdWdR2Ae"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/block_user");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "zz2PsNnK4cAZQMpQ",
+    "token": "0YfWtFg2JdWdR2Ae"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST block_user`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    id | string |  required  | the id of the user to be blocked.
+    token | JWT |  required  | Used to verify the user.
+
+<!-- END_1a7af546cd175bbafae3c156085b8064 -->
+
+<!-- START_9a86fc0b67608be77b22a771d49949db -->
+## Send a private message to another user
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/compose" \
+    -H "Content-Type: application/json" \
+    -d '{"to":"8r1fFlkLVTrBMa11","subject":"LfhBaYZqdTAFKkz7","mes":"WtK0PtflGDM6w5ev","token":"s2xdOuQYI70X3fcK"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/compose");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "to": "8r1fFlkLVTrBMa11",
+    "subject": "LfhBaYZqdTAFKkz7",
+    "mes": "WtK0PtflGDM6w5ev",
+    "token": "s2xdOuQYI70X3fcK"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST compose`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    to | string |  required  | The id of the user to be messaged.
+    subject | string |  required  | The subject of the message.
+    mes | text |  optional  | the body of the message.
+    token | JWT |  required  | Used to verify the user.
+
+<!-- END_9a86fc0b67608be77b22a771d49949db -->
+
+<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
+## Return user public data to be seen by another user
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost/user_data" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"jrk8zMUB8q9yF3Nh","token":"j7m5vMSX7gcTmFl0"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/user_data");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "jrk8zMUB8q9yF3Nh",
+    "token": "j7m5vMSX7gcTmFl0"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+null
+```
+
+### HTTP Request
+`GET user_data`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    id | string |  required  | The id of an existing user.
+    token | JWT |  required  | Used to verify the user.
+
+<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
 
 #general
 <!-- START_3a06114e88089d07a3c29bdb6f844602 -->
@@ -530,7 +824,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/sign_up" \
     -H "Content-Type: application/json" \
-    -d '{"title":"eV37240F14fhyHYF","body":"uDdW6b8tCr8PkTME","type":"zy5aYXSwDshL7r8J","author_id":20,"thumbnail":"GuSRbvapdvjcCqYj"}'
+    -d '{"title":"nN83YBml97h6526k","body":"wPuvvA9Ywaf6CmoH","type":"kHUtH1AwEwIAyoLx","author_id":1,"thumbnail":"Ve7M6wcrBjPcMYKg"}'
 
 ```
 
@@ -543,11 +837,11 @@ let headers = {
 }
 
 let body = {
-    "title": "eV37240F14fhyHYF",
-    "body": "uDdW6b8tCr8PkTME",
-    "type": "zy5aYXSwDshL7r8J",
-    "author_id": 20,
-    "thumbnail": "GuSRbvapdvjcCqYj"
+    "title": "nN83YBml97h6526k",
+    "body": "wPuvvA9Ywaf6CmoH",
+    "type": "kHUtH1AwEwIAyoLx",
+    "author_id": 1,
+    "thumbnail": "Ve7M6wcrBjPcMYKg"
 }
 
 fetch(url, {
@@ -582,7 +876,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/Sign_in" \
     -H "Content-Type: application/json" \
-    -d '{"title":"tWIPUcRXDbIoV5ut","body":"kw80thFMxZETd7XM","type":"h4pQkbhALO5ry2gU","author_id":10,"thumbnail":"VbHw9BoBWo7anv56"}'
+    -d '{"title":"VAOS83cWRfUnT35N","body":"dQt0XbgvYghWKfGa","type":"GCoOe8Kw8wDDWpCd","author_id":8,"thumbnail":"HqknQKDmB1iluC0s"}'
 
 ```
 
@@ -595,11 +889,11 @@ let headers = {
 }
 
 let body = {
-    "title": "tWIPUcRXDbIoV5ut",
-    "body": "kw80thFMxZETd7XM",
-    "type": "h4pQkbhALO5ry2gU",
-    "author_id": 10,
-    "thumbnail": "VbHw9BoBWo7anv56"
+    "title": "VAOS83cWRfUnT35N",
+    "body": "dQt0XbgvYghWKfGa",
+    "type": "GCoOe8Kw8wDDWpCd",
+    "author_id": 8,
+    "thumbnail": "HqknQKDmB1iluC0s"
 }
 
 fetch(url, {
@@ -634,7 +928,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/sign_out" \
     -H "Content-Type: application/json" \
-    -d '{"title":"6eSPgdm34OSUumcT","body":"8FG7XNdpKlUHclG5","type":"stmD4MTrOR09plG7","author_id":20,"thumbnail":"clAmIHbQwTWolVTG"}'
+    -d '{"title":"MRnXtJITf5buubEE","body":"GIYkAhzmVJA3MoMP","type":"5v0VDosqAzNZgc0v","author_id":19,"thumbnail":"1emxSEi9WRFWQPf7"}'
 
 ```
 
@@ -647,11 +941,11 @@ let headers = {
 }
 
 let body = {
-    "title": "6eSPgdm34OSUumcT",
-    "body": "8FG7XNdpKlUHclG5",
-    "type": "stmD4MTrOR09plG7",
-    "author_id": 20,
-    "thumbnail": "clAmIHbQwTWolVTG"
+    "title": "MRnXtJITf5buubEE",
+    "body": "GIYkAhzmVJA3MoMP",
+    "type": "5v0VDosqAzNZgc0v",
+    "author_id": 19,
+    "thumbnail": "1emxSEi9WRFWQPf7"
 }
 
 fetch(url, {
@@ -680,13 +974,14 @@ Parameter | Type | Status | Description
 <!-- END_99ada3ad1c00101e557456766317db7b -->
 
 <!-- START_cb128bb391940d8304e5ebb273373143 -->
-## del_msg
+## Delete private messages from the recipient&#039;s view of their inbox
+
 > Example request:
 
 ```bash
 curl -X POST "http://localhost/del_msg" \
     -H "Content-Type: application/json" \
-    -d '{"title":"aJHh3xmDhsLhOoOl","body":"9z6FfcjhY8lLDoP0","type":"J9RNINPHPmZ7ECEE","author_id":10,"thumbnail":"jY0rZ06h7hsDMAY3"}'
+    -d '{"id":"be93TCW71WO6v5JD","token":"KBGiAgpeDwpnulqx"}'
 
 ```
 
@@ -699,11 +994,8 @@ let headers = {
 }
 
 let body = {
-    "title": "aJHh3xmDhsLhOoOl",
-    "body": "9z6FfcjhY8lLDoP0",
-    "type": "J9RNINPHPmZ7ECEE",
-    "author_id": 10,
-    "thumbnail": "jY0rZ06h7hsDMAY3"
+    "id": "be93TCW71WO6v5JD",
+    "token": "KBGiAgpeDwpnulqx"
 }
 
 fetch(url, {
@@ -723,22 +1015,21 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
+    id | string |  required  | The fullname of the message to be deleted.
+    token | JWT |  required  | Used to verify the user.
 
 <!-- END_cb128bb391940d8304e5ebb273373143 -->
 
 <!-- START_869a605c7c3ad87a651842dddd0f4492 -->
-## read_msg
+## ReadMsg
+Read a sent message
+
 > Example request:
 
 ```bash
 curl -X POST "http://localhost/read_msg" \
     -H "Content-Type: application/json" \
-    -d '{"title":"5Ewis2ChYcc16Uwc","body":"OTtMd11gu7y6VVVf","type":"2Of3mEWOPiwFpqIw","author_id":8,"thumbnail":"zdoc5MqnTTTEq7RD"}'
+    -d '{"ID":"7busofMdC4Obkp9T","body":"M1hjls9DPWBONyU9","read":true,"token":"uYMJbyffpu8KhjyL"}'
 
 ```
 
@@ -751,11 +1042,10 @@ let headers = {
 }
 
 let body = {
-    "title": "5Ewis2ChYcc16Uwc",
-    "body": "OTtMd11gu7y6VVVf",
-    "type": "2Of3mEWOPiwFpqIw",
-    "author_id": 8,
-    "thumbnail": "zdoc5MqnTTTEq7RD"
+    "ID": "7busofMdC4Obkp9T",
+    "body": "M1hjls9DPWBONyU9",
+    "read": true,
+    "token": "uYMJbyffpu8KhjyL"
 }
 
 fetch(url, {
@@ -775,11 +1065,10 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
+    ID | string |  required  | The id of the user who sent the message.
+    body | string |  required  | The body of the message.
+    read | boolean |  optional  | optional  mark the message as read by setting it true.
+    token | JWT |  required  | Used to verify the user recieving the message.
 
 <!-- END_869a605c7c3ad87a651842dddd0f4492 -->
 
@@ -790,7 +1079,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X PATCH "http://localhost/updateprefs" \
     -H "Content-Type: application/json" \
-    -d '{"title":"Ztw4tB75ljbBdOPJ","body":"3MU0JvX42Jedjs2b","type":"kV4wWsSPKT4RllSm","author_id":17,"thumbnail":"YPflbW7MGS2Cx5ZJ"}'
+    -d '{"title":"NBdOYd5GprOksNcR","body":"Bh7qiB0ypjYjtPX7","type":"l0p1KnZsmb9hFfFR","author_id":15,"thumbnail":"lV18cyRbJoC4YWrV"}'
 
 ```
 
@@ -803,11 +1092,11 @@ let headers = {
 }
 
 let body = {
-    "title": "Ztw4tB75ljbBdOPJ",
-    "body": "3MU0JvX42Jedjs2b",
-    "type": "kV4wWsSPKT4RllSm",
-    "author_id": 17,
-    "thumbnail": "YPflbW7MGS2Cx5ZJ"
+    "title": "NBdOYd5GprOksNcR",
+    "body": "Bh7qiB0ypjYjtPX7",
+    "type": "l0p1KnZsmb9hFfFR",
+    "author_id": 15,
+    "thumbnail": "lV18cyRbJoC4YWrV"
 }
 
 fetch(url, {
@@ -842,7 +1131,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/prefs" \
     -H "Content-Type: application/json" \
-    -d '{"title":"7OyeuLgeoctQ7Wd2","body":"DYXVW3l9KQ2PnFsN","type":"0ZEQtjFGoc8Z9Leh","author_id":1,"thumbnail":"ixsLAMHJR8oPJDjM"}'
+    -d '{"title":"2nIDmfQDJfgcdTAP","body":"dA5CR819N8DmVVSh","type":"G3fyv1Q2sbVqfThg","author_id":12,"thumbnail":"9q4ymaEj3pm3PUSt"}'
 
 ```
 
@@ -855,11 +1144,11 @@ let headers = {
 }
 
 let body = {
-    "title": "7OyeuLgeoctQ7Wd2",
-    "body": "DYXVW3l9KQ2PnFsN",
-    "type": "0ZEQtjFGoc8Z9Leh",
-    "author_id": 1,
-    "thumbnail": "ixsLAMHJR8oPJDjM"
+    "title": "2nIDmfQDJfgcdTAP",
+    "body": "dA5CR819N8DmVVSh",
+    "type": "G3fyv1Q2sbVqfThg",
+    "author_id": 12,
+    "thumbnail": "9q4ymaEj3pm3PUSt"
 }
 
 fetch(url, {
@@ -899,7 +1188,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/me" \
     -H "Content-Type: application/json" \
-    -d '{"title":"nVvLHHKprJFEV7Hh","body":"BsvFQyOTOzYX1gHS","type":"Zjs0fr9pGh9k2cTx","author_id":4,"thumbnail":"1OTBX1XKPvnQBbu8"}'
+    -d '{"title":"yAZiu1h1Z1Wmp9My","body":"h8bL0iEcfAbsb9Ri","type":"Fu3Y6YYCqoy0iQj0","author_id":1,"thumbnail":"8XQvUqWpdhbOxIhZ"}'
 
 ```
 
@@ -912,11 +1201,11 @@ let headers = {
 }
 
 let body = {
-    "title": "nVvLHHKprJFEV7Hh",
-    "body": "BsvFQyOTOzYX1gHS",
-    "type": "Zjs0fr9pGh9k2cTx",
-    "author_id": 4,
-    "thumbnail": "1OTBX1XKPvnQBbu8"
+    "title": "yAZiu1h1Z1Wmp9My",
+    "body": "h8bL0iEcfAbsb9Ri",
+    "type": "Fu3Y6YYCqoy0iQj0",
+    "author_id": 1,
+    "thumbnail": "8XQvUqWpdhbOxIhZ"
 }
 
 fetch(url, {
@@ -950,13 +1239,15 @@ Parameter | Type | Status | Description
 <!-- END_8534272b69ec50dc79d73c26608ba48c -->
 
 <!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
-## info
+## ProfileInfo
+Displaying the home page of the user
+
 > Example request:
 
 ```bash
 curl -X GET -G "http://localhost/info" \
     -H "Content-Type: application/json" \
-    -d '{"title":"r1s7oJngJ6J38lg9","body":"okfXLCc4s5kG9ZEr","type":"oCmnXnDdXFXJlrBt","author_id":3,"thumbnail":"0ocIv9vyTxswCD96"}'
+    -d '{"ID":"XFBAnpZK6yZoRJzv","token":"xP3yxuhRh3ONRtL6"}'
 
 ```
 
@@ -969,11 +1260,8 @@ let headers = {
 }
 
 let body = {
-    "title": "r1s7oJngJ6J38lg9",
-    "body": "okfXLCc4s5kG9ZEr",
-    "type": "oCmnXnDdXFXJlrBt",
-    "author_id": 3,
-    "thumbnail": "0ocIv9vyTxswCD96"
+    "ID": "XFBAnpZK6yZoRJzv",
+    "token": "xP3yxuhRh3ONRtL6"
 }
 
 fetch(url, {
@@ -998,11 +1286,8 @@ null
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
+    ID | string |  required  | The ID of the user.
+    token | JWT |  required  | Used to verify the user.
 
 <!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
 
@@ -1013,7 +1298,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/karma" \
     -H "Content-Type: application/json" \
-    -d '{"title":"wCg0Y1ANYxBmdg01","body":"6dgiaC38Lr0yYgRl","type":"UTRMXqBlXS2smIOm","author_id":17,"thumbnail":"9sKxLMvdED8MzxSJ"}'
+    -d '{"title":"g4j7ff8xTEOMirv6","body":"ar2t3SIGzn9Drmaa","type":"KezdVYxmDBR1s2gy","author_id":6,"thumbnail":"6TkW6w7pMpzUWzRT"}'
 
 ```
 
@@ -1026,11 +1311,11 @@ let headers = {
 }
 
 let body = {
-    "title": "wCg0Y1ANYxBmdg01",
-    "body": "6dgiaC38Lr0yYgRl",
-    "type": "UTRMXqBlXS2smIOm",
-    "author_id": 17,
-    "thumbnail": "9sKxLMvdED8MzxSJ"
+    "title": "g4j7ff8xTEOMirv6",
+    "body": "ar2t3SIGzn9Drmaa",
+    "type": "KezdVYxmDBR1s2gy",
+    "author_id": 6,
+    "thumbnail": "6TkW6w7pMpzUWzRT"
 }
 
 fetch(url, {
@@ -1070,7 +1355,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/messages" \
     -H "Content-Type: application/json" \
-    -d '{"title":"lp2Ldcujx1bJV0UU","body":"R4VBsOFI58cf8rqK","type":"c42xsCCDsYhm4cxl","author_id":15,"thumbnail":"lnwjwe4gD4ILEek8"}'
+    -d '{"title":"eEkQiqRLPWzWS6IP","body":"6TEH15ygwlrqkv8z","type":"ww2nzgP54NxBu4Ep","author_id":20,"thumbnail":"dksdUXHNbSMBRjjW"}'
 
 ```
 
@@ -1083,11 +1368,11 @@ let headers = {
 }
 
 let body = {
-    "title": "lp2Ldcujx1bJV0UU",
-    "body": "R4VBsOFI58cf8rqK",
-    "type": "c42xsCCDsYhm4cxl",
-    "author_id": 15,
-    "thumbnail": "lnwjwe4gD4ILEek8"
+    "title": "eEkQiqRLPWzWS6IP",
+    "body": "6TEH15ygwlrqkv8z",
+    "type": "ww2nzgP54NxBu4Ep",
+    "author_id": 20,
+    "thumbnail": "dksdUXHNbSMBRjjW"
 }
 
 fetch(url, {
@@ -1120,162 +1405,6 @@ Parameter | Type | Status | Description
 
 <!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
 
-<!-- START_518c2787d7457d13136ce9ab90c7822b -->
-## del_ac
-> Example request:
-
-```bash
-curl -X POST "http://localhost/del_ac" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"vPDRY5vWPMnCNfhX","body":"ZyCwJyjAsYGeooHF","type":"Y2O8XWVDAraQYB0J","author_id":13,"thumbnail":"HSdYoL7f9bgKYgm8"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/del_ac");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "vPDRY5vWPMnCNfhX",
-    "body": "ZyCwJyjAsYGeooHF",
-    "type": "Y2O8XWVDAraQYB0J",
-    "author_id": 13,
-    "thumbnail": "HSdYoL7f9bgKYgm8"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-### HTTP Request
-`POST del_ac`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
-
-<!-- END_518c2787d7457d13136ce9ab90c7822b -->
-
-<!-- START_ef7b81f691245619539d9452a88ace88 -->
-## del_user
-> Example request:
-
-```bash
-curl -X POST "http://localhost/del_user" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"qFYRk3smxRw54izw","body":"kjR0G3zYCnBYPqWA","type":"5K852BWqAbjM2Gbj","author_id":9,"thumbnail":"FqEdlMDtsbmESqO7"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/del_user");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "qFYRk3smxRw54izw",
-    "body": "kjR0G3zYCnBYPqWA",
-    "type": "5K852BWqAbjM2Gbj",
-    "author_id": 9,
-    "thumbnail": "FqEdlMDtsbmESqO7"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-### HTTP Request
-`POST del_user`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
-
-<!-- END_ef7b81f691245619539d9452a88ace88 -->
-
-<!-- START_0277897590e5bd3534956fc7b78f21cd -->
-## add_mod
-> Example request:
-
-```bash
-curl -X POST "http://localhost/add_mod" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"WLS0SxX8AOJDD1Wr","body":"0ChNNxyo8WL7vG0R","type":"E2jC9bYlMOAdSLHR","author_id":1,"thumbnail":"uO8B7dkRojhOzlvm"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/add_mod");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "WLS0SxX8AOJDD1Wr",
-    "body": "0ChNNxyo8WL7vG0R",
-    "type": "E2jC9bYlMOAdSLHR",
-    "author_id": 1,
-    "thumbnail": "uO8B7dkRojhOzlvm"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-### HTTP Request
-`POST add_mod`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
-
-<!-- END_0277897590e5bd3534956fc7b78f21cd -->
-
 <!-- START_f453d442cbe270ed50c2def3a3416115 -->
 ## about
 > Example request:
@@ -1283,7 +1412,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/about" \
     -H "Content-Type: application/json" \
-    -d '{"title":"hMpYJRNcHDTCrVnQ","body":"cMOipyQxUHkHUbWs","type":"gocplGBGovOYu90N","author_id":6,"thumbnail":"EXGBNKLtuQu8EolN"}'
+    -d '{"title":"qwMRnhkWEyieQ5TU","body":"X8o639wcEqJlzyl1","type":"toLy67mkmTP97H6t","author_id":15,"thumbnail":"qD65MqzJZ19GPKqI"}'
 
 ```
 
@@ -1296,11 +1425,11 @@ let headers = {
 }
 
 let body = {
-    "title": "hMpYJRNcHDTCrVnQ",
-    "body": "cMOipyQxUHkHUbWs",
-    "type": "gocplGBGovOYu90N",
-    "author_id": 6,
-    "thumbnail": "EXGBNKLtuQu8EolN"
+    "title": "qwMRnhkWEyieQ5TU",
+    "body": "X8o639wcEqJlzyl1",
+    "type": "toLy67mkmTP97H6t",
+    "author_id": 15,
+    "thumbnail": "qD65MqzJZ19GPKqI"
 }
 
 fetch(url, {
@@ -1340,7 +1469,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/posts" \
     -H "Content-Type: application/json" \
-    -d '{"title":"NMHQ6nDahVoi0UsL","body":"5LLGj6L9OWTzESya","type":"QGuz1806CpYuCuix","author_id":14,"thumbnail":"eh0xJnSbGa7SdNjD"}'
+    -d '{"title":"Fv7fojxDuDI1Gfcj","body":"LGC4xRYH9BcfZwnb","type":"TMYGISnTVSEvDNxz","author_id":5,"thumbnail":"mz4A5C0fILnyN94K"}'
 
 ```
 
@@ -1353,11 +1482,11 @@ let headers = {
 }
 
 let body = {
-    "title": "NMHQ6nDahVoi0UsL",
-    "body": "5LLGj6L9OWTzESya",
-    "type": "QGuz1806CpYuCuix",
-    "author_id": 14,
-    "thumbnail": "eh0xJnSbGa7SdNjD"
+    "title": "Fv7fojxDuDI1Gfcj",
+    "body": "LGC4xRYH9BcfZwnb",
+    "type": "TMYGISnTVSEvDNxz",
+    "author_id": 5,
+    "thumbnail": "mz4A5C0fILnyN94K"
 }
 
 fetch(url, {
@@ -1392,7 +1521,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/subscribe" \
     -H "Content-Type: application/json" \
-    -d '{"title":"q1JWSkExK7YWgTqG","body":"gVNgK7ll38aECLc7","type":"w9XcT6h03Q893oL5","author_id":13,"thumbnail":"pBBbV2dPH6AoOKnB"}'
+    -d '{"title":"aJn6lD7YdA5eZaSw","body":"OslsWEjsYcjZs3eZ","type":"zybLE5CUCcooYb16","author_id":14,"thumbnail":"nEo9vm7h4xpNB8bk"}'
 
 ```
 
@@ -1405,11 +1534,11 @@ let headers = {
 }
 
 let body = {
-    "title": "q1JWSkExK7YWgTqG",
-    "body": "gVNgK7ll38aECLc7",
-    "type": "w9XcT6h03Q893oL5",
-    "author_id": 13,
-    "thumbnail": "pBBbV2dPH6AoOKnB"
+    "title": "aJn6lD7YdA5eZaSw",
+    "body": "OslsWEjsYcjZs3eZ",
+    "type": "zybLE5CUCcooYb16",
+    "author_id": 14,
+    "thumbnail": "nEo9vm7h4xpNB8bk"
 }
 
 fetch(url, {
@@ -1444,7 +1573,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/site_admin" \
     -H "Content-Type: application/json" \
-    -d '{"title":"r8uTtEMqYv0dk4N0","body":"sIV6Kx4HGxEYKh23","type":"I0xPZOpaFAR1pvkp","author_id":1,"thumbnail":"eYYhthDSp8LgukiZ"}'
+    -d '{"title":"cPNbjBWfPTFrhqBc","body":"Z5AdBaZrRurrdxNB","type":"iARvs6yNxZiH0z9K","author_id":1,"thumbnail":"4aFn5UZ2REEvFUdL"}'
 
 ```
 
@@ -1457,11 +1586,11 @@ let headers = {
 }
 
 let body = {
-    "title": "r8uTtEMqYv0dk4N0",
-    "body": "sIV6Kx4HGxEYKh23",
-    "type": "I0xPZOpaFAR1pvkp",
+    "title": "cPNbjBWfPTFrhqBc",
+    "body": "Z5AdBaZrRurrdxNB",
+    "type": "iARvs6yNxZiH0z9K",
     "author_id": 1,
-    "thumbnail": "eYYhthDSp8LgukiZ"
+    "thumbnail": "4aFn5UZ2REEvFUdL"
 }
 
 fetch(url, {
@@ -1496,7 +1625,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/search" \
     -H "Content-Type: application/json" \
-    -d '{"title":"Yvh8XSfSftvhev5K","body":"l8UvwJzKxCKFZ9Lr","type":"meKJZ02UlnfHi2YA","author_id":14,"thumbnail":"nGLpVde0lOnTSEvt"}'
+    -d '{"title":"uYGtoiqwg0SDWlBl","body":"jx1z3VRUZpRNYWdJ","type":"0kBwl6y1SFmcNH6Z","author_id":2,"thumbnail":"eN3RDm99ywTd0aox"}'
 
 ```
 
@@ -1509,11 +1638,11 @@ let headers = {
 }
 
 let body = {
-    "title": "Yvh8XSfSftvhev5K",
-    "body": "l8UvwJzKxCKFZ9Lr",
-    "type": "meKJZ02UlnfHi2YA",
-    "author_id": 14,
-    "thumbnail": "nGLpVde0lOnTSEvt"
+    "title": "uYGtoiqwg0SDWlBl",
+    "body": "jx1z3VRUZpRNYWdJ",
+    "type": "0kBwl6y1SFmcNH6Z",
+    "author_id": 2,
+    "thumbnail": "eN3RDm99ywTd0aox"
 }
 
 fetch(url, {
@@ -1553,7 +1682,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/sort_posts" \
     -H "Content-Type: application/json" \
-    -d '{"title":"ddwMd3gwJA7FQiZv","body":"MJe1C2Yc1rpZZOem","type":"hDDEF9uh5azwglIP","author_id":14,"thumbnail":"VY0kmuPtRARM7scY"}'
+    -d '{"title":"8gt4Ro05IRhEhsW7","body":"Tqr7tFfoNKiIkXmo","type":"pTqjigfX7Zwz44yh","author_id":20,"thumbnail":"VOQZYKdXnLJ53EfV"}'
 
 ```
 
@@ -1566,11 +1695,11 @@ let headers = {
 }
 
 let body = {
-    "title": "ddwMd3gwJA7FQiZv",
-    "body": "MJe1C2Yc1rpZZOem",
-    "type": "hDDEF9uh5azwglIP",
-    "author_id": 14,
-    "thumbnail": "VY0kmuPtRARM7scY"
+    "title": "8gt4Ro05IRhEhsW7",
+    "body": "Tqr7tFfoNKiIkXmo",
+    "type": "pTqjigfX7Zwz44yh",
+    "author_id": 20,
+    "thumbnail": "VOQZYKdXnLJ53EfV"
 }
 
 fetch(url, {
@@ -1610,7 +1739,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/Apex_names" \
     -H "Content-Type: application/json" \
-    -d '{"title":"aCtqT8bmakTzQ9qx","body":"RGJy4eeXKYp2rKnt","type":"sGjQNaofsa4Vi31E","author_id":18,"thumbnail":"ogNzgs08W0BG78O8"}'
+    -d '{"title":"Z7F685mGH9zRnEsT","body":"hXJFZFfhkoAlRyfl","type":"Bm6qZdX3q4nGbVO2","author_id":18,"thumbnail":"lRCczsVaZ20MGp8Y"}'
 
 ```
 
@@ -1623,11 +1752,11 @@ let headers = {
 }
 
 let body = {
-    "title": "aCtqT8bmakTzQ9qx",
-    "body": "RGJy4eeXKYp2rKnt",
-    "type": "sGjQNaofsa4Vi31E",
+    "title": "Z7F685mGH9zRnEsT",
+    "body": "hXJFZFfhkoAlRyfl",
+    "type": "Bm6qZdX3q4nGbVO2",
     "author_id": 18,
-    "thumbnail": "ogNzgs08W0BG78O8"
+    "thumbnail": "lRCczsVaZ20MGp8Y"
 }
 
 fetch(url, {
@@ -1667,7 +1796,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/remove" \
     -H "Content-Type: application/json" \
-    -d '{"title":"eSrOAhk9Bkjnjkr4","body":"Nu178BjjulWHjGrb","type":"b8rqrHkNOTup1xRz","author_id":19,"thumbnail":"IIGtvgxxGRk7bvJm"}'
+    -d '{"title":"3LfYi3CuyKfoQtJo","body":"U9jKpnPftHduyp3M","type":"itJsbaJnNDsgOEm7","author_id":6,"thumbnail":"Hygt1JHtQvu4qQul"}'
 
 ```
 
@@ -1680,11 +1809,11 @@ let headers = {
 }
 
 let body = {
-    "title": "eSrOAhk9Bkjnjkr4",
-    "body": "Nu178BjjulWHjGrb",
-    "type": "b8rqrHkNOTup1xRz",
-    "author_id": 19,
-    "thumbnail": "IIGtvgxxGRk7bvJm"
+    "title": "3LfYi3CuyKfoQtJo",
+    "body": "U9jKpnPftHduyp3M",
+    "type": "itJsbaJnNDsgOEm7",
+    "author_id": 6,
+    "thumbnail": "Hygt1JHtQvu4qQul"
 }
 
 fetch(url, {
@@ -1719,7 +1848,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X POST "http://localhost/approve" \
     -H "Content-Type: application/json" \
-    -d '{"title":"NSSjoaWaO8hAOZ1B","body":"QQBypi7SjxssmDTv","type":"BnD1mec4SmBdnjoY","author_id":13,"thumbnail":"sk5IcohFzo9x9GJO"}'
+    -d '{"title":"7ZjmsgMUQbT76oQ7","body":"ucEFMSmLUURRjyBN","type":"UvDgDzYsixUnvHfw","author_id":11,"thumbnail":"sgAYhrZkyx2x9le9"}'
 
 ```
 
@@ -1732,11 +1861,11 @@ let headers = {
 }
 
 let body = {
-    "title": "NSSjoaWaO8hAOZ1B",
-    "body": "QQBypi7SjxssmDTv",
-    "type": "BnD1mec4SmBdnjoY",
-    "author_id": 13,
-    "thumbnail": "sk5IcohFzo9x9GJO"
+    "title": "7ZjmsgMUQbT76oQ7",
+    "body": "ucEFMSmLUURRjyBN",
+    "type": "UvDgDzYsixUnvHfw",
+    "author_id": 11,
+    "thumbnail": "sgAYhrZkyx2x9le9"
 }
 
 fetch(url, {
@@ -1771,7 +1900,7 @@ Parameter | Type | Status | Description
 ```bash
 curl -X GET -G "http://localhost/review_reports" \
     -H "Content-Type: application/json" \
-    -d '{"title":"16XfGCnCb7mNKy2E","body":"G6gaksS9py82PCSW","type":"1uUB3ij45K2ThFtp","author_id":11,"thumbnail":"FTVOw0mx3sXHITcg"}'
+    -d '{"title":"csWYf2n4So4rz7qw","body":"VMWZC9hxmyjdlI9G","type":"FzHM5qsbVu5JQfwl","author_id":10,"thumbnail":"LfSWmH9sT6BoK8Ye"}'
 
 ```
 
@@ -1784,11 +1913,11 @@ let headers = {
 }
 
 let body = {
-    "title": "16XfGCnCb7mNKy2E",
-    "body": "G6gaksS9py82PCSW",
-    "type": "1uUB3ij45K2ThFtp",
-    "author_id": 11,
-    "thumbnail": "FTVOw0mx3sXHITcg"
+    "title": "csWYf2n4So4rz7qw",
+    "body": "VMWZC9hxmyjdlI9G",
+    "type": "FzHM5qsbVu5JQfwl",
+    "author_id": 10,
+    "thumbnail": "LfSWmH9sT6BoK8Ye"
 }
 
 fetch(url, {
@@ -1820,166 +1949,5 @@ Parameter | Type | Status | Description
     thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
 
 <!-- END_ce137a9fb84ef6789f44be899ecab3fe -->
-
-<!-- START_1a7af546cd175bbafae3c156085b8064 -->
-## block_user
-> Example request:
-
-```bash
-curl -X POST "http://localhost/block_user" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"2zm41ErpYHQtGOLL","body":"pwVIQYn0BGUsibio","type":"JacyrtWCFiXFlLL1","author_id":13,"thumbnail":"buSRaNaGjf6QC0Xv"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/block_user");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "2zm41ErpYHQtGOLL",
-    "body": "pwVIQYn0BGUsibio",
-    "type": "JacyrtWCFiXFlLL1",
-    "author_id": 13,
-    "thumbnail": "buSRaNaGjf6QC0Xv"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-### HTTP Request
-`POST block_user`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
-
-<!-- END_1a7af546cd175bbafae3c156085b8064 -->
-
-<!-- START_9a86fc0b67608be77b22a771d49949db -->
-## compose
-> Example request:
-
-```bash
-curl -X POST "http://localhost/compose" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"yvgN9qNxZmxgdWIB","body":"fg3RHyUecbRGzYUq","type":"iYO6eQC02HWJckn4","author_id":18,"thumbnail":"0TtbS1IxGAEQTWUP"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/compose");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "yvgN9qNxZmxgdWIB",
-    "body": "fg3RHyUecbRGzYUq",
-    "type": "iYO6eQC02HWJckn4",
-    "author_id": 18,
-    "thumbnail": "0TtbS1IxGAEQTWUP"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-### HTTP Request
-`POST compose`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
-
-<!-- END_9a86fc0b67608be77b22a771d49949db -->
-
-<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
-## user_data
-> Example request:
-
-```bash
-curl -X GET -G "http://localhost/user_data" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"ip2hdTzTH2Mnyi7h","body":"z56HJY0HyoAlwV7m","type":"NSpWZkGQ4QNvYHs8","author_id":20,"thumbnail":"En6P3VnYtsaabQyE"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/user_data");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "title": "ip2hdTzTH2Mnyi7h",
-    "body": "z56HJY0HyoAlwV7m",
-    "type": "NSpWZkGQ4QNvYHs8",
-    "author_id": 20,
-    "thumbnail": "En6P3VnYtsaabQyE"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-null
-```
-
-### HTTP Request
-`GET user_data`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    title | string |  required  | The title of the post.
-    body | string |  required  | The title of the post.
-    type | string |  optional  | The type of post to create. Defaults to 'textophonious'.
-    author_id | integer |  optional  | the ID of the author
-    thumbnail | image |  optional  | This is required if the post type is 'imagelicious'.
-
-<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
 
 

@@ -149,12 +149,11 @@ class Comment extends Controller
 
 //-----------------------------------------------------------------------------------------------------------------
 
-  /**
-* @bodyParam title string required The title of the post.
-* @bodyParam body string required The title of the post.
-* @bodyParam type string The type of post to create. Defaults to 'textophonious'.
-* @bodyParam author_id int the ID of the author
-* @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
+/**
+*Save
+*Saving a link or a comment
+* @bodyParam ID string required The ID of the comment or link.
+* @bodyParam token JWT required Used to verify the user.
 * Success Cases :
 * 1)
 * 2)
@@ -169,12 +168,11 @@ class Comment extends Controller
 
 
 
-  /**
-* @bodyParam title string required The title of the post.
-* @bodyParam body string required The title of the post.
-* @bodyParam type string The type of post to create. Defaults to 'textophonious'.
-* @bodyParam author_id int the ID of the author
-* @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
+/**
+*Unsave
+*Unsaving a link or a comment
+* @bodyParam ID string required The ID of the comment or link.
+* @bodyParam token JWT required Used to verify the user.
 * Success Cases :
 * 1)
 * 2)
