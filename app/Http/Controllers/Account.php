@@ -94,6 +94,7 @@ class Account extends Controller
 
 
 
+<<<<<<< HEAD
   /**
    * Delete private messages from the recipient's view of their inbox
 * @bodyParam id int required The id of the message to be deleted.
@@ -104,6 +105,16 @@ class Account extends Controller
  * @response 403 {
  *  "message": "User doesn't have access to the given message"
  * }
+=======
+
+/**
+*ReadMsg
+*Read a sent message
+* @bodyParam ID string required The id of the user who sent the message.
+* @bodyParam body string required The body of the message.
+* @bodyParam read bool optional  mark the message as read by setting it true.
+* @bodyParam token JWT required Used to verify the user recieving the message.
+>>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 */
 
   public function ReadMsg()
@@ -168,12 +179,11 @@ class Account extends Controller
 
 
 
-  /**
-* @bodyParam title string required The title of the post.
-* @bodyParam body string required The title of the post.
-* @bodyParam type string The type of post to create. Defaults to 'textophonious'.
-* @bodyParam author_id int the ID of the author
-* @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
+/**
+*ProfileInfo
+*Displaying the home page of the user
+* @bodyParam ID string required The ID of the user.
+* @bodyParam token JWT required Used to verify the user.
 */
 
 public function ProfileInfo()
