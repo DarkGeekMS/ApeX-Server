@@ -55,7 +55,7 @@ Route::post('/DelComment', 'Comment@Delete');
 Route::post('/Edit', 'Comment@EditText');
 Route::post('/Hide', 'Comment@Hide');
 Route::post('/unhide', 'Comment@Unhide');
-Route::post('/moreComm', 'Comment@MoreChildren');
+Route::get('/moreComm', 'Comment@MoreChildren');
 Route::post('/report', 'Comment@Report');
 Route::post('/vote', 'Comment@Vote');
 Route::post('/save', 'Comment@Save');
@@ -83,4 +83,4 @@ Route::get('/review_reports', 'Moderation@ReviewReports');
 
 Route::post('/block_user', 'User@Block');
 Route::post('/compose', 'User@Compose');
-Route::get('/user_date', 'User@JoinDate');
+Route::get('/user_data', 'User@UserData');

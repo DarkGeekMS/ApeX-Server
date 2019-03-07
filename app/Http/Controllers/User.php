@@ -41,7 +41,7 @@ class User extends Controller
 * @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
 */
 
-  public function JoinDate()
+  public function UserData()
   {return;}
 
 
