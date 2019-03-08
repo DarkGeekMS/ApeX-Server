@@ -1,0 +1,30 @@
+version: '2'
+services:
+
+  # The Database
+  database:
+    build:
+        context: ./
+        dockerfile: db.dockerfile
+    volumes:
+      - dbdata:/var/lib/mysql
+    env_file:
+      - .env
+    ports:
+        - "33061:3306"
+
+  # The Application
+  app:
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:80"
+
+volumes:
+  dbdata:
