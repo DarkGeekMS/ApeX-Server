@@ -4,15 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+/**
+ * @group User
+ *
+ * Control the user interaction with other users
+ */
+
 class User extends Controller
 {
 
   /**
-* @bodyParam title string required The title of the post.
-* @bodyParam body string required The title of the post.
-* @bodyParam type string The type of post to create. Defaults to 'textophonious'.
-* @bodyParam author_id int the ID of the author
-* @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
+  * Block.
+  * Block a user, so he can't send private messages or see the blocked user posts or comments.
+  * Success Cases :
+  * 1) return true to ensure that the user is blocked successfully.
+  * failure Cases:
+  * 1) blockeduser id is not found or already blocked for the current user.
+  * 2) NoAccessRight token is not authorized.
+  * @bodyParam id string required the id of the user to be blocked.
+  * @bodyParam token JWT required Used to verify the user.
 */
 
   public function Block()
@@ -20,12 +30,19 @@ class User extends Controller
 
 
 
+
   /**
-* @bodyParam title string required The title of the post.
-* @bodyParam body string required The title of the post.
-* @bodyParam type string The type of post to create. Defaults to 'textophonious'.
-* @bodyParam author_id int the ID of the author
-* @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
+  * Compose.
+  * Send a private message to another user.
+  * Success Cases :
+  * 1) return true to ensure that the message sent successfully.
+  * failure Cases:
+  * 1) messaged-user id is not found.
+  * 2) NoAccessRight token is not authorized.
+  * @bodyParam to string required The id of the user to be messaged.
+  * @bodyParam subject string required The subject of the message.
+  * @bodyParam mes text the body of the message.
+  * @bodyParam token JWT required Used to verify the user.
 */
 
   public function Compose()
@@ -33,15 +50,20 @@ class User extends Controller
 
 
 
+
   /**
-* @bodyParam title string required The title of the post.
-* @bodyParam body string required The title of the post.
-* @bodyParam type string The type of post to create. Defaults to 'textophonious'.
-* @bodyParam author_id int the ID of the author
-* @bodyParam thumbnail image This is required if the post type is 'imagelicious'.
+   * UserDataByAccountID.
+   * Return user public data to be seen by another user.
+   * Success Cases :
+   * 1) return the data of the user successfully.
+   * failure Cases:
+   * 1) username is not found.
+   * 2) NoAccessRight token is not authorized.
+   * @bodyParam id string required The id of an existing user.
+   * @bodyParam token JWT required Used to verify the user.
 */
 
-  public function JoinDate()
+  public function UserDataByAccountID()
   {return;}
 
 

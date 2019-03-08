@@ -27,7 +27,7 @@ Route::get('/prefs', 'Account@Prefs');
 Route::get('/me', 'Account@Me');
 Route::get('/info', 'Account@ProfileInfo');
 Route::get('/karma', 'Account@Karma');
-Route::get('/messages', 'Account@Messages');
+Route::get('/messages', 'Account@Inbox');
 
 
 
@@ -42,9 +42,9 @@ Route::post('/add_mod', 'Administration@AddModerator');
 // ApexCom
 
 Route::get('/about', 'ApexCom@About');
-Route::post('/posts', 'ApexCom@Posts');
+Route::post('/submit_post', 'ApexCom@SubmitPost');
 Route::post('/subscribe', 'ApexCom@Subscribe');
-Route::post('/site_admin', 'ApexCom@Admin');
+Route::post('/site_admin', 'ApexCom@SiteAdmin');
 
 
 
@@ -53,28 +53,27 @@ Route::post('/site_admin', 'ApexCom@Admin');
 Route::post('/comment', 'Comment@Add');
 Route::post('/DelComment', 'Comment@Delete');
 Route::post('/Edit', 'Comment@EditText');
-Route::post('/Hide', 'Comment@Hide');
-Route::post('/unhide', 'Comment@Unhide');
-Route::post('/moreComm', 'Comment@MoreChildren');
 Route::post('/report', 'Comment@Report');
 Route::post('/vote', 'Comment@Vote');
+Route::post('/lock_post', 'Comment@Lock');
+Route::post('/Hide', 'Comment@Hide');
 Route::post('/save', 'Comment@Save');
-Route::post('/unsave', 'Comment@UnSave');
+Route::get('/moreComments', 'Comment@MoreChildren');
 
 
 
 // general
 
 Route::get('/search', 'General@Search');
-Route::get('/trendings', 'General@Trendings');
-Route::get('/hot_posts', 'General@HotPosts');
+Route::get('/sort_posts', 'General@SortPostsBy');
+Route::get('/Apex_names', 'General@ApexNames');
 
 
 
 // moderation
 
-Route::post('/remove', 'Moderation@Remove');
-Route::post('/approve', 'Moderation@Approve');
+Route::post('/block_user', 'Moderation@BlockUser');
+Route::post ('/report_action' , 'Moderation@IgnoreReport');
 Route::get('/review_reports', 'Moderation@ReviewReports');
 
 
@@ -83,4 +82,4 @@ Route::get('/review_reports', 'Moderation@ReviewReports');
 
 Route::post('/block_user', 'User@Block');
 Route::post('/compose', 'User@Compose');
-Route::get('/user_date', 'User@JoinDate');
+Route::get('/user_data', 'User@UserDataByAccountID');
