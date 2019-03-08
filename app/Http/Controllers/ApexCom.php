@@ -8,6 +8,8 @@ class ApexCom extends Controller
 {
 
   /**
+   * About
+   * returns information about ApexCom
    * @bodyParam ApexCom_id string required The fullname of the community.
    * @bodyParam _token string required The token required for authentication.
    * Success Cases :
@@ -23,6 +25,8 @@ class ApexCom extends Controller
 
 
   /**
+   * Post
+   * It is a functionality of the user to create new posts on an ApexCom
    * @bodyParam ApexCom_id string required The fullname of the community where the post is posted.
    * @bodyParam body string required The text body of the post.
    * @bodyParam image_file file The attached image to the post.
@@ -45,6 +49,8 @@ class ApexCom extends Controller
 
  
   /**
+   * Subscribe
+   * It is a functionality of the user to subscribe/unsubscribe a specific ApexCom
    * @bodyParam ApexCom_id string required The fullname of the community required to be subscribed.
    * @bodyParam _token string required The token required for authentication.
    * Success Cases :
@@ -61,6 +67,8 @@ class ApexCom extends Controller
 
 
   /**
+   * Admin
+   * It is a special functionality to the admin of the site as he is the only one that can create an ApexCom
    * @bodyParam ApexCom_name string required The name of the community.
    * @bodyParam description string required The description of the community.
    * @bodyParam type string required The type of the community(there are only three valid types public, restricted, private).

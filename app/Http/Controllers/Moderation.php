@@ -8,6 +8,8 @@ class Moderation extends Controller
 {
 
   /** 
+   * Remove
+   * it is a functionality to the moderator of an ApexCom to remove a post or comment
    * @bodyParam ApexCom_id string required The fullname of the community where the comment or post is removed.
    * @bodyParam id string required The fullname of the comment or post to be removed.
    * @bodyParam _token string required The token required for authentication.
@@ -24,6 +26,8 @@ class Moderation extends Controller
 
 
   /**
+   * Approve
+   * it is a functionality to the moderator of an ApexCom to approve a post or comment
    * @bodyParam ApexCom_id string required The fullname of the community where the comment or post is approved.
    * @bodyParam id string required The fullname of the comment or post to be approved.
    * @bodyParam _token string required The token required for authentication.
@@ -40,6 +44,8 @@ class Moderation extends Controller
 
 
   /**
+   * Review reports
+   * it is a functionality to the moderator of an ApexCom to view reported posts and comments
    * @bodyParam ApexCom_id string required The fullname of the community where the reported comments and posts.
    * @bodyParam _token string required The token required for authentication.
    * Success Cases :
