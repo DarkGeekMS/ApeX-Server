@@ -17,7 +17,4 @@ COPY . /app
 WORKDIR /app
 EXPOSE 80
 
-RUN composer install &&\
-    php7 artisan key:generate
-
 CMD php7 artisan serve --host=0.0.0.0 --port=80
