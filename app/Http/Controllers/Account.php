@@ -94,18 +94,6 @@ class Account extends Controller
 
 
 
-<<<<<<< HEAD
-  /**
-   * Delete private messages from the recipient's view of their inbox
-* @bodyParam id int required The id of the message to be deleted.
-* @bodyParam token JWT required Used to verify the user.
- * @response {
- *  "message":1
- * }
- * @response 403 {
- *  "message": "User doesn't have access to the given message"
- * }
-=======
 
 /**
 *ReadMsg
@@ -114,7 +102,6 @@ class Account extends Controller
 * @bodyParam body string required The body of the message.
 * @bodyParam read bool optional  mark the message as read by setting it true.
 * @bodyParam token JWT required Used to verify the user recieving the message.
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 */
 
   public function ReadMsg()

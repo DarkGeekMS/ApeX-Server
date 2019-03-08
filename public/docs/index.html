@@ -48,27 +48,627 @@
 <p>Welcome to the generated API reference.
 <a href="http://localhost/docs/collection.json">Get Postman Collection</a></p>
 <!-- END_INFO -->
-<<<<<<< HEAD
-<h1>Account</h1>
-<p>Controls the authentication, info and messages of the accounts.</p>
-<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
-<h2>Registers new user into the website by storing their email, username and password.</h2>
-=======
 <h2>Links and comments</h2>
 <p>controls the comments , replies and private messages for each user</p>
 <!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
 <h2>submit a new comment or reply to a comment on a post.</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/comment" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"6PkFxNbBS2ZQsDAc","content":"Rocgz9SMueKHbpgK","parent_ID":"kRQiu6MS3EO8one5","AuthID":"zmnaAyc0dlT2IG3O"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/comment");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "6PkFxNbBS2ZQsDAc",
+    "content": "Rocgz9SMueKHbpgK",
+    "parent_ID": "kRQiu6MS3EO8one5",
+    "AuthID": "zmnaAyc0dlT2IG3O"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST comment</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the comment to be submitted ( comment , reply , message).</td>
+</tr>
+<tr>
+<td>content</td>
+<td>string</td>
+<td>required</td>
+<td>The body of the comment.</td>
+</tr>
+<tr>
+<td>parent_ID</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the thing to be replied to.</td>
+</tr>
+<tr>
+<td>AuthID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_4479052af7e53f808c3e66f3a63e68f3 -->
+<!-- START_80708de049dc3d985cb6e8aeae33393b -->
+<h2>to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/DelComment" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"fUCFLQo1CrzZauxi","ID":"GghDAy3vDTYctkTX"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/DelComment");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "fUCFLQo1CrzZauxi",
+    "ID": "GghDAy3vDTYctkTX"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST DelComment</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the post,comment or reply to be deleted.</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_80708de049dc3d985cb6e8aeae33393b -->
+<!-- START_2daae1bc9e1e0639e200fec2f7f6bb1b -->
+<h2>to edit the text of a post , comment or reply by its owner.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/Edit" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"Iuyh9iCFXBPnyWGg","content":"9lMvYstRjIweB4tp","ID":"Pk9UXhO0Yqb5WpIb"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Edit");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "Iuyh9iCFXBPnyWGg",
+    "content": "9lMvYstRjIweB4tp",
+    "ID": "Pk9UXhO0Yqb5WpIb"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST Edit</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the self-post ,comment or reply to be edited.</td>
+</tr>
+<tr>
+<td>content</td>
+<td>string</td>
+<td>required</td>
+<td>The body of the thing to be edited.</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_2daae1bc9e1e0639e200fec2f7f6bb1b -->
+<!-- START_e1f157eae6e3907a8770cb8504ae73cb -->
+<h2>to hide a post from the user view.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/Hide" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"AkZVVVlSFt8Qjsv8","ID":"XqERt59k5zeG9Fk2"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Hide");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "AkZVVVlSFt8Qjsv8",
+    "ID": "XqERt59k5zeG9Fk2"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST Hide</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the post to be hidden.</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_e1f157eae6e3907a8770cb8504ae73cb -->
+<!-- START_9019195c37b05d719ab1635b6943d714 -->
+<h2>to unhide the post from the user&#039;s hidden posts list so it will display in the user view.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/unhide" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"nJINzKMmPvl3ItjG","ID":"UTzy4GdS0g34pKIh"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/unhide");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "nJINzKMmPvl3ItjG",
+    "ID": "UTzy4GdS0g34pKIh"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST unhide</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the post to be unhidden.</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_9019195c37b05d719ab1635b6943d714 -->
+<!-- START_157f1ca43f755f92777fe075f012a2d4 -->
+<h2>to retrieve additional comments omitted from a base comment tree (comment , replies ).</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/moreComm" \
+    -H "Content-Type: application/json" \
+    -d '{"parent":"mdTCM5ThUkXPMyjY","children":"GelhTHOEAXM1GJPW","ID":"1rQZvPh2uEiFzLQp"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/moreComm");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "parent": "mdTCM5ThUkXPMyjY",
+    "children": "GelhTHOEAXM1GJPW",
+    "ID": "1rQZvPh2uEiFzLQp"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET moreComm</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parent</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the posts whose comments are being fetched ( post or comment ).</td>
+</tr>
+<tr>
+<td>children</td>
+<td>string</td>
+<td>required</td>
+<td>The comments or replies to be fetched.</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_157f1ca43f755f92777fe075f012a2d4 -->
+<!-- START_e6e6c1d8554f35a2b7ff48374ad1e77b -->
+<h2>report a post , comment or a message to the ApexCom moderator, posts or comments will be hidden implicitly as well.</h2>
+<p>( moderators don't report posts).</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/report" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"1gBbljkjtg5hDstf","reason":8,"ID":"B5CyT8mUojMgMB2u"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/report");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "1gBbljkjtg5hDstf",
+    "reason": 8,
+    "ID": "B5CyT8mUojMgMB2u"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST report</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the post,comment or message to report.</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>integer</td>
+<td>optional</td>
+<td>The index represent the reason for the report from an associative array (will be in frontend and backend as well).</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_e6e6c1d8554f35a2b7ff48374ad1e77b -->
+<!-- START_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
+<h2>cast a vote on a post , comment or reply.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/vote" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"yzE2rGAZTY4w7VbJ","dirction":11,"ID":"6JJ4pf6OYxvCewil"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/vote");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "yzE2rGAZTY4w7VbJ",
+    "dirction": 11,
+    "ID": "6JJ4pf6OYxvCewil"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST vote</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>required</td>
+<td>The fullname of the post,comment or reply to vote on.</td>
+</tr>
+<tr>
+<td>dirction</td>
+<td>integer</td>
+<td>required</td>
+<td>The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>JWT</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
+<!-- START_3a7b8eca0c87791144dc77858615f215 -->
+<h2>Save</h2>
+<p>Saving a link or a comment</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/save" \
+    -H "Content-Type: application/json" \
+    -d '{"ID":"6EpK9UsNoUWiJg78","token":"7xkEAhvmcIA6CRT4"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/save");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ID": "6EpK9UsNoUWiJg78",
+    "token": "7xkEAhvmcIA6CRT4"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST save</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>string</td>
+<td>required</td>
+<td>The ID of the comment or link.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_3a7b8eca0c87791144dc77858615f215 -->
+<!-- START_c73ea2693dc9203931a2533cdef33d33 -->
+<h2>Unsave</h2>
+<p>Unsaving a link or a comment</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/unsave" \
+    -H "Content-Type: application/json" \
+    -d '{"ID":"ZYuUXrMDHZc9RHzy","token":"4lXuMEUiMPY8NnXN"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/unsave");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ID": "ZYuUXrMDHZc9RHzy",
+    "token": "4lXuMEUiMPY8NnXN"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST unsave</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>string</td>
+<td>required</td>
+<td>The ID of the comment or link.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_c73ea2693dc9203931a2533cdef33d33 -->
+<h1>Account</h1>
+<p>Controls the authentication, info and messages of the accounts.</p>
+<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
+<h2>Registers new user into the website by storing their email, username and password.</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/sign_up" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"email":"NFhC8ByCA2bjCAlD","username":"HIPBGNGrbTK73AoN","password":"xE8MvzAmMyaZmWOu","verify_password":"EAPAngUs0F6MxVmx"}'
-=======
-    -d '{"name":"z8lEqM9DnaLgDTZv","content":"QDkXgALZNLMO0rrl","parent_ID":"v87dT4hraL0XTRUO","AuthID":"q4facdJcoXwL3qka"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"email":"aUiGs87GMdYODJZb","username":"zzq2OIYTJyfocSeM","password":"9hDSR1TGlZCmwCgv","verify_password":"VYD2sZKocm8pWzdF"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/sign_up");
 
@@ -78,17 +678,10 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "email": "NFhC8ByCA2bjCAlD",
-    "username": "HIPBGNGrbTK73AoN",
-    "password": "xE8MvzAmMyaZmWOu",
-    "verify_password": "EAPAngUs0F6MxVmx"
-=======
-    "name": "z8lEqM9DnaLgDTZv",
-    "content": "QDkXgALZNLMO0rrl",
-    "parent_ID": "v87dT4hraL0XTRUO",
-    "AuthID": "q4facdJcoXwL3qka"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "email": "aUiGs87GMdYODJZb",
+    "username": "zzq2OIYTJyfocSeM",
+    "password": "9hDSR1TGlZCmwCgv",
+    "verify_password": "VYD2sZKocm8pWzdF"
 }
 
 fetch(url, {
@@ -136,7 +729,6 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<<<<<<< HEAD
 <td>email</td>
 <td>string</td>
 <td>required</td>
@@ -165,46 +757,12 @@ fetch(url, {
 <!-- END_3a06114e88089d07a3c29bdb6f844602 -->
 <!-- START_f2f2bd15a0a3125617af6284631682f0 -->
 <h2>Validates user&#039;s credentials and logs him in.</h2>
-=======
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the comment to be submitted ( comment , reply , message).</td>
-</tr>
-<tr>
-<td>content</td>
-<td>string</td>
-<td>required</td>
-<td>The body of the comment.</td>
-</tr>
-<tr>
-<td>parent_ID</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the thing to be replied to.</td>
-</tr>
-<tr>
-<td>AuthID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_4479052af7e53f808c3e66f3a63e68f3 -->
-<!-- START_80708de049dc3d985cb6e8aeae33393b -->
-<h2>to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/Sign_in" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"username":"PGziSKktTVWmGUXt","password":"LVvufqaTwdKpTi3R","remember_me":true}'
-=======
-    -d '{"name":"lBTRrx2jJNFN9ajn","ID":"oicSSED4dg3qKeXc"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"username":"lyoUkygWCCaQXKQV","password":"ukGbcdUpQpvOHttk","remember_me":false}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/Sign_in");
 
@@ -214,14 +772,9 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "username": "PGziSKktTVWmGUXt",
-    "password": "LVvufqaTwdKpTi3R",
-    "remember_me": true
-=======
-    "name": "lBTRrx2jJNFN9ajn",
-    "ID": "oicSSED4dg3qKeXc"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "username": "lyoUkygWCCaQXKQV",
+    "password": "ukGbcdUpQpvOHttk",
+    "remember_me": false
 }
 
 fetch(url, {
@@ -263,7 +816,6 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<<<<<<< HEAD
 <td>username</td>
 <td>string</td>
 <td>required</td>
@@ -286,34 +838,12 @@ fetch(url, {
 <!-- END_f2f2bd15a0a3125617af6284631682f0 -->
 <!-- START_99ada3ad1c00101e557456766317db7b -->
 <h2>Logs out a user.</h2>
-=======
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the post,comment or reply to be deleted.</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_80708de049dc3d985cb6e8aeae33393b -->
-<!-- START_2daae1bc9e1e0639e200fec2f7f6bb1b -->
-<h2>to edit the text of a post , comment or reply by its owner.</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/sign_out" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"token":"m9oIePlkxymQE5hY"}'
-=======
-    -d '{"name":"8paQxfaadueSQXn5","content":"H3tDPzkBStdB2Wy0","ID":"uWDgp73UuTASTWJV"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"token":"tURTGoNqKGNfQcbH"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/sign_out");
 
@@ -323,13 +853,7 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "token": "m9oIePlkxymQE5hY"
-=======
-    "name": "8paQxfaadueSQXn5",
-    "content": "H3tDPzkBStdB2Wy0",
-    "ID": "uWDgp73UuTASTWJV"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "token": "tURTGoNqKGNfQcbH"
 }
 
 fetch(url, {
@@ -365,7 +889,6 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<<<<<<< HEAD
 <td>token</td>
 <td>JWT</td>
 <td>required</td>
@@ -376,40 +899,12 @@ fetch(url, {
 <!-- END_99ada3ad1c00101e557456766317db7b -->
 <!-- START_cb128bb391940d8304e5ebb273373143 -->
 <h2>Delete private messages from the recipient&#039;s view of their inbox.</h2>
-=======
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the self-post ,comment or reply to be edited.</td>
-</tr>
-<tr>
-<td>content</td>
-<td>string</td>
-<td>required</td>
-<td>The body of the thing to be edited.</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_2daae1bc9e1e0639e200fec2f7f6bb1b -->
-<!-- START_e1f157eae6e3907a8770cb8504ae73cb -->
-<h2>to hide a post from the user view.</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/del_msg" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"id":19,"token":"OYvfxW0p7FnTXpFx"}'
-=======
-    -d '{"name":"Vva8Ekx6LFZCJc09","ID":"jv03kidQ1o9pVjOJ"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"id":14,"token":"Vxx7U82T6M7T1vWh"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/del_msg");
 
@@ -419,13 +914,8 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "id": 19,
-    "token": "OYvfxW0p7FnTXpFx"
-=======
-    "name": "Vva8Ekx6LFZCJc09",
-    "ID": "jv03kidQ1o9pVjOJ"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "id": 14,
+    "token": "Vxx7U82T6M7T1vWh"
 }
 
 fetch(url, {
@@ -461,7 +951,6 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<<<<<<< HEAD
 <td>id</td>
 <td>integer</td>
 <td>required</td>
@@ -477,13 +966,14 @@ fetch(url, {
 </table>
 <!-- END_cb128bb391940d8304e5ebb273373143 -->
 <!-- START_869a605c7c3ad87a651842dddd0f4492 -->
-<h2>Delete private messages from the recipient&#039;s view of their inbox</h2>
+<h2>ReadMsg</h2>
+<p>Read a sent message</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/read_msg" \
     -H "Content-Type: application/json" \
-    -d '{"id":3,"token":"y96wNEshxLDSJMHC"}'
+    -d '{"ID":"1McpK0hJT69xAN6L","body":"v963Str3ECEXOcg2","read":false,"token":"kH08sbKmmjsZ458Z"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/read_msg");
 
@@ -493,8 +983,10 @@ let headers = {
 }
 
 let body = {
-    "id": 3,
-    "token": "y96wNEshxLDSJMHC"
+    "ID": "1McpK0hJT69xAN6L",
+    "body": "v963Str3ECEXOcg2",
+    "read": false,
+    "token": "kH08sbKmmjsZ458Z"
 }
 
 fetch(url, {
@@ -504,18 +996,6 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": 1
-}</code></pre>
-<blockquote>
-<p>Example response (403):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": "User doesn't have access to the given message"
-}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST read_msg</code></p>
 <h4>Body Parameters</h4>
@@ -530,50 +1010,40 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>id</td>
-<td>integer</td>
+<td>ID</td>
+<td>string</td>
 <td>required</td>
-<td>The id of the message to be deleted.</td>
+<td>The id of the user who sent the message.</td>
+</tr>
+<tr>
+<td>body</td>
+<td>string</td>
+<td>required</td>
+<td>The body of the message.</td>
+</tr>
+<tr>
+<td>read</td>
+<td>boolean</td>
+<td>optional</td>
+<td>optional  mark the message as read by setting it true.</td>
 </tr>
 <tr>
 <td>token</td>
 <td>JWT</td>
 <td>required</td>
-<td>Used to verify the user.</td>
+<td>Used to verify the user recieving the message.</td>
 </tr>
 </tbody>
 </table>
 <!-- END_869a605c7c3ad87a651842dddd0f4492 -->
 <!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
 <h2>Updates the preferences of the user</h2>
-=======
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the post to be hidden.</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_e1f157eae6e3907a8770cb8504ae73cb -->
-<!-- START_9019195c37b05d719ab1635b6943d714 -->
-<h2>to unhide the post from the user&#039;s hidden posts list so it will display in the user view.</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PATCH "http://localhost/updateprefs" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"change_email":"sHaMsp2MVtM5v5Tl","change_password":"ROBLtbxngk67NoFi","deactivate_account":"y3iOywB6RH91VHFV","media_autoplay":true,"pm_notifications":true,"replies_notifications":true,"token":"yPXN0Bxwya6nTXRe"}'
-=======
-    -d '{"name":"7r5nZKkkPNYVB7ay","ID":"T997AVfp9MIW71au"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"change_email":"TLaxbwUDobYZpPzf","change_password":"QWoWWy5ECdxqOwfa","deactivate_account":"OgvwFJ3EcEL63Mss","media_autoplay":false,"pm_notifications":true,"replies_notifications":false,"token":"QZwoG5l37TM0LsjD"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/updateprefs");
 
@@ -583,18 +1053,13 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "change_email": "sHaMsp2MVtM5v5Tl",
-    "change_password": "ROBLtbxngk67NoFi",
-    "deactivate_account": "y3iOywB6RH91VHFV",
-    "media_autoplay": true,
+    "change_email": "TLaxbwUDobYZpPzf",
+    "change_password": "QWoWWy5ECdxqOwfa",
+    "deactivate_account": "OgvwFJ3EcEL63Mss",
+    "media_autoplay": false,
     "pm_notifications": true,
-    "replies_notifications": true,
-    "token": "yPXN0Bxwya6nTXRe"
-=======
-    "name": "7r5nZKkkPNYVB7ay",
-    "ID": "T997AVfp9MIW71au"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "replies_notifications": false,
+    "token": "QZwoG5l37TM0LsjD"
 }
 
 fetch(url, {
@@ -630,7 +1095,6 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<<<<<<< HEAD
 <td>change_email</td>
 <td>string</td>
 <td>required</td>
@@ -682,31 +1146,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/prefs" \
     -H "Content-Type: application/json" \
-    -d '{"token":"6lR5NkSfU3oP7d6b"}'
-=======
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the post to be unhidden.</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_9019195c37b05d719ab1635b6943d714 -->
-<!-- START_157f1ca43f755f92777fe075f012a2d4 -->
-<h2>to retrieve additional comments omitted from a base comment tree (comment , replies ).</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/moreComm" \
-    -H "Content-Type: application/json" \
-    -d '{"parent":"JW0LzTnYCMxB6mpk","children":"pG8oPgml6nqh6SMW","ID":"CyOf8fIFL6ZzukTh"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"token":"ip2OjVVfo7QpmKed"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/prefs");
 
@@ -716,13 +1156,7 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "token": "6lR5NkSfU3oP7d6b"
-=======
-    "parent": "JW0LzTnYCMxB6mpk",
-    "children": "pG8oPgml6nqh6SMW",
-    "ID": "CyOf8fIFL6ZzukTh"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "token": "ip2OjVVfo7QpmKed"
 }
 
 fetch(url, {
@@ -735,7 +1169,6 @@ fetch(url, {
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
-<<<<<<< HEAD
 <pre><code class="language-json">{
     "change_email": 1,
     "change_password": 0,
@@ -752,11 +1185,6 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET prefs</code></p>
-=======
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET moreComm</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -769,23 +1197,10 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<<<<<<< HEAD
 <td>token</td>
 <td>JWT</td>
 <td>required</td>
 <td>Used to verify the user.</td>
-=======
-<td>parent</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the posts whose comments are being fetched ( post or comment ).</td>
-</tr>
-<tr>
-<td>children</td>
-<td>string</td>
-<td>required</td>
-<td>The comments or replies to be fetched.</td>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 </tr>
 </tbody>
 </table>
@@ -797,7 +1212,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/me" \
     -H "Content-Type: application/json" \
-    -d '{"token":"B7Srw145A1LYI6hK"}'
+    -d '{"token":"p51ZBNYqazX0V8oS"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/me");
 
@@ -807,7 +1222,7 @@ let headers = {
 }
 
 let body = {
-    "token": "B7Srw145A1LYI6hK"
+    "token": "p51ZBNYqazX0V8oS"
 }
 
 fetch(url, {
@@ -835,7 +1250,6 @@ fetch(url, {
 <table>
 <thead>
 <tr>
-<<<<<<< HEAD
 <th>Parameter</th>
 <th>Type</th>
 <th>Status</th>
@@ -848,1738 +1262,6 @@ fetch(url, {
 <td>JWT</td>
 <td>required</td>
 <td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_8534272b69ec50dc79d73c26608ba48c -->
-<!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
-<h2>info</h2>
-=======
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_157f1ca43f755f92777fe075f012a2d4 -->
-<!-- START_e6e6c1d8554f35a2b7ff48374ad1e77b -->
-<h2>report a post , comment or a message to the ApexCom moderator, posts or comments will be hidden implicitly as well.</h2>
-<p>( moderators don't report posts).</p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/info" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"UvsKtdsTwtcdSZzm","body":"ySSHKSbRPUrvF7v4","type":"sDw4o2nYLli9zdxv","author_id":17,"thumbnail":"FBeyEsaLr59xiENv"}'
-=======
-    -d '{"name":"hqgzgg1EmOEBjslc","reason":12,"ID":"xxV4xZnb8oerPlYL"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/info");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "UvsKtdsTwtcdSZzm",
-    "body": "ySSHKSbRPUrvF7v4",
-    "type": "sDw4o2nYLli9zdxv",
-    "author_id": 17,
-    "thumbnail": "FBeyEsaLr59xiENv"
-=======
-    "name": "hqgzgg1EmOEBjslc",
-    "reason": 12,
-    "ID": "xxV4xZnb8oerPlYL"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET info</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the post,comment or message to report.</td>
-</tr>
-<tr>
-<td>reason</td>
-<td>integer</td>
-<td>optional</td>
-<td>The index represent the reason for the report from an associative array (will be in frontend and backend as well).</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
-<!-- START_4849ce4d441fd19425e151ff49985f46 -->
-<h2>Returns the karma of the user</h2>
-<ul>
-<li>@bodyParam token JWT required Used to verify the user.</li>
-</ul>
-=======
-<!-- END_e6e6c1d8554f35a2b7ff48374ad1e77b -->
-<!-- START_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
-<h2>cast a vote on a post , comment or reply.</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/karma");
-
-let headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "karma": 4
-}</code></pre>
-<blockquote>
-<p>Example response (403):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": "Cannot authorize the user"
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET karma</code></p>
-<!-- END_4849ce4d441fd19425e151ff49985f46 -->
-<!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
-<h2>Returns a listing of the messages of the user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/messages" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"max":4,"token":"mLRa8UR0urM9NlhO"}'
-=======
-    -d '{"name":"1xDV6zWY3vbFt0oI","dirction":3,"ID":"Yqy9KssmT0ZmBlr6"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/messages");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "max": 4,
-    "token": "mLRa8UR0urM9NlhO"
-=======
-    "name": "1xDV6zWY3vbFt0oI",
-    "dirction": 3,
-    "ID": "Yqy9KssmT0ZmBlr6"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "after": "msg_110",
-    "limit": 14
-}</code></pre>
-<blockquote>
-<p>Example response (403):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": "Cannot authorize the user"
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET messages</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-<<<<<<< HEAD
-=======
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the post,comment or reply to vote on.</td>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</tr>
-</thead>
-<tbody>
-<tr>
-<<<<<<< HEAD
-<td>max</td>
-<td>integer</td>
-<td>optional</td>
-<td>the maximum number of messages to be returned</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
-<h1>Links and comments</h1>
-<p>controls the comments , replies and private messages for each user</p>
-<!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
-<h2>comment</h2>
-=======
-<td>dirction</td>
-<td>integer</td>
-<td>required</td>
-<td>The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>JWT</td>
-<td>required</td>
-<td>Verifying user ID.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
-<!-- START_3a7b8eca0c87791144dc77858615f215 -->
-<h2>Save</h2>
-<p>Saving a link or a comment</p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/comment" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"fullname":"5tCtA6J8XZDzGKOA","content":"9poJLapFLVoW0qP5","type":"wlQr8FC38OCuVGlO","author_id":19,"thumbnail":"jNPKpAN8jlXWWxLf"}'
-=======
-    -d '{"ID":"VqQTEJaqfKlDuqjQ","token":"sXmOYA1KJVrNjH5J"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/comment");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "fullname": "5tCtA6J8XZDzGKOA",
-    "content": "9poJLapFLVoW0qP5",
-    "type": "wlQr8FC38OCuVGlO",
-    "author_id": 19,
-    "thumbnail": "jNPKpAN8jlXWWxLf"
-=======
-    "ID": "VqQTEJaqfKlDuqjQ",
-    "token": "sXmOYA1KJVrNjH5J"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST comment</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<<<<<<< HEAD
-<td>fullname</td>
-<td>string</td>
-<td>required</td>
-<td>The type of the comment ( comment, reply , message).</td>
-</tr>
-<tr>
-<td>content</td>
-<td>string</td>
-<td>required</td>
-<td>The body of the request.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_4479052af7e53f808c3e66f3a63e68f3 -->
-<!-- START_80708de049dc3d985cb6e8aeae33393b -->
-<h2>DelComment</h2>
-=======
-<td>ID</td>
-<td>string</td>
-<td>required</td>
-<td>The ID of the comment or link.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_3a7b8eca0c87791144dc77858615f215 -->
-<!-- START_c73ea2693dc9203931a2533cdef33d33 -->
-<h2>Unsave</h2>
-<p>Unsaving a link or a comment</p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/DelComment" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"wYRz2Kuu2V9Qzq83","body":"UIgCbNf82oHye6r1","type":"VwBqSPPA5jmCnX5e","author_id":1,"thumbnail":"oGWJxiOLWAnaPAi4"}'
-=======
-    -d '{"ID":"m2y0Vfsop0xXPpJj","token":"tTNnCkvFvYLT5FC8"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/DelComment");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "wYRz2Kuu2V9Qzq83",
-    "body": "UIgCbNf82oHye6r1",
-    "type": "VwBqSPPA5jmCnX5e",
-    "author_id": 1,
-    "thumbnail": "oGWJxiOLWAnaPAi4"
-=======
-    "ID": "m2y0Vfsop0xXPpJj",
-    "token": "tTNnCkvFvYLT5FC8"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST DelComment</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ID</td>
-<td>string</td>
-<td>required</td>
-<td>The ID of the comment or link.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_80708de049dc3d985cb6e8aeae33393b -->
-<!-- START_2daae1bc9e1e0639e200fec2f7f6bb1b -->
-<h2>Edit</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Edit" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"5jvmPCbEiNv2XSnk","body":"5cbrIMUfKyXpZjaN","type":"f7KG31IFYqnvLLGK","author_id":9,"thumbnail":"4kLtfNZTmaRw9g96"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Edit");
-=======
-<!-- END_c73ea2693dc9203931a2533cdef33d33 -->
-<h1>Adminstration</h1>
-<p>APIs for managing the controls of admins and moderators</p>
-<!-- START_518c2787d7457d13136ce9ab90c7822b -->
-<h2>DeleteApexCom</h2>
-<p>Deleting the subreddit by the admin</p>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_ac" \
-    -H "Content-Type: application/json" \
-    -d '{"SubredditID":"KKRPGJ6TxrFLHlQx","token":"3OMKXC79PnDvQ359"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_ac");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "5jvmPCbEiNv2XSnk",
-    "body": "5cbrIMUfKyXpZjaN",
-    "type": "f7KG31IFYqnvLLGK",
-    "author_id": 9,
-    "thumbnail": "4kLtfNZTmaRw9g96"
-=======
-    "SubredditID": "KKRPGJ6TxrFLHlQx",
-    "token": "3OMKXC79PnDvQ359"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST Edit</code></p>
-=======
-<p><code>POST del_ac</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SubredditID</td>
-<td>string</td>
-<td>required</td>
-<td>The ID of the subreddit to be deleted.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the admin.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_2daae1bc9e1e0639e200fec2f7f6bb1b -->
-<!-- START_e1f157eae6e3907a8770cb8504ae73cb -->
-<h2>Hide</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Hide" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"BpTqbyAqWatfkrS7","body":"oY8rrxWVQBRs8Hrp","type":"qFOHu8zsfVurfD11","author_id":18,"thumbnail":"3FGoCM1QWQhhlj3U"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Hide");
-=======
-<!-- END_518c2787d7457d13136ce9ab90c7822b -->
-<!-- START_ef7b81f691245619539d9452a88ace88 -->
-<h2>DeleteUser</h2>
-<p>Deleting a user by the admin</p>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_user" \
-    -H "Content-Type: application/json" \
-    -d '{"UserID":"AWMXb8u0MfApTbjE","Reason":"LFIfZ11KK7BK8oL2","token":"exn1DYn3RHPczwcW"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_user");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "BpTqbyAqWatfkrS7",
-    "body": "oY8rrxWVQBRs8Hrp",
-    "type": "qFOHu8zsfVurfD11",
-    "author_id": 18,
-    "thumbnail": "3FGoCM1QWQhhlj3U"
-=======
-    "UserID": "AWMXb8u0MfApTbjE",
-    "Reason": "LFIfZ11KK7BK8oL2",
-    "token": "exn1DYn3RHPczwcW"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST Hide</code></p>
-=======
-<p><code>POST del_user</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UserID</td>
-<td>string</td>
-<td>required</td>
-<td>The ID of the user to be deleted.</td>
-</tr>
-<tr>
-<td>Reason</td>
-<td>string</td>
-<td>optional</td>
-<td>The reason for deleting the user.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the admin.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_e1f157eae6e3907a8770cb8504ae73cb -->
-<!-- START_9019195c37b05d719ab1635b6943d714 -->
-<h2>unhide</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/unhide" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"1pkm5f8okha95wZo","body":"Su1VYZ2ZpTdyrNu3","type":"20IeQGA0pHWjmG8P","author_id":2,"thumbnail":"6LKn0pzcOmY0kgI7"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/unhide");
-=======
-<!-- END_ef7b81f691245619539d9452a88ace88 -->
-<!-- START_0277897590e5bd3534956fc7b78f21cd -->
-<h2>AddModerator</h2>
-<p>Adding a moderator for a subreddit</p>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/add_mod" \
-    -H "Content-Type: application/json" \
-    -d '{"SubredditID":"kXs7VXbiKziPiBQY","token":"qtpGUno1UcA5ild1"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/add_mod");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "1pkm5f8okha95wZo",
-    "body": "Su1VYZ2ZpTdyrNu3",
-    "type": "20IeQGA0pHWjmG8P",
-    "author_id": 2,
-    "thumbnail": "6LKn0pzcOmY0kgI7"
-=======
-    "SubredditID": "kXs7VXbiKziPiBQY",
-    "token": "qtpGUno1UcA5ild1"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST unhide</code></p>
-=======
-<p><code>POST add_mod</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SubredditID</td>
-<td>string</td>
-<td>required</td>
-<td>The ID of the subreddit.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the moderator.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_9019195c37b05d719ab1635b6943d714 -->
-<!-- START_58c5fce5cfff0b2cfa4144dc5f083c44 -->
-<h2>moreComm</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/moreComm" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"NihugjTNpTCOzQP2","body":"JUOxo174BTo3ji87","type":"uGuJrOJ3fPv74mSd","author_id":14,"thumbnail":"I6HFIN1sUXRFCugE"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/moreComm");
-=======
-<!-- END_0277897590e5bd3534956fc7b78f21cd -->
-<h1>User</h1>
-<p>Controls the user interaction with other users</p>
-<!-- START_1a7af546cd175bbafae3c156085b8064 -->
-<h2>Block a user, so he can&#039;t send private messages to the current user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
-    -H "Content-Type: application/json" \
-    -d '{"id":"zz2PsNnK4cAZQMpQ","token":"0YfWtFg2JdWdR2Ae"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "NihugjTNpTCOzQP2",
-    "body": "JUOxo174BTo3ji87",
-    "type": "uGuJrOJ3fPv74mSd",
-    "author_id": 14,
-    "thumbnail": "I6HFIN1sUXRFCugE"
-=======
-    "id": "zz2PsNnK4cAZQMpQ",
-    "token": "0YfWtFg2JdWdR2Ae"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST moreComm</code></p>
-=======
-<p><code>POST block_user</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>string</td>
-<td>required</td>
-<td>the id of the user to be blocked.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_58c5fce5cfff0b2cfa4144dc5f083c44 -->
-<!-- START_e6e6c1d8554f35a2b7ff48374ad1e77b -->
-<h2>report</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/report" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"AFeDmyhMupYASWpy","body":"kWoFvgQpCUEZK6Gq","type":"3g3Jq3mfWjGGx3XT","author_id":18,"thumbnail":"vL2AwV71KKh8vOIk"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/report");
-=======
-<!-- END_1a7af546cd175bbafae3c156085b8064 -->
-<!-- START_9a86fc0b67608be77b22a771d49949db -->
-<h2>Send a private message to another user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
-    -H "Content-Type: application/json" \
-    -d '{"to":"8r1fFlkLVTrBMa11","subject":"LfhBaYZqdTAFKkz7","mes":"WtK0PtflGDM6w5ev","token":"s2xdOuQYI70X3fcK"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "AFeDmyhMupYASWpy",
-    "body": "kWoFvgQpCUEZK6Gq",
-    "type": "3g3Jq3mfWjGGx3XT",
-    "author_id": 18,
-    "thumbnail": "vL2AwV71KKh8vOIk"
-=======
-    "to": "8r1fFlkLVTrBMa11",
-    "subject": "LfhBaYZqdTAFKkz7",
-    "mes": "WtK0PtflGDM6w5ev",
-    "token": "s2xdOuQYI70X3fcK"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST report</code></p>
-=======
-<p><code>POST compose</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>to</td>
-<td>string</td>
-<td>required</td>
-<td>The id of the user to be messaged.</td>
-</tr>
-<tr>
-<td>subject</td>
-<td>string</td>
-<td>required</td>
-<td>The subject of the message.</td>
-</tr>
-<tr>
-<td>mes</td>
-<td>text</td>
-<td>optional</td>
-<td>the body of the message.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_e6e6c1d8554f35a2b7ff48374ad1e77b -->
-<!-- START_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
-<h2>vote</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/vote" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"1cldLpwDKwB1OzDa","body":"pAwNg4Ddbggakmwd","type":"2QuPnV2wdW0QiLZP","author_id":7,"thumbnail":"cmBw1Roqf1bnfG1m"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/vote");
-=======
-<!-- END_9a86fc0b67608be77b22a771d49949db -->
-<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
-<h2>Return user public data to be seen by another user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/user_data" \
-    -H "Content-Type: application/json" \
-    -d '{"id":"jrk8zMUB8q9yF3Nh","token":"j7m5vMSX7gcTmFl0"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/user_data");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "1cldLpwDKwB1OzDa",
-    "body": "pAwNg4Ddbggakmwd",
-    "type": "2QuPnV2wdW0QiLZP",
-    "author_id": 7,
-    "thumbnail": "cmBw1Roqf1bnfG1m"
-}
-
-fetch(url, {
-    method: "POST",
-=======
-    "id": "jrk8zMUB8q9yF3Nh",
-    "token": "j7m5vMSX7gcTmFl0"
-}
-
-fetch(url, {
-    method: "GET",
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST vote</code></p>
-=======
-<p><code>GET user_data</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>string</td>
-<td>required</td>
-<td>The id of an existing user.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
-<!-- START_3a7b8eca0c87791144dc77858615f215 -->
-<h2>save</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/save" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"VpXPQH5UhLW3KBeP","body":"XprZDuYzHn6eQc6M","type":"2L5Cm9yVvEaJJNDr","author_id":9,"thumbnail":"Qp7LZHj4fk9Daqm3"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/save");
-=======
-<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
-<h1>general</h1>
-<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
-<h2>sign_up</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/sign_up" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"nN83YBml97h6526k","body":"wPuvvA9Ywaf6CmoH","type":"kHUtH1AwEwIAyoLx","author_id":1,"thumbnail":"Ve7M6wcrBjPcMYKg"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sign_up");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "VpXPQH5UhLW3KBeP",
-    "body": "XprZDuYzHn6eQc6M",
-    "type": "2L5Cm9yVvEaJJNDr",
-    "author_id": 9,
-    "thumbnail": "Qp7LZHj4fk9Daqm3"
-=======
-    "title": "nN83YBml97h6526k",
-    "body": "wPuvvA9Ywaf6CmoH",
-    "type": "kHUtH1AwEwIAyoLx",
-    "author_id": 1,
-    "thumbnail": "Ve7M6wcrBjPcMYKg"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST save</code></p>
-=======
-<p><code>POST sign_up</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_3a7b8eca0c87791144dc77858615f215 -->
-<!-- START_c73ea2693dc9203931a2533cdef33d33 -->
-<h2>unsave</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/unsave" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"7bhWT8SVzTiICC6g","body":"RwuzGnqR56k2WJl5","type":"StKffWZhMZOtSCYz","author_id":17,"thumbnail":"dDuJigB6OXXG4QWt"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/unsave");
-=======
-<!-- END_3a06114e88089d07a3c29bdb6f844602 -->
-<!-- START_f2f2bd15a0a3125617af6284631682f0 -->
-<h2>Sign_in</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Sign_in" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"VAOS83cWRfUnT35N","body":"dQt0XbgvYghWKfGa","type":"GCoOe8Kw8wDDWpCd","author_id":8,"thumbnail":"HqknQKDmB1iluC0s"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Sign_in");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "7bhWT8SVzTiICC6g",
-    "body": "RwuzGnqR56k2WJl5",
-    "type": "StKffWZhMZOtSCYz",
-    "author_id": 17,
-    "thumbnail": "dDuJigB6OXXG4QWt"
-=======
-    "title": "VAOS83cWRfUnT35N",
-    "body": "dQt0XbgvYghWKfGa",
-    "type": "GCoOe8Kw8wDDWpCd",
-    "author_id": 8,
-    "thumbnail": "HqknQKDmB1iluC0s"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST unsave</code></p>
-=======
-<p><code>POST Sign_in</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_c73ea2693dc9203931a2533cdef33d33 -->
-<h1>User</h1>
-<p>Controls the user interaction with other users</p>
-<!-- START_1a7af546cd175bbafae3c156085b8064 -->
-<h2>Block a user, so he can&#039;t send private messages to the current user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
-    -H "Content-Type: application/json" \
-    -d '{"id":"sxezgVMRshURqg8a","token":"mKPlX8ohbk0qFGZR"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
-=======
-<!-- END_f2f2bd15a0a3125617af6284631682f0 -->
-<!-- START_99ada3ad1c00101e557456766317db7b -->
-<h2>sign_out</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/sign_out" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"MRnXtJITf5buubEE","body":"GIYkAhzmVJA3MoMP","type":"5v0VDosqAzNZgc0v","author_id":19,"thumbnail":"1emxSEi9WRFWQPf7"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sign_out");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "id": "sxezgVMRshURqg8a",
-    "token": "mKPlX8ohbk0qFGZR"
-=======
-    "title": "MRnXtJITf5buubEE",
-    "body": "GIYkAhzmVJA3MoMP",
-    "type": "5v0VDosqAzNZgc0v",
-    "author_id": 19,
-    "thumbnail": "1emxSEi9WRFWQPf7"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST block_user</code></p>
-=======
-<p><code>POST sign_out</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>string</td>
-<td>required</td>
-<td>the id of the user to be blocked.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_1a7af546cd175bbafae3c156085b8064 -->
-<!-- START_9a86fc0b67608be77b22a771d49949db -->
-<h2>Send a private message to another user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
-    -H "Content-Type: application/json" \
-    -d '{"to":"4iKgqzeYFeVcaRzI","subject":"Y9SpUq9dC14XUAdn","mes":"WTgdKAe23PLygbMn","token":"ZvK7KJn3TzQlbDgB"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
-=======
-<!-- END_99ada3ad1c00101e557456766317db7b -->
-<!-- START_cb128bb391940d8304e5ebb273373143 -->
-<h2>Delete private messages from the recipient&#039;s view of their inbox</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_msg" \
-    -H "Content-Type: application/json" \
-    -d '{"id":"be93TCW71WO6v5JD","token":"KBGiAgpeDwpnulqx"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_msg");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "to": "4iKgqzeYFeVcaRzI",
-    "subject": "Y9SpUq9dC14XUAdn",
-    "mes": "WTgdKAe23PLygbMn",
-    "token": "ZvK7KJn3TzQlbDgB"
-=======
-    "id": "be93TCW71WO6v5JD",
-    "token": "KBGiAgpeDwpnulqx"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>POST compose</code></p>
-=======
-<p><code>POST del_msg</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<<<<<<< HEAD
-<td>to</td>
-<td>string</td>
-<td>required</td>
-<td>The id of the user to be messaged.</td>
-</tr>
-<tr>
-<td>subject</td>
-<td>string</td>
-<td>required</td>
-<td>The subject of the message.</td>
-</tr>
-<tr>
-<td>mes</td>
-<td>text</td>
-<td>optional</td>
-<td>the body of the message.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-=======
-<td>id</td>
-<td>string</td>
-<td>required</td>
-<td>The fullname of the message to be deleted.</td>
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<<<<<<< HEAD
-<!-- END_9a86fc0b67608be77b22a771d49949db -->
-<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
-<h2>Return user public data to be seen by another user</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/user_data" \
-    -H "Content-Type: application/json" \
-    -d '{"id":"d5Uk86lZdgnL4x1F","token":"ikgzEDBFN6JcNyZj"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/user_data");
-=======
-<!-- END_cb128bb391940d8304e5ebb273373143 -->
-<!-- START_869a605c7c3ad87a651842dddd0f4492 -->
-<h2>ReadMsg</h2>
-<p>Read a sent message</p>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/read_msg" \
-    -H "Content-Type: application/json" \
-    -d '{"ID":"7busofMdC4Obkp9T","body":"M1hjls9DPWBONyU9","read":true,"token":"uYMJbyffpu8KhjyL"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/read_msg");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "id": "d5Uk86lZdgnL4x1F",
-    "token": "ikgzEDBFN6JcNyZj"
-=======
-    "ID": "7busofMdC4Obkp9T",
-    "body": "M1hjls9DPWBONyU9",
-    "read": true,
-    "token": "uYMJbyffpu8KhjyL"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>GET user_data</code></p>
-=======
-<p><code>POST read_msg</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<<<<<<< HEAD
-=======
-<tr>
-<td>ID</td>
-<td>string</td>
-<td>required</td>
-<td>The id of the user who sent the message.</td>
-</tr>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<tr>
-<td>id</td>
-<td>string</td>
-<td>required</td>
-<<<<<<< HEAD
-<td>The id of an existing user.</td>
-=======
-<td>The body of the message.</td>
-</tr>
-<tr>
-<td>read</td>
-<td>boolean</td>
-<td>optional</td>
-<td>optional  mark the message as read by setting it true.</td>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</tr>
-<tr>
-<td>token</td>
-<td>JWT</td>
-<td>required</td>
-<<<<<<< HEAD
-<td>Used to verify the user.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
-<h1>general</h1>
-<!-- START_518c2787d7457d13136ce9ab90c7822b -->
-<h2>del_ac</h2>
-=======
-<td>Used to verify the user recieving the message.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_869a605c7c3ad87a651842dddd0f4492 -->
-<!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
-<h2>updateprefs</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X PATCH "http://localhost/updateprefs" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"bK3m9PaT7jeGGlF5","body":"DMpSSznIH0imxgLX","type":"92sJ2nRrRu9IPlJK","author_id":13,"thumbnail":"syzP89nctNBx08pV"}'
-=======
-    -d '{"title":"NBdOYd5GprOksNcR","body":"Bh7qiB0ypjYjtPX7","type":"l0p1KnZsmb9hFfFR","author_id":15,"thumbnail":"lV18cyRbJoC4YWrV"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/updateprefs");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "bK3m9PaT7jeGGlF5",
-    "body": "DMpSSznIH0imxgLX",
-    "type": "92sJ2nRrRu9IPlJK",
-    "author_id": 13,
-    "thumbnail": "syzP89nctNBx08pV"
-=======
-    "title": "NBdOYd5GprOksNcR",
-    "body": "Bh7qiB0ypjYjtPX7",
-    "type": "l0p1KnZsmb9hFfFR",
-    "author_id": 15,
-    "thumbnail": "lV18cyRbJoC4YWrV"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "PATCH",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<h3>HTTP Request</h3>
-<p><code>PATCH updateprefs</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_e43f1f7cccba02a3ecbce11183ad7aeb -->
-<!-- START_ef6e49b2e94875eba15ce9b052785989 -->
-<h2>prefs</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/prefs" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"03xGSn3TBDz3wP4i","body":"YEiDF1ZB3RHhkeBX","type":"UMo4O5Ospv74LeYv","author_id":4,"thumbnail":"Oj1OkBFY9qUyOvnq"}'
-=======
-    -d '{"title":"2nIDmfQDJfgcdTAP","body":"dA5CR819N8DmVVSh","type":"G3fyv1Q2sbVqfThg","author_id":12,"thumbnail":"9q4ymaEj3pm3PUSt"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/prefs");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "03xGSn3TBDz3wP4i",
-    "body": "YEiDF1ZB3RHhkeBX",
-    "type": "UMo4O5Ospv74LeYv",
-    "author_id": 4,
-    "thumbnail": "Oj1OkBFY9qUyOvnq"
-=======
-    "title": "2nIDmfQDJfgcdTAP",
-    "body": "dA5CR819N8DmVVSh",
-    "type": "G3fyv1Q2sbVqfThg",
-    "author_id": 12,
-    "thumbnail": "9q4ymaEj3pm3PUSt"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET prefs</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_ef6e49b2e94875eba15ce9b052785989 -->
-<!-- START_8534272b69ec50dc79d73c26608ba48c -->
-<h2>me</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/me" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"qDhEuewLKa3gAi0V","body":"DpekK8uscHq5nAB6","type":"7a6QUSHrTVle1eIM","author_id":12,"thumbnail":"Hd1XuKO0K0O0f4pd"}'
-=======
-    -d '{"title":"yAZiu1h1Z1Wmp9My","body":"h8bL0iEcfAbsb9Ri","type":"Fu3Y6YYCqoy0iQj0","author_id":1,"thumbnail":"8XQvUqWpdhbOxIhZ"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/me");
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "qDhEuewLKa3gAi0V",
-    "body": "DpekK8uscHq5nAB6",
-    "type": "7a6QUSHrTVle1eIM",
-    "author_id": 12,
-    "thumbnail": "Hd1XuKO0K0O0f4pd"
-=======
-    "title": "yAZiu1h1Z1Wmp9My",
-    "body": "h8bL0iEcfAbsb9Ri",
-    "type": "Fu3Y6YYCqoy0iQj0",
-    "author_id": 1,
-    "thumbnail": "8XQvUqWpdhbOxIhZ"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">null</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET me</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
 </tr>
 </tbody>
 </table>
@@ -2592,11 +1274,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/info" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"3sxbu5ERLnGbZUK3","body":"o8jutMlzplJuvpPR","type":"KocF84lkCq2qFdM3","author_id":18,"thumbnail":"kD7oT6Y07hZoxoFg"}'
-=======
-    -d '{"ID":"XFBAnpZK6yZoRJzv","token":"xP3yxuhRh3ONRtL6"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"ID":"b27GzfoFqeKkyYOd","token":"BERyXeoSpRoUG4kH"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/info");
 
@@ -2606,16 +1284,8 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "3sxbu5ERLnGbZUK3",
-    "body": "o8jutMlzplJuvpPR",
-    "type": "KocF84lkCq2qFdM3",
-    "author_id": 18,
-    "thumbnail": "kD7oT6Y07hZoxoFg"
-=======
-    "ID": "XFBAnpZK6yZoRJzv",
-    "token": "xP3yxuhRh3ONRtL6"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "ID": "b27GzfoFqeKkyYOd",
+    "token": "BERyXeoSpRoUG4kH"
 }
 
 fetch(url, {
@@ -2658,110 +1328,50 @@ fetch(url, {
 </table>
 <!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
 <!-- START_4849ce4d441fd19425e151ff49985f46 -->
-<h2>karma</h2>
+<h2>Returns the karma of the user</h2>
+<ul>
+<li>@bodyParam token JWT required Used to verify the user.</li>
+</ul>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" \
-    -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"nPTJXUtKc6ISXZrL","body":"leVzHWwmnDnfQduS","type":"pPR4p7ZAVMaoFL7b","author_id":14,"thumbnail":"7CNnRYSATKVRuYTR"}'
-=======
-    -d '{"title":"g4j7ff8xTEOMirv6","body":"ar2t3SIGzn9Drmaa","type":"KezdVYxmDBR1s2gy","author_id":6,"thumbnail":"6TkW6w7pMpzUWzRT"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
-</code></pre>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/karma");
 
 let headers = {
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-<<<<<<< HEAD
-    "title": "nPTJXUtKc6ISXZrL",
-    "body": "leVzHWwmnDnfQduS",
-    "type": "pPR4p7ZAVMaoFL7b",
-    "author_id": 14,
-    "thumbnail": "7CNnRYSATKVRuYTR"
-=======
-    "title": "g4j7ff8xTEOMirv6",
-    "body": "ar2t3SIGzn9Drmaa",
-    "type": "KezdVYxmDBR1s2gy",
-    "author_id": 6,
-    "thumbnail": "6TkW6w7pMpzUWzRT"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "GET",
     headers: headers,
-    body: body
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "karma": 4
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Cannot authorize the user"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET karma</code></p>
-<h4>Body Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
-</tr>
-</tbody>
-</table>
 <!-- END_4849ce4d441fd19425e151ff49985f46 -->
 <!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
-<h2>messages</h2>
+<h2>Returns a listing of the messages of the user</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/messages" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"5wiJyObBEL2qz66w","body":"grbmLpWMC7k5wEr6","type":"Xx7NViWhp3ZYZGQI","author_id":6,"thumbnail":"OK1WGHMxZ5x6KUwN"}'
-=======
-    -d '{"title":"eEkQiqRLPWzWS6IP","body":"6TEH15ygwlrqkv8z","type":"ww2nzgP54NxBu4Ep","author_id":20,"thumbnail":"dksdUXHNbSMBRjjW"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"max":4,"token":"0szdpEpAEonKSHEj"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/messages");
 
@@ -2771,19 +1381,8 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "5wiJyObBEL2qz66w",
-    "body": "grbmLpWMC7k5wEr6",
-    "type": "Xx7NViWhp3ZYZGQI",
-    "author_id": 6,
-    "thumbnail": "OK1WGHMxZ5x6KUwN"
-=======
-    "title": "eEkQiqRLPWzWS6IP",
-    "body": "6TEH15ygwlrqkv8z",
-    "type": "ww2nzgP54NxBu4Ep",
-    "author_id": 20,
-    "thumbnail": "dksdUXHNbSMBRjjW"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "max": 4,
+    "token": "0szdpEpAEonKSHEj"
 }
 
 fetch(url, {
@@ -2796,7 +1395,16 @@ fetch(url, {
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "after": "msg_110",
+    "limit": 14
+}</code></pre>
+<blockquote>
+<p>Example response (403):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Cannot authorize the user"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET messages</code></p>
 <h4>Body Parameters</h4>
@@ -2811,38 +1419,389 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>body</td>
-<td>string</td>
-<td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
+<td>max</td>
 <td>integer</td>
 <td>optional</td>
-<td>the ID of the author</td>
+<td>the maximum number of messages to be returned</td>
 </tr>
 <tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
 </tr>
 </tbody>
 </table>
 <!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
+<h1>Adminstration</h1>
+<p>APIs for managing the controls of admins and moderators</p>
+<!-- START_518c2787d7457d13136ce9ab90c7822b -->
+<h2>DeleteApexCom</h2>
+<p>Deleting the subreddit by the admin</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/del_ac" \
+    -H "Content-Type: application/json" \
+    -d '{"SubredditID":"aRjeJoliegwKmeeT","token":"0czVGpo6kTR4Vo7X"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/del_ac");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "SubredditID": "aRjeJoliegwKmeeT",
+    "token": "0czVGpo6kTR4Vo7X"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST del_ac</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SubredditID</td>
+<td>string</td>
+<td>required</td>
+<td>The ID of the subreddit to be deleted.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the admin.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_518c2787d7457d13136ce9ab90c7822b -->
+<!-- START_ef7b81f691245619539d9452a88ace88 -->
+<h2>DeleteUser</h2>
+<p>Deleting a user by the admin</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/del_user" \
+    -H "Content-Type: application/json" \
+    -d '{"UserID":"jWFA4CR1sCsIXaQJ","Reason":"KsfIKBu2F9EwkJCH","token":"fAS0qXRGWxmMiHNZ"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/del_user");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "UserID": "jWFA4CR1sCsIXaQJ",
+    "Reason": "KsfIKBu2F9EwkJCH",
+    "token": "fAS0qXRGWxmMiHNZ"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST del_user</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UserID</td>
+<td>string</td>
+<td>required</td>
+<td>The ID of the user to be deleted.</td>
+</tr>
+<tr>
+<td>Reason</td>
+<td>string</td>
+<td>optional</td>
+<td>The reason for deleting the user.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the admin.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_ef7b81f691245619539d9452a88ace88 -->
+<!-- START_0277897590e5bd3534956fc7b78f21cd -->
+<h2>AddModerator</h2>
+<p>Adding a moderator for a subreddit</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/add_mod" \
+    -H "Content-Type: application/json" \
+    -d '{"SubredditID":"RQRUwai3XeVZwFJx","token":"j3KV8r0AgXagMNUd"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/add_mod");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "SubredditID": "RQRUwai3XeVZwFJx",
+    "token": "j3KV8r0AgXagMNUd"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST add_mod</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SubredditID</td>
+<td>string</td>
+<td>required</td>
+<td>The ID of the subreddit.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the moderator.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_0277897590e5bd3534956fc7b78f21cd -->
+<h1>User</h1>
+<p>Controls the user interaction with other users</p>
+<!-- START_1a7af546cd175bbafae3c156085b8064 -->
+<h2>Block a user, so he can&#039;t send private messages to the current user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"onAZyPVl3E6xV7Eb","token":"f0Lxa2nsXoW8CqdL"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "onAZyPVl3E6xV7Eb",
+    "token": "f0Lxa2nsXoW8CqdL"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST block_user</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>required</td>
+<td>the id of the user to be blocked.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_1a7af546cd175bbafae3c156085b8064 -->
+<!-- START_9a86fc0b67608be77b22a771d49949db -->
+<h2>Send a private message to another user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
+    -H "Content-Type: application/json" \
+    -d '{"to":"lxGDB9OMZkilwzfT","subject":"RG3Bb2mg8hwoyqf4","mes":"mnOjRolWhhNLle4A","token":"8ippn2pzEncI6jXg"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "to": "lxGDB9OMZkilwzfT",
+    "subject": "RG3Bb2mg8hwoyqf4",
+    "mes": "mnOjRolWhhNLle4A",
+    "token": "8ippn2pzEncI6jXg"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST compose</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>to</td>
+<td>string</td>
+<td>required</td>
+<td>The id of the user to be messaged.</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>string</td>
+<td>required</td>
+<td>The subject of the message.</td>
+</tr>
+<tr>
+<td>mes</td>
+<td>text</td>
+<td>optional</td>
+<td>the body of the message.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_9a86fc0b67608be77b22a771d49949db -->
+<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
+<h2>Return user public data to be seen by another user</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/user_data" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"maJi0TyrqWb1Ydi9","token":"eQeELEZiCrtehL6s"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/user_data");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "maJi0TyrqWb1Ydi9",
+    "token": "eQeELEZiCrtehL6s"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET user_data</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>required</td>
+<td>The id of an existing user.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>JWT</td>
+<td>required</td>
+<td>Used to verify the user.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
+<h1>general</h1>
 <!-- START_f453d442cbe270ed50c2def3a3416115 -->
 <h2>about</h2>
 <blockquote>
@@ -2850,11 +1809,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/about" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"Z0JfN40wTATe8TKN","body":"4HrvR8s9hlJBCdt0","type":"D5oD3U2eGuSmpTjB","author_id":17,"thumbnail":"4UYrz89PnrCgLvY6"}'
-=======
-    -d '{"title":"qwMRnhkWEyieQ5TU","body":"X8o639wcEqJlzyl1","type":"toLy67mkmTP97H6t","author_id":15,"thumbnail":"qD65MqzJZ19GPKqI"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"ApexCom_id":"ahOif8EoGOO4JS7e","_token":"JNU17i6ZDUz6JRxq"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/about");
 
@@ -2864,19 +1819,8 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "Z0JfN40wTATe8TKN",
-    "body": "4HrvR8s9hlJBCdt0",
-    "type": "D5oD3U2eGuSmpTjB",
-    "author_id": 17,
-    "thumbnail": "4UYrz89PnrCgLvY6"
-=======
-    "title": "qwMRnhkWEyieQ5TU",
-    "body": "X8o639wcEqJlzyl1",
-    "type": "toLy67mkmTP97H6t",
-    "author_id": 15,
-    "thumbnail": "qD65MqzJZ19GPKqI"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "ApexCom_id": "ahOif8EoGOO4JS7e",
+    "_token": "JNU17i6ZDUz6JRxq"
 }
 
 fetch(url, {
@@ -2904,34 +1848,16 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the community.</td>
 </tr>
 <tr>
-<td>body</td>
+<td>_token</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
@@ -2943,11 +1869,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/posts" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"H7BWs2EbHrUeRYPS","body":"51pwE3FEuNdCbqfH","type":"ZN1MLeRu3jbU8HD4","author_id":14,"thumbnail":"TpLCXY7986zp3MRn"}'
-=======
-    -d '{"title":"Fv7fojxDuDI1Gfcj","body":"LGC4xRYH9BcfZwnb","type":"TMYGISnTVSEvDNxz","author_id":5,"thumbnail":"mz4A5C0fILnyN94K"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"ApexCom_id":"V4mrilBQeBbCnRQ0","body":"OhGGLnkFc5S3cOOy","image_file":"HqHDMNXlzryD8CZ1","image_type":"dMJ7OMrOHUi2VaBI","video_url":"K4aGDdcFRWiBPs9E","link":"NLrhpyHiEVm00vRH","_token":"fhFsbuudvrJqOMI0"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/posts");
 
@@ -2957,19 +1879,13 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "H7BWs2EbHrUeRYPS",
-    "body": "51pwE3FEuNdCbqfH",
-    "type": "ZN1MLeRu3jbU8HD4",
-    "author_id": 14,
-    "thumbnail": "TpLCXY7986zp3MRn"
-=======
-    "title": "Fv7fojxDuDI1Gfcj",
-    "body": "LGC4xRYH9BcfZwnb",
-    "type": "TMYGISnTVSEvDNxz",
-    "author_id": 5,
-    "thumbnail": "mz4A5C0fILnyN94K"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "ApexCom_id": "V4mrilBQeBbCnRQ0",
+    "body": "OhGGLnkFc5S3cOOy",
+    "image_file": "HqHDMNXlzryD8CZ1",
+    "image_type": "dMJ7OMrOHUi2VaBI",
+    "video_url": "K4aGDdcFRWiBPs9E",
+    "link": "NLrhpyHiEVm00vRH",
+    "_token": "fhFsbuudvrJqOMI0"
 }
 
 fetch(url, {
@@ -2993,50 +1909,49 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the community where the post is posted.</td>
 </tr>
 <tr>
 <td>body</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The text body of the post.</td>
 </tr>
 <tr>
-<td>type</td>
+<td>image_file</td>
+<td>file</td>
+<td>optional</td>
+<td>The attached image to the post.</td>
+</tr>
+<tr>
+<td>image_type</td>
 <td>string</td>
 <td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
+<td>The type of the attached image to the post(png is default, jpg).</td>
 </tr>
 <tr>
-<td>author_id</td>
-<td>integer</td>
+<td>video_url</td>
+<td>string</td>
 <td>optional</td>
-<td>the ID of the author</td>
+<td>The url to attached video to the post.</td>
 </tr>
 <tr>
-<td>thumbnail</td>
-<td>image</td>
+<td>link</td>
+<td>string</td>
 <td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>The link attached to the post.</td>
+</tr>
+<tr>
+<td>_token</td>
+<td>string</td>
+<td>required</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
-<!-- END_c0f505b72e10817948e65eb5eb744708 -->
-<!-- START_05b3f813d60fda460fbe53c065926a61 -->
-<h2>sort_posts</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/sort_posts" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"ldeKGmzLlbYMJazM","body":"JEt8JHS01xXQXMje","type":"p7gzPNZg2b2mC77L","author_id":10,"thumbnail":"szpCi5KMXwUvgRgV"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sort_posts");
-=======
 <!-- END_7a7f674c347aaf46c9a4d9ea95713236 -->
 <!-- START_7cd1c92845723362129d03191c93e958 -->
 <h2>subscribe</h2>
@@ -3045,10 +1960,9 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/subscribe" \
     -H "Content-Type: application/json" \
-    -d '{"title":"aJn6lD7YdA5eZaSw","body":"OslsWEjsYcjZs3eZ","type":"zybLE5CUCcooYb16","author_id":14,"thumbnail":"nEo9vm7h4xpNB8bk"}'
+    -d '{"ApexCom_id":"CbWMbWxAx8coKbUO","_token":"6F041Kke7vSRa1yf"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/subscribe");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 
 let headers = {
     "Content-Type": "application/json",
@@ -3056,19 +1970,8 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "ldeKGmzLlbYMJazM",
-    "body": "JEt8JHS01xXQXMje",
-    "type": "p7gzPNZg2b2mC77L",
-    "author_id": 10,
-    "thumbnail": "szpCi5KMXwUvgRgV"
-=======
-    "title": "aJn6lD7YdA5eZaSw",
-    "body": "OslsWEjsYcjZs3eZ",
-    "type": "zybLE5CUCcooYb16",
-    "author_id": 14,
-    "thumbnail": "nEo9vm7h4xpNB8bk"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "ApexCom_id": "CbWMbWxAx8coKbUO",
+    "_token": "6F041Kke7vSRa1yf"
 }
 
 fetch(url, {
@@ -3079,11 +1982,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>GET sort_posts</code></p>
-=======
 <p><code>POST subscribe</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -3096,50 +1995,19 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the community required to be subscribed.</td>
 </tr>
 <tr>
-<td>body</td>
+<td>_token</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
-<!-- END_05b3f813d60fda460fbe53c065926a61 -->
-<!-- START_aab40918c3a3f4e3512a9b2c1177ea2b -->
-<h2>Apex_names</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/Apex_names" \
-    -H "Content-Type: application/json" \
-    -d '{"title":"qCB0Lbthue1Ivhvo","body":"78N8YuV3FKXJXlly","type":"IKcN8F1GykcOFw41","author_id":20,"thumbnail":"FW0PZuUQllDtwlBk"}'
-</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Apex_names");
-=======
 <!-- END_7cd1c92845723362129d03191c93e958 -->
 <!-- START_c3bc7678aa26afc45eeb4d785a212851 -->
 <h2>site_admin</h2>
@@ -3148,10 +2016,9 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/site_admin" \
     -H "Content-Type: application/json" \
-    -d '{"title":"cPNbjBWfPTFrhqBc","body":"Z5AdBaZrRurrdxNB","type":"iARvs6yNxZiH0z9K","author_id":1,"thumbnail":"4aFn5UZ2REEvFUdL"}'
+    -d '{"ApexCom_name":"bYKPY6uFNEKECmCh","description":"Gg2RKTD41rGnsOZI","type":"zntJl70EJYFAUAEM","header_image_file":"te0SJ8OIYodHYjeT","header_image_type":"51fycP7dAqVJNDLj","_token":"SmDGSZiFfVJwyay1"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/site_admin");
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 
 let headers = {
     "Content-Type": "application/json",
@@ -3159,19 +2026,12 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "qCB0Lbthue1Ivhvo",
-    "body": "78N8YuV3FKXJXlly",
-    "type": "IKcN8F1GykcOFw41",
-    "author_id": 20,
-    "thumbnail": "FW0PZuUQllDtwlBk"
-=======
-    "title": "cPNbjBWfPTFrhqBc",
-    "body": "Z5AdBaZrRurrdxNB",
-    "type": "iARvs6yNxZiH0z9K",
-    "author_id": 1,
-    "thumbnail": "4aFn5UZ2REEvFUdL"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "ApexCom_name": "bYKPY6uFNEKECmCh",
+    "description": "Gg2RKTD41rGnsOZI",
+    "type": "zntJl70EJYFAUAEM",
+    "header_image_file": "te0SJ8OIYodHYjeT",
+    "header_image_type": "51fycP7dAqVJNDLj",
+    "_token": "SmDGSZiFfVJwyay1"
 }
 
 fetch(url, {
@@ -3182,11 +2042,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<<<<<<< HEAD
-<p><code>GET Apex_names</code></p>
-=======
 <p><code>POST site_admin</code></p>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -3199,56 +2055,52 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_name</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The name of the community.</td>
 </tr>
 <tr>
-<td>body</td>
+<td>description</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The description of the community.</td>
 </tr>
 <tr>
 <td>type</td>
 <td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
+<td>required</td>
+<td>The type of the community(there are only three valid types public, restricted, private).</td>
 </tr>
 <tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
+<td>header_image_file</td>
+<td>file</td>
+<td>required</td>
+<td>The header image.</td>
 </tr>
 <tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>header_image_type</td>
+<td>string</td>
+<td>required</td>
+<td>The type of the header image (png is default, jpg).</td>
+</tr>
+<tr>
+<td>_token</td>
+<td>string</td>
+<td>required</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
-<!-- END_aab40918c3a3f4e3512a9b2c1177ea2b -->
-<!-- START_b885f7f4714d80477084c1fd4bf3e729 -->
-<h2>remove</h2>
-=======
 <!-- END_c3bc7678aa26afc45eeb4d785a212851 -->
 <!-- START_c0f505b72e10817948e65eb5eb744708 -->
 <h2>search</h2>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/search" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"YKsC7cT1z2llAek1","body":"oJ1lMAsgDHEMGzZ6","type":"LdD34qwMdqS3Vaox","author_id":17,"thumbnail":"V751HmpothMMre1f"}'
-=======
-    -d '{"title":"uYGtoiqwg0SDWlBl","body":"jx1z3VRUZpRNYWdJ","type":"0kBwl6y1SFmcNH6Z","author_id":2,"thumbnail":"eN3RDm99ywTd0aox"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"title":"w7UbYpkrLyb54PzH","body":"rMGTwxF8npa5I8mN","type":"NsMC61qK37Wsdlxs","author_id":12,"thumbnail":"dVm1339ilWxd66a1"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/search");
 
@@ -3258,19 +2110,11 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "YKsC7cT1z2llAek1",
-    "body": "oJ1lMAsgDHEMGzZ6",
-    "type": "LdD34qwMdqS3Vaox",
-    "author_id": 17,
-    "thumbnail": "V751HmpothMMre1f"
-=======
-    "title": "uYGtoiqwg0SDWlBl",
-    "body": "jx1z3VRUZpRNYWdJ",
-    "type": "0kBwl6y1SFmcNH6Z",
-    "author_id": 2,
-    "thumbnail": "eN3RDm99ywTd0aox"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "title": "w7UbYpkrLyb54PzH",
+    "body": "rMGTwxF8npa5I8mN",
+    "type": "NsMC61qK37Wsdlxs",
+    "author_id": 12,
+    "thumbnail": "dVm1339ilWxd66a1"
 }
 
 fetch(url, {
@@ -3337,11 +2181,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/sort_posts" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"g5CtKYugZVALOwct","body":"jtx3o1vbZcikCHYU","type":"thuC2bhDiiWpzdPJ","author_id":9,"thumbnail":"Z7Dd3sMGCPtdlUPi"}'
-=======
-    -d '{"title":"8gt4Ro05IRhEhsW7","body":"Tqr7tFfoNKiIkXmo","type":"pTqjigfX7Zwz44yh","author_id":20,"thumbnail":"VOQZYKdXnLJ53EfV"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"title":"smhkc9VZaLd3b5CI","body":"Tqt0e7EQdktltGz2","type":"zIEXyPi5Rfa3em5U","author_id":15,"thumbnail":"9vf7FaKzqmYgTV6k"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/sort_posts");
 
@@ -3351,19 +2191,11 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "g5CtKYugZVALOwct",
-    "body": "jtx3o1vbZcikCHYU",
-    "type": "thuC2bhDiiWpzdPJ",
-    "author_id": 9,
-    "thumbnail": "Z7Dd3sMGCPtdlUPi"
-=======
-    "title": "8gt4Ro05IRhEhsW7",
-    "body": "Tqr7tFfoNKiIkXmo",
-    "type": "pTqjigfX7Zwz44yh",
-    "author_id": 20,
-    "thumbnail": "VOQZYKdXnLJ53EfV"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "title": "smhkc9VZaLd3b5CI",
+    "body": "Tqt0e7EQdktltGz2",
+    "type": "zIEXyPi5Rfa3em5U",
+    "author_id": 15,
+    "thumbnail": "9vf7FaKzqmYgTV6k"
 }
 
 fetch(url, {
@@ -3430,11 +2262,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/Apex_names" \
     -H "Content-Type: application/json" \
-<<<<<<< HEAD
-    -d '{"title":"kru3czNv9kB7Jv6b","body":"oGCxWlR6hKYRvDJc","type":"y8VclQByIQExxBRH","author_id":3,"thumbnail":"HwemcZexRe0Qko2b"}'
-=======
-    -d '{"title":"Z7F685mGH9zRnEsT","body":"hXJFZFfhkoAlRyfl","type":"Bm6qZdX3q4nGbVO2","author_id":18,"thumbnail":"lRCczsVaZ20MGp8Y"}'
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    -d '{"title":"y771zy0u5kATyhfp","body":"h73UlLtbdZpEMDW0","type":"GDHqPY7Q8qnWI0re","author_id":3,"thumbnail":"gqSq1E7Fp0mIsap6"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/Apex_names");
 
@@ -3444,19 +2272,11 @@ let headers = {
 }
 
 let body = {
-<<<<<<< HEAD
-    "title": "kru3czNv9kB7Jv6b",
-    "body": "oGCxWlR6hKYRvDJc",
-    "type": "y8VclQByIQExxBRH",
+    "title": "y771zy0u5kATyhfp",
+    "body": "h73UlLtbdZpEMDW0",
+    "type": "GDHqPY7Q8qnWI0re",
     "author_id": 3,
-    "thumbnail": "HwemcZexRe0Qko2b"
-=======
-    "title": "Z7F685mGH9zRnEsT",
-    "body": "hXJFZFfhkoAlRyfl",
-    "type": "Bm6qZdX3q4nGbVO2",
-    "author_id": 18,
-    "thumbnail": "lRCczsVaZ20MGp8Y"
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
+    "thumbnail": "gqSq1E7Fp0mIsap6"
 }
 
 fetch(url, {
@@ -3515,8 +2335,6 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
-=======
 <!-- END_aab40918c3a3f4e3512a9b2c1177ea2b -->
 <!-- START_b885f7f4714d80477084c1fd4bf3e729 -->
 <h2>remove</h2>
@@ -3525,7 +2343,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/remove" \
     -H "Content-Type: application/json" \
-    -d '{"title":"3LfYi3CuyKfoQtJo","body":"U9jKpnPftHduyp3M","type":"itJsbaJnNDsgOEm7","author_id":6,"thumbnail":"Hygt1JHtQvu4qQul"}'
+    -d '{"ApexCom_id":"AJ6HUa9zDWS3lmie","id":"NCbp6BNDblIHipOh","_token":"3uZ4iLBBPfDioO8l"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/remove");
 
@@ -3535,11 +2353,9 @@ let headers = {
 }
 
 let body = {
-    "title": "3LfYi3CuyKfoQtJo",
-    "body": "U9jKpnPftHduyp3M",
-    "type": "itJsbaJnNDsgOEm7",
-    "author_id": 6,
-    "thumbnail": "Hygt1JHtQvu4qQul"
+    "ApexCom_id": "AJ6HUa9zDWS3lmie",
+    "id": "NCbp6BNDblIHipOh",
+    "_token": "3uZ4iLBBPfDioO8l"
 }
 
 fetch(url, {
@@ -3563,34 +2379,22 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the community where the comment or post is removed.</td>
 </tr>
 <tr>
-<td>body</td>
+<td>id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the comment or post to be removed.</td>
 </tr>
 <tr>
-<td>type</td>
+<td>_token</td>
 <td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>required</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
@@ -3602,7 +2406,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/approve" \
     -H "Content-Type: application/json" \
-    -d '{"title":"7ZjmsgMUQbT76oQ7","body":"ucEFMSmLUURRjyBN","type":"UvDgDzYsixUnvHfw","author_id":11,"thumbnail":"sgAYhrZkyx2x9le9"}'
+    -d '{"ApexCom_id":"AFdKb89kLrZX4UDO","id":"lgAYoXTQNsrbbAZZ","_token":"WwpjTANXOa8EUxQb"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/approve");
 
@@ -3612,11 +2416,9 @@ let headers = {
 }
 
 let body = {
-    "title": "7ZjmsgMUQbT76oQ7",
-    "body": "ucEFMSmLUURRjyBN",
-    "type": "UvDgDzYsixUnvHfw",
-    "author_id": 11,
-    "thumbnail": "sgAYhrZkyx2x9le9"
+    "ApexCom_id": "AFdKb89kLrZX4UDO",
+    "id": "lgAYoXTQNsrbbAZZ",
+    "_token": "WwpjTANXOa8EUxQb"
 }
 
 fetch(url, {
@@ -3640,34 +2442,22 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the community where the comment or post is approved.</td>
 </tr>
 <tr>
-<td>body</td>
+<td>id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the comment or post to be approved.</td>
 </tr>
 <tr>
-<td>type</td>
+<td>_token</td>
 <td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>required</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
@@ -3679,7 +2469,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/review_reports" \
     -H "Content-Type: application/json" \
-    -d '{"title":"csWYf2n4So4rz7qw","body":"VMWZC9hxmyjdlI9G","type":"FzHM5qsbVu5JQfwl","author_id":10,"thumbnail":"LfSWmH9sT6BoK8Ye"}'
+    -d '{"ApexCom_id":"KFmco7LdvVZnTkSp","_token":"9JzhCPm6fVuvlSlm"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/review_reports");
 
@@ -3689,11 +2479,8 @@ let headers = {
 }
 
 let body = {
-    "title": "csWYf2n4So4rz7qw",
-    "body": "VMWZC9hxmyjdlI9G",
-    "type": "FzHM5qsbVu5JQfwl",
-    "author_id": 10,
-    "thumbnail": "LfSWmH9sT6BoK8Ye"
+    "ApexCom_id": "KFmco7LdvVZnTkSp",
+    "_token": "9JzhCPm6fVuvlSlm"
 }
 
 fetch(url, {
@@ -3721,38 +2508,19 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>ApexCom_id</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
+<td>The fullname of the community where the reported comments and posts.</td>
 </tr>
 <tr>
-<td>body</td>
+<td>_token</td>
 <td>string</td>
 <td>required</td>
-<td>The title of the post.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>string</td>
-<td>optional</td>
-<td>The type of post to create. Defaults to 'textophonious'.</td>
-</tr>
-<tr>
-<td>author_id</td>
-<td>integer</td>
-<td>optional</td>
-<td>the ID of the author</td>
-</tr>
-<tr>
-<td>thumbnail</td>
-<td>image</td>
-<td>optional</td>
-<td>This is required if the post type is 'imagelicious'.</td>
+<td>The token required for authentication.</td>
 </tr>
 </tbody>
 </table>
->>>>>>> b93039af76058a34b556de449cf7ff2e9e96d695
 <!-- END_ce137a9fb84ef6789f44be899ecab3fe -->
       </div>
       <div class="dark-box">
