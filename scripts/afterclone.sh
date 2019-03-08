@@ -17,3 +17,5 @@ docker-compose exec app php7 artisan key:generate
 docker-compose exec app php7 artisan optimize
 docker-compose exec app /bin/ash -c 'php7 artisan migrate --seed || echo migration failed!'
 docker-compose down
+
+echo 'to start $ docker-compose up --build'
