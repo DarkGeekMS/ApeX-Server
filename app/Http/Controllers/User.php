@@ -14,6 +14,7 @@ class User extends Controller
 {
 
   /**
+   * Block
    * Block a user, so he can't send private messages to the current user
 * @bodyParam id string required the id of the user to be blocked.
 * @bodyParam token JWT required Used to verify the user.
@@ -25,6 +26,7 @@ class User extends Controller
 
 
   /**
+   * Compose
    * Send a private message to another user
 * @bodyParam to string required The id of the user to be messaged.
 * @bodyParam subject string required The subject of the message.
@@ -38,6 +40,7 @@ class User extends Controller
 
 
   /**
+   * UserDataByAccountID
    * Return user public data to be seen by another user
 * @bodyParam id string required The id of an existing user.
 * @bodyParam token JWT required Used to verify the user.

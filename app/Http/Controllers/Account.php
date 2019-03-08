@@ -78,6 +78,7 @@ class Account extends Controller
 
 
   /**
+   * DeleteMsg
    * Delete private messages from the recipient's view of their inbox.
 * @bodyParam id int required The id of the message to be deleted.
 * @bodyParam token JWT required Used to verify the user.
