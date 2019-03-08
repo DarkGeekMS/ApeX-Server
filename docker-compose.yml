@@ -1,17 +1,6 @@
 version: '2'
-services:
 
-  # The Database
-  database:
-    build:
-        context: ./
-        dockerfile: db.dockerfile
-    volumes:
-      - dbdata:/var/lib/mysql
-    env_file:
-      - .env
-    ports:
-        - "33061:3306"
+services:
 
   # The Application
   app:
@@ -25,6 +14,16 @@ services:
       - ./:/app
     ports:
       - "8000:80"
+
+  # The Database
+  database:
+    image: mysql:5.6
+    volumes:
+      - dbdata:/var/lib/mysql
+    env_file:
+      - .env
+    ports:
+        - "33061:3306"
 
 volumes:
   dbdata:
