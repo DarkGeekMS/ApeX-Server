@@ -11,75 +11,78 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+);
 
 // account
 
-Route::post('/sign_up', 'Account@SignUp');
-Route::post('/Sign_in', 'Account@Login');
-Route::post('/sign_out', 'Account@Logout');
-Route::post('/del_msg', 'Account@DeleteMsg');
-Route::post('/read_msg', 'Account@ReadMsg');
-Route::patch('/updateprefs', 'Account@Updates');
-Route::get('/prefs', 'Account@Prefs');
-Route::get('/me', 'Account@Me');
-Route::get('/info', 'Account@ProfileInfo');
-Route::get('/karma', 'Account@Karma');
-Route::get('/messages', 'Account@Inbox');
+Route::post('/sign_up', 'Account@signUp');
+Route::post('/Sign_in', 'Account@login');
+Route::post('/sign_out', 'Account@logout');
+Route::post('/del_msg', 'Account@deleteMsg');
+Route::post('/read_msg', 'Account@readMsg');
+Route::patch('/updateprefs', 'Account@updates');
+Route::get('/prefs', 'Account@prefs');
+Route::get('/me', 'Account@me');
+Route::get('/info', 'Account@profileInfo');
+Route::get('/karma', 'Account@karma');
+Route::get('/messages', 'Account@inbox');
 
 
 
 // administration
 
-Route::post('/del_ac', 'Administration@DeleteApexCom');
-Route::post('/del_user', 'Administration@DeleteUser');
-Route::post('/add_mod', 'Administration@AddModerator');
+Route::post('/del_ac', 'Administration@deleteApexCom');
+Route::post('/del_user', 'Administration@deleteUser');
+Route::post('/add_mod', 'Administration@addModerator');
 
 
 
 // ApexCom
 
-Route::get('/about', 'ApexCom@About');
-Route::post('/submit_post', 'ApexCom@SubmitPost');
-Route::post('/subscribe', 'ApexCom@Subscribe');
-Route::post('/site_admin', 'ApexCom@SiteAdmin');
+Route::get('/about', 'ApexCom@about');
+Route::post('/submit_post', 'ApexCom@submitPost');
+Route::post('/subscribe', 'ApexCom@subscribe');
+Route::post('/site_admin', 'ApexCom@siteAdmin');
 
 
 
 // links and comments
 
-Route::post('/comment', 'Comment@Add');
-Route::post('/DelComment', 'Comment@Delete');
-Route::post('/Edit', 'Comment@EditText');
-Route::post('/report', 'Comment@Report');
-Route::post('/vote', 'Comment@Vote');
-Route::post('/lock_post', 'Comment@Lock');
-Route::post('/Hide', 'Comment@Hide');
-Route::post('/save', 'Comment@Save');
-Route::get('/moreComments', 'Comment@MoreChildren');
+Route::post('/comment', 'Comment@add');
+Route::post('/DelComment', 'Comment@delete');
+Route::post('/Edit', 'Comment@editText');
+Route::post('/report', 'Comment@report');
+Route::post('/vote', 'Comment@vote');
+Route::post('/lock_post', 'Comment@lock');
+Route::post('/Hide', 'Comment@hide');
+Route::post('/save', 'Comment@save');
+Route::get('/moreComments', 'Comment@moreChildren');
 
 
 
 // general
 
-Route::get('/search', 'General@Search');
-Route::get('/sort_posts', 'General@SortPostsBy');
-Route::get('/Apex_names', 'General@ApexNames');
+Route::get('/search', 'General@search');
+Route::get('/sort_posts', 'General@sortPostsBy');
+Route::get('/Apex_names', 'General@apexNames');
 
 
 
 // moderation
 
-Route::post('/block_user', 'Moderation@BlockUser');
-Route::post ('/report_action' , 'Moderation@IgnoreReport');
-Route::get('/review_reports', 'Moderation@ReviewReports');
+Route::post('/block_user', 'Moderation@blockUser');
+Route::post('/report_action', 'Moderation@ignoreReport');
+Route::get('/review_reports', 'Moderation@reviewReports');
 
 
 
 // user
 
-Route::post('/block_user', 'User@Block');
-Route::post('/compose', 'User@Compose');
-Route::get('/user_data', 'User@UserDataByAccountID');
+Route::post('/block_user', 'User@block');
+Route::post('/compose', 'User@compose');
+Route::get('/user_data', 'User@userDataByAccountID');

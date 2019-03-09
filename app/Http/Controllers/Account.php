@@ -14,196 +14,236 @@ class Account extends Controller
 {
 
 
-  /**
-   * SignUp.
-   * Registers new user into the website.
-   * Success Cases :
-   * 1) return true to ensure that the user created successfully.
-   * failure Cases:
-   * 1) verify_password is not the same as the password.
-   * 2) username and email are the same.
-   * 3) username already exits.
-   * 4) email already exists.
-   * @bodyParam email string required The email of the user.
-   * @bodyParam username string required The choosen username.
-   * @bodyParam password string required The choosen password.
-   * @bodyParam verify_password required string The repeated value of the password.
-   * @bodyParam userImage string required The name of the image for the user.
-*/
+    /**
+     * SignUp.
+     * Registers new user into the website.
+     * Success Cases :
+     * 1) return true to ensure that the user created successfully.
+     * failure Cases:
+     * 1) verify_password is not the same as the password.
+     * 2) username and email are the same.
+     * 3) username already exits.
+     * 4) email already exists.
+     *
+     * @bodyParam email string required The email of the user.
+     * @bodyParam username string required The choosen username.
+     * @bodyParam password string required The choosen password.
+     * @bodyParam verify_password required string The repeated value of the password.
+     * @bodyParam userImage string required The name of the image for the user.
+     */
 
-  public function SignUp()
-  {return;}
-
-
-
-  /**
-  * Login.
-  * Validates user's credentials and logs him in.
-  * Success Cases :
-  * 1) return true to ensure that the user loggedin successfully.
-  * failure Cases:
-  * 1) username is not found.
-  * 2) invalid password.
-  * @bodyParam username string required The user's username.
-  * @bodyParam password string required The user's password.
-*/
-
-  public function Login()
-  {return;}
-
-
-
-  /**
-  * Logout.
-  * Logs out a user.
-  * Success Cases :
-  * 1) return true to ensure that the user is logout successfully.
-  * failure Cases:
-  * 1) user ID already logged out.
-  * 2) NoAccessRight token is not authorized.
-  * @bodyParam token JWT required Used to verify the user.
-*/
-
-  public function Logout()
-  {return;}
-
-
-
-  /**
-  * DeleteMsg.
-  * Delete private messages from the recipient's view of their inbox.
-  * Success Cases :
-  * 1) return true to ensure that the message is deleted successfully.
-  * failure Cases:
-  * 1) message id is not found.
-  * 2) NoAccessRight token is not authorized.
-  * @bodyParam id string required The id of the message to be deleted.
-  * @bodyParam token JWT required Used to verify the user.
-*/
-
-  public function DeleteMsg()
-  {return;}
+    public function signUp()
+    {
+        return;
+    }
 
 
 
 
-/**
-  *ReadMsg.
-  *Read a sent message.
-  * Success Cases :
-  * 1) return the details of the message.
-  * 2) call moreChildren to retrieve replies to this message.
-  * failure Cases:
-  * 1) NoAccessRight token is not authorized.
-  * 2) message id not found.
-  * @bodyParam ID string required The id of the message.
-  * @bodyParam token JWT required Used to verify the user recieving the message.
-*/
+    /**
+     * Login.
+     * Validates user's credentials and logs him in.
+     * Success Cases :
+     * 1) return true to ensure that the user loggedin successfully.
+     * failure Cases:
+     * 1) username is not found.
+     * 2) invalid password.
+     *
+     * @bodyParam username string required The user's username.
+     * @bodyParam password string required The user's password.
+     */
 
-  public function ReadMsg()
-  {return;}
-
-
-
-
-  /**
-   * Updates.
-   * Updates the preferences of the user.
-   * Success Cases :
-   * 1) return true to ensure that the data updated successfully.
-   * 2) in case deactivating the account the account will be deleted.
-   * failure Cases:
-   * 1) NoAccessRight token is not authorized.
-   * 2) the changed email already exists.
-   * @bodyParam change_email string required Enable changing the email
-   * @bodyParam change_password string required Enable changing the password.
-   * @bodyParam deactivate_account string Enable deactivating the account.
-   * @bodyParam media_autoplay bool Enabling media autoplay.
-   * @bodyParam pm_notifications bool Enable pm notifications.
-   * @bodyParam replies_notifications bool Enable notifications for replies.
-   * @bodyParam token JWT required Used to verify the user.
-*/
-
-  public function Updates()
-  {return;}
+    public function login()
+    {
+        return;
+    }
 
 
 
 
-  /**
-   * Prefs.
-   * Returns the preferences of the user.
-   * Success Cases :
-   * 1) return the preferences of the logged-in user.
-   * failure Cases:
-   * 1) NoAccessRight token is not authorized.
-   * @bodyParam token JWT required Used to verify the user.
-*/
+    /**
+     * Logout.
+     * Logs out a user.
+     * Success Cases :
+     * 1) return true to ensure that the user is logout successfully.
+     * failure Cases:
+     * 1) user ID already logged out.
+     * 2) NoAccessRight token is not authorized.
+     *
+     * @bodyParam token JWT required Used to verify the user.
+     */
 
-  public function Prefs()
-  {return;}
-
-
-
-  /**
-   * Me.
-   * Returns the identity of the user logged in.
-   * Success Cases :
-   * 1) return the user ID of the sent token.
-   * failure Cases:
-   * 1) NoAccessRight token is not authorized.
-   * @bodyParam token JWT required Used to verify the user.
-*/
-
-  public function Me()
-  {return;}
-
-
-
-/**
-  *ProfileInfo
-  *Displaying the profile info of the user.
-  * Success Cases :
-  * 1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
-  * 2) in case of moderator it will also return the reports of the ApexCom he is moderator in.
-  * failure Cases:
-  * 1) NoAccessRight token is not authorized.
-  * @bodyParam token JWT required Used to verify the user.
-*/
-
-public function ProfileInfo()
-{return;}
-
-
-
-/**
- * Karma.
- * Returns the karma of the user.
- * Success Cases :
- * 1) return the karmas of the user.
- * failure Cases:
- * 1) NoAccessRight token is not authorized.
- * @bodyParam token JWT required Used to verify the user.
-*/
-
-  public function Karma()
-  {return;}
+    public function logout()
+    {
+        return;
+    }
 
 
 
 
-  /**
-   * Messages.
-   * Returns the inbox messages of the user.
-   * Success Cases :
-   * 1) return lists of the inbox messages of the user categorized by All , Sent and Unread.
-   * failure Cases:
-   * 1) NoAccessRight token is not authorized.
-   * @bodyParam max int the maximum number of messages to be returned.
-   * @bodyParam token JWT required Used to verify the user.
-*/
+    /**
+     * DeleteMsg.
+     * Delete private messages from the recipient's view of their inbox.
+     * Success Cases :
+     * 1) return true to ensure that the message is deleted successfully.
+     * failure Cases:
+     * 1) message id is not found.
+     * 2) NoAccessRight token is not authorized.
+     *
+     * @bodyParam id string required The id of the message to be deleted.
+     * @bodyParam token JWT required Used to verify the user.
+     */
 
-  public function Inbox()
-  {return;}
+    public function deleteMsg()
+    {
+        return;
+    }
 
+
+
+
+    /**
+     * ReadMsg.
+     * Read a sent message.
+     * Success Cases :
+     * 1) return the details of the message.
+     * 2) call moreChildren to retrieve replies to this message.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     * 2) message id not found.
+     *
+     * @bodyParam ID string required The id of the message.
+     * @bodyParam token JWT required Used to verify the user recieving the message.
+     */
+
+    public function readMsg()
+    {
+        return;
+    }
+
+
+
+
+
+    /**
+     * Updates.
+     * Updates the preferences of the user.
+     * Success Cases :
+     * 1) return true to ensure that the data updated successfully.
+     * 2) in case deactivating the account the account will be deleted.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     * 2) the changed email already exists.
+     *
+     * @bodyParam change_email string required Enable changing the email
+     * @bodyParam change_password string required Enable changing the password.
+     * @bodyParam deactivate_account string Enable deactivating the account.
+     * @bodyParam media_autoplay bool Enabling media autoplay.
+     * @bodyParam pm_notifications bool Enable pm notifications.
+     * @bodyParam replies_notifications bool Enable notifications for replies.
+     * @bodyParam token JWT required Used to verify the user.
+     */
+
+    public function updates()
+    {
+        return;
+    }
+
+
+
+
+
+    /**
+     * Prefs.
+     * Returns the preferences of the user.
+     * Success Cases :
+     * 1) return the preferences of the logged-in user.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     *
+     * @bodyParam token JWT required Used to verify the user.
+     */
+
+    public function prefs()
+    {
+        return;
+    }
+
+
+
+
+    /**
+     * Me.
+     * Returns the identity of the user logged in.
+     * Success Cases :
+     * 1) return the user ID of the sent token.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     *
+     * @bodyParam token JWT required Used to verify the user.
+     */
+
+    public function me()
+    {
+        return;
+    }
+
+
+
+
+    /**
+     * ProfileInfo
+     * Displaying the profile info of the user.
+     * Success Cases :
+     * 1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
+     * 2) in case of moderator it will also return the reports of the ApexCom he is moderator in.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     *
+     * @bodyParam token JWT required Used to verify the user.
+     */
+
+    public function profileInfo()
+    {
+        return;
+    }
+
+
+
+
+    /**
+     * Karma.
+     * Returns the karma of the user.
+     * Success Cases :
+     * 1) return the karmas of the user.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     *
+     * @bodyParam token JWT required Used to verify the user.
+     */
+
+    public function karma()
+    {
+        return;
+    }
+
+
+
+
+    /**
+     * Messages.
+     * Returns the inbox messages of the user.
+     * Success Cases :
+     * 1) return lists of the inbox messages of the user categorized by All , Sent and Unread.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     *
+     * @bodyParam max int the maximum number of messages to be returned.
+     * @bodyParam token JWT required Used to verify the user.
+     */
+
+    public function inbox()
+    {
+        return;
+    }
 }
