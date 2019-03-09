@@ -21,6 +21,6 @@ before_script:
   - docker-compose up --build -d
 
 script:
-  - ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests
+  - docker-compose exec app ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests
 
 # deploy: #TODO
