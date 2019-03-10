@@ -22,6 +22,8 @@ Route::get(
 
 Route::post('/sign_up', 'Account@signUp');
 Route::post('/Sign_in', 'Account@login');
+Route::post('/mail_verify', 'Account@mailVerify');
+Route::post('/check_code', 'Account@checkCode');
 Route::post('/sign_out', 'Account@logout');
 Route::post('/del_msg', 'Account@deleteMsg');
 Route::post('/read_msg', 'Account@readMsg');
@@ -70,12 +72,13 @@ Route::get('/moreComments', 'Comment@moreChildren');
 Route::get('/search', 'General@search');
 Route::get('/sort_posts', 'General@sortPostsBy');
 Route::get('/Apex_names', 'General@apexNames');
+Route::get('/get_subscribers', 'General@getSubscribers');
 
 
 
 // moderation
 
-Route::post('/block_user', 'Moderation@blockUser');
+Route::post('/block', 'Moderation@blockUser');
 Route::post('/report_action', 'Moderation@ignoreReport');
 Route::get('/review_reports', 'Moderation@reviewReports');
 

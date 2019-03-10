@@ -14,7 +14,7 @@ class Administration extends Controller
 {
 
     /**
-     * DeleteApexCom.
+     * deleteApexCom
      * Deleting the ApexCom by the admin.
      * Success Cases :
      * 1) return true to ensure ApexCom is deleted successfully.
@@ -36,17 +36,17 @@ class Administration extends Controller
 
 
     /**
-     * DeleteUser.
-     * Delete a user from the application by the admin.
+     * deleteUser
+     * Delete a user from the application by the admin or self-delete (Account deactivation).
      * Success Cases :
      * 1) return true to ensure that the user is deleted successfully.
      * failure Cases:
      * 1) user fullname (ID) is not found.
-     * 2) NoAccessRight the token is not the site admin token id.
+     * 2) NoAccessRight the token is not the site admin or the same user token id.
      *
      * @bodyParam UserID string required The ID of the user to be deleted.
      * @bodyParam Reason string The reason for deleting the user.
-     * @bodyParam token JWT required Used to verify the admin ID.
+     * @bodyParam token JWT required Used to verify the admin or the same user ID.
      */
 
     public function deleteUser()
@@ -58,8 +58,8 @@ class Administration extends Controller
 
 
     /**
-     * AddModerator.
-     * Adding a moderator to ApexCom.
+     * addModerator
+     * Adding (or Deleting) a moderator to ApexCom.
      * Success Cases :
      * 1) return true to ensure that the moderator is added successfully.
      * failure Cases:
@@ -68,7 +68,7 @@ class Administration extends Controller
      *
      * @bodyParam ApexComID string required The ID of the ApexCom.
      * @bodyParam token JWT required Used to verify the Admin ID.
-     * @bodyParam UserID required The user ID to be added as a moderator.
+     * @bodyParam UserID string required The user ID to be added as a moderator.
      */
 
     public function addModerator()

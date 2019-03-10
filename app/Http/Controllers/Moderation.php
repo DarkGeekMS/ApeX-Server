@@ -14,7 +14,7 @@ class Moderation extends Controller
 {
 
     /**
-     * BlockUser.
+     * blockUser
      * to block a user from ApexCom he is moderator in so that he can't interact in this ApexCom anymore.
      * Success Cases :
      * 1) return true to ensure that the post or comment is removed successfully.
@@ -35,7 +35,7 @@ class Moderation extends Controller
 
 
     /**
-     * IgnoreReport.
+     * ignoreReport
      * to delete the ignored report from  ApexCom's reports.
      * Success Cases :
      * 1) return true to ensure that the report is deleted successfully.
@@ -53,7 +53,7 @@ class Moderation extends Controller
     }
 
     /**
-     * ReviewReports.
+     * reviewReports
      * view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
      * Success Cases :
      * 1) return the reported posts and comments.
