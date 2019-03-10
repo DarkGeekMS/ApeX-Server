@@ -24,7 +24,7 @@ class Moderation extends Controller
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the user is blocked.
      * @bodyParam user_id string required The fullname of the user to be blocked.
-     * @bodyParam _token string required Verifying user ID.
+     * @bodyParam _token JWT required Verifying user ID.
      */
 
     public function blockUser()
@@ -44,7 +44,7 @@ class Moderation extends Controller
      * 2) report fullname (id) is not found.
      *
      * @bodyParam report_id string required The fullname of the report to be ignored.
-     * @bodyParam _token string required Verifying user ID.
+     * @bodyParam _token JWT required Verifying user ID.
      */
 
     public function ignoreReport()
@@ -61,7 +61,7 @@ class Moderation extends Controller
      * 1) NoAccessRight the token is not for the moderator of this ApexCom.
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the reported comments or posts.
-     * @bodyParam _token string required Verifying user ID.
+     * @bodyParam _token JWT required Verifying user ID.
      */
 
     public function reviewReports()
