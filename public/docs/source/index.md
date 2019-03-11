@@ -41,7 +41,7 @@ failure Cases:
 curl -X POST "http://localhost/sign_up" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"PFltwqzsEal5Eutz","username":"Zoa2DBY7lR0Zf7id","password":"MHEE32HLPkVqWVOZ","verify_password":"hrXGdHlIZZu4OTVS","userImage":"1eL6hSl1HlE3mW39"}'
+    -d '{"email":"kn76EOtRNcxV9zcq","username":"b2HbPzf502ODwPQ0","password":"leDkVSAJzH2uTc7d","verify_password":"8qix7FWg1DidSUJp","userImage":"srz3g5QNoX1ARf29"}'
 
 ```
 
@@ -55,11 +55,11 @@ let headers = {
 }
 
 let body = {
-    "email": "PFltwqzsEal5Eutz",
-    "username": "Zoa2DBY7lR0Zf7id",
-    "password": "MHEE32HLPkVqWVOZ",
-    "verify_password": "hrXGdHlIZZu4OTVS",
-    "userImage": "1eL6hSl1HlE3mW39"
+    "email": "kn76EOtRNcxV9zcq",
+    "username": "b2HbPzf502ODwPQ0",
+    "password": "leDkVSAJzH2uTc7d",
+    "verify_password": "8qix7FWg1DidSUJp",
+    "userImage": "srz3g5QNoX1ARf29"
 }
 
 fetch(url, {
@@ -103,7 +103,7 @@ failure Cases:
 curl -X POST "http://localhost/Sign_in" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"hxPQlVsXqhtb6tpG","password":"aamWXoXQfpOxOxTB"}'
+    -d '{"username":"SeYmhNEEhGNvJYB9","password":"q3PgkWZBg6udW9OB"}'
 
 ```
 
@@ -117,8 +117,8 @@ let headers = {
 }
 
 let body = {
-    "username": "hxPQlVsXqhtb6tpG",
-    "password": "aamWXoXQfpOxOxTB"
+    "username": "SeYmhNEEhGNvJYB9",
+    "password": "q3PgkWZBg6udW9OB"
 }
 
 fetch(url, {
@@ -158,7 +158,7 @@ failure Cases:
 curl -X POST "http://localhost/mail_verify" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"8SgnS7gc0gEVi5nh"}'
+    -d '{"username":"PlwnXs4IXFyjmOKI"}'
 
 ```
 
@@ -172,7 +172,7 @@ let headers = {
 }
 
 let body = {
-    "username": "8SgnS7gc0gEVi5nh"
+    "username": "PlwnXs4IXFyjmOKI"
 }
 
 fetch(url, {
@@ -211,7 +211,7 @@ failure Cases:
 curl -X POST "http://localhost/check_code" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":9}'
+    -d '{"code":16}'
 
 ```
 
@@ -225,7 +225,7 @@ let headers = {
 }
 
 let body = {
-    "code": 9
+    "code": 16
 }
 
 fetch(url, {
@@ -265,7 +265,7 @@ failure Cases:
 curl -X POST "http://localhost/sign_out" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"22IdZWxbhHvzUZrX"}'
+    -d '{"token":"ygvI8d9mzsOPScaC"}'
 
 ```
 
@@ -279,7 +279,7 @@ let headers = {
 }
 
 let body = {
-    "token": "22IdZWxbhHvzUZrX"
+    "token": "ygvI8d9mzsOPScaC"
 }
 
 fetch(url, {
@@ -319,7 +319,7 @@ failure Cases:
 curl -X POST "http://localhost/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"tUj5anTxdxWaBrvi","token":"OU3THpqxERKJTOsm"}'
+    -d '{"id":"kgAXxG0OEWC8U8Rk","token":"g4vHhJqamjxWznan"}'
 
 ```
 
@@ -333,8 +333,8 @@ let headers = {
 }
 
 let body = {
-    "id": "tUj5anTxdxWaBrvi",
-    "token": "OU3THpqxERKJTOsm"
+    "id": "kgAXxG0OEWC8U8Rk",
+    "token": "g4vHhJqamjxWznan"
 }
 
 fetch(url, {
@@ -376,7 +376,7 @@ failure Cases:
 curl -X POST "http://localhost/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"QegkQ3gegHoYSb74","token":"p8KpszoQDf6btxA4"}'
+    -d '{"ID":"MlxFrl2EipaI7Kkq","token":"9CazMJJniGEDJ8bS"}'
 
 ```
 
@@ -390,8 +390,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "QegkQ3gegHoYSb74",
-    "token": "p8KpszoQDf6btxA4"
+    "ID": "MlxFrl2EipaI7Kkq",
+    "token": "9CazMJJniGEDJ8bS"
 }
 
 fetch(url, {
@@ -433,7 +433,7 @@ failure Cases:
 curl -X PATCH "http://localhost/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"g7LZFWXFGa9mAS1B","change_password":"AWxVNEqri6LDXKIi","deactivate_account":"l5osDYyAdwMbFgxb","media_autoplay":true,"pm_notifications":true,"replies_notifications":false,"token":"7XMzjeLZ6ggV0hFf"}'
+    -d '{"change_email":"aShoUoIWLiCWlQrD","change_password":"cIcymjkV1zETZ6To","deactivate_account":"GCtNhUTHFhzDMhfk","media_autoplay":true,"pm_notifications":true,"replies_notifications":false,"token":"RDaLGYU1B7lAfZLS"}'
 
 ```
 
@@ -447,13 +447,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "g7LZFWXFGa9mAS1B",
-    "change_password": "AWxVNEqri6LDXKIi",
-    "deactivate_account": "l5osDYyAdwMbFgxb",
+    "change_email": "aShoUoIWLiCWlQrD",
+    "change_password": "cIcymjkV1zETZ6To",
+    "deactivate_account": "GCtNhUTHFhzDMhfk",
     "media_autoplay": true,
     "pm_notifications": true,
     "replies_notifications": false,
-    "token": "7XMzjeLZ6ggV0hFf"
+    "token": "RDaLGYU1B7lAfZLS"
 }
 
 fetch(url, {
@@ -498,7 +498,7 @@ failure Cases:
 curl -X GET -G "http://localhost/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"5aCachbBt47WxpTW"}'
+    -d '{"token":"2QDk0BSeHGptRebA"}'
 
 ```
 
@@ -512,7 +512,7 @@ let headers = {
 }
 
 let body = {
-    "token": "5aCachbBt47WxpTW"
+    "token": "2QDk0BSeHGptRebA"
 }
 
 fetch(url, {
@@ -556,7 +556,7 @@ failure Cases:
 curl -X GET -G "http://localhost/me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"VWi8jEIlnkOaRCnD"}'
+    -d '{"token":"RxHS3JBTTIIDcOAr"}'
 
 ```
 
@@ -570,7 +570,7 @@ let headers = {
 }
 
 let body = {
-    "token": "VWi8jEIlnkOaRCnD"
+    "token": "RxHS3JBTTIIDcOAr"
 }
 
 fetch(url, {
@@ -615,7 +615,7 @@ failure Cases:
 curl -X GET -G "http://localhost/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"BCJEY73hQlbQBVuX"}'
+    -d '{"token":"ototjg78djH7JfHr"}'
 
 ```
 
@@ -629,7 +629,7 @@ let headers = {
 }
 
 let body = {
-    "token": "BCJEY73hQlbQBVuX"
+    "token": "ototjg78djH7JfHr"
 }
 
 fetch(url, {
@@ -673,7 +673,7 @@ failure Cases:
 curl -X GET -G "http://localhost/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"lGaQihlTQK3IWjyC"}'
+    -d '{"token":"qmJmMFfagPxwNR8a"}'
 
 ```
 
@@ -687,7 +687,7 @@ let headers = {
 }
 
 let body = {
-    "token": "lGaQihlTQK3IWjyC"
+    "token": "qmJmMFfagPxwNR8a"
 }
 
 fetch(url, {
@@ -731,7 +731,7 @@ failure Cases:
 curl -X GET -G "http://localhost/messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":2,"token":"M3V7yUH6f1qqscgi"}'
+    -d '{"max":9,"token":"cVaItnLzF0YRReFj"}'
 
 ```
 
@@ -745,8 +745,8 @@ let headers = {
 }
 
 let body = {
-    "max": 2,
-    "token": "M3V7yUH6f1qqscgi"
+    "max": 9,
+    "token": "cVaItnLzF0YRReFj"
 }
 
 fetch(url, {
@@ -795,7 +795,7 @@ failure Cases:
 curl -X POST "http://localhost/del_ac" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"UN8YKlsxLJMT5JI8","token":"H5n2BU6eRYWe1KWn"}'
+    -d '{"Apex_ID":"l457Gcnox6TyXJwa","token":"wIxjAmRgsaSH38V0"}'
 
 ```
 
@@ -809,8 +809,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "UN8YKlsxLJMT5JI8",
-    "token": "H5n2BU6eRYWe1KWn"
+    "Apex_ID": "l457Gcnox6TyXJwa",
+    "token": "wIxjAmRgsaSH38V0"
 }
 
 fetch(url, {
@@ -851,7 +851,7 @@ failure Cases:
 curl -X POST "http://localhost/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"qnEgo7vvq2pNM4EB","Reason":"pqcwOnGHweAPU1Ap","token":"o7f3vkMRsDR5VNNx"}'
+    -d '{"UserID":"kiIR7yAxlaarIA0j","Reason":"tpmw2YEc8oLEGWdv","token":"O8jxywUrrMYrVWmQ"}'
 
 ```
 
@@ -865,9 +865,9 @@ let headers = {
 }
 
 let body = {
-    "UserID": "qnEgo7vvq2pNM4EB",
-    "Reason": "pqcwOnGHweAPU1Ap",
-    "token": "o7f3vkMRsDR5VNNx"
+    "UserID": "kiIR7yAxlaarIA0j",
+    "Reason": "tpmw2YEc8oLEGWdv",
+    "token": "O8jxywUrrMYrVWmQ"
 }
 
 fetch(url, {
@@ -909,7 +909,7 @@ failure Cases:
 curl -X POST "http://localhost/add_mod" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"CAOojw4jodjtoowQ","token":"1Sdj35jkbeAWx1ke","UserID":"rbJtjUpRS4UAyhGZ"}'
+    -d '{"ApexComID":"68DI3LPGb96OR0It","token":"smmGjgA8ti6rI4Ih","UserID":"ZRhmKtZurxtBEU53"}'
 
 ```
 
@@ -923,9 +923,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "CAOojw4jodjtoowQ",
-    "token": "1Sdj35jkbeAWx1ke",
-    "UserID": "rbJtjUpRS4UAyhGZ"
+    "ApexComID": "68DI3LPGb96OR0It",
+    "token": "smmGjgA8ti6rI4Ih",
+    "UserID": "ZRhmKtZurxtBEU53"
 }
 
 fetch(url, {
@@ -970,7 +970,7 @@ failure Cases:
 curl -X GET -G "http://localhost/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"z3A6UoDcOuNTm9XS","_token":"nqPGl7EldO6wx2sB"}'
+    -d '{"ApexCom_id":"obFBwX1G0A3HfFtZ","_token":"l0U0E3CvoQ6qYmEn"}'
 
 ```
 
@@ -984,8 +984,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "z3A6UoDcOuNTm9XS",
-    "_token": "nqPGl7EldO6wx2sB"
+    "ApexCom_id": "obFBwX1G0A3HfFtZ",
+    "_token": "l0U0E3CvoQ6qYmEn"
 }
 
 fetch(url, {
@@ -1033,7 +1033,7 @@ failure Cases:
 curl -X POST "http://localhost/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"rT1Kae4NePIEQxV3","body":"Md5NYZhbU6iEfPTG","img_name":"Nko3KTldoXXuJQF3","video_url":"k0oBSaQV3IUsxM8F","isLocked":false,"_token":"bnNpqlt3uHKUb24L"}'
+    -d '{"ApexCom_id":"6BgXogliUc1wK7Mr","body":"ifnptMs4wDNwqHY0","img_name":"dh8cgEtNgAX9ZFXz","video_url":"Hy844qjwNy5rLX3k","isLocked":false,"_token":"ihgu1HVCy6bJnbQm"}'
 
 ```
 
@@ -1047,12 +1047,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "rT1Kae4NePIEQxV3",
-    "body": "Md5NYZhbU6iEfPTG",
-    "img_name": "Nko3KTldoXXuJQF3",
-    "video_url": "k0oBSaQV3IUsxM8F",
+    "ApexCom_id": "6BgXogliUc1wK7Mr",
+    "body": "ifnptMs4wDNwqHY0",
+    "img_name": "dh8cgEtNgAX9ZFXz",
+    "video_url": "Hy844qjwNy5rLX3k",
     "isLocked": false,
-    "_token": "bnNpqlt3uHKUb24L"
+    "_token": "ihgu1HVCy6bJnbQm"
 }
 
 fetch(url, {
@@ -1097,7 +1097,7 @@ failure Cases:
 curl -X POST "http://localhost/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"YncQ0Mfkq5yxBn1Z","_token":"mwdQdVu5Ks249mUt"}'
+    -d '{"ApexCom_id":"OImrsQthh5dGEcdm","_token":"rnoHRTDUzgphHk9N"}'
 
 ```
 
@@ -1111,8 +1111,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "YncQ0Mfkq5yxBn1Z",
-    "_token": "mwdQdVu5Ks249mUt"
+    "ApexCom_id": "OImrsQthh5dGEcdm",
+    "_token": "rnoHRTDUzgphHk9N"
 }
 
 fetch(url, {
@@ -1153,7 +1153,7 @@ failure Cases:
 curl -X POST "http://localhost/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_name":"LLeDDiAifh67utkZ","description":"iEX2SJk7QP2Q5bAp","rules":"7a1k4a7TGiv1otu7","img_name":"vO6UZkZ0VUvSxwBy","_token":"nUxy6mzkKKMMFf9P"}'
+    -d '{"ApexCom_name":"4xKqc8jmN0VQl2GI","description":"Pv8VyEQy7jApVtLP","rules":"iUS5mpXs4CaLSUEB","img_name":"UYPEaVnvqyFvj9AN","_token":"P0FKRaCXcp6vAqpN"}'
 
 ```
 
@@ -1167,11 +1167,11 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_name": "LLeDDiAifh67utkZ",
-    "description": "iEX2SJk7QP2Q5bAp",
-    "rules": "7a1k4a7TGiv1otu7",
-    "img_name": "vO6UZkZ0VUvSxwBy",
-    "_token": "nUxy6mzkKKMMFf9P"
+    "ApexCom_name": "4xKqc8jmN0VQl2GI",
+    "description": "Pv8VyEQy7jApVtLP",
+    "rules": "iUS5mpXs4CaLSUEB",
+    "img_name": "UYPEaVnvqyFvj9AN",
+    "_token": "P0FKRaCXcp6vAqpN"
 }
 
 fetch(url, {
@@ -1218,7 +1218,7 @@ failure Cases:
 curl -X POST "http://localhost/comment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"IYznlTBTlmJxjHlY","content":"dv2a3UL0W2YKbMMo","parent_ID":"UNuzigPpQNMprqBe","AuthID":"drnYUYoMmXSh3tLJ"}'
+    -d '{"name":"UZnpyuiVRgl9iwe6","content":"Vj7UDCd4RBpar8Ax","parent_ID":"dqZDz4JpPcdXMEOe","AuthID":"dsWWyojtkiMBp9nC"}'
 
 ```
 
@@ -1232,10 +1232,10 @@ let headers = {
 }
 
 let body = {
-    "name": "IYznlTBTlmJxjHlY",
-    "content": "dv2a3UL0W2YKbMMo",
-    "parent_ID": "UNuzigPpQNMprqBe",
-    "AuthID": "drnYUYoMmXSh3tLJ"
+    "name": "UZnpyuiVRgl9iwe6",
+    "content": "Vj7UDCd4RBpar8Ax",
+    "parent_ID": "dqZDz4JpPcdXMEOe",
+    "AuthID": "dsWWyojtkiMBp9nC"
 }
 
 fetch(url, {
@@ -1279,7 +1279,7 @@ failure Cases:
 curl -X POST "http://localhost/DelComment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"3zt1hcPccFUAn6YW","ID":"5tPmGfAlpZq3Gh0i"}'
+    -d '{"name":"l0HVKmB5UeDkorKS","ID":"5jJon0MFNWTTSdo9"}'
 
 ```
 
@@ -1293,8 +1293,8 @@ let headers = {
 }
 
 let body = {
-    "name": "3zt1hcPccFUAn6YW",
-    "ID": "5tPmGfAlpZq3Gh0i"
+    "name": "l0HVKmB5UeDkorKS",
+    "ID": "5jJon0MFNWTTSdo9"
 }
 
 fetch(url, {
@@ -1336,7 +1336,7 @@ failure Cases:
 curl -X POST "http://localhost/Edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"5kt7oTs2tjwiBQj5","content":"TsL1he5fwup5w7FM","ID":"hBJ0H7jpe38phjrP"}'
+    -d '{"name":"ILpkIFTLhNHhfPfC","content":"4pm9D5rEI3A1HSBq","ID":"GinaX0sgr5uwy2Nf"}'
 
 ```
 
@@ -1350,9 +1350,9 @@ let headers = {
 }
 
 let body = {
-    "name": "5kt7oTs2tjwiBQj5",
-    "content": "TsL1he5fwup5w7FM",
-    "ID": "hBJ0H7jpe38phjrP"
+    "name": "ILpkIFTLhNHhfPfC",
+    "content": "4pm9D5rEI3A1HSBq",
+    "ID": "GinaX0sgr5uwy2Nf"
 }
 
 fetch(url, {
@@ -1396,7 +1396,7 @@ failure Cases:
 curl -X POST "http://localhost/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"euHWTw85JAxOsSXM","Reason":9,"ID":"jpM2dmDTR1Zpx31o"}'
+    -d '{"name":"Io6GZ0OPjI2SgwJm","Reason":18,"ID":"MRo66VBbMTzkyznw"}'
 
 ```
 
@@ -1410,9 +1410,9 @@ let headers = {
 }
 
 let body = {
-    "name": "euHWTw85JAxOsSXM",
-    "Reason": 9,
-    "ID": "jpM2dmDTR1Zpx31o"
+    "name": "Io6GZ0OPjI2SgwJm",
+    "Reason": 18,
+    "ID": "MRo66VBbMTzkyznw"
 }
 
 fetch(url, {
@@ -1455,7 +1455,7 @@ failure Cases:
 curl -X POST "http://localhost/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"h8HhCrVzh49EHeXC","direction":19,"ID":"mnmBiRTF43MwnW6q"}'
+    -d '{"name":"GTCWOGXMurBNZ90a","direction":16,"ID":"OuaAxHfhDddtCkX4"}'
 
 ```
 
@@ -1469,9 +1469,9 @@ let headers = {
 }
 
 let body = {
-    "name": "h8HhCrVzh49EHeXC",
-    "direction": 19,
-    "ID": "mnmBiRTF43MwnW6q"
+    "name": "GTCWOGXMurBNZ90a",
+    "direction": 16,
+    "ID": "OuaAxHfhDddtCkX4"
 }
 
 fetch(url, {
@@ -1514,7 +1514,7 @@ failure Cases:
 curl -X POST "http://localhost/lock_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"jJn7u0fEaeFhqUsG","ID":"e7vIon4rBh1manLr"}'
+    -d '{"name":"u6DOn5dJDrrYETNf","ID":"etm3913GhIsazfw8"}'
 
 ```
 
@@ -1528,8 +1528,8 @@ let headers = {
 }
 
 let body = {
-    "name": "jJn7u0fEaeFhqUsG",
-    "ID": "e7vIon4rBh1manLr"
+    "name": "u6DOn5dJDrrYETNf",
+    "ID": "etm3913GhIsazfw8"
 }
 
 fetch(url, {
@@ -1570,7 +1570,7 @@ failure Cases:
 curl -X POST "http://localhost/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"R4zGumgUpwHfWOMF","ID":"yxqVhtV30qkHVaXZ"}'
+    -d '{"name":"HrkLl33SbvewUrs1","ID":"n4pOPDAlZeXGzL5o"}'
 
 ```
 
@@ -1584,8 +1584,8 @@ let headers = {
 }
 
 let body = {
-    "name": "R4zGumgUpwHfWOMF",
-    "ID": "yxqVhtV30qkHVaXZ"
+    "name": "HrkLl33SbvewUrs1",
+    "ID": "n4pOPDAlZeXGzL5o"
 }
 
 fetch(url, {
@@ -1626,7 +1626,7 @@ failure Cases:
 curl -X POST "http://localhost/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"F8NdbgMt3RnGFl4Y","token":"doB8lVufSX7udAPU"}'
+    -d '{"ID":"B5o9Ykc4jeVjCY7d","token":"tQQ42KA0sL30xyVp"}'
 
 ```
 
@@ -1640,8 +1640,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "F8NdbgMt3RnGFl4Y",
-    "token": "doB8lVufSX7udAPU"
+    "ID": "B5o9Ykc4jeVjCY7d",
+    "token": "tQQ42KA0sL30xyVp"
 }
 
 fetch(url, {
@@ -1682,7 +1682,7 @@ failure Cases:
 curl -X GET -G "http://localhost/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"RW3Mwel9MrUoLIec","ID":"hoPX29cWZIcGdhC1"}'
+    -d '{"parent":"qv4XbPUItFmyF1Zx","ID":"yKhX35ZWvYn8MjAB"}'
 
 ```
 
@@ -1696,8 +1696,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "RW3Mwel9MrUoLIec",
-    "ID": "hoPX29cWZIcGdhC1"
+    "parent": "qv4XbPUItFmyF1Zx",
+    "ID": "yKhX35ZWvYn8MjAB"
 }
 
 fetch(url, {
@@ -1746,7 +1746,7 @@ failure Cases:
 curl -X POST "http://localhost/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"1WswQBnfCQaFLeC5","user_id":"HU6gsOl2IAqE3wLi","_token":"NeYQh8R88QIiuSLi"}'
+    -d '{"ApexCom_id":"cFMMawNw05CzSyTC","user_id":"uv6aIrUg02llSOi9","_token":"iwlMssR9CbG7h9vt"}'
 
 ```
 
@@ -1760,9 +1760,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "1WswQBnfCQaFLeC5",
-    "user_id": "HU6gsOl2IAqE3wLi",
-    "_token": "NeYQh8R88QIiuSLi"
+    "ApexCom_id": "cFMMawNw05CzSyTC",
+    "user_id": "uv6aIrUg02llSOi9",
+    "_token": "iwlMssR9CbG7h9vt"
 }
 
 fetch(url, {
@@ -1784,7 +1784,7 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     ApexCom_id | string |  required  | The fullname of the community where the user is blocked.
     user_id | string |  required  | The fullname of the user to be blocked.
-    _token | string |  required  | Verifying user ID.
+    _token | JWT |  required  | Verifying user ID.
 
 <!-- END_10e4d0ba01548f1157b134c2866e29cd -->
 
@@ -1804,7 +1804,7 @@ failure Cases:
 curl -X POST "http://localhost/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"c3wzbO8V1phDleh9","_token":"wiCwPK1nDSp3fRgC"}'
+    -d '{"report_id":"PBA9TKenJcdb8rQ8","_token":"qSGrD0GZfRVp7HC6"}'
 
 ```
 
@@ -1818,8 +1818,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "c3wzbO8V1phDleh9",
-    "_token": "wiCwPK1nDSp3fRgC"
+    "report_id": "PBA9TKenJcdb8rQ8",
+    "_token": "qSGrD0GZfRVp7HC6"
 }
 
 fetch(url, {
@@ -1840,7 +1840,7 @@ fetch(url, {
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     report_id | string |  required  | The fullname of the report to be ignored.
-    _token | string |  required  | Verifying user ID.
+    _token | JWT |  required  | Verifying user ID.
 
 <!-- END_7d644ee67f837554ee42b61c3180377e -->
 
@@ -1859,7 +1859,7 @@ failure Cases:
 curl -X GET -G "http://localhost/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"G5HHZleldOUcsyre","_token":"6C5jUj4NHLh35Vc0"}'
+    -d '{"ApexCom_id":"o7hyPB5WqvrAe7cT","_token":"74LiViSRePKfriy3"}'
 
 ```
 
@@ -1873,8 +1873,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "G5HHZleldOUcsyre",
-    "_token": "6C5jUj4NHLh35Vc0"
+    "ApexCom_id": "o7hyPB5WqvrAe7cT",
+    "_token": "74LiViSRePKfriy3"
 }
 
 fetch(url, {
@@ -1900,7 +1900,7 @@ null
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     ApexCom_id | string |  required  | The fullname of the community where the reported comments or posts.
-    _token | string |  required  | Verifying user ID.
+    _token | JWT |  required  | Verifying user ID.
 
 <!-- END_ce137a9fb84ef6789f44be899ecab3fe -->
 
@@ -1923,7 +1923,7 @@ failure Cases:
 curl -X POST "http://localhost/block_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"M09GYaf2XTM7R7Vg","token":"MgomzP6DaSDp1Zsr"}'
+    -d '{"id":"eZdCK7RfgxAqymLq","token":"14uXs7Kca1sme0YN"}'
 
 ```
 
@@ -1937,8 +1937,8 @@ let headers = {
 }
 
 let body = {
-    "id": "M09GYaf2XTM7R7Vg",
-    "token": "MgomzP6DaSDp1Zsr"
+    "id": "eZdCK7RfgxAqymLq",
+    "token": "14uXs7Kca1sme0YN"
 }
 
 fetch(url, {
@@ -1979,7 +1979,7 @@ failure Cases:
 curl -X POST "http://localhost/compose" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"to":"WEUycjnuWk0cUkWp","subject":"Y3zaAvFcUwpESwEb","mes":"tN2cbmAMrSQwCpib","token":"EtXwPyYYbBXrEQCx"}'
+    -d '{"to":"rkmAcNjqckGJJ5jy","subject":"2LwdbJ84W4QZ8y6p","mes":"boRDVyP4zy8IiEk4","token":"chvGp2nWGO5T8CR8"}'
 
 ```
 
@@ -1993,10 +1993,10 @@ let headers = {
 }
 
 let body = {
-    "to": "WEUycjnuWk0cUkWp",
-    "subject": "Y3zaAvFcUwpESwEb",
-    "mes": "tN2cbmAMrSQwCpib",
-    "token": "EtXwPyYYbBXrEQCx"
+    "to": "rkmAcNjqckGJJ5jy",
+    "subject": "2LwdbJ84W4QZ8y6p",
+    "mes": "boRDVyP4zy8IiEk4",
+    "token": "chvGp2nWGO5T8CR8"
 }
 
 fetch(url, {
@@ -2039,7 +2039,7 @@ failure Cases:
 curl -X GET -G "http://localhost/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"eZQp5tiYIOz0MySr","token":"OnouftyzDhhwBSXB"}'
+    -d '{"id":"ZZRFlJqYwm3fWtci","token":"VcH2ucyGw6u5pkOh"}'
 
 ```
 
@@ -2053,8 +2053,8 @@ let headers = {
 }
 
 let body = {
-    "id": "eZQp5tiYIOz0MySr",
-    "token": "OnouftyzDhhwBSXB"
+    "id": "ZZRFlJqYwm3fWtci",
+    "token": "VcH2ucyGw6u5pkOh"
 }
 
 fetch(url, {
@@ -2100,7 +2100,7 @@ failure Cases:
 curl -X GET -G "http://localhost/search" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"query":"LvlvdKEazgTtV14p"}'
+    -d '{"query":"5TmKJIRLUS1yQde4"}'
 
 ```
 
@@ -2114,7 +2114,7 @@ let headers = {
 }
 
 let body = {
-    "query": "LvlvdKEazgTtV14p"
+    "query": "5TmKJIRLUS1yQde4"
 }
 
 fetch(url, {
@@ -2159,7 +2159,7 @@ failure Cases:
 curl -X GET -G "http://localhost/sort_posts" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"YNL2AYkKaW4mwaE8","SortingParam":"Il8ocWBthH5BPzBo"}'
+    -d '{"ApexCommID":"5HPlFfalzsHTFQ1j","SortingParam":"mILxHeD2EsxGE4VT"}'
 
 ```
 
@@ -2173,8 +2173,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "YNL2AYkKaW4mwaE8",
-    "SortingParam": "Il8ocWBthH5BPzBo"
+    "ApexCommID": "5HPlFfalzsHTFQ1j",
+    "SortingParam": "mILxHeD2EsxGE4VT"
 }
 
 fetch(url, {
@@ -2265,7 +2265,7 @@ failure Cases:
 curl -X GET -G "http://localhost/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"zcdUmkXthffjXCdT","_token":"iuTrK85Af63hTkfA"}'
+    -d '{"ApexCommID":"awEAz1pr5CjUYYmt","_token":"qSC217YWg5BS2kgF"}'
 
 ```
 
@@ -2279,8 +2279,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "zcdUmkXthffjXCdT",
-    "_token": "iuTrK85Af63hTkfA"
+    "ApexCommID": "awEAz1pr5CjUYYmt",
+    "_token": "qSC217YWg5BS2kgF"
 }
 
 fetch(url, {

@@ -69,11 +69,11 @@ Route::get('/moreComments', 'Comment@moreChildren');
 
 // general
 
+
 Route::get('/search', 'General@search');
 Route::get('/sort_posts', 'General@sortPostsBy');
 Route::get('/Apex_names', 'General@apexNames');
 Route::get('/get_subscribers', 'General@getSubscribers');
-
 
 
 // moderation

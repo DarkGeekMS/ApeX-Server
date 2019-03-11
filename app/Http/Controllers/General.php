@@ -26,7 +26,6 @@ class General extends Controller
 
 
 
-
     /**
      * sortPostsBy
      * Returns a list of posts in a given ApexComm sorted either by the votes or by the date.
@@ -59,6 +58,7 @@ class General extends Controller
     {
         return;
     }
+  
 
     /**
      * getSubscribers

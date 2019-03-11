@@ -1,0 +1,26 @@
+language: php
+php: 7.3.2
+
+os: linux
+
+notifications:
+  slack:
+    secure: h32IXHBv+iTTHQeofF9V+R/Gld8eZFSIJeilSegrsa6Mmb6WMIitoyfDLhUZmTS9fUfcj0SNHc4l3vddK6pZRDbu/1vUVgf3BywfXTw+du5Wk5lHjNdiAFrya2EZQsqFqEBKaxkXnIBQY/OEo3H70prX0Bc+Irf5u7eMbBJuESnwmlGjmmqct2P/A+SqrAC0vVnXflgke4Ek1s6go57bsjsd2mMr8wDLqdNPWYq2cT4JxsARKmfm6CzEIk2G/A/0ZQ8IOnLQIna/enjJht614VHyDiZm19Vh98kINDJoCqEnysLGuZocyW6XFgYodaF3B3g99Bul9X64NdgksfvTXUFj+y9N7PdLXi5Zo5oVtB5mq5knHU2YQrmfYSNgN2GjWOH2Q2NqX/b8ZH/p94sB61epcjlsj7QRuRScXrCKP32acvwENa2G+PixO/GV3wG0Yhf/Ow0CgW/DlvRSwKVobXG+B1taNsJUm9OeP2fpKn9CDMd2NrRPJLlyncVarY9rTQZxVV8G4ZBkiEcierl49z5phYx7yzpUdxoWKMns8/0TQOg0r+cDK/uCR9AOgdkJH70h/M27rnMtzLoiDFs5WQ1zam/T3B14MdpW2/fvmHf0NJnlVeWK4+l4ZH+0n4qGzaTqdFfVKW3bIfjjhCUjqhS9nu6smA4QQizJy/TpWtU=
+  on_success: change 
+  on_failure: always 
+
+branches:
+  only: master
+
+services:
+  - docker
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  - /bin/bash scripts/afterclone.sh
+  - docker-compose up --build -d
+
+script:
+  - docker-compose exec app ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests
+
+# deploy: #TODO

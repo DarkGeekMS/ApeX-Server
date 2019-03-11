@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 class Account extends Controller
 {
 
-
     /**
      * signUp
      * Registers new user into the website.
@@ -36,8 +35,6 @@ class Account extends Controller
     {
         return;
     }
-
-
 
 
     /**
@@ -139,7 +136,6 @@ class Account extends Controller
 
 
 
-
     /**
      * readMsg
      * Read a sent message.
@@ -186,7 +182,6 @@ class Account extends Controller
     {
         return;
     }
-
 
 
 

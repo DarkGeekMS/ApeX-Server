@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class User extends Controller
 {
 
+
     /**
      * block
      * Block a user, so he can't send private messages or see the blocked user posts or comments.
@@ -30,8 +31,6 @@ class User extends Controller
     {
         return;
     }
-
-
 
     /**
      * compose
@@ -52,8 +51,6 @@ class User extends Controller
     {
         return;
     }
-
-
 
     /**
      * userDataByAccountID
