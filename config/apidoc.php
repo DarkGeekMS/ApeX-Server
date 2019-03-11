@@ -66,7 +66,7 @@ return [
                  * Note that wildcards are not supported.
                  */
                 'versions' => [
-                    'v1',
+                    '0.1.0',
                 ],
             ],
 
@@ -97,7 +97,7 @@ return [
                  */
                 'headers' => [
                     // 'Authorization' => 'Bearer {token}',
-                    // 'Api-Version' => 'v2',
+                    'Api-Version' => '0.1.0',
                 ],
 
                 /*
