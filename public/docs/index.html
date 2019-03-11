@@ -36,31 +36,61 @@
             <ul class="search-results"></ul>
               <div id="toc">
       </div>
-
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
             </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
           <!-- START_INFO -->
-
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="http://localhost/docs/collection.json">Get Postman Collection</a></p>
 <!-- END_INFO -->
 <h1>Account</h1>
 <p>Controls the authentication, info and messages of any user account.</p>
 <!-- START_3a06114e88089d07a3c29bdb6f844602 -->
 <h2>signUp</h2>
 <p>Registers new user into the website.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the user created successfully. </li>
-</ol>
-<h3>failure Cases: </h3>
-<ol>
-<li> verify_password is not the same as the password. </li>
-<li> username and email are the same. </li>
-<li> username already exits. </li>
-<li> email already exists.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the user created successfully.
+failure Cases:
+1) verify_password is not the same as the password.
+2) username and email are the same.
+3) username already exits.
+4) email already exists.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/sign_up" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"email":"PFltwqzsEal5Eutz","username":"Zoa2DBY7lR0Zf7id","password":"MHEE32HLPkVqWVOZ","verify_password":"hrXGdHlIZZu4OTVS","userImage":"1eL6hSl1HlE3mW39"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sign_up");
 
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "email": "PFltwqzsEal5Eutz",
+    "username": "Zoa2DBY7lR0Zf7id",
+    "password": "MHEE32HLPkVqWVOZ",
+    "verify_password": "hrXGdHlIZZu4OTVS",
+    "userImage": "1eL6hSl1HlE3mW39"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST sign_up</code></p>
 <h4>Body Parameters</h4>
@@ -109,16 +139,40 @@
 <!-- END_3a06114e88089d07a3c29bdb6f844602 -->
 <!-- START_f2f2bd15a0a3125617af6284631682f0 -->
 <h2>login</h2>
-<p>Validates user's credentials and logs him in.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the user loggedin successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> username is not found.</li>
-<li> invalid password.</li>
-</ol>
+<p>Validates user&#039;s credentials and logs him in.</p>
+<p>Success Cases :
+1) return true to ensure that the user loggedin successfully.
+failure Cases:
+1) username is not found.
+2) invalid password.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/Sign_in" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"username":"hxPQlVsXqhtb6tpG","password":"aamWXoXQfpOxOxTB"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Sign_in");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "username": "hxPQlVsXqhtb6tpG",
+    "password": "aamWXoXQfpOxOxTB"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST Sign_in</code></p>
 <h4>Body Parameters</h4>
@@ -147,18 +201,153 @@
 </tbody>
 </table>
 <!-- END_f2f2bd15a0a3125617af6284631682f0 -->
+<!-- START_ee941fabd1f02f48390b18f4ed54065e -->
+<h2>mailVerify</h2>
+<p>Send a verification email to the user with a code in case of forgetting password.</p>
+<p>Success Cases :
+1) return true to ensure that the email has been sent.
+failure Cases:
+1) username is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/mail_verify" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"username":"8SgnS7gc0gEVi5nh"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/mail_verify");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "username": "8SgnS7gc0gEVi5nh"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST mail_verify</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>required</td>
+<td>The user's username.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_ee941fabd1f02f48390b18f4ed54065e -->
+<!-- START_f3b96f752218b11aadbca472b737b895 -->
+<h2>checkCode</h2>
+<p>Check whether the user entered the correct reset code sent to his email.</p>
+<p>Success Cases :
+1) return true to verify the code if it matches (the user is then redirected to the change password page).
+failure Cases:
+1) Code is invalid.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/check_code" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"code":9}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/check_code");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "code": 9
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST check_code</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>integer</td>
+<td>required</td>
+<td>The entered code.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_f3b96f752218b11aadbca472b737b895 -->
 <!-- START_99ada3ad1c00101e557456766317db7b -->
 <h2>logout</h2>
 <p>Logs out a user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the user is logout successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> user ID already logged out.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the user is logout successfully.
+failure Cases:
+1) user ID already logged out.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/sign_out" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"22IdZWxbhHvzUZrX"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sign_out");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "22IdZWxbhHvzUZrX"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST sign_out</code></p>
 <h4>Body Parameters</h4>
@@ -183,16 +372,40 @@
 <!-- END_99ada3ad1c00101e557456766317db7b -->
 <!-- START_cb128bb391940d8304e5ebb273373143 -->
 <h2>deleteMsg</h2>
-<p>Delete private messages from the recipient's view of their inbox.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the message is deleted successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> message id is not found.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Delete private messages from the recipient&#039;s view of their inbox.</p>
+<p>Success Cases :
+1) return true to ensure that the message is deleted successfully.
+failure Cases:
+1) message id is not found.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/del_msg" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"tUj5anTxdxWaBrvi","token":"OU3THpqxERKJTOsm"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/del_msg");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "tUj5anTxdxWaBrvi",
+    "token": "OU3THpqxERKJTOsm"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST del_msg</code></p>
 <h4>Body Parameters</h4>
@@ -224,16 +437,40 @@
 <!-- START_869a605c7c3ad87a651842dddd0f4492 -->
 <h2>readMsg</h2>
 <p>Read a sent message.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return the details of the message.</li>
-<li> call moreChildren to retrieve replies to this message.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> message id not found.</li>
-</ol>
+<p>Success Cases :
+1) return the details of the message.
+2) call moreChildren to retrieve replies to this message.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) message id not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/read_msg" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ID":"QegkQ3gegHoYSb74","token":"p8KpszoQDf6btxA4"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/read_msg");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ID": "QegkQ3gegHoYSb74",
+    "token": "p8KpszoQDf6btxA4"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST read_msg</code></p>
 <h4>Body Parameters</h4>
@@ -265,16 +502,45 @@
 <!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
 <h2>updates</h2>
 <p>Updates the preferences of the user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the data updated successfully.</li>
-<li> in case deactivating the account the account will be deleted.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> the changed email already exists.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the data updated successfully.
+2) in case deactivating the account the account will be deleted.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) the changed email already exists.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "http://localhost/updateprefs" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"change_email":"g7LZFWXFGa9mAS1B","change_password":"AWxVNEqri6LDXKIi","deactivate_account":"l5osDYyAdwMbFgxb","media_autoplay":true,"pm_notifications":true,"replies_notifications":false,"token":"7XMzjeLZ6ggV0hFf"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/updateprefs");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "change_email": "g7LZFWXFGa9mAS1B",
+    "change_password": "AWxVNEqri6LDXKIi",
+    "deactivate_account": "l5osDYyAdwMbFgxb",
+    "media_autoplay": true,
+    "pm_notifications": true,
+    "replies_notifications": false,
+    "token": "7XMzjeLZ6ggV0hFf"
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>PATCH updateprefs</code></p>
 <h4>Body Parameters</h4>
@@ -336,14 +602,41 @@
 <!-- START_ef6e49b2e94875eba15ce9b052785989 -->
 <h2>prefs</h2>
 <p>Returns the preferences of the user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return the preferences of the logged-in user.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return the preferences of the logged-in user.
+failure Cases:
+1) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/prefs" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"5aCachbBt47WxpTW"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/prefs");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "5aCachbBt47WxpTW"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET prefs</code></p>
 <h4>Body Parameters</h4>
@@ -369,14 +662,41 @@
 <!-- START_8534272b69ec50dc79d73c26608ba48c -->
 <h2>me</h2>
 <p>Returns the identity of the user logged in.</p>
-<h3>Success Cases :</h3>
-  <ol>
-<li> return the user ID of the sent token.</li>
-</ol>
-<h3>Failure Cases:</h3>
-  <ol>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return the user ID of the sent token.
+failure Cases:
+1) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/me" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"VWi8jEIlnkOaRCnD"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/me");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "VWi8jEIlnkOaRCnD"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET me</code></p>
 <h4>Body Parameters</h4>
@@ -400,17 +720,44 @@
 </table>
 <!-- END_8534272b69ec50dc79d73c26608ba48c -->
 <!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
-<h2>ProfileInfo</h2>
+<h2>profileInfo</h2>
 <p>Displaying the profile info of the user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.</li>
-<li> in case of moderator it will also return the reports of the ApexCom he is moderator in.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
+2) in case of moderator it will also return the reports of the ApexCom he is moderator in.
+failure Cases:
+1) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/info" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"BCJEY73hQlbQBVuX"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/info");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "BCJEY73hQlbQBVuX"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET info</code></p>
 <h4>Body Parameters</h4>
@@ -436,14 +783,41 @@
 <!-- START_4849ce4d441fd19425e151ff49985f46 -->
 <h2>karma</h2>
 <p>Returns the karma of the user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return the karmas of the user.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return the karmas of the user.
+failure Cases:
+1) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"lGaQihlTQK3IWjyC"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/karma");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "lGaQihlTQK3IWjyC"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET karma</code></p>
 <h4>Body Parameters</h4>
@@ -469,15 +843,42 @@
 <!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
 <h2>messages</h2>
 <p>Returns the inbox messages of the user.</p>
+<p>Success Cases :
+1) return lists of the inbox messages of the user categorized by All , Sent and Unread.
+failure Cases:
+1) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/messages" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"max":2,"token":"M3V7yUH6f1qqscgi"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/messages");
 
-<h3>Success Cases : </h3>
-<ol>
-<li> return lists of the inbox messages of the user categorized by All , Sent and Unread.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "max": 2,
+    "token": "M3V7yUH6f1qqscgi"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET messages</code></p>
 <h4>Body Parameters</h4>
@@ -511,15 +912,39 @@
 <!-- START_518c2787d7457d13136ce9ab90c7822b -->
 <h2>deleteApexCom</h2>
 <p>Deleting the ApexCom by the admin.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure ApexCom is deleted successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> Apex fullname (ID) is not found.</li>
-<li> NoAccessRight the token is not the site admin token id.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure ApexCom is deleted successfully.
+failure Cases:
+1) Apex fullname (ID) is not found.
+2) NoAccessRight the token is not the site admin token id.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/del_ac" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"Apex_ID":"UN8YKlsxLJMT5JI8","token":"H5n2BU6eRYWe1KWn"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/del_ac");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "Apex_ID": "UN8YKlsxLJMT5JI8",
+    "token": "H5n2BU6eRYWe1KWn"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST del_ac</code></p>
 <h4>Body Parameters</h4>
@@ -550,16 +975,41 @@
 <!-- END_518c2787d7457d13136ce9ab90c7822b -->
 <!-- START_ef7b81f691245619539d9452a88ace88 -->
 <h2>deleteUser</h2>
-<p>Delete a user from the application by the admin.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the user is deleted successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> user fullname (ID) is not found.</li>
-<li> NoAccessRight the token is not the site admin token id.</li>
-</ol>
+<p>Delete a user from the application by the admin or self-delete (Account deactivation).</p>
+<p>Success Cases :
+1) return true to ensure that the user is deleted successfully.
+failure Cases:
+1) user fullname (ID) is not found.
+2) NoAccessRight the token is not the site admin or the same user token id.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/del_user" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"UserID":"qnEgo7vvq2pNM4EB","Reason":"pqcwOnGHweAPU1Ap","token":"o7f3vkMRsDR5VNNx"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/del_user");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "UserID": "qnEgo7vvq2pNM4EB",
+    "Reason": "pqcwOnGHweAPU1Ap",
+    "token": "o7f3vkMRsDR5VNNx"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST del_user</code></p>
 <h4>Body Parameters</h4>
@@ -589,23 +1039,48 @@
 <td>token</td>
 <td>JWT</td>
 <td>required</td>
-<td>Used to verify the admin ID.</td>
+<td>Used to verify the admin or the same user ID.</td>
 </tr>
 </tbody>
 </table>
 <!-- END_ef7b81f691245619539d9452a88ace88 -->
 <!-- START_0277897590e5bd3534956fc7b78f21cd -->
 <h2>addModerator</h2>
-<p>Adding a moderator to ApexCom.</p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return true to ensure that the moderator is added successfully.</li>
-</ol>
-<h3>Failure Cases: </h3>
-<ol>
-<li> user fullname (ID) is not found.</li>
-<li> NoAccessRight the token is not the site admin token id.</li>
-</ol>
+<p>Adding (or Deleting) a moderator to ApexCom.</p>
+<p>Success Cases :
+1) return true to ensure that the moderator is added successfully.
+failure Cases:
+1) user fullname (ID) is not found.
+2) NoAccessRight the token is not the site admin token id.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/add_mod" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexComID":"CAOojw4jodjtoowQ","token":"1Sdj35jkbeAWx1ke","UserID":"rbJtjUpRS4UAyhGZ"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/add_mod");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexComID": "CAOojw4jodjtoowQ",
+    "token": "1Sdj35jkbeAWx1ke",
+    "UserID": "rbJtjUpRS4UAyhGZ"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST add_mod</code></p>
 <h4>Body Parameters</h4>
@@ -633,8 +1108,8 @@
 </tr>
 <tr>
 <td>UserID</td>
+<td>string</td>
 <td>required</td>
-<td>optional</td>
 <td>The user ID to be added as a moderator.</td>
 </tr>
 </tbody>
@@ -644,16 +1119,44 @@
 <p>Controls the ApexCom info , posts and admin.</p>
 <!-- START_f453d442cbe270ed50c2def3a3416115 -->
 <h2>about</h2>
-<p>to get data about an ApexCom (moderators , contributors , rules , description and subscribers count).
-<h3>Success Cases :</h3>
-<ol>
-<li> return the information about the ApexCom.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token does not support to view the about information.</li>
-<li> ApexCom fullname (ApexCom_id) is not found.</li>
-</ol>
+<p>to get data about an ApexCom (moderators , contributors , rules , description and subscribers count).</p>
+<p>Success Cases :
+1) return the information about the ApexCom.
+failure Cases:
+1) NoAccessRight the token does not support to view the about information.
+2) ApexCom fullname (ApexCom_id) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/about" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCom_id":"z3A6UoDcOuNTm9XS","_token":"nqPGl7EldO6wx2sB"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/about");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCom_id": "z3A6UoDcOuNTm9XS",
+    "_token": "nqPGl7EldO6wx2sB"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET about</code></p>
 <h4>Body Parameters</h4>
@@ -685,17 +1188,45 @@
 <!-- START_e9b2e31f2002a2121d116e27b939619f -->
 <h2>posts</h2>
 <p>to post text , image or video in any ApexCom.</p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return true to ensure that the post was added to the ApexCom successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token does not support to Create a post in this ApexCom.</li>
-<li> ApexCom fullname (ApexCom_id) is not found.</li>
-<li> Not including text , image or video in the request.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the post was added to the ApexCom successfully.
+failure Cases:
+1) NoAccessRight the token does not support to Create a post in this ApexCom.
+2) ApexCom fullname (ApexCom_id) is not found.
+3) Not including text , image or video in the request.
+4) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/submit_post" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCom_id":"rT1Kae4NePIEQxV3","body":"Md5NYZhbU6iEfPTG","img_name":"Nko3KTldoXXuJQF3","video_url":"k0oBSaQV3IUsxM8F","isLocked":false,"_token":"bnNpqlt3uHKUb24L"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/submit_post");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCom_id": "rT1Kae4NePIEQxV3",
+    "body": "Md5NYZhbU6iEfPTG",
+    "img_name": "Nko3KTldoXXuJQF3",
+    "video_url": "k0oBSaQV3IUsxM8F",
+    "isLocked": false,
+    "_token": "bnNpqlt3uHKUb24L"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST submit_post</code></p>
 <h4>Body Parameters</h4>
@@ -751,15 +1282,39 @@
 <!-- START_7cd1c92845723362129d03191c93e958 -->
 <h2>subscribe</h2>
 <p>for a user to subscribe in any ApexCom.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the subscription or unsubscribtion has been done successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token does not support to subscribe this ApexCom.</li>
-<li> ApexCom fullname (ApexCom_id) is not found.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the subscription or unsubscribtion has been done successfully.
+failure Cases:
+1) NoAccessRight the token does not support to subscribe this ApexCom.
+2) ApexCom fullname (ApexCom_id) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/subscribe" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCom_id":"YncQ0Mfkq5yxBn1Z","_token":"mwdQdVu5Ks249mUt"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/subscribe");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCom_id": "YncQ0Mfkq5yxBn1Z",
+    "_token": "mwdQdVu5Ks249mUt"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST subscribe</code></p>
 <h4>Body Parameters</h4>
@@ -791,15 +1346,42 @@
 <!-- START_c3bc7678aa26afc45eeb4d785a212851 -->
 <h2>siteAdmin</h2>
 <p>used by the site admin to create new ApexCom.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the ApexCom was created  successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token does not support to Create an ApexCom ( not the admin token).</li>
-<li> Wrong or unsufficient submitted information.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the ApexCom was created  successfully.
+failure Cases:
+1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
+2) Wrong or unsufficient submitted information.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/site_admin" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCom_name":"LLeDDiAifh67utkZ","description":"iEX2SJk7QP2Q5bAp","rules":"7a1k4a7TGiv1otu7","img_name":"vO6UZkZ0VUvSxwBy","_token":"nUxy6mzkKKMMFf9P"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/site_admin");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCom_name": "LLeDDiAifh67utkZ",
+    "description": "iEX2SJk7QP2Q5bAp",
+    "rules": "7a1k4a7TGiv1otu7",
+    "img_name": "vO6UZkZ0VUvSxwBy",
+    "_token": "nUxy6mzkKKMMFf9P"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST site_admin</code></p>
 <h4>Body Parameters</h4>
@@ -851,16 +1433,41 @@
 <!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
 <h2>add</h2>
 <p>submit a new comment or reply to a comment on a post.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the comment , reply is added successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> post fullname (ID) is not found.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the comment , reply is added successfully.
+failure Cases:
+1) post fullname (ID) is not found.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/comment" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"IYznlTBTlmJxjHlY","content":"dv2a3UL0W2YKbMMo","parent_ID":"UNuzigPpQNMprqBe","AuthID":"drnYUYoMmXSh3tLJ"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/comment");
 
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "IYznlTBTlmJxjHlY",
+    "content": "dv2a3UL0W2YKbMMo",
+    "parent_ID": "UNuzigPpQNMprqBe",
+    "AuthID": "drnYUYoMmXSh3tLJ"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST comment</code></p>
 <h4>Body Parameters</h4>
@@ -904,16 +1511,40 @@
 <!-- START_80708de049dc3d985cb6e8aeae33393b -->
 <h2>delete</h2>
 <p>to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.</p>
-<h3> Success Cases :</h3>
-<ol>
-<li> return true to ensure that the post, comment or reply is deleted successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.</li>
-<li> post , comment or reply fullname (ID) is not found.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the post, comment or reply is deleted successfully.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.
+3) post , comment or reply fullname (ID) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/DelComment" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"3zt1hcPccFUAn6YW","ID":"5tPmGfAlpZq3Gh0i"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/DelComment");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "3zt1hcPccFUAn6YW",
+    "ID": "5tPmGfAlpZq3Gh0i"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST DelComment</code></p>
 <h4>Body Parameters</h4>
@@ -945,16 +1576,41 @@
 <!-- START_2daae1bc9e1e0639e200fec2f7f6bb1b -->
 <h2>editText</h2>
 <p>to edit the text of a post , comment or reply by its owner.</p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return true to ensure that the post or comment updated successfully.</li>
-</ol>
-<h3>Failure Cases: </h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> NoAccessRight the token is not for the owner of the post or comment to be edited.</li>
-<li> post or commet fullname (ID) is not found.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the post or comment updated successfully.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) NoAccessRight the token is not for the owner of the post or comment to be edited.
+3) post or commet fullname (ID) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/Edit" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"5kt7oTs2tjwiBQj5","content":"TsL1he5fwup5w7FM","ID":"hBJ0H7jpe38phjrP"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Edit");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "5kt7oTs2tjwiBQj5",
+    "content": "TsL1he5fwup5w7FM",
+    "ID": "hBJ0H7jpe38phjrP"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST Edit</code></p>
 <h4>Body Parameters</h4>
@@ -991,17 +1647,43 @@
 <!-- END_2daae1bc9e1e0639e200fec2f7f6bb1b -->
 <!-- START_e6e6c1d8554f35a2b7ff48374ad1e77b -->
 <h2>report</h2>
-<p>report a post , comment or a message to the ApexCom moderator ( message's reports will be sent to the site admin), posts or comments will be hidden implicitly as well.
-( moderators don't report posts). </p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return true to ensure that the report is sent to the moderator of the ApexCom.</li>
-</ol>
-<h3>Failure Cases: </h3>
-<ol>
-<li> send reason (index) out of the associative array range.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>report a post , comment or a message to the ApexCom moderator
+( message&#039;s reports will be sent to the site admin), posts or comments will be hidden implicitly as well.</p>
+<p>( moderators don't report posts).
+Success Cases :
+1) return true to ensure that the report is sent to the moderator of the ApexCom.
+failure Cases:
+1) send reason (index) out of the associative array range.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/report" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"euHWTw85JAxOsSXM","Reason":9,"ID":"jpM2dmDTR1Zpx31o"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/report");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "euHWTw85JAxOsSXM",
+    "Reason": 9,
+    "ID": "jpM2dmDTR1Zpx31o"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST report</code></p>
 <h4>Body Parameters</h4>
@@ -1022,10 +1704,10 @@
 <td>The fullname of the post,comment or message to report.</td>
 </tr>
 <tr>
-<td>reason</td>
+<td>Reason</td>
 <td>integer</td>
 <td>optional</td>
-<td>The index represent the reason for the report from an associative array (will be in frontend and backend as well).</td>
+<td>The index represent the reason for the report from an associative array.</td>
 </tr>
 <tr>
 <td>ID</td>
@@ -1039,16 +1721,41 @@
 <!-- START_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
 <h2>vote</h2>
 <p>cast a vote on a post , comment or reply.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return total number of votes on this post,comment or reply.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> fullname of the thing to vote on is not found.</li>
-<li> direction of the vote is not integer between -1 , 0 , 1.</li>
-</ol>
+<p>Success Cases :
+1) return total number of votes on this post,comment or reply.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) fullname of the thing to vote on is not found.
+3) direction of the vote is not integer between -1 , 0 , 1.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/vote" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"h8HhCrVzh49EHeXC","direction":19,"ID":"mnmBiRTF43MwnW6q"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/vote");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "h8HhCrVzh49EHeXC",
+    "direction": 19,
+    "ID": "mnmBiRTF43MwnW6q"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST vote</code></p>
 <h4>Body Parameters</h4>
@@ -1069,7 +1776,7 @@
 <td>The fullname of the post,comment or reply to vote on.</td>
 </tr>
 <tr>
-<td>dirction</td>
+<td>direction</td>
 <td>integer</td>
 <td>required</td>
 <td>The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).</td>
@@ -1085,17 +1792,41 @@
 <!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
 <!-- START_e397a543c2de11e8173058943ccbae1e -->
 <h2>lock</h2>
-<p>to lock or unlock a post so it can't recieve new comments.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the post was locked.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> post fullname (ID) is not found.</li>
-<li> NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.</li>
-</ol>
+<p>to lock or unlock a post so it can&#039;t recieve new comments.</p>
+<p>Success Cases :
+1) return true to ensure that the post was locked.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) post fullname (ID) is not found.
+3) NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/lock_post" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"jJn7u0fEaeFhqUsG","ID":"e7vIon4rBh1manLr"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/lock_post");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "jJn7u0fEaeFhqUsG",
+    "ID": "e7vIon4rBh1manLr"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST lock_post</code></p>
 <h4>Body Parameters</h4>
@@ -1127,15 +1858,39 @@
 <!-- START_e1f157eae6e3907a8770cb8504ae73cb -->
 <h2>hide</h2>
 <p>to hide or UnHide a post from the user view.</p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return true to ensure that the post hidden.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> post fullname (ID) is not found.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the post hidden.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) post fullname (ID) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/Hide" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"R4zGumgUpwHfWOMF","ID":"yxqVhtV30qkHVaXZ"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Hide");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "R4zGumgUpwHfWOMF",
+    "ID": "yxqVhtV30qkHVaXZ"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST Hide</code></p>
 <h4>Body Parameters</h4>
@@ -1167,15 +1922,39 @@
 <!-- START_3a7b8eca0c87791144dc77858615f215 -->
 <h2>save</h2>
 <p>Save or UnSave a post or a comment.</p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return true to ensure that the post saved successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> post fullname (ID) is not found.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the post saved successfully.
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) post fullname (ID) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/save" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ID":"F8NdbgMt3RnGFl4Y","token":"doB8lVufSX7udAPU"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/save");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ID": "F8NdbgMt3RnGFl4Y",
+    "token": "doB8lVufSX7udAPU"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST save</code></p>
 <h4>Body Parameters</h4>
@@ -1204,18 +1983,46 @@
 </tbody>
 </table>
 <!-- END_3a7b8eca0c87791144dc77858615f215 -->
-<!-- START_157f1ca43f755f92777fe075f012a2d4 -->
+<!-- START_5526adab58b86ca220fd6501e7826248 -->
 <h2>moreChildren</h2>
 <p>to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return thr retrieved comments or replies (10 reply at a time ).</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight token is not authorized.</li>
-<li> post , comment , reply or message fullname (ID) is not found for any of the parent IDs.</li>
-</ol>
+<p>Success Cases :
+1) return thr retrieved comments or replies (10 reply at a time ).
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/moreComments" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"parent":"RW3Mwel9MrUoLIec","ID":"hoPX29cWZIcGdhC1"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/moreComments");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "parent": "RW3Mwel9MrUoLIec",
+    "ID": "hoPX29cWZIcGdhC1"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET moreComments</code></p>
 <h4>Body Parameters</h4>
@@ -1233,7 +2040,7 @@
 <td>parent</td>
 <td>string</td>
 <td>required</td>
-<td>The fullname of the posts whose comments are being fetched ( post , comment or message ).</td>
+<td>The fullname of the posts whose comments are being fetched</td>
 </tr>
 <tr>
 <td>ID</td>
@@ -1243,23 +2050,48 @@
 </tr>
 </tbody>
 </table>
-<!-- END_157f1ca43f755f92777fe075f012a2d4 -->
+<!-- END_5526adab58b86ca220fd6501e7826248 -->
 <h1>Moderation</h1>
 <p>Controls the Moderators actions.</p>
-<!-- START_7d644ee67f837554ee42b61c3180377e -->
+<!-- START_10e4d0ba01548f1157b134c2866e29cd -->
 <h2>blockUser</h2>
-<p>to block a user from ApexCom he is moderator in so that he can't interact in this ApexCom anymore.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the user is blocked successfully from the ApexCom.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token is not for the moderator of this ApexCom.</li>
-<li> user fullname (id) is not found , already blocked or not subscribed in this ApexCom.</li>
-</ol>
+<p>to block a user from ApexCom he is moderator in so that he can&#039;t interact in this ApexCom anymore.</p>
+<p>Success Cases :
+1) return true to ensure that the post or comment is removed successfully.
+failure Cases:
+1) NoAccessRight the token is not for the moderator of this ApexCom including the post or comment to be removed.
+2) user fullname (id) is not found , already blocked or not subscribed in this ApexCom.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/block" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCom_id":"1WswQBnfCQaFLeC5","user_id":"HU6gsOl2IAqE3wLi","_token":"NeYQh8R88QIiuSLi"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/block");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCom_id": "1WswQBnfCQaFLeC5",
+    "user_id": "HU6gsOl2IAqE3wLi",
+    "_token": "NeYQh8R88QIiuSLi"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST block_user</code></p>
+<p><code>POST block</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1291,20 +2123,43 @@
 </tr>
 </tbody>
 </table>
-<!-- END_7d644ee67f837554ee42b61c3180377e -->
-
+<!-- END_10e4d0ba01548f1157b134c2866e29cd -->
 <!-- START_7d644ee67f837554ee42b61c3180377e -->
 <h2>ignoreReport</h2>
-<p>to delete the ignored report from  ApexCom's reports.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the report is deleted successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token is not for the moderator of this ApexCom including the report to be removed.</li>
-<li> report fullname (id) is not found.</li>
-</ol>
+<p>to delete the ignored report from  ApexCom&#039;s reports.</p>
+<p>Success Cases :
+1) return true to ensure that the report is deleted successfully.
+failure Cases:
+1) NoAccessRight the token is not for the moderator of this ApexCom including the report to be removed.
+2) report fullname (id) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/report_action" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"report_id":"c3wzbO8V1phDleh9","_token":"wiCwPK1nDSp3fRgC"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/report_action");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "report_id": "c3wzbO8V1phDleh9",
+    "_token": "wiCwPK1nDSp3fRgC"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST report_action</code></p>
 <h4>Body Parameters</h4>
@@ -1336,14 +2191,42 @@
 <!-- START_ce137a9fb84ef6789f44be899ecab3fe -->
 <h2>reviewReports</h2>
 <p>view the reports sent by any user for any post or comment in the ApexCom he is moderator in.</p>
-<h3>Success Cases : </h3>
-<ol>
-<li> return the reported posts and comments.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> NoAccessRight the token is not for the moderator of this ApexCom.</li>
-</ol>
+<p>Success Cases :
+1) return the reported posts and comments.
+failure Cases:
+1) NoAccessRight the token is not for the moderator of this ApexCom.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/review_reports" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCom_id":"G5HHZleldOUcsyre","_token":"6C5jUj4NHLh35Vc0"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/review_reports");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCom_id": "G5HHZleldOUcsyre",
+    "_token": "6C5jUj4NHLh35Vc0"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET review_reports</code></p>
 <h4>Body Parameters</h4>
@@ -1376,16 +2259,40 @@
 <p>Control the user interaction with other users</p>
 <!-- START_1a7af546cd175bbafae3c156085b8064 -->
 <h2>block</h2>
-<p>Block a user, so he can't send private messages or see the blocked user posts or comments.<p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the user is blocked successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> blockeduser id is not found or already blocked for the current user.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Block a user, so he can&#039;t send private messages or see the blocked user posts or comments.</p>
+<p>Success Cases :
+1) return true to ensure that the user is blocked successfully.
+failure Cases:
+1) blockeduser id is not found or already blocked for the current user.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"M09GYaf2XTM7R7Vg","token":"MgomzP6DaSDp1Zsr"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "M09GYaf2XTM7R7Vg",
+    "token": "MgomzP6DaSDp1Zsr"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST block_user</code></p>
 <h4>Body Parameters</h4>
@@ -1417,15 +2324,41 @@
 <!-- START_9a86fc0b67608be77b22a771d49949db -->
 <h2>compose</h2>
 <p>Send a private message to another user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return true to ensure that the message sent successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-  <ol>
-<li> messaged-user id is not found.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return true to ensure that the message sent successfully.
+failure Cases:
+1) messaged-user id is not found.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"to":"WEUycjnuWk0cUkWp","subject":"Y3zaAvFcUwpESwEb","mes":"tN2cbmAMrSQwCpib","token":"EtXwPyYYbBXrEQCx"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "to": "WEUycjnuWk0cUkWp",
+    "subject": "Y3zaAvFcUwpESwEb",
+    "mes": "tN2cbmAMrSQwCpib",
+    "token": "EtXwPyYYbBXrEQCx"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST compose</code></p>
 <h4>Body Parameters</h4>
@@ -1469,15 +2402,43 @@
 <!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
 <h2>userDataByAccountID</h2>
 <p>Return user public data to be seen by another user.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> return the data of the user successfully.</li>
-</ol>
-<h3>failure Cases:</h3>
-<ol>
-<li> username is not found.</li>
-<li> NoAccessRight token is not authorized.</li>
-</ol>
+<p>Success Cases :
+1) return the data of the user successfully.
+failure Cases:
+1) username is not found.
+2) NoAccessRight token is not authorized.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/user_data" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"eZQp5tiYIOz0MySr","token":"OnouftyzDhhwBSXB"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/user_data");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "id": "eZQp5tiYIOz0MySr",
+    "token": "OnouftyzDhhwBSXB"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET user_data</code></p>
 <h4>Body Parameters</h4>
@@ -1510,14 +2471,41 @@
 <!-- START_c0f505b72e10817948e65eb5eb744708 -->
 <h2>search</h2>
 <p>Returns a list of lists of ApexComs, posts and profiles that matches the given query.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li>Return the result successfully.</li>
-</ol>
-<h3>failure Cases:</h3>
-<ol>
-<li> No matches found.</li>
-</ol>
+<p>Success Cases :
+1) Return the result successfully.
+failure Cases:
+1) No matches found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/search" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"query":"LvlvdKEazgTtV14p"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/search");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "query": "LvlvdKEazgTtV14p"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET search</code></p>
 <h4>Body Parameters</h4>
@@ -1543,15 +2531,43 @@
 <!-- START_05b3f813d60fda460fbe53c065926a61 -->
 <h2>sortPostsBy</h2>
 <p>Returns a list of posts in a given ApexComm sorted either by the votes or by the date.</p>
-<h3>Success Cases :</h3>
-<ol>
-<li> Return the result successfully. </li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> ApexComm fullname (ID) is not found.</li>
-<li> The given parameter is out of the specified values, in this case it uses the default values.</li>
-</ol>
+<p>Success Cases :
+1) Return the result successfully.
+failure Cases:
+1) ApexComm fullname (ID) is not found.
+2) The given parameter is out of the specified values, in this case it uses the default values.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/sort_posts" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCommID":"YNL2AYkKaW4mwaE8","SortingParam":"Il8ocWBthH5BPzBo"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/sort_posts");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCommID": "YNL2AYkKaW4mwaE8",
+    "SortingParam": "Il8ocWBthH5BPzBo"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET sort_posts</code></p>
 <h4>Body Parameters</h4>
@@ -1582,22 +2598,112 @@
 <!-- END_05b3f813d60fda460fbe53c065926a61 -->
 <!-- START_aab40918c3a3f4e3512a9b2c1177ea2b -->
 <h2>apexNames</h2>
-<p>Returns a list of the names of the existing ApexComms.
+<p>Returns a list of the names of the existing ApexComms.</p>
+<p>Success Cases :
+1) Return the result successfully.
+failure Cases:
+1) Return empty list if there are no existing ApexComms.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/Apex_names" \
+    -H "Api-Version: 0.1.0"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/Apex_names");
 
-<h3>Success Cases :</h3>
-<ol>
-<li> Return the result successfully.</li>
-</ol>
-<h3>Failure Cases:</h3>
-<ol>
-<li> Return empty list if there are no existing ApexComms.</li>
-</ol>
+let headers = {
+    "Api-Version": "0.1.0",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
 
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET Apex_names</code></p>
 <!-- END_aab40918c3a3f4e3512a9b2c1177ea2b -->
-      </div>
+<!-- START_06944a72aa732126f3e27ad338662810 -->
+<h2>getSubscribers</h2>
+<p>Returns a list of the users subscribed to a certain ApexComm.</p>
+<p>Success Cases :
+1) Return the result successfully.
+failure Cases:
+1) Return empty list if there are no subscribers.
+2) ApexComm Fullname (ID) is not found.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost/get_subscribers" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCommID":"zcdUmkXthffjXCdT","_token":"iuTrK85Af63hTkfA"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/get_subscribers");
 
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCommID": "zcdUmkXthffjXCdT",
+    "_token": "iuTrK85Af63hTkfA"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET get_subscribers</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ApexCommID</td>
+<td>string</td>
+<td>required</td>
+<td>The ID of the ApexComm that contains the subscribers.</td>
+</tr>
+<tr>
+<td>_token</td>
+<td>string</td>
+<td>required</td>
+<td>Verifying user ID.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_06944a72aa732126f3e27ad338662810 -->
+      </div>
+      <div class="dark-box">
+                        <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                              </div>
+                </div>
     </div>
   </body>
 </html>

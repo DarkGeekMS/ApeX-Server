@@ -8,7 +8,7 @@ class General extends Controller
 {
 
     /**
-     * Search.
+     * search
      * Returns a list of lists of ApexComs, posts and profiles that matches the given query.
      * Success Cases :
      * 1) Return the result successfully.
@@ -28,7 +28,7 @@ class General extends Controller
 
 
     /**
-     * SortPostsBy.
+     * sortPostsBy
      * Returns a list of posts in a given ApexComm sorted either by the votes or by the date.
      * Success Cases :
      * 1) Return the result successfully.
@@ -47,7 +47,7 @@ class General extends Controller
 
 
     /**
-     * ApexNames.
+     * apexNames
      * Returns a list of the names of the existing ApexComms.
      * Success Cases :
      * 1) Return the result successfully.
@@ -56,6 +56,24 @@ class General extends Controller
      */
 
     public function apexNames()
+    {
+        return;
+    }
+
+    /**
+     * getSubscribers
+     * Returns a list of the users subscribed to a certain ApexComm.
+     * Success Cases :
+     * 1) Return the result successfully.
+     * failure Cases:
+     * 1) Return empty list if there are no subscribers.
+     * 2) ApexComm Fullname (ID) is not found.
+     *
+     * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
+     * @bodyParam _token string required Verifying user ID.
+     */
+
+    public function getSubscribers()
     {
         return;
     }

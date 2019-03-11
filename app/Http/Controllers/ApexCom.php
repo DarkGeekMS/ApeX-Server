@@ -14,7 +14,7 @@ class ApexCom extends Controller
 {
 
     /**
-     * About.
+     * about
      * to get data about an ApexCom (moderators , contributors , rules , description and subscribers count).
      * Success Cases :
      * 1) return the information about the ApexCom.
@@ -34,7 +34,7 @@ class ApexCom extends Controller
 
 
     /**
-     * Posts.
+     * posts
      * to post text , image or video in any ApexCom.
      * Success Cases :
      * 1) return true to ensure that the post was added to the ApexCom successfully.
@@ -62,7 +62,7 @@ class ApexCom extends Controller
 
 
     /**
-     * Subscribe.
+     * subscribe
      * for a user to subscribe in any ApexCom.
      * Success Cases :
      * 1) return true to ensure that the subscription or unsubscribtion has been done successfully.
@@ -83,7 +83,7 @@ class ApexCom extends Controller
 
 
     /**
-     * SiteAdmin.
+     * siteAdmin
      * used by the site admin to create new ApexCom.
      * Success Cases :
      * 1) return true to ensure that the ApexCom was created  successfully.

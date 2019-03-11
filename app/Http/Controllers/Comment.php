@@ -14,7 +14,7 @@ class Comment extends Controller
 {
 
     /**
-     * Add.
+     * add
      * submit a new comment or reply to a comment on a post.
      * Success Cases :
      * 1) return true to ensure that the comment , reply is added successfully.
@@ -36,7 +36,7 @@ class Comment extends Controller
 
 
     /**
-     * Delete.
+     * delete
      * to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.
      * Success Cases :
      * 1) return true to ensure that the post, comment or reply is deleted successfully.
@@ -58,7 +58,7 @@ class Comment extends Controller
 
 
     /**
-     * EditText.
+     * editText
      * to edit the text of a post , comment or reply by its owner.
      * Success Cases :
      * 1) return true to ensure that the post or comment updated successfully.
@@ -80,7 +80,7 @@ class Comment extends Controller
 
 
     /**
-     * Lock.
+     * lock
      * to lock or unlock a post so it can't recieve new comments.
      * Success Cases :
      * 1) return true to ensure that the post was locked.
@@ -102,7 +102,7 @@ class Comment extends Controller
 
 
     /**
-     * Hide.
+     * hide
      * to hide or UnHide a post from the user view.
      * Success Cases :
      * 1) return true to ensure that the post hidden.
@@ -122,7 +122,7 @@ class Comment extends Controller
 
 
     /**
-     * MoreChildren.
+     * moreChildren
      * to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
      * Success Cases :
      * 1) return thr retrieved comments or replies (10 reply at a time ).
@@ -144,7 +144,7 @@ class Comment extends Controller
 
 
     /**
-     * Report.
+     * report
      * report a post , comment or a message to the ApexCom moderator
      * ( message's reports will be sent to the site admin), posts or comments will be hidden implicitly as well.
      * ( moderators don't report posts).
@@ -168,7 +168,7 @@ class Comment extends Controller
 
 
     /**
-     * Vote.
+     * vote
      * cast a vote on a post , comment or reply.
      * Success Cases :
      * 1) return total number of votes on this post,comment or reply.
@@ -178,7 +178,7 @@ class Comment extends Controller
      * 3) direction of the vote is not integer between -1 , 0 , 1.
      *
      * @bodyParam name string required The fullname of the post,comment or reply to vote on.
-     * @bodyParam dirction int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
+     * @bodyParam direction int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
      * @bodyParam ID JWT required Verifying user ID.
      */
 
@@ -191,7 +191,7 @@ class Comment extends Controller
 
 
     /**
-     * Save.
+     * save
      * Save or UnSave a post or a comment.
      * Success Cases :
      * 1) return true to ensure that the post saved successfully.

@@ -14,7 +14,7 @@ class User extends Controller
 {
 
     /**
-     * Block.
+     * block
      * Block a user, so he can't send private messages or see the blocked user posts or comments.
      * Success Cases :
      * 1) return true to ensure that the user is blocked successfully.
@@ -34,7 +34,7 @@ class User extends Controller
 
 
     /**
-     * Compose.
+     * compose
      * Send a private message to another user.
      * Success Cases :
      * 1) return true to ensure that the message sent successfully.
@@ -56,7 +56,7 @@ class User extends Controller
 
 
     /**
-     * UserDataByAccountID.
+     * userDataByAccountID
      * Return user public data to be seen by another user.
      * Success Cases :
      * 1) return the data of the user successfully.

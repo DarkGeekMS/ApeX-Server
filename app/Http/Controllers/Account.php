@@ -15,7 +15,7 @@ class Account extends Controller
 
 
     /**
-     * SignUp.
+     * signUp
      * Registers new user into the website.
      * Success Cases :
      * 1) return true to ensure that the user created successfully.
@@ -41,7 +41,7 @@ class Account extends Controller
 
 
     /**
-     * Login.
+     * login
      * Validates user's credentials and logs him in.
      * Success Cases :
      * 1) return true to ensure that the user loggedin successfully.
@@ -62,7 +62,45 @@ class Account extends Controller
 
 
     /**
-     * Logout.
+     * mailVerify
+     * Send a verification email to the user with a code in case of forgetting password.
+     * Success Cases :
+     * 1) return true to ensure that the email has been sent.
+     * failure Cases:
+     * 1) username is not found.
+     *
+     * @bodyParam username string required The user's username.
+     */
+
+    public function mailVerify()
+    {
+        return;
+    }
+
+
+
+
+    /**
+     * checkCode
+     * Check whether the user entered the correct reset code sent to his email.
+     * Success Cases :
+     * 1) return true to verify the code if it matches (the user is then redirected to the change password page).
+     * failure Cases:
+     * 1) Code is invalid.
+     *
+     * @bodyParam code int required The entered code.
+     */
+
+    public function checkCode()
+    {
+        return;
+    }
+
+
+
+
+    /**
+     * logout
      * Logs out a user.
      * Success Cases :
      * 1) return true to ensure that the user is logout successfully.
@@ -82,7 +120,7 @@ class Account extends Controller
 
 
     /**
-     * DeleteMsg.
+     * deleteMsg
      * Delete private messages from the recipient's view of their inbox.
      * Success Cases :
      * 1) return true to ensure that the message is deleted successfully.
@@ -103,7 +141,7 @@ class Account extends Controller
 
 
     /**
-     * ReadMsg.
+     * readMsg
      * Read a sent message.
      * Success Cases :
      * 1) return the details of the message.
@@ -126,7 +164,7 @@ class Account extends Controller
 
 
     /**
-     * Updates.
+     * updates
      * Updates the preferences of the user.
      * Success Cases :
      * 1) return true to ensure that the data updated successfully.
@@ -154,7 +192,7 @@ class Account extends Controller
 
 
     /**
-     * Prefs.
+     * prefs
      * Returns the preferences of the user.
      * Success Cases :
      * 1) return the preferences of the logged-in user.
@@ -173,7 +211,7 @@ class Account extends Controller
 
 
     /**
-     * Me.
+     * me
      * Returns the identity of the user logged in.
      * Success Cases :
      * 1) return the user ID of the sent token.
@@ -192,7 +230,7 @@ class Account extends Controller
 
 
     /**
-     * ProfileInfo
+     * profileInfo
      * Displaying the profile info of the user.
      * Success Cases :
      * 1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
@@ -212,7 +250,7 @@ class Account extends Controller
 
 
     /**
-     * Karma.
+     * karma
      * Returns the karma of the user.
      * Success Cases :
      * 1) return the karmas of the user.
@@ -231,7 +269,7 @@ class Account extends Controller
 
 
     /**
-     * Messages.
+     * messages
      * Returns the inbox messages of the user.
      * Success Cases :
      * 1) return lists of the inbox messages of the user categorized by All , Sent and Unread.
