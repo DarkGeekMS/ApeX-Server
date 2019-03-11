@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 class Account extends Controller
 {
 
-
-
     /**
      * signUp
      * Registers new user into the website.
