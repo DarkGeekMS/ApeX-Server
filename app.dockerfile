@@ -2,6 +2,7 @@ FROM alpine
 
 RUN apk update
 RUN apk add \
+    bash \
     php7 \
     php7-session \
     php7-fileinfo \
@@ -11,10 +12,14 @@ RUN apk add \
     php7-xml \ 
     php7-pdo \ 
     php7-pdo_mysql \
+    php-mysqli \
+    php-mysqlnd \
+    php-simplexml \
     composer
 
 COPY . /app
 WORKDIR /app
 EXPOSE 80
 
-CMD php7 artisan serve --host=0.0.0.0 --port=80
+# hacky way of letting it running
+ENTRYPOINT /bin/bash -c 'while true; do m=5; done;' 
