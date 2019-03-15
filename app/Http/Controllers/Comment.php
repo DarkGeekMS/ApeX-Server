@@ -3,6 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\comment;
+use App\commentVote;
+use App\User;
+use App\moderator;
+use App\reportPost;
+use App\saveComment;
+use App\savePost;
+use App\message;
+use App\hidden;
 
 /**
  * @group Links and comments
@@ -28,8 +38,21 @@ class Comment extends Controller
      * @bodyParam AuthID JWT required Verifying user ID.
      */
 
-    public function add()
+    public function add($name, $content, $parent)
     {
+        $user_ID = 't1_3';    //to be changed
+        if (!$user_ID) {
+            return false;
+        }
+        if ($parent[1]==1) {                          //add reply to comment ( or another reply)
+            // code...
+        } elseif ($parent[1]==3) {                   //add comment
+            // code...
+        } elseif ($parent[1]==4) {                  //reply to message
+          // code...
+        } else {
+            return false;
+        }
         return;
     }
 
@@ -49,9 +72,60 @@ class Comment extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function delete()
+    public function delete($name)
     {
-        return;
+        $user_ID = 't1_3';    //to be changed
+        if (!$user_ID) {
+            return false;
+        }
+        $type = User::find($user_ID)['type'];
+
+        if ($name[1]==3) {                           //post
+            $post = Post::find($name);
+
+            if (!$post) {
+                return false;
+            }
+
+            if ($type !=3) {
+                if ($type ==2) {
+                    if (!$moderator) {          // moderator in this apeXcom
+                        return false;
+                    }
+                } elseif ($type ==1) {
+                    if ($user_ID != $post['posted_by']) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+
+            $post->delete();
+            return true;
+        } elseif ($name[1]==1) {                     //comment
+            $comment = comment::find($name);
+            if (!$comment) {
+                return false;
+            }
+            if ($type !=3) {
+                if ($type ==2) {
+                    if (!$moderator) {          // moderator in this apeXcom
+                        return false;
+                    }
+                } elseif ($type ==1) {
+                    if ($user_ID != $comment['commented_by']) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+            $comment->delete();
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -93,9 +167,35 @@ class Comment extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function lock()
+    public function lock($name)
     {
-        return;
+        $user_ID = 't1_3';    //to be changed
+        if (! $user_ID) {
+            return false;
+        }
+        $post = Post::find($name);
+        if (!$post) {
+            return false;
+        }
+        $type = User::find($user_ID)['type'];
+
+        if ($type !=3) {
+            if ($type ==2) {
+                if (moderator::find($user_ID)['apexID'] != $post['apex_id']) {  //to be edited
+                    return false;
+                }
+            } elseif ($type==1) {
+                if ($user_ID != $post['posted_by']) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        $post->locked = true;
+        $post->save();
+        return true;
     }
 
 
@@ -114,9 +214,25 @@ class Comment extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function hide()
+    public function hide($name)
     {
-        return;
+        $user_ID = 't1_3';    //to be changed
+        if (!$user_ID) {
+            return false;
+        }
+        $post = Post::find($name);
+        if (!$post) {
+            return false;
+        }
+         //check the user not blocked by the owner of the post ( or block him )
+        // not blocked from the apxCom has this post
+        $hide = hidden::where(['postID' => $name ,'userID' => $user_ID]);
+        if (!$hide) {
+            hidden::create(['postID' => $name ,'userID' => $user_ID]);
+            return true;
+        }
+        $hide->delete();
+        return true;
     }
 
 
@@ -182,9 +298,52 @@ class Comment extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function vote()
+    public function vote($name, $dir)
     {
-        return;
+        $user_ID = 't1_3';    //to be changed
+        if (!$user_ID) {
+            return;
+        }
+
+        if ($name[1]==3) {
+            $post = Post::find($name);
+            if (!$post) {
+                return;
+            }
+            // check the user not blocked from this apeXcom or blocked by /block the owner of the post
+            $exits = vote::where(['postID' => $name ,'userID' => $user_ID]);
+            if (!$exits) {
+                vote::create(['postID' => $name ,'userID' => $user_ID]);
+                return true;                          //return the count
+            }
+            if ($exists['dir'] == $dir) {
+                $exits-> delete();
+                return true;                        //return the count
+            } else {
+                $exits ->update(['dir' => $dir]);
+                return true;                      //return the count
+            }
+        } elseif ($name[1]==1) {
+            $comment = comment::find($name);
+            if (!$comment) {
+                return;
+            }
+        // check the user not blocked from this apeXcom or blocked by /block the owner of the post
+            $exits = commentVote::where(['comID' => $name ,'userID' => $user_ID]);
+            if (!$exits) {
+                commentVote::create(['postID' => $name ,'comID' => $user_ID]);
+                return true;                          //return the count
+            }
+            if ($exists['dir'] == $dir) {
+                $exits-> delete();
+                return true;                        //return the count
+            } else {
+                $exits ->update(['dir' => $dir]);
+                return true;                      //return the count
+            }
+        } else {
+            return;
+        }
     }
 
 

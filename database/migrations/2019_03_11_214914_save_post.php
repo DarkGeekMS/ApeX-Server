@@ -14,12 +14,12 @@ class SavePost extends Migration
     public function up()
     {
         Schema::create(
-            'savePost',
+            'savePosts',
             function (Blueprint $table) {
                 $table->string('postID');
                 $table->string('userID');
                 $table->primary(['userID','postID']);
-                $table->foreign('postID')->references('id')->on('post')->onDelete('cascade');
+                $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             }
         );
@@ -32,6 +32,6 @@ class SavePost extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('savePost');
+          Schema::dropIfExists('savePosts');
     }
 }

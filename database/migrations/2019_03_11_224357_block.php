@@ -14,7 +14,7 @@ class Block extends Migration
     public function up()
     {
         Schema::create(
-            'block',
+            'blocks',
             function (Blueprint $table) {
                 $table->string('blockerID');
                 $table->string('blockedID');
@@ -32,6 +32,6 @@ class Block extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('block');
+          Schema::dropIfExists('blocks');
     }
 }

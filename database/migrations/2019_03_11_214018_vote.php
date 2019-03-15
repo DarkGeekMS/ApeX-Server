@@ -14,13 +14,13 @@ class Vote extends Migration
     public function up()
     {
         Schema::create(
-            'vote',
+            'votes',
             function (Blueprint $table) {
-                $table->string('postID')->unique();
+                $table->string('postID');
                 $table->string('userID');
                 $table->primary(['postID','userID']);
                 $table->integer('dir')->default(0);
-                $table->foreign('postID')->references('id')->on('post')->onDelete('cascade');
+                $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             }
         );
@@ -33,6 +33,6 @@ class Vote extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('vote');
+          Schema::dropIfExists('votes');
     }
 }

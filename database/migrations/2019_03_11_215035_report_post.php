@@ -14,13 +14,13 @@ class ReportPost extends Migration
     public function up()
     {
         Schema::create(
-            'reportPost',
+            'reportPosts',
             function (Blueprint $table) {
                 $table->string('postID');
                 $table->string('userID');
                 $table->text('content');
                 $table->primary(['userID','postID']);
-                $table->foreign('postID')->references('id')->on('post')->onDelete('cascade');
+                $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             }
         );
@@ -33,6 +33,6 @@ class ReportPost extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('reportPost');
+          Schema::dropIfExists('reportPosts');
     }
 }

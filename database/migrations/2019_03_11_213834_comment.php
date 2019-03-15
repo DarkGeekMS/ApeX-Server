@@ -14,17 +14,17 @@ class Comment extends Migration
     public function up()
     {
         Schema::create(
-            'comment',
+            'comments',
             function (Blueprint $table) {
                 $table->string('id')->unique();
                 $table->string('commented_by');
                 $table->text('content');
-                $table->string('root');
-                $table->string('parent');
+                $table->string('root')->nullable();     //post id
+                $table->string('parent')->nullable();  //comment id
                 $table->primary('id');
                 $table->foreign('commented_by')->references('id')->on('users')->onDelete('cascade');
-                $table->foreign('root')->references('id')->on('post')->onDelete('cascade');
-                $table->foreign('parent')->references('id')->on('comment')->onDelete('cascade');
+                $table->foreign('root')->references('id')->on('posts')->onDelete('cascade');
+                $table->foreign('parent')->references('id')->on('comments')->onDelete('cascade');
             }
         );
     }
@@ -36,6 +36,6 @@ class Comment extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('comment');
+          Schema::dropIfExists('comments');
     }
 }

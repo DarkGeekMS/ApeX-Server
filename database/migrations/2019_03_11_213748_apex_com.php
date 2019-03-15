@@ -14,11 +14,11 @@ class ApexCom extends Migration
     public function up()
     {
             Schema::create(
-                'apexCom',
+                'apexComs',
                 function (Blueprint $table) {
                     $table->string('id')->unique();
-                    $table->string('avatar');
-                    $table->string('banner');
+                    $table->string('avatar')->default('public\img\apx.png');
+                    $table->string('banner')->default('public\img\banner.jpg');
                     $table->text('rules');
                     $table->text('description');
                     $table->primary('id');
@@ -33,6 +33,6 @@ class ApexCom extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('apeXcom');
+          Schema::dropIfExists('apexComs');
     }
 }

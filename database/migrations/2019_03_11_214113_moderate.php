@@ -14,12 +14,12 @@ class Moderate extends Migration
     public function up()
     {
         Schema::create(
-            'moderate',
+            'moderators',
             function (Blueprint $table) {
                 $table->string('apexID');
                 $table->string('userID');
                 $table->primary(['userID','apexID']);
-                $table->foreign('apexID')->references('id')->on('apeXcom')->onDelete('cascade');
+                $table->foreign('apexID')->references('id')->on('apeXcoms')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             }
         );
@@ -32,6 +32,6 @@ class Moderate extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('moderate');
+          Schema::dropIfExists('moderators');
     }
 }
