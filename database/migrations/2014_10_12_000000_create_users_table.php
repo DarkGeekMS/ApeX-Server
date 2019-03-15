@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
                 $table->integer('karma')->default(1);
                 $table->boolean('notification')->default(true);
                 $table->integer('type')->default(1);   //i normal user , 2 moderator , 3 admin
+                $table->timestamps();
                 $table->primary('id');
             }
         );
