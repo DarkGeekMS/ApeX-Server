@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
                 $table->string('email')->unique();
                 $table->string('username')->unique();
                 $table->string('password');
-                $table->string('avatar');
+                $table->string('avatar')->default('public\img\def.jpg');
                 $table->integer('karma')->default(1);
                 $table->boolean('notification')->default(true);
                 $table->integer('type')->default(1);   //i normal user , 2 moderator , 3 admin

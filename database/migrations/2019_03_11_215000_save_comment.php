@@ -14,12 +14,12 @@ class SaveComment extends Migration
     public function up()
     {
         Schema::create(
-            'saveComment',
+            'saveComments',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');
                 $table->primary(['userID','comID']);
-                $table->foreign('comID')->references('id')->on('comment')->onDelete('cascade');
+                $table->foreign('comID')->references('id')->on('comments')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             }
         );
@@ -32,6 +32,6 @@ class SaveComment extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('saveComment');
+          Schema::dropIfExists('saveComments');
     }
 }

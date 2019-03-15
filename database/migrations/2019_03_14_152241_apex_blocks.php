@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Hide extends Migration
+class ApexBlocks extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,13 @@ class Hide extends Migration
     public function up()
     {
         Schema::create(
-            'hiddens',
+            'apexBlocks',
             function (Blueprint $table) {
-                $table->string('postID');
-                $table->string('userID');
-                $table->primary(['userID','postID']);
-                $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
-                $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
+                $table->string('ApexID');
+                $table->string('blockedID');
+                $table->primary(['blockedID','ApexID']);
+                $table->foreign('blockedID')->references('id')->on('users')->onDelete('cascade');
+                $table->foreign('ApexID')->references('id')->on('apexComs')->onDelete('cascade');
             }
         );
     }
@@ -32,6 +32,6 @@ class Hide extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('hiddens');
+          Schema::dropIfExists('apexBlocks');
     }
 }

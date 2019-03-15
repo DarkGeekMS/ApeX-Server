@@ -14,13 +14,13 @@ class ReportComment extends Migration
     public function up()
     {
         Schema::create(
-            'reportComment',
+            'reportComments',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');
                 $table->text('content');
                 $table->primary(['userID','comID']);
-                $table->foreign('comID')->references('id')->on('comment')->onDelete('cascade');
+                $table->foreign('comID')->references('id')->on('comments')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
             }
         );
@@ -33,6 +33,6 @@ class ReportComment extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('reportComment');
+          Schema::dropIfExists('reportComments');
     }
 }

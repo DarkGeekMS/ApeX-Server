@@ -14,20 +14,20 @@ class Message extends Migration
     public function up()
     {
         Schema::create(
-            'message',
+            'messages',
             function (Blueprint $table) {
                 $table->string('id')->unique();
                 $table->text('content');
-                $table->string('subject');
-                $table->string('parent');
+                $table->string('subject')->nullable();
+                $table->string('parent')->nullable();
                 $table->string('sender');
                 $table->string('receiver');
                 $table->timestamp('sentAt');
-                $table->boolean('received');
-                $table->boolean('delSend');
-                $table->boolean('delReceive');
+                $table->boolean('received')->default(false);
+                $table->boolean('delSend')->default(false);
+                $table->boolean('delReceive')->default(false);
                 $table->primary('id');
-                $table->foreign('parent')->references('id')->on('message')->onDelete('cascade');
+                $table->foreign('parent')->references('id')->on('messages')->onDelete('cascade');
                 $table->foreign('sender')->references('id')->on('users')->onDelete('cascade');
                 $table->foreign('receiver')->references('id')->on('users')->onDelete('cascade');
             }
@@ -41,6 +41,6 @@ class Message extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('message');
+          Schema::dropIfExists('messages');
     }
 }

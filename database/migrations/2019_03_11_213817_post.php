@@ -14,19 +14,19 @@ class Post extends Migration
     public function up()
     {
         Schema::create(
-            'post',
+            'posts',
             function (Blueprint $table) {
                 $table->string('id')->unique();
                 $table->string('posted_by');
                 $table->string('apex_id');
-                $table->string('img');
-                $table->string('videolink');
-                $table->text('content');
+                $table->string('img')->nullable();
+                $table->string('videolink')->nullable();
+                $table->text('content')->nullable();
                 $table->timestamp('posted_at');
-                $table->boolean('locked');
+                $table->boolean('locked')->default(false);
                 $table->primary('id');
-                $table->foreign('posted_by')->references('id')->on('users');
-                $table->foreign('apex_id')->references('id')->on('apexCom');
+                $table->foreign('posted_by')->references('id')->on('users')->onDelete('cascade');
+                $table->foreign('apex_id')->references('id')->on('apexComs')->onDelete('cascade');
             }
         );
     }
@@ -38,6 +38,6 @@ class Post extends Migration
      */
     public function down()
     {
-          Schema::dropIfExists('post');
+          Schema::dropIfExists('posts');
     }
 }
