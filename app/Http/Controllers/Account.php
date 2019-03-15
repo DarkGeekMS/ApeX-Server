@@ -165,8 +165,8 @@ class Account extends Controller
 
     public function logout(Request $request)
     {
-        $token = JWTAuth::parseToken();
         try{
+            $token = JWTAuth::parseToken();
             $token->invalidate();
         } catch(JWTException $e){
             return response()->json(['token_error' => $e->getMessage()], 400);
