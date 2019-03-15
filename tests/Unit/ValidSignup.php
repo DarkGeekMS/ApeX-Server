@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 
-class AccountTest extends TestCase
+class ValidSignup extends TestCase
 {
     /**
      * A basic unit test example.
