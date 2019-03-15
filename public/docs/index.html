@@ -50,7 +50,7 @@
 <!-- END_INFO -->
 <h1>Account</h1>
 <p>Controls the authentication, info and messages of any user account.</p>
-<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
+<!-- START_311b0f388598aca8ed7f8fdf74916333 -->
 <h2>signUp</h2>
 <p>Registers new user into the website.</p>
 <p>Success Cases :
@@ -63,12 +63,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/sign_up" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/sign_up" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"kn76EOtRNcxV9zcq","username":"b2HbPzf502ODwPQ0","password":"leDkVSAJzH2uTc7d","verify_password":"8qix7FWg1DidSUJp","userImage":"srz3g5QNoX1ARf29"}'
+    -d '{"email":"hQRTXmnmbJTMO0VB","username":"fsporz2DTdqf83mm","password":"4JesuNcR2xtlRf6k","verify_password":"yXtlatw2nsZcFNBQ","userImage":"Rd7tTA6HUziINFQP"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sign_up");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/sign_up");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -77,11 +77,11 @@ let headers = {
 }
 
 let body = {
-    "email": "kn76EOtRNcxV9zcq",
-    "username": "b2HbPzf502ODwPQ0",
-    "password": "leDkVSAJzH2uTc7d",
-    "verify_password": "8qix7FWg1DidSUJp",
-    "userImage": "srz3g5QNoX1ARf29"
+    "email": "hQRTXmnmbJTMO0VB",
+    "username": "fsporz2DTdqf83mm",
+    "password": "4JesuNcR2xtlRf6k",
+    "verify_password": "yXtlatw2nsZcFNBQ",
+    "userImage": "Rd7tTA6HUziINFQP"
 }
 
 fetch(url, {
@@ -92,7 +92,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST sign_up</code></p>
+<p><code>POST api/sign_up</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -136,8 +136,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_3a06114e88089d07a3c29bdb6f844602 -->
-<!-- START_f2f2bd15a0a3125617af6284631682f0 -->
+<!-- END_311b0f388598aca8ed7f8fdf74916333 -->
+<!-- START_67f683fe8a80401986f3d12a170787b0 -->
 <h2>login</h2>
 <p>Validates user&#039;s credentials and logs him in.</p>
 <p>Success Cases :
@@ -148,12 +148,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Sign_in" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/Sign_in" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"SeYmhNEEhGNvJYB9","password":"q3PgkWZBg6udW9OB"}'
+    -d '{"username":"sTlM6yHBs6j7o3mx","password":"KIhtu1YCZMPgBlGU"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Sign_in");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/Sign_in");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -162,8 +162,8 @@ let headers = {
 }
 
 let body = {
-    "username": "SeYmhNEEhGNvJYB9",
-    "password": "q3PgkWZBg6udW9OB"
+    "username": "sTlM6yHBs6j7o3mx",
+    "password": "KIhtu1YCZMPgBlGU"
 }
 
 fetch(url, {
@@ -174,7 +174,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST Sign_in</code></p>
+<p><code>POST api/Sign_in</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -200,8 +200,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_f2f2bd15a0a3125617af6284631682f0 -->
-<!-- START_ee941fabd1f02f48390b18f4ed54065e -->
+<!-- END_67f683fe8a80401986f3d12a170787b0 -->
+<!-- START_9c2b68d84a5e58731426b62d8716d169 -->
 <h2>mailVerify</h2>
 <p>Send a verification email to the user with a code in case of forgetting password.</p>
 <p>Success Cases :
@@ -211,12 +211,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/mail_verify" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/mail_verify" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"PlwnXs4IXFyjmOKI"}'
+    -d '{"username":"HT2rzo66a4gDRc0o"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/mail_verify");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/mail_verify");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -225,7 +225,7 @@ let headers = {
 }
 
 let body = {
-    "username": "PlwnXs4IXFyjmOKI"
+    "username": "HT2rzo66a4gDRc0o"
 }
 
 fetch(url, {
@@ -236,7 +236,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST mail_verify</code></p>
+<p><code>POST api/mail_verify</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -256,8 +256,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_ee941fabd1f02f48390b18f4ed54065e -->
-<!-- START_f3b96f752218b11aadbca472b737b895 -->
+<!-- END_9c2b68d84a5e58731426b62d8716d169 -->
+<!-- START_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 <h2>checkCode</h2>
 <p>Check whether the user entered the correct reset code sent to his email.</p>
 <p>Success Cases :
@@ -267,12 +267,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/check_code" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/check_code" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":16}'
+    -d '{"code":18}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/check_code");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/check_code");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -281,7 +281,7 @@ let headers = {
 }
 
 let body = {
-    "code": 16
+    "code": 18
 }
 
 fetch(url, {
@@ -292,7 +292,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST check_code</code></p>
+<p><code>POST api/check_code</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -312,8 +312,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_f3b96f752218b11aadbca472b737b895 -->
-<!-- START_99ada3ad1c00101e557456766317db7b -->
+<!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
+<!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
 <h2>logout</h2>
 <p>Logs out a user.</p>
 <p>Success Cases :
@@ -324,12 +324,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/sign_out" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/sign_out" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"ygvI8d9mzsOPScaC"}'
+    -d '{"token":"6DhkzbmNJzhKwMcE"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sign_out");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/sign_out");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -338,7 +338,7 @@ let headers = {
 }
 
 let body = {
-    "token": "ygvI8d9mzsOPScaC"
+    "token": "6DhkzbmNJzhKwMcE"
 }
 
 fetch(url, {
@@ -349,7 +349,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST sign_out</code></p>
+<p><code>POST api/sign_out</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -369,8 +369,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_99ada3ad1c00101e557456766317db7b -->
-<!-- START_cb128bb391940d8304e5ebb273373143 -->
+<!-- END_61c037b1e23dc1e0f83fb62a8024cf9d -->
+<!-- START_17ab3166922a15e0dcef5180e5c57447 -->
 <h2>deleteMsg</h2>
 <p>Delete private messages from the recipient&#039;s view of their inbox.</p>
 <p>Success Cases :
@@ -381,12 +381,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_msg" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"kgAXxG0OEWC8U8Rk","token":"g4vHhJqamjxWznan"}'
+    -d '{"id":"8Bymyaykr7DtISS7","token":"A1MKlwznnaRVhlKg"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_msg");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/del_msg");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -395,8 +395,8 @@ let headers = {
 }
 
 let body = {
-    "id": "kgAXxG0OEWC8U8Rk",
-    "token": "g4vHhJqamjxWznan"
+    "id": "8Bymyaykr7DtISS7",
+    "token": "A1MKlwznnaRVhlKg"
 }
 
 fetch(url, {
@@ -407,7 +407,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST del_msg</code></p>
+<p><code>POST api/del_msg</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -433,8 +433,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_cb128bb391940d8304e5ebb273373143 -->
-<!-- START_869a605c7c3ad87a651842dddd0f4492 -->
+<!-- END_17ab3166922a15e0dcef5180e5c57447 -->
+<!-- START_293bfba07d359f07b62946a6702243f5 -->
 <h2>readMsg</h2>
 <p>Read a sent message.</p>
 <p>Success Cases :
@@ -446,12 +446,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/read_msg" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"MlxFrl2EipaI7Kkq","token":"9CazMJJniGEDJ8bS"}'
+    -d '{"ID":"VuxKThU9LYUoZ4Tp","token":"w4Eamtn26LbjHWQC"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/read_msg");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/read_msg");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -460,8 +460,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "MlxFrl2EipaI7Kkq",
-    "token": "9CazMJJniGEDJ8bS"
+    "ID": "VuxKThU9LYUoZ4Tp",
+    "token": "w4Eamtn26LbjHWQC"
 }
 
 fetch(url, {
@@ -472,7 +472,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST read_msg</code></p>
+<p><code>POST api/read_msg</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -498,8 +498,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_869a605c7c3ad87a651842dddd0f4492 -->
-<!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
+<!-- END_293bfba07d359f07b62946a6702243f5 -->
+<!-- START_7d778b4cd1f31a8abdc1f7156cf2439a -->
 <h2>updates</h2>
 <p>Updates the preferences of the user.</p>
 <p>Success Cases :
@@ -511,12 +511,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X PATCH "http://localhost/updateprefs" \
+<pre><code class="language-bash">curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"aShoUoIWLiCWlQrD","change_password":"cIcymjkV1zETZ6To","deactivate_account":"GCtNhUTHFhzDMhfk","media_autoplay":true,"pm_notifications":true,"replies_notifications":false,"token":"RDaLGYU1B7lAfZLS"}'
+    -d '{"change_email":"VHoLkAeDmecC2HZw","change_password":"hpm7KtOcltQgFnFW","deactivate_account":"G999lCibZk7J5KQo","media_autoplay":false,"pm_notifications":true,"replies_notifications":true,"token":"HflY9z6vx4rgPLFi"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/updateprefs");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/updateprefs");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -525,13 +525,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "aShoUoIWLiCWlQrD",
-    "change_password": "cIcymjkV1zETZ6To",
-    "deactivate_account": "GCtNhUTHFhzDMhfk",
-    "media_autoplay": true,
+    "change_email": "VHoLkAeDmecC2HZw",
+    "change_password": "hpm7KtOcltQgFnFW",
+    "deactivate_account": "G999lCibZk7J5KQo",
+    "media_autoplay": false,
     "pm_notifications": true,
-    "replies_notifications": false,
-    "token": "RDaLGYU1B7lAfZLS"
+    "replies_notifications": true,
+    "token": "HflY9z6vx4rgPLFi"
 }
 
 fetch(url, {
@@ -542,7 +542,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>PATCH updateprefs</code></p>
+<p><code>PATCH api/updateprefs</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -598,8 +598,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_e43f1f7cccba02a3ecbce11183ad7aeb -->
-<!-- START_ef6e49b2e94875eba15ce9b052785989 -->
+<!-- END_7d778b4cd1f31a8abdc1f7156cf2439a -->
+<!-- START_7d73dd7c706d7ec669a1276ac0d40162 -->
 <h2>prefs</h2>
 <p>Returns the preferences of the user.</p>
 <p>Success Cases :
@@ -609,12 +609,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/prefs" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"2QDk0BSeHGptRebA"}'
+    -d '{"token":"zWqn3Nz8fx2ZlOVK"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/prefs");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/prefs");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -623,7 +623,7 @@ let headers = {
 }
 
 let body = {
-    "token": "2QDk0BSeHGptRebA"
+    "token": "zWqn3Nz8fx2ZlOVK"
 }
 
 fetch(url, {
@@ -638,7 +638,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET prefs</code></p>
+<p><code>GET api/prefs</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -658,8 +658,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_ef6e49b2e94875eba15ce9b052785989 -->
-<!-- START_8534272b69ec50dc79d73c26608ba48c -->
+<!-- END_7d73dd7c706d7ec669a1276ac0d40162 -->
+<!-- START_b19e2ecbb41b5fa6802edaf581aab5f6 -->
 <h2>me</h2>
 <p>Returns the identity of the user logged in.</p>
 <p>Success Cases :
@@ -669,12 +669,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/me" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"RxHS3JBTTIIDcOAr"}'
+    -d '{"token":"PO3tDuIj8O2AEjqd"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/me");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/me");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -683,7 +683,7 @@ let headers = {
 }
 
 let body = {
-    "token": "RxHS3JBTTIIDcOAr"
+    "token": "PO3tDuIj8O2AEjqd"
 }
 
 fetch(url, {
@@ -698,7 +698,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET me</code></p>
+<p><code>GET api/me</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -718,8 +718,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_8534272b69ec50dc79d73c26608ba48c -->
-<!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
+<!-- END_b19e2ecbb41b5fa6802edaf581aab5f6 -->
+<!-- START_4f5bd90551adf77b8dfc04a29b6a85ea -->
 <h2>profileInfo</h2>
 <p>Displaying the profile info of the user.</p>
 <p>Success Cases :
@@ -730,12 +730,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/info" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"ototjg78djH7JfHr"}'
+    -d '{"token":"RtamVf3wcJbLD0dE"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/info");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/info");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -744,7 +744,7 @@ let headers = {
 }
 
 let body = {
-    "token": "ototjg78djH7JfHr"
+    "token": "RtamVf3wcJbLD0dE"
 }
 
 fetch(url, {
@@ -759,7 +759,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET info</code></p>
+<p><code>GET api/info</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -779,8 +779,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
-<!-- START_4849ce4d441fd19425e151ff49985f46 -->
+<!-- END_4f5bd90551adf77b8dfc04a29b6a85ea -->
+<!-- START_5f6a60fdc5acad163e3c29c7bbc137ed -->
 <h2>karma</h2>
 <p>Returns the karma of the user.</p>
 <p>Success Cases :
@@ -790,12 +790,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/karma" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"qmJmMFfagPxwNR8a"}'
+    -d '{"token":"yl2EYRGCeyGVLxGL"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/karma");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/karma");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -804,7 +804,7 @@ let headers = {
 }
 
 let body = {
-    "token": "qmJmMFfagPxwNR8a"
+    "token": "yl2EYRGCeyGVLxGL"
 }
 
 fetch(url, {
@@ -819,7 +819,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET karma</code></p>
+<p><code>GET api/karma</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -839,8 +839,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_4849ce4d441fd19425e151ff49985f46 -->
-<!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
+<!-- END_5f6a60fdc5acad163e3c29c7bbc137ed -->
+<!-- START_c61e9c2b3fdeea56ee207c8db3d88546 -->
 <h2>messages</h2>
 <p>Returns the inbox messages of the user.</p>
 <p>Success Cases :
@@ -850,12 +850,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/messages" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":9,"token":"cVaItnLzF0YRReFj"}'
+    -d '{"max":18,"token":"Z0MHibJ50ZS9HzYO"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/messages");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/messages");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -864,8 +864,8 @@ let headers = {
 }
 
 let body = {
-    "max": 9,
-    "token": "cVaItnLzF0YRReFj"
+    "max": 18,
+    "token": "Z0MHibJ50ZS9HzYO"
 }
 
 fetch(url, {
@@ -880,7 +880,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET messages</code></p>
+<p><code>GET api/messages</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -906,10 +906,10 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
+<!-- END_c61e9c2b3fdeea56ee207c8db3d88546 -->
 <h1>Adminstration</h1>
 <p>To manage the controls of admins and moderators</p>
-<!-- START_518c2787d7457d13136ce9ab90c7822b -->
+<!-- START_be6a8ecb81dc276f7253051c44df54d6 -->
 <h2>deleteApexCom</h2>
 <p>Deleting the ApexCom by the admin.</p>
 <p>Success Cases :
@@ -920,12 +920,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_ac" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/del_ac" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"l457Gcnox6TyXJwa","token":"wIxjAmRgsaSH38V0"}'
+    -d '{"Apex_ID":"VntoM3RnlJMNjFle","token":"pTCszNQKZIQhuVwM"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_ac");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/del_ac");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -934,8 +934,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "l457Gcnox6TyXJwa",
-    "token": "wIxjAmRgsaSH38V0"
+    "Apex_ID": "VntoM3RnlJMNjFle",
+    "token": "pTCszNQKZIQhuVwM"
 }
 
 fetch(url, {
@@ -946,7 +946,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST del_ac</code></p>
+<p><code>POST api/del_ac</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -972,8 +972,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_518c2787d7457d13136ce9ab90c7822b -->
-<!-- START_ef7b81f691245619539d9452a88ace88 -->
+<!-- END_be6a8ecb81dc276f7253051c44df54d6 -->
+<!-- START_ae6be58ef92cf112f862b268c39aaa22 -->
 <h2>deleteUser</h2>
 <p>Delete a user from the application by the admin or self-delete (Account deactivation).</p>
 <p>Success Cases :
@@ -984,12 +984,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/del_user" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"kiIR7yAxlaarIA0j","Reason":"tpmw2YEc8oLEGWdv","token":"O8jxywUrrMYrVWmQ"}'
+    -d '{"UserID":"aAI25SmMsHVVsXEU","Reason":"ePOQiL8BGz5IoP4z","token":"o01SqkerbqUZmbVJ"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/del_user");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/del_user");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -998,9 +998,9 @@ let headers = {
 }
 
 let body = {
-    "UserID": "kiIR7yAxlaarIA0j",
-    "Reason": "tpmw2YEc8oLEGWdv",
-    "token": "O8jxywUrrMYrVWmQ"
+    "UserID": "aAI25SmMsHVVsXEU",
+    "Reason": "ePOQiL8BGz5IoP4z",
+    "token": "o01SqkerbqUZmbVJ"
 }
 
 fetch(url, {
@@ -1011,7 +1011,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST del_user</code></p>
+<p><code>POST api/del_user</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1043,8 +1043,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_ef7b81f691245619539d9452a88ace88 -->
-<!-- START_0277897590e5bd3534956fc7b78f21cd -->
+<!-- END_ae6be58ef92cf112f862b268c39aaa22 -->
+<!-- START_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
 <h2>addModerator</h2>
 <p>Adding (or Deleting) a moderator to ApexCom.</p>
 <p>Success Cases :
@@ -1055,12 +1055,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/add_mod" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/add_mod" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"68DI3LPGb96OR0It","token":"smmGjgA8ti6rI4Ih","UserID":"ZRhmKtZurxtBEU53"}'
+    -d '{"ApexComID":"kOwf38AFYsIIugAI","token":"2vMkUoRA6Iqndhuh","UserID":"ZpcjvaObTJ5Wnw5X"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/add_mod");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/add_mod");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1069,9 +1069,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "68DI3LPGb96OR0It",
-    "token": "smmGjgA8ti6rI4Ih",
-    "UserID": "ZRhmKtZurxtBEU53"
+    "ApexComID": "kOwf38AFYsIIugAI",
+    "token": "2vMkUoRA6Iqndhuh",
+    "UserID": "ZpcjvaObTJ5Wnw5X"
 }
 
 fetch(url, {
@@ -1082,7 +1082,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST add_mod</code></p>
+<p><code>POST api/add_mod</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1114,10 +1114,10 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_0277897590e5bd3534956fc7b78f21cd -->
+<!-- END_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
 <h1>ApexCom</h1>
 <p>Controls the ApexCom info , posts and admin.</p>
-<!-- START_f453d442cbe270ed50c2def3a3416115 -->
+<!-- START_931d45747883f17f4898d055e7277e3d -->
 <h2>about</h2>
 <p>to get data about an ApexCom (moderators , contributors , rules , description and subscribers count).</p>
 <p>Success Cases :
@@ -1128,12 +1128,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/about" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"obFBwX1G0A3HfFtZ","_token":"l0U0E3CvoQ6qYmEn"}'
+    -d '{"ApexCom_id":"5HF5lB5wCr87CzTm","_token":"qwNsykPvKQ8FhOzS"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/about");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/about");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1142,8 +1142,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "obFBwX1G0A3HfFtZ",
-    "_token": "l0U0E3CvoQ6qYmEn"
+    "ApexCom_id": "5HF5lB5wCr87CzTm",
+    "_token": "qwNsykPvKQ8FhOzS"
 }
 
 fetch(url, {
@@ -1158,7 +1158,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET about</code></p>
+<p><code>GET api/about</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1184,8 +1184,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_f453d442cbe270ed50c2def3a3416115 -->
-<!-- START_e9b2e31f2002a2121d116e27b939619f -->
+<!-- END_931d45747883f17f4898d055e7277e3d -->
+<!-- START_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 <h2>posts</h2>
 <p>to post text , image or video in any ApexCom.</p>
 <p>Success Cases :
@@ -1198,12 +1198,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/submit_post" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"6BgXogliUc1wK7Mr","body":"ifnptMs4wDNwqHY0","img_name":"dh8cgEtNgAX9ZFXz","video_url":"Hy844qjwNy5rLX3k","isLocked":false,"_token":"ihgu1HVCy6bJnbQm"}'
+    -d '{"ApexCom_id":"3DBN2rqr8OWy1FSr","body":"BvaXhLRlErZdQXP0","img_name":"8g9HXMPmNo7m2OvY","video_url":"1ZX3tm36Uwz9TbGm","isLocked":false,"_token":"dmxM0SnpyXlWYQ9N"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/submit_post");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/submit_post");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1212,12 +1212,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "6BgXogliUc1wK7Mr",
-    "body": "ifnptMs4wDNwqHY0",
-    "img_name": "dh8cgEtNgAX9ZFXz",
-    "video_url": "Hy844qjwNy5rLX3k",
+    "ApexCom_id": "3DBN2rqr8OWy1FSr",
+    "body": "BvaXhLRlErZdQXP0",
+    "img_name": "8g9HXMPmNo7m2OvY",
+    "video_url": "1ZX3tm36Uwz9TbGm",
     "isLocked": false,
-    "_token": "ihgu1HVCy6bJnbQm"
+    "_token": "dmxM0SnpyXlWYQ9N"
 }
 
 fetch(url, {
@@ -1228,7 +1228,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST submit_post</code></p>
+<p><code>POST api/submit_post</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1278,8 +1278,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_e9b2e31f2002a2121d116e27b939619f -->
-<!-- START_7cd1c92845723362129d03191c93e958 -->
+<!-- END_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
+<!-- START_95d2609383a86210e2424765cf8031d1 -->
 <h2>subscribe</h2>
 <p>for a user to subscribe in any ApexCom.</p>
 <p>Success Cases :
@@ -1290,12 +1290,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/subscribe" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"OImrsQthh5dGEcdm","_token":"rnoHRTDUzgphHk9N"}'
+    -d '{"ApexCom_id":"40JGalq4xiMXrpK5","_token":"ZGCCO3bpra2ZunII"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/subscribe");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/subscribe");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1304,8 +1304,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "OImrsQthh5dGEcdm",
-    "_token": "rnoHRTDUzgphHk9N"
+    "ApexCom_id": "40JGalq4xiMXrpK5",
+    "_token": "ZGCCO3bpra2ZunII"
 }
 
 fetch(url, {
@@ -1316,7 +1316,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST subscribe</code></p>
+<p><code>POST api/subscribe</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1342,8 +1342,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_7cd1c92845723362129d03191c93e958 -->
-<!-- START_c3bc7678aa26afc45eeb4d785a212851 -->
+<!-- END_95d2609383a86210e2424765cf8031d1 -->
+<!-- START_83008eaf25318b2ebea682cd9cd6b43b -->
 <h2>siteAdmin</h2>
 <p>used by the site admin to create new ApexCom.</p>
 <p>Success Cases :
@@ -1354,12 +1354,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/site_admin" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_name":"4xKqc8jmN0VQl2GI","description":"Pv8VyEQy7jApVtLP","rules":"iUS5mpXs4CaLSUEB","img_name":"UYPEaVnvqyFvj9AN","_token":"P0FKRaCXcp6vAqpN"}'
+    -d '{"ApexCom_name":"XVsdC1VRFXry8lNy","description":"CtdGsmReE565gZYQ","rules":"b1PCqd1SqYXWzuSO","img_name":"caSggBLoUd1cT9vO","_token":"yHHpU9KokQllBa0H"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/site_admin");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/site_admin");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1368,11 +1368,11 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_name": "4xKqc8jmN0VQl2GI",
-    "description": "Pv8VyEQy7jApVtLP",
-    "rules": "iUS5mpXs4CaLSUEB",
-    "img_name": "UYPEaVnvqyFvj9AN",
-    "_token": "P0FKRaCXcp6vAqpN"
+    "ApexCom_name": "XVsdC1VRFXry8lNy",
+    "description": "CtdGsmReE565gZYQ",
+    "rules": "b1PCqd1SqYXWzuSO",
+    "img_name": "caSggBLoUd1cT9vO",
+    "_token": "yHHpU9KokQllBa0H"
 }
 
 fetch(url, {
@@ -1383,7 +1383,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST site_admin</code></p>
+<p><code>POST api/site_admin</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1427,10 +1427,10 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_c3bc7678aa26afc45eeb4d785a212851 -->
+<!-- END_83008eaf25318b2ebea682cd9cd6b43b -->
 <h1>Links and comments</h1>
 <p>controls the comments , replies and private messages for each user</p>
-<!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
+<!-- START_e795fade4d25e2473e7fd22cababfe99 -->
 <h2>add</h2>
 <p>submit a new comment or reply to a comment on a post.</p>
 <p>Success Cases :
@@ -1441,12 +1441,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/comment" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/comment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"UZnpyuiVRgl9iwe6","content":"Vj7UDCd4RBpar8Ax","parent_ID":"dqZDz4JpPcdXMEOe","AuthID":"dsWWyojtkiMBp9nC"}'
+    -d '{"name":"MLXVADsXnZaXtpDs","content":"kxBR6Q7H8md8qFKn","parent_ID":"vLfP3g4UokJEwjXp","AuthID":"vOEPkjC67eM7BNwD"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/comment");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/comment");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1455,10 +1455,10 @@ let headers = {
 }
 
 let body = {
-    "name": "UZnpyuiVRgl9iwe6",
-    "content": "Vj7UDCd4RBpar8Ax",
-    "parent_ID": "dqZDz4JpPcdXMEOe",
-    "AuthID": "dsWWyojtkiMBp9nC"
+    "name": "MLXVADsXnZaXtpDs",
+    "content": "kxBR6Q7H8md8qFKn",
+    "parent_ID": "vLfP3g4UokJEwjXp",
+    "AuthID": "vOEPkjC67eM7BNwD"
 }
 
 fetch(url, {
@@ -1469,7 +1469,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST comment</code></p>
+<p><code>POST api/comment</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1507,8 +1507,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_4479052af7e53f808c3e66f3a63e68f3 -->
-<!-- START_80708de049dc3d985cb6e8aeae33393b -->
+<!-- END_e795fade4d25e2473e7fd22cababfe99 -->
+<!-- START_8d3b774b8525ca92a9eadadb8f46897c -->
 <h2>delete</h2>
 <p>to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.</p>
 <p>Success Cases :
@@ -1520,12 +1520,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/DelComment" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/DelComment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"l0HVKmB5UeDkorKS","ID":"5jJon0MFNWTTSdo9"}'
+    -d '{"name":"rgxbBs7vxOHm0ToA","ID":"0ERVps83N77F62ba"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/DelComment");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/DelComment");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1534,8 +1534,8 @@ let headers = {
 }
 
 let body = {
-    "name": "l0HVKmB5UeDkorKS",
-    "ID": "5jJon0MFNWTTSdo9"
+    "name": "rgxbBs7vxOHm0ToA",
+    "ID": "0ERVps83N77F62ba"
 }
 
 fetch(url, {
@@ -1546,7 +1546,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST DelComment</code></p>
+<p><code>POST api/DelComment</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1572,8 +1572,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_80708de049dc3d985cb6e8aeae33393b -->
-<!-- START_2daae1bc9e1e0639e200fec2f7f6bb1b -->
+<!-- END_8d3b774b8525ca92a9eadadb8f46897c -->
+<!-- START_2a9d0f183252f771e6f2c77616bccd24 -->
 <h2>editText</h2>
 <p>to edit the text of a post , comment or reply by its owner.</p>
 <p>Success Cases :
@@ -1585,12 +1585,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Edit" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/Edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"ILpkIFTLhNHhfPfC","content":"4pm9D5rEI3A1HSBq","ID":"GinaX0sgr5uwy2Nf"}'
+    -d '{"name":"cafaIatCLN3axWw3","content":"ykvECGoKqLevj6V3","ID":"u9IsGH0WTj1OHqJn"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Edit");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/Edit");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1599,9 +1599,9 @@ let headers = {
 }
 
 let body = {
-    "name": "ILpkIFTLhNHhfPfC",
-    "content": "4pm9D5rEI3A1HSBq",
-    "ID": "GinaX0sgr5uwy2Nf"
+    "name": "cafaIatCLN3axWw3",
+    "content": "ykvECGoKqLevj6V3",
+    "ID": "u9IsGH0WTj1OHqJn"
 }
 
 fetch(url, {
@@ -1612,7 +1612,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST Edit</code></p>
+<p><code>POST api/Edit</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1644,8 +1644,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_2daae1bc9e1e0639e200fec2f7f6bb1b -->
-<!-- START_e6e6c1d8554f35a2b7ff48374ad1e77b -->
+<!-- END_2a9d0f183252f771e6f2c77616bccd24 -->
+<!-- START_513d4e19011ae1f92bd8858b5eb059b2 -->
 <h2>report</h2>
 <p>report a post , comment or a message to the ApexCom moderator
 ( message&#039;s reports will be sent to the site admin), posts or comments will be hidden implicitly as well.</p>
@@ -1658,12 +1658,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/report" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"Io6GZ0OPjI2SgwJm","Reason":18,"ID":"MRo66VBbMTzkyznw"}'
+    -d '{"name":"BA7QjAb7ZEHEf1m3","Reason":19,"ID":"qk6EpnB64VRQHlyP"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/report");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/report");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1672,9 +1672,9 @@ let headers = {
 }
 
 let body = {
-    "name": "Io6GZ0OPjI2SgwJm",
-    "Reason": 18,
-    "ID": "MRo66VBbMTzkyznw"
+    "name": "BA7QjAb7ZEHEf1m3",
+    "Reason": 19,
+    "ID": "qk6EpnB64VRQHlyP"
 }
 
 fetch(url, {
@@ -1685,7 +1685,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST report</code></p>
+<p><code>POST api/report</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1717,8 +1717,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_e6e6c1d8554f35a2b7ff48374ad1e77b -->
-<!-- START_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
+<!-- END_513d4e19011ae1f92bd8858b5eb059b2 -->
+<!-- START_1ce8121bc6bb159652da3758695c4f33 -->
 <h2>vote</h2>
 <p>cast a vote on a post , comment or reply.</p>
 <p>Success Cases :
@@ -1730,12 +1730,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/vote" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"GTCWOGXMurBNZ90a","direction":16,"ID":"OuaAxHfhDddtCkX4"}'
+    -d '{"name":"qxogNdfHz4ggeU4l","direction":16,"ID":"04HDz0aNdfvyoDyt"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/vote");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/vote");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1744,9 +1744,9 @@ let headers = {
 }
 
 let body = {
-    "name": "GTCWOGXMurBNZ90a",
+    "name": "qxogNdfHz4ggeU4l",
     "direction": 16,
-    "ID": "OuaAxHfhDddtCkX4"
+    "ID": "04HDz0aNdfvyoDyt"
 }
 
 fetch(url, {
@@ -1757,7 +1757,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST vote</code></p>
+<p><code>POST api/vote</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1789,8 +1789,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
-<!-- START_e397a543c2de11e8173058943ccbae1e -->
+<!-- END_1ce8121bc6bb159652da3758695c4f33 -->
+<!-- START_4a071a0a5195e750a36b0b89a51e2235 -->
 <h2>lock</h2>
 <p>to lock or unlock a post so it can&#039;t recieve new comments.</p>
 <p>Success Cases :
@@ -1802,12 +1802,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/lock_post" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/lock_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"u6DOn5dJDrrYETNf","ID":"etm3913GhIsazfw8"}'
+    -d '{"name":"zazGrYLe5F7MrHG9","ID":"crEoxDbiyKhcG0PL"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/lock_post");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/lock_post");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1816,8 +1816,8 @@ let headers = {
 }
 
 let body = {
-    "name": "u6DOn5dJDrrYETNf",
-    "ID": "etm3913GhIsazfw8"
+    "name": "zazGrYLe5F7MrHG9",
+    "ID": "crEoxDbiyKhcG0PL"
 }
 
 fetch(url, {
@@ -1828,7 +1828,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST lock_post</code></p>
+<p><code>POST api/lock_post</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1854,8 +1854,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_e397a543c2de11e8173058943ccbae1e -->
-<!-- START_e1f157eae6e3907a8770cb8504ae73cb -->
+<!-- END_4a071a0a5195e750a36b0b89a51e2235 -->
+<!-- START_ebf64eb08a02a3600dbec8e628a60a56 -->
 <h2>hide</h2>
 <p>to hide or UnHide a post from the user view.</p>
 <p>Success Cases :
@@ -1866,12 +1866,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/Hide" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"HrkLl33SbvewUrs1","ID":"n4pOPDAlZeXGzL5o"}'
+    -d '{"name":"px0cHCO2yMwq4oEl","ID":"UQHyXQwyT5NqOCg7"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Hide");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/Hide");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1880,8 +1880,8 @@ let headers = {
 }
 
 let body = {
-    "name": "HrkLl33SbvewUrs1",
-    "ID": "n4pOPDAlZeXGzL5o"
+    "name": "px0cHCO2yMwq4oEl",
+    "ID": "UQHyXQwyT5NqOCg7"
 }
 
 fetch(url, {
@@ -1892,7 +1892,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST Hide</code></p>
+<p><code>POST api/Hide</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1918,8 +1918,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_e1f157eae6e3907a8770cb8504ae73cb -->
-<!-- START_3a7b8eca0c87791144dc77858615f215 -->
+<!-- END_ebf64eb08a02a3600dbec8e628a60a56 -->
+<!-- START_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 <h2>save</h2>
 <p>Save or UnSave a post or a comment.</p>
 <p>Success Cases :
@@ -1930,12 +1930,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/save" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"B5o9Ykc4jeVjCY7d","token":"tQQ42KA0sL30xyVp"}'
+    -d '{"ID":"lIrxuQnyDS6RUeup","token":"DsCXOuHaxgZYFso0"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/save");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/save");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1944,8 +1944,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "B5o9Ykc4jeVjCY7d",
-    "token": "tQQ42KA0sL30xyVp"
+    "ID": "lIrxuQnyDS6RUeup",
+    "token": "DsCXOuHaxgZYFso0"
 }
 
 fetch(url, {
@@ -1956,7 +1956,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST save</code></p>
+<p><code>POST api/save</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -1982,8 +1982,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_3a7b8eca0c87791144dc77858615f215 -->
-<!-- START_5526adab58b86ca220fd6501e7826248 -->
+<!-- END_097a5f7f0c0183fb32d32b0e9bba6b31 -->
+<!-- START_42544bc9403ef51f80610dbe397862b5 -->
 <h2>moreChildren</h2>
 <p>to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).</p>
 <p>Success Cases :
@@ -1994,12 +1994,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/moreComments" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"qv4XbPUItFmyF1Zx","ID":"yKhX35ZWvYn8MjAB"}'
+    -d '{"parent":"0qpiDgWH3cuetNWJ","ID":"eEwbC0SMFgdKFP9d"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/moreComments");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/moreComments");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2008,8 +2008,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "qv4XbPUItFmyF1Zx",
-    "ID": "yKhX35ZWvYn8MjAB"
+    "parent": "0qpiDgWH3cuetNWJ",
+    "ID": "eEwbC0SMFgdKFP9d"
 }
 
 fetch(url, {
@@ -2024,7 +2024,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET moreComments</code></p>
+<p><code>GET api/moreComments</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2050,10 +2050,10 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_5526adab58b86ca220fd6501e7826248 -->
+<!-- END_42544bc9403ef51f80610dbe397862b5 -->
 <h1>Moderation</h1>
 <p>Controls the Moderators actions.</p>
-<!-- START_10e4d0ba01548f1157b134c2866e29cd -->
+<!-- START_bfe5eadf66f0e0ddc26472dc0275da31 -->
 <h2>blockUser</h2>
 <p>to block a user from ApexCom he is moderator in so that he can&#039;t interact in this ApexCom anymore.</p>
 <p>Success Cases :
@@ -2064,12 +2064,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/block" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"cFMMawNw05CzSyTC","user_id":"uv6aIrUg02llSOi9","_token":"iwlMssR9CbG7h9vt"}'
+    -d '{"ApexCom_id":"W0d2WkzaJop6m6v3","user_id":"PXu1qSJPZASs3dw4","_token":"tjcSQsxn0GAc8cBo"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/block");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/block");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2078,9 +2078,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "cFMMawNw05CzSyTC",
-    "user_id": "uv6aIrUg02llSOi9",
-    "_token": "iwlMssR9CbG7h9vt"
+    "ApexCom_id": "W0d2WkzaJop6m6v3",
+    "user_id": "PXu1qSJPZASs3dw4",
+    "_token": "tjcSQsxn0GAc8cBo"
 }
 
 fetch(url, {
@@ -2091,7 +2091,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST block</code></p>
+<p><code>POST api/block</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2123,8 +2123,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_10e4d0ba01548f1157b134c2866e29cd -->
-<!-- START_7d644ee67f837554ee42b61c3180377e -->
+<!-- END_bfe5eadf66f0e0ddc26472dc0275da31 -->
+<!-- START_85b1e06ff0cc2a00de486d21459568f9 -->
 <h2>ignoreReport</h2>
 <p>to delete the ignored report from  ApexCom&#039;s reports.</p>
 <p>Success Cases :
@@ -2135,12 +2135,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/report_action" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"PBA9TKenJcdb8rQ8","_token":"qSGrD0GZfRVp7HC6"}'
+    -d '{"report_id":"jHDGH383HkIbeLdv","_token":"NLPNgddt9MtuKpQU"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/report_action");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/report_action");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2149,8 +2149,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "PBA9TKenJcdb8rQ8",
-    "_token": "qSGrD0GZfRVp7HC6"
+    "report_id": "jHDGH383HkIbeLdv",
+    "_token": "NLPNgddt9MtuKpQU"
 }
 
 fetch(url, {
@@ -2161,7 +2161,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST report_action</code></p>
+<p><code>POST api/report_action</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2187,8 +2187,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_7d644ee67f837554ee42b61c3180377e -->
-<!-- START_ce137a9fb84ef6789f44be899ecab3fe -->
+<!-- END_85b1e06ff0cc2a00de486d21459568f9 -->
+<!-- START_9e88c060d07f4e8b1dd6948de555c21c -->
 <h2>reviewReports</h2>
 <p>view the reports sent by any user for any post or comment in the ApexCom he is moderator in.</p>
 <p>Success Cases :
@@ -2198,12 +2198,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/review_reports" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"o7hyPB5WqvrAe7cT","_token":"74LiViSRePKfriy3"}'
+    -d '{"ApexCom_id":"y3olx7nthzdsGm5y","_token":"HEhDZlIm8loQWM7A"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/review_reports");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/review_reports");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2212,8 +2212,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "o7hyPB5WqvrAe7cT",
-    "_token": "74LiViSRePKfriy3"
+    "ApexCom_id": "y3olx7nthzdsGm5y",
+    "_token": "HEhDZlIm8loQWM7A"
 }
 
 fetch(url, {
@@ -2228,7 +2228,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET review_reports</code></p>
+<p><code>GET api/review_reports</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2254,10 +2254,10 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_ce137a9fb84ef6789f44be899ecab3fe -->
+<!-- END_9e88c060d07f4e8b1dd6948de555c21c -->
 <h1>User</h1>
 <p>Control the user interaction with other users</p>
-<!-- START_1a7af546cd175bbafae3c156085b8064 -->
+<!-- START_5603f5edd050cc1888d2fe64500d5499 -->
 <h2>block</h2>
 <p>Block a user, so he can&#039;t send private messages or see the blocked user posts or comments.</p>
 <p>Success Cases :
@@ -2268,12 +2268,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/block_user" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/block_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"eZdCK7RfgxAqymLq","token":"14uXs7Kca1sme0YN"}'
+    -d '{"id":"Af8AwQdtCzLBNdNO","token":"SjXUG1lWZuLZI8FU"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/block_user");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/block_user");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2282,8 +2282,8 @@ let headers = {
 }
 
 let body = {
-    "id": "eZdCK7RfgxAqymLq",
-    "token": "14uXs7Kca1sme0YN"
+    "id": "Af8AwQdtCzLBNdNO",
+    "token": "SjXUG1lWZuLZI8FU"
 }
 
 fetch(url, {
@@ -2294,7 +2294,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST block_user</code></p>
+<p><code>POST api/block_user</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2320,8 +2320,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_1a7af546cd175bbafae3c156085b8064 -->
-<!-- START_9a86fc0b67608be77b22a771d49949db -->
+<!-- END_5603f5edd050cc1888d2fe64500d5499 -->
+<!-- START_77449fa4952e985b77eff4023c7451dd -->
 <h2>compose</h2>
 <p>Send a private message to another user.</p>
 <p>Success Cases :
@@ -2332,12 +2332,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/compose" \
+<pre><code class="language-bash">curl -X POST "http://localhost/api/compose" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"to":"rkmAcNjqckGJJ5jy","subject":"2LwdbJ84W4QZ8y6p","mes":"boRDVyP4zy8IiEk4","token":"chvGp2nWGO5T8CR8"}'
+    -d '{"to":"fOk12zSqNlErN9Hv","subject":"265IMUbSHsUdVzTG","mes":"zd5ZVGJ1j7iXjXxc","token":"5bYtX3rhaoTFn8mZ"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/compose");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/compose");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2346,10 +2346,10 @@ let headers = {
 }
 
 let body = {
-    "to": "rkmAcNjqckGJJ5jy",
-    "subject": "2LwdbJ84W4QZ8y6p",
-    "mes": "boRDVyP4zy8IiEk4",
-    "token": "chvGp2nWGO5T8CR8"
+    "to": "fOk12zSqNlErN9Hv",
+    "subject": "265IMUbSHsUdVzTG",
+    "mes": "zd5ZVGJ1j7iXjXxc",
+    "token": "5bYtX3rhaoTFn8mZ"
 }
 
 fetch(url, {
@@ -2360,7 +2360,7 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST compose</code></p>
+<p><code>POST api/compose</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2398,8 +2398,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_9a86fc0b67608be77b22a771d49949db -->
-<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
+<!-- END_77449fa4952e985b77eff4023c7451dd -->
+<!-- START_642cf7a37db701458812f02d6082db55 -->
 <h2>userDataByAccountID</h2>
 <p>Return user public data to be seen by another user.</p>
 <p>Success Cases :
@@ -2410,12 +2410,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/user_data" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"ZZRFlJqYwm3fWtci","token":"VcH2ucyGw6u5pkOh"}'
+    -d '{"id":"LXaY64s83thtzYGO","token":"6Z8DSsIbuH72JGQQ"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/user_data");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/user_data");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2424,8 +2424,8 @@ let headers = {
 }
 
 let body = {
-    "id": "ZZRFlJqYwm3fWtci",
-    "token": "VcH2ucyGw6u5pkOh"
+    "id": "LXaY64s83thtzYGO",
+    "token": "6Z8DSsIbuH72JGQQ"
 }
 
 fetch(url, {
@@ -2440,7 +2440,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET user_data</code></p>
+<p><code>GET api/user_data</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2466,9 +2466,9 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
+<!-- END_642cf7a37db701458812f02d6082db55 -->
 <h1>general</h1>
-<!-- START_c0f505b72e10817948e65eb5eb744708 -->
+<!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
 <h2>search</h2>
 <p>Returns a list of lists of ApexComs, posts and profiles that matches the given query.</p>
 <p>Success Cases :
@@ -2478,12 +2478,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/search" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/search" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"query":"5TmKJIRLUS1yQde4"}'
+    -d '{"query":"Ae7hAkTI8weyQM6S"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/search");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/search");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2492,7 +2492,7 @@ let headers = {
 }
 
 let body = {
-    "query": "5TmKJIRLUS1yQde4"
+    "query": "Ae7hAkTI8weyQM6S"
 }
 
 fetch(url, {
@@ -2507,7 +2507,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET search</code></p>
+<p><code>GET api/search</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2527,8 +2527,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_c0f505b72e10817948e65eb5eb744708 -->
-<!-- START_05b3f813d60fda460fbe53c065926a61 -->
+<!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
+<!-- START_09bdc60a87430aec21b4b32b21773baa -->
 <h2>sortPostsBy</h2>
 <p>Returns a list of posts in a given ApexComm sorted either by the votes or by the date.</p>
 <p>Success Cases :
@@ -2539,12 +2539,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/sort_posts" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/sort_posts" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"5HPlFfalzsHTFQ1j","SortingParam":"mILxHeD2EsxGE4VT"}'
+    -d '{"ApexCommID":"FphYdiUKzK3baLTh","SortingParam":"5pinQRLqwE4bMZsF"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/sort_posts");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/sort_posts");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2553,8 +2553,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "5HPlFfalzsHTFQ1j",
-    "SortingParam": "mILxHeD2EsxGE4VT"
+    "ApexCommID": "FphYdiUKzK3baLTh",
+    "SortingParam": "5pinQRLqwE4bMZsF"
 }
 
 fetch(url, {
@@ -2569,7 +2569,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET sort_posts</code></p>
+<p><code>GET api/sort_posts</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2595,8 +2595,8 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_05b3f813d60fda460fbe53c065926a61 -->
-<!-- START_aab40918c3a3f4e3512a9b2c1177ea2b -->
+<!-- END_09bdc60a87430aec21b4b32b21773baa -->
+<!-- START_b402718e2399a5ffc349d38706b47a9f -->
 <h2>apexNames</h2>
 <p>Returns a list of the names of the existing ApexComms.</p>
 <p>Success Cases :
@@ -2606,9 +2606,9 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/Apex_names" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/Apex_names" \
     -H "Api-Version: 0.1.0"</code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/Apex_names");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/Apex_names");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2627,9 +2627,9 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET Apex_names</code></p>
-<!-- END_aab40918c3a3f4e3512a9b2c1177ea2b -->
-<!-- START_06944a72aa732126f3e27ad338662810 -->
+<p><code>GET api/Apex_names</code></p>
+<!-- END_b402718e2399a5ffc349d38706b47a9f -->
+<!-- START_75042856f5cd6cbf0efd54f67a2e85e8 -->
 <h2>getSubscribers</h2>
 <p>Returns a list of the users subscribed to a certain ApexComm.</p>
 <p>Success Cases :
@@ -2640,12 +2640,12 @@ failure Cases:
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/get_subscribers" \
+<pre><code class="language-bash">curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"awEAz1pr5CjUYYmt","_token":"qSC217YWg5BS2kgF"}'
+    -d '{"ApexCommID":"MybzPYDBk1K8ygoT","_token":"7yHGb4SYquU6wpix"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/get_subscribers");
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/get_subscribers");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2654,8 +2654,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "awEAz1pr5CjUYYmt",
-    "_token": "qSC217YWg5BS2kgF"
+    "ApexCommID": "MybzPYDBk1K8ygoT",
+    "_token": "7yHGb4SYquU6wpix"
 }
 
 fetch(url, {
@@ -2670,7 +2670,7 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">null</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET get_subscribers</code></p>
+<p><code>GET api/get_subscribers</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -2696,7 +2696,7 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_06944a72aa732126f3e27ad338662810 -->
+<!-- END_75042856f5cd6cbf0efd54f67a2e85e8 -->
       </div>
       <div class="dark-box">
                         <div class="lang-selector">

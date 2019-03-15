@@ -20,7 +20,7 @@ use App\hidden;
  * controls the comments , replies and private messages for each user
  */
 
-class Comment extends Controller
+class CommentandLinks extends Controller
 {
 
     /**
@@ -171,31 +171,37 @@ class Comment extends Controller
     {
         $user_ID = 't1_3';    //to be changed
         if (! $user_ID) {
-            return false;
+            return response()->json([$value =>false]);
         }
         $post = Post::find($name);
         if (!$post) {
-            return false;
+            return response()->json([$value =>false]);
         }
         $type = User::find($user_ID)['type'];
 
         if ($type !=3) {
             if ($type ==2) {
-                if (moderator::find($user_ID)['apexID'] != $post['apex_id']) {  //to be edited
-                    return false;
+                $moderate = moderator::find($user_ID)['apexID'];
+                foreach ($moderate as $moderator) {
+                    if ($moderator == $post['apex_id']) {
+                        $post->locked = true;
+                        $post->save();
+                        return response()->json([$value =>true]);
+                    }
                 }
+                return response()->json([$value =>false]);
             } elseif ($type==1) {
                 if ($user_ID != $post['posted_by']) {
-                    return false;
+                    return response()->json([$value =>false]);
                 }
             } else {
-                return false;
+                return response()->json([$value =>false]);
             }
         }
 
         $post->locked = true;
         $post->save();
-        return true;
+        return response()->json([$value =>true]);
     }
 
 
