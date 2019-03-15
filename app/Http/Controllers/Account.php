@@ -2,7 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use JWTAuth;
+use Tymon\JWTAuth\Http\Parser\Parser;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Tymon\JWTAuth\Support\CustomClaims;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use DB;
 
 /**
  * @group Account
@@ -31,11 +40,48 @@ class Account extends Controller
      * @bodyParam userImage string required The name of the image for the user.
      */
 
-    public function signUp()
+    public function signUp(Request $request)
     {
-        return;
-    }
+        $validator = Validator::make(
+            $request->all(), [
+            'fullname' => 'required|string|max:50',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'username' => 'required|string|max:50|unique:users',
+            'avatar' => 'image'
+            ]
+        );
 
+        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
+        $id = "t2_1";
+        if ($lastUser) {
+            $id = $lastUser->id;
+            $newIdx = (int)explode("_", $id)[1];
+            $id = "t2_".($newIdx+1);
+        }
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $requestData = $request->all();
+        $requestData['id'] = $id;
+        unset($requestData["password_confirmation"]);
+
+        $password = $requestData["password"];
+        $requestData["password"] = Hash::make($password);
+  
+
+        $user = new User($requestData);
+        $avatar = "storage/avatars/users/default.png";
+        $user->avatar = $avatar;
+        $user->id = $id;
+        $user->save();
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(compact('user', 'token'), 200);
+    }
 
     /**
      * login
@@ -50,9 +96,18 @@ class Account extends Controller
      * @bodyParam password string required The user's password.
      */
 
-    public function login()
+    public function login(Request $request)
     {
-        return;
+        $credentials = $request->only('username', 'password');
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 400);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+
+        return response()->json(compact('token'));
     }
 
 
@@ -108,9 +163,15 @@ class Account extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function logout()
+    public function logout(Request $request)
     {
-        return;
+        try{
+            $token = JWTAuth::parseToken();
+            $token->invalidate();
+        } catch(JWTException $e){
+            return response()->json(['token_error' => $e->getMessage()], 400);
+        }
+        return response()->json(['token' => null], 200);
     }
 
 
@@ -216,9 +277,17 @@ class Account extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function me()
+    public function me(Request $request)
     {
-        return;
+        try {
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        }
+        catch(JWTException $e){
+            return response()->json(['token_error' => $e->getMessage()], 400);
+        }
+        return response()->json(compact('user'));    
     }
 
 
