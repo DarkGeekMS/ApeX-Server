@@ -22,7 +22,7 @@ class Message extends Migration
                 $table->string('parent')->nullable();
                 $table->string('sender');
                 $table->string('receiver');
-                $table->timestamp('sentAt');
+                $table->timestamps();
                 $table->boolean('received')->default(false);
                 $table->boolean('delSend')->default(false);
                 $table->boolean('delReceive')->default(false);

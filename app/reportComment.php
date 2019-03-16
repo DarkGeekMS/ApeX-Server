@@ -10,5 +10,6 @@ class reportComment extends Model
       'comID',
       'userID',
       'content',
-    ]
+    ];
+    public $incrementing = false;
 }

@@ -15,5 +15,6 @@ class post extends Model
       'content',
       'posted_at',
       'locked',
-    ]
+    ];
+    public $incrementing = false;
 }

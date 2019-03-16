@@ -18,6 +18,7 @@ class SaveComment extends Migration
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');
+                $table->timestamps();
                 $table->primary(['userID','comID']);
                 $table->foreign('comID')->references('id')->on('comments')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

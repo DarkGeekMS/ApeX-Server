@@ -21,6 +21,7 @@ class ApexCom extends Migration
                     $table->string('banner')->default('public\img\banner.jpg');
                     $table->text('rules');
                     $table->text('description');
+                    $table->timestamps();
                     $table->primary('id');
                 }
             );

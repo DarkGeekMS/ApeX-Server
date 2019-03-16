@@ -10,5 +10,6 @@ class block extends Model
       'blockerID',
       'blockedID',
 
-    ]
+    ];
+    public $incrementing = false;
 }

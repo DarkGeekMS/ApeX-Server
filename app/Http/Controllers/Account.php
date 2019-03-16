@@ -43,7 +43,8 @@ class Account extends Controller
     public function signUp(Request $request)
     {
         $validator = Validator::make(
-            $request->all(), [
+            $request->all(),
+            [
             'fullname' => 'required|string|max:50',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -70,7 +71,7 @@ class Account extends Controller
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password);
-  
+
 
         $user = new User($requestData);
         $avatar = "storage/avatars/users/default.png";
@@ -165,10 +166,10 @@ class Account extends Controller
 
     public function logout(Request $request)
     {
-        try{
+        try {
             $token = JWTAuth::parseToken();
             $token->invalidate();
-        } catch(JWTException $e){
+        } catch (JWTException $e) {
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
         return response()->json(['token' => null], 200);
@@ -283,11 +284,10 @@ class Account extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-        }
-        catch(JWTException $e){
+        } catch (JWTException $e) {
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
-        return response()->json(compact('user'));    
+        return response()->json(compact('user'));
     }
 
 

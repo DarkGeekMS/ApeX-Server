@@ -10,5 +10,6 @@ class reportPost extends Model
       'postID',
       'userID',
       'content',
-    ]
+    ];
+    public $incrementing = false;
 }

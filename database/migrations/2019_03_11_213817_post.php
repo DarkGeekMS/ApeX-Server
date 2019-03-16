@@ -24,6 +24,7 @@ class Post extends Migration
                 $table->text('content')->nullable();
                 $table->timestamp('posted_at');
                 $table->boolean('locked')->default(false);
+                $table->timestamps();
                 $table->primary('id');
                 $table->foreign('posted_by')->references('id')->on('users')->onDelete('cascade');
                 $table->foreign('apex_id')->references('id')->on('apexComs')->onDelete('cascade');

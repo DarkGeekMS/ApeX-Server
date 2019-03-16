@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use App\comment;
 use App\commentVote;
 use App\User;
@@ -13,6 +14,7 @@ use App\saveComment;
 use App\savePost;
 use App\message;
 use App\hidden;
+use App\post;
 
 /**
  * @group Links and comments
@@ -38,22 +40,103 @@ class CommentandLinks extends Controller
      * @bodyParam AuthID JWT required Verifying user ID.
      */
 
-    public function add($name, $content, $parent)
+    public function add(Request $request)
     {
-        $user_ID = 't1_3';    //to be changed
-        if (!$user_ID) {
-            return false;
+        $user = me($request);
+
+        if (!$user) {
+            return response()->json(['error' => 'invalid user'], 404);
         }
-        if ($parent[1]==1) {                          //add reply to comment ( or another reply)
-            // code...
+
+        $parent = $request['parent'];
+
+        if ($parent[1]==1) {              //add reply to comment ( or another reply)
+            $comment = comment::find($parent);
+            if (!$comment) {
+                return response()->json(['error' => 'invalid reply '], 404);
+            }
+          //check block in this case will be for the whole root !!
+            $post = post::find($comment['root']);
+
+            $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+            ->where('ApexID', $post['apex_id'])->get();
+
+            if (count($blockedApex)) {
+                return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+            }
+
+            $blockedP = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $post['posted_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+            $blockedC = DB::table('blocks')->where('blockerID', $user['id'])
+            ->where('blockedID', $comment['commented_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $comment['commented_by'])->get();
+
+            if (count($blockedP) || count($blockedC)) {
+                return response()->json(['error' => 'You cannot reply '], 306);
+            }
+            //check mention existance
+            $count = DB::table('comments')->count();
+            $id = "t1_".($count+1);
+            DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$post['id'],
+            'parent' => $comment['id'] , 'id' =>$id, 'content' => $request['content']]);
+
+            return response()->json([$value =>true], 200);
         } elseif ($parent[1]==3) {                   //add comment
-            // code...
+            $post = post::find($parent);
+
+            if (!$post) {
+                return response()->json(['error' => 'post not exists '], 404);
+            }
+
+            $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+            ->where('ApexID', $post['apex_id'])->get();
+
+            if (count($blockedApex)) {
+                return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+            }
+
+            $blocked = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $post['posted_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+            if (count($blocked)) {
+                return response()->json(['error' => 'You cannot comment on this post'], 306);
+            }
+            //check if any mention exists
+            $count = DB::table('comments')->count();
+            $id = "t1_".($count+1);
+            DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$parent,
+            'id' =>$id, 'content' => $request['content']]);
+
+            return response()->json([$value =>true], 200);
         } elseif ($parent[1]==4) {                  //reply to message
-          // code...
-        } else {
-            return false;
+            $message = message::find($parent);
+            if (!$message) {
+                return response()->json(['error' => ' message not exists '], 404);
+            }
+            $userF = 't1_0';
+            if ($message['sender'] == $user['id']) {
+                $userF = $message['receiver'];
+            } else {
+                $userF = $message['sender'];
+            }
+
+            $blocked = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $userF)
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $userF)->get();
+
+            if (count($blocked)) {
+                return response()->json(['error' => 'You cannot comment on this post'], 306);
+            }
+
+            $count = DB::table('messages')->count();
+            $id = "t4_".($count+1);
+
+            DB::table('messages')->insert(['sender'=> $user['id'], 'receiver' =>$userF,
+            'id' =>$id, 'content' => $request['content'], 'subject' => $message['subject']]);
+
+            return response()->json([$value =>true], 200);
         }
-        return;
+        return response()->json(['error' => 'invalid Action'], 404);
     }
 
 
@@ -72,60 +155,77 @@ class CommentandLinks extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function delete($name)
+    public function delete(Request $request)
     {
-        $user_ID = 't1_3';    //to be changed
-        if (!$user_ID) {
-            return false;
+        $user = me($request);
+
+        if (!$user) {
+            return response()->json(['error' => 'invalid user'], 404);
         }
-        $type = User::find($user_ID)['type'];
+
+        $name = $request['name'];
 
         if ($name[1]==3) {                           //post
-            $post = Post::find($name);
+            $post = post::find($name);
 
             if (!$post) {
-                return false;
+                return response()->json(['error' => 'post not exists'], 404);
             }
 
-            if ($type !=3) {
-                if ($type ==2) {
-                    if (!$moderator) {          // moderator in this apeXcom
-                        return false;
-                    }
-                } elseif ($type ==1) {
-                    if ($user_ID != $post['posted_by']) {
-                        return false;
-                    }
-                } else {
-                    return false;
+            if ($user['type'] !=3) {
+                if ($user['id'] == $post['posted_by']) {
+                    $post->delete();
+                    return response()->json([$value =>true], 200);
                 }
+                if ($user['type'] ==2) {
+                    $apexes = DB::table('moderators')->where('userID', $user_ID)->pluck('apexID');
+                    foreach ($apexes as $key => $value) {
+                        if ($value == $post['apex_id']) {
+                            $post->delete();
+                            return response()->json([$value =>true]);
+                        }
+                    }
+                    return response()->json(['error' => 'You are not moderator in this Apexcom'], 304);
+                }
+                return response()->json(['error' => 'invalid user'], 300);
             }
-
             $post->delete();
-            return true;
+            return response()->json([$value =>true], 200);
         } elseif ($name[1]==1) {                     //comment
             $comment = comment::find($name);
+
             if (!$comment) {
-                return false;
+                return response()->json(['error' => 'comment not exists'], 300);
             }
-            if ($type !=3) {
-                if ($type ==2) {
-                    if (!$moderator) {          // moderator in this apeXcom
-                        return false;
-                    }
-                } elseif ($type ==1) {
-                    if ($user_ID != $comment['commented_by']) {
-                        return false;
-                    }
-                } else {
-                    return false;
+
+            if ($user['type'] !=3) {
+                if ($user['id'] == $comment['commented_by']) {
+                    $comment->delete();
+                    return response()->json([$value =>true], 200);
                 }
+
+                $post = post::find($comment['root']);
+
+                if ($user['id'] == $post['posted_by']) {
+                    $comment->delete();
+                    return response()->json([$value =>true], 200);
+                }
+                if ($user['type'] ==2) {
+                    $apexes = DB::table('moderators')->where('userID', $user_ID)->pluck('apexID');
+                    foreach ($apexes as $key => $value) {
+                        if ($value == $post['apex_id']) {
+                            $comment->delete();
+                            return response()->json([$value =>true], 200);
+                        }
+                    }
+                    return response()->json(['error' => 'You are not moderator in this Apexcom'], 304);
+                }
+                return response()->json(['error' => 'invalid user'], 300);
             }
             $comment->delete();
-            return true;
-        } else {
-            return false;
+            return response()->json([$value =>true]);
         }
+        return response()->json(['error' => 'invalid Action'], 404);
     }
 
 
@@ -167,41 +267,45 @@ class CommentandLinks extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function lock($name)
+    public function lock(Request $request)
     {
-        $user_ID = 't1_3';    //to be changed
-        if (! $user_ID) {
-            return response()->json([$value =>false]);
+        $user= me($request);
+
+        if (!$user) {
+            return response()->json(['user_not_found'], 404);
         }
-        $post = Post::find($name);
+        $user_ID = $user['id'];
+        $post = post::find($request['name']);
+
         if (!$post) {
-            return response()->json([$value =>false]);
+            return response()->json(['error' => 'post not exists'], 404);
         }
-        $type = User::find($user_ID)['type'];
+
+        $type = $user['type'];
 
         if ($type !=3) {
+            if ($user_ID == $post['posted_by']) {
+                $post->locked = true;
+                $post->save();
+                return response()->json([$value =>true], 200);
+            }
             if ($type ==2) {
-                $moderate = moderator::find($user_ID)['apexID'];
-                foreach ($moderate as $moderator) {
-                    if ($moderator == $post['apex_id']) {
+                $apexes = DB::table('moderators')->where('userID', $user_ID)->pluck('apexID');
+                foreach ($apexes as $key => $value) {
+                    if ($value == $post['apex_id']) {
                         $post->locked = true;
                         $post->save();
-                        return response()->json([$value =>true]);
+                        return response()->json([$value =>true], 200);
                     }
                 }
-                return response()->json([$value =>false]);
-            } elseif ($type==1) {
-                if ($user_ID != $post['posted_by']) {
-                    return response()->json([$value =>false]);
-                }
-            } else {
-                return response()->json([$value =>false]);
+                return response()->json(['error' => 'You are not moderator in this Apexcom'], 404);
             }
+            return response()->json(['error' => 'invalid user'], 404);
         }
 
         $post->locked = true;
         $post->save();
-        return response()->json([$value =>true]);
+        return response()->json([$value =>true], 200);
     }
 
 
@@ -220,25 +324,40 @@ class CommentandLinks extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function hide($name)
+    public function hide(Request $request)
     {
-        $user_ID = 't1_3';    //to be changed
-        if (!$user_ID) {
-            return false;
+        $user= me($request);
+
+        if (!$user) {
+            return response()->json(['error' => 'invalid user'], 404);
         }
-        $post = Post::find($name);
+
+        $post = Post::find($request['name']);
         if (!$post) {
-            return false;
+            return response()->json(['error' => 'post not exists'], 404);
         }
-         //check the user not blocked by the owner of the post ( or block him )
-        // not blocked from the apxCom has this post
-        $hide = hidden::where(['postID' => $name ,'userID' => $user_ID]);
-        if (!$hide) {
-            hidden::create(['postID' => $name ,'userID' => $user_ID]);
-            return true;
+
+        $blocked = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $post['posted_by'])
+        ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+        if (count($blocked)) {
+            return response()->json(['error' => 'You cannot hide the post'], 404);
         }
-        $hide->delete();
-        return true;
+
+        $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+        ->where('ApexID', $post['apex_id'])->get();
+
+        if (count($blockedApex)) {
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        }
+
+        $hide = DB::table('hiddens')->where('userID', $user['id'])->where('postID', $post['id']);
+        if (!count($hide)) {
+            DB::table('hiddens')->insert(['userID'=> $user['id'], 'postID' => $post['id']]);
+            return response()->json([$value =>true], 200);
+        }
+        DB::table('hiddens')->where('userID', $user['id'])->where('postID', $post['id'])->delete();
+        return response()->json([$value =>true], 200);
     }
 
 
@@ -282,9 +401,101 @@ class CommentandLinks extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function report()
+    public function report(Request $request)
     {
-        return;
+        $user= me($request);
+        $user_ID = $user['id'];
+
+        if (!$user) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
+        if ($user['type'] ==3) {
+            return response()->json(['error' => 'invalid Action'], 404);
+        }
+        $name = $request['name'];
+        if ($name[1]==3) {                   //post
+            $post = post::find($name);
+            if (!$post) {
+                return response()->json(['error' => 'invalid Action'], 404);
+            }
+            if ($user_ID == $post['posted_by']) {
+                 return response()->json(['error' => 'invalid Action'], 404);
+            }
+            $apexes = DB::table('moderators')->where('userID', $user_ID)->pluck('apexID');
+            foreach ($apexes as $key => $value) {
+                if ($value == $post['apex_id']) {
+                    return response()->json(['error' => 'invalid Action'], 404);
+                }
+            }
+            $blocked = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $post['posted_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+            if (count($blocked)) {
+                return response()->json(['error' => 'You cannot access the post'], 404);
+            }
+
+            $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+            ->where('ApexID', $post['apex_id'])->get();
+
+            if (count($blockedApex)) {
+                return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+            }
+
+            $report = DB::table('reportPosts')->where('userID', $user_ID)->where('postID', $post['id'])->get();
+            if (!count($report)) {
+                DB::table('reportPosts')->insert(['userID'=> $user_ID,
+                'postID' => $post['id'] , 'content' => $request['content']]);
+                return response()->json([$value =>true]);
+            } else {
+                return response()->json(['error' => 'You already report this post'], 404);
+            }
+        } elseif ($name[1] ==1) {           //comment
+            $comment = comment::find($name);
+            if (!$comment) {
+                return response()->json(['error' => 'invalid Action'], 404);
+            }
+
+            if ($user_ID == $comment['commented_by']) {
+                 return response()->json(['error' => 'invalid Action'], 404);
+            }
+
+            $post = post::find($comment['root']);
+
+            $apexes = DB::table('moderators')->where('userID', $user_ID)->pluck('apexID');
+            foreach ($apexes as $key => $value) {
+                if ($value == $post['apex_id']) {
+                    return response()->json(['error' => 'invalid Action'], 404);
+                }
+            }
+
+            $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+            ->where('ApexID', $post['apex_id'])->get();
+
+            if (count($blockedApex)) {
+                return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+            }
+
+            $blockedC = DB::table('blocks')->where('blockerID', $user['id'])
+            ->where('blockedID', $comment['commented_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $comment['commented_by'])->get();
+
+            $blockedP = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $post['posted_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+            if ($blockedP || $blockedC) {
+                return response()->json(['error' => 'You cannot see this post'], 404);
+            }
+            $report = DB::table('reportComments')->where('userID', $user_ID)->where('comID', $comment['id']);
+            if (!$report) {
+                DB::table('reportComments')->insert(['userID'=> $user_ID,
+                'comID' => $comment['id'] , 'content' => $request['content']]);
+                return response()->json([$value =>true], 200);
+            } else {
+                return response()->json(['error' => 'You already report this comment'], 404);
+            }
+        }
+
+        return response()->json(['error' => 'invalid Action'], 404);
     }
 
 
@@ -304,52 +515,107 @@ class CommentandLinks extends Controller
      * @bodyParam ID JWT required Verifying user ID.
      */
 
-    public function vote($name, $dir)
+    public function vote(Request $request)
     {
-        $user_ID = 't1_3';    //to be changed
-        if (!$user_ID) {
-            return;
+        $user = me($request);
+
+        if (!$user) {
+            return response()->json(['error' => 'invalid user'], 404);
         }
+        $user_ID = $user['id'];
+
+        $name = $request['name'];
 
         if ($name[1]==3) {
-            $post = Post::find($name);
+            $post = post::find($name);
             if (!$post) {
-                return;
+                return response()->json(['error' => 'post not exists'], 404);
             }
-            // check the user not blocked from this apeXcom or blocked by /block the owner of the post
-            $exits = vote::where(['postID' => $name ,'userID' => $user_ID]);
-            if (!$exits) {
-                vote::create(['postID' => $name ,'userID' => $user_ID]);
-                return true;                          //return the count
+
+            $blocked = DB::table('blocks')->where('blockerID', $user['id'])->where('blockedID', $post['posted_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+            if (count($blocked)) {
+                return response()->json(['error' => 'You cannot vote on this post'], 306);
             }
-            if ($exists['dir'] == $dir) {
+
+            $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+            ->where('ApexID', $post['apex_id'])->get();
+
+            if (count($blockedApex)) {
+                return response()->json(['error' => 'You are blocked from this Apexcom'], 306);
+            }
+
+            $exists = DB::table('votes')->where('postID', $request['name'])
+             ->where('userID', $userID)->get();
+
+            if (!count($exits)) {
+                DB::table('votes')->insert(['postID'=> $request['name'], 'userID' =>$userID ]);
+                $NoVotes = DB::table('votes')->where('postID', $request['name'])->count();
+                return response()->json(['votes' => $NoVotes], 200);
+            }
+
+            if ($exists['dir'] == $request['dir']) {
                 $exits-> delete();
-                return true;                        //return the count
+                $NoVotes = DB::table('votes')->where('postID', $request['name'])->count();
+                return response()->json(['votes' => $NoVotes], 200);
             } else {
-                $exits ->update(['dir' => $dir]);
-                return true;                      //return the count
+                $exits ->update(['dir' => $request['dir']]);
+                $NoVotes = DB::table('votes')->where('postID', $request['name'])->count();
+                return response()->json(['votes' => $NoVotes], 200);
             }
         } elseif ($name[1]==1) {
             $comment = comment::find($name);
+
             if (!$comment) {
-                return;
+                return response()->json(['error' => 'comment not exists'], 300);
             }
-        // check the user not blocked from this apeXcom or blocked by /block the owner of the post
-            $exits = commentVote::where(['comID' => $name ,'userID' => $user_ID]);
-            if (!$exits) {
-                commentVote::create(['postID' => $name ,'comID' => $user_ID]);
-                return true;                          //return the count
+
+            $blocked = DB::table('blocks')->where('blockerID', $user['id'])
+            ->where('blockedID', $comment['commented_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $comment['commented_by'])->get();
+
+            if (count($blocked)) {
+                return response()->json(['error' => 'You cannot vote on this comment'], 306);
             }
-            if ($exists['dir'] == $dir) {
+
+            $mainPost = DB::table('comments')->where('id', $name)->value('root');
+            $post = post::find($mainPost);
+
+            $blocked = DB::table('blocks')->where('blockerID', $user['id'])
+            ->where('blockedID', $post['posted_by'])
+            ->orwhere('blockedID', $user['id'])->where('blockerID', $post['posted_by'])->get();
+
+            if (count($blocked)) {
+                return response()->json(['error' => 'You cannot vote on this comment'], 306);
+            }
+
+            $blockedApex = DB::table('apexBlocks')->where('blockedID', $user['id'])
+            ->where('ApexID', $post['apex_id'])->get();
+
+            if (count($blockedApex)) {
+                return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+            }
+
+            $exists = DB::table('commentVotes')->where('comID', $request['name'])
+             ->where('userID', $userID)->get();
+
+            if (!count($exits)) {
+                DB::table('commentVotes')->insert(['comID'=> $request['name'], 'userID' =>$userID ]);
+                $NoVotes = DB::table('commentVotes')->where('comID', $request['name'])->count();
+                return response()->json(['votes' => $NoVotes], 200);
+            }
+            if ($exists['dir'] == $request['dir']) {
                 $exits-> delete();
-                return true;                        //return the count
+                $NoVotes = DB::table('commentVotes')->where('comID', $request['name'])->count();
+                return response()->json(['votes' => $NoVotes], 200);
             } else {
-                $exits ->update(['dir' => $dir]);
-                return true;                      //return the count
+                $exits ->update(['dir' => $request['dir']]);
+                $NoVotes = DB::table('commentVotes')->where('comID', $request['name'])->count();
+                return response()->json(['votes' => $NoVotes], 200);
             }
-        } else {
-            return;
         }
+            return response()->json(['error' => 'invalid Action'], 404);
     }
 
 

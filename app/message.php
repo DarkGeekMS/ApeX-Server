@@ -17,5 +17,6 @@ class message extends Model
       'received',
       'delSend',
       'delReceive'
-    ]
+    ];
+    public $incrementing = false;
 }

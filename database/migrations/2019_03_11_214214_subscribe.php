@@ -18,6 +18,7 @@ class Subscribe extends Migration
             function (Blueprint $table) {
                 $table->string('apexID');
                 $table->string('userID');
+                $table->timestamps();
                 $table->primary(['userID','apexID']);
                 $table->foreign('apexID')->references('id')->on('apeXcoms')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

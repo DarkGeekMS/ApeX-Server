@@ -9,5 +9,6 @@ class apexBlock extends Model
     protected $fillable = [
       'ApexID',
       'blockedID',
-    ]
+    ];
+    public $incrementing = false;
 }
