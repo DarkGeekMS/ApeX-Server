@@ -26,7 +26,7 @@ class Post extends Migration
                 $table->boolean('locked')->default(false);
                 $table->primary('id');
                 $table->foreign('posted_by')->references('id')->on('users')->onDelete('cascade');
-                $table->foreign('apex_id')->references('id')->on('apexComs')->onDelete('cascade');
+                $table->foreign('apex_id')->references('id')->on('apex_coms')->onDelete('cascade');
             }
         );
     }

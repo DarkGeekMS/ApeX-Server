@@ -9,5 +9,7 @@ class savePost extends Model
     protected $fillable = [
       'postID',
       'userID',
-    ]
+    ];
+
+    public $timestamps = false;
 }

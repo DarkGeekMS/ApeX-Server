@@ -10,5 +10,7 @@ class reportComment extends Model
       'comID',
       'userID',
       'content',
-    ]
+    ];
+
+    public $timestamps = false;
 }

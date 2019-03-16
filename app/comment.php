@@ -12,5 +12,7 @@ class comment extends Model
       'content',
       'root',
       'parent',
-    ]
+    ];
+
+    public $timestamps = false;
 }

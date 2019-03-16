@@ -9,5 +9,7 @@ class saveComment extends Model
     protected $fillable = [
       'comID',
       'userID',
-    ]
+    ];
+
+    public $timestamps = false;
 }

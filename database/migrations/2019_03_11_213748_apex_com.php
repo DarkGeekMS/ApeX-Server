@@ -14,7 +14,7 @@ class ApexCom extends Migration
     public function up()
     {
             Schema::create(
-                'apexComs',
+                'apex_coms',
                 function (Blueprint $table) {
                     $table->string('id')->unique();
                     $table->string('avatar')->default('public\img\apx.png');

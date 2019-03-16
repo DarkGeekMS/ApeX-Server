@@ -14,7 +14,7 @@ class ReportComment extends Migration
     public function up()
     {
         Schema::create(
-            'reportComments',
+            'report_comments',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');

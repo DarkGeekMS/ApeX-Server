@@ -9,5 +9,7 @@ class apexBlock extends Model
     protected $fillable = [
       'ApexID',
       'blockedID',
-    ]
+    ];
+
+    public $timestamps = false;
 }

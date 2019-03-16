@@ -10,5 +10,7 @@ class block extends Model
       'blockerID',
       'blockedID',
 
-    ]
+    ];
+
+    public $timestamps = false;
 }

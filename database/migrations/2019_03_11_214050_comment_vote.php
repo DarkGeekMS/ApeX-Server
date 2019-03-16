@@ -14,7 +14,7 @@ class CommentVote extends Migration
     public function up()
     {
         Schema::create(
-            'commentVotes',
+            'comment_votes',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');

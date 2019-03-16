@@ -10,5 +10,7 @@ class vote extends Model
       'postID',
       'userID',
       'dir',
-    ]
+    ];
+
+    public $timestamps = false;
 }

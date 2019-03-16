@@ -14,7 +14,7 @@ class SaveComment extends Migration
     public function up()
     {
         Schema::create(
-            'saveComments',
+            'save_comments',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');

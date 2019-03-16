@@ -10,5 +10,7 @@ class commentVote extends Model
       'comID',
       'userID',
       'dir',
-    ]
+    ];
+
+    public $timestamps = false;
 }

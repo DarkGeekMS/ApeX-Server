@@ -9,5 +9,7 @@ class moderator extends Model
     protected $fillable = [
       'apexID',
       'userID',
-    ]
+    ];
+
+    public $timestamps = false;
 }

@@ -9,5 +9,7 @@ class hidden extends Model
     protected $fillable = [
       'postID',
       'userID',
-    ]
+    ];
+
+    public $timestamps = false;
 }

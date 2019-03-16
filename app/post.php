@@ -15,5 +15,7 @@ class post extends Model
       'content',
       'posted_at',
       'locked',
-    ]
+    ];
+
+    public $timestamps = false;
 }

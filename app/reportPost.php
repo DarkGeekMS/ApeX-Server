@@ -10,5 +10,7 @@ class reportPost extends Model
       'postID',
       'userID',
       'content',
-    ]
+    ];
+
+    public $timestamps = false;
 }

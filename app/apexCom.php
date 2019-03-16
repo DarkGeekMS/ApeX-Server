@@ -12,5 +12,7 @@ class apexCom extends Model
       'banner',
       'rules',
       'description',
-    ]
+    ];
+
+    public $timestamps = false;
 }

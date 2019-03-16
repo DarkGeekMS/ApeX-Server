@@ -17,5 +17,7 @@ class message extends Model
       'received',
       'delSend',
       'delReceive'
-    ]
+    ];
+
+    public $timestamps = false;
 }
