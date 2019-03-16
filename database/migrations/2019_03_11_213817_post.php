@@ -22,7 +22,6 @@ class Post extends Migration
                 $table->string('img')->nullable();
                 $table->string('videolink')->nullable();
                 $table->text('content')->nullable();
-                $table->timestamp('posted_at');
                 $table->boolean('locked')->default(false);
                 $table->timestamps();
                 $table->primary('id');

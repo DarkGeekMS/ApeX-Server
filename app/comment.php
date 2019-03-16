@@ -14,6 +14,4 @@ class comment extends Model
       'parent',
     ];
     public $incrementing = false;
-
-    public $timestamps = false;
 }
