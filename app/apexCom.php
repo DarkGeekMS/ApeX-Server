@@ -8,10 +8,13 @@ class apexCom extends Model
 {
     protected $fillable = [
       'id',
+      'name',
       'avatar',
       'banner',
       'rules',
       'description',
     ];
     public $incrementing = false;
+
+    public $timestamps = false;
 }

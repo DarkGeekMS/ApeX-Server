@@ -11,4 +11,6 @@ class subscriber extends Model
       'userID',
     ];
     public $incrementing = false;
+
+    public $timestamps = false;
 }

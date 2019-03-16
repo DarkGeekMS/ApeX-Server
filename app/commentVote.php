@@ -12,4 +12,6 @@ class commentVote extends Model
       'dir',
     ];
     public $incrementing = false;
+
+    public $timestamps = false;
 }

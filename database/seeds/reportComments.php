@@ -11,6 +11,6 @@ class reportComments extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\reportComment::class, 10)->create();
     }
 }

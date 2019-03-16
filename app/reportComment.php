@@ -12,4 +12,6 @@ class reportComment extends Model
       'content',
     ];
     public $incrementing = false;
+
+    public $timestamps = false;
 }

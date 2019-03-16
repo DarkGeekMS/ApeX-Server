@@ -11,6 +11,6 @@ class messages extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\message::class, 10)->create();
     }
 }

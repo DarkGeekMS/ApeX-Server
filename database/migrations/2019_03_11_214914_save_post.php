@@ -14,7 +14,7 @@ class SavePost extends Migration
     public function up()
     {
         Schema::create(
-            'savePosts',
+            'save_posts',
             function (Blueprint $table) {
                 $table->string('postID');
                 $table->string('userID');

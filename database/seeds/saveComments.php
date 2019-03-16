@@ -11,6 +11,6 @@ class saveComments extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\saveComment::class, 10)->create();
     }
 }

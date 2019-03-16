@@ -21,10 +21,10 @@ class CreateUsersTable extends Migration
                 $table->string('email')->unique();
                 $table->string('username')->unique();
                 $table->string('password');
-                $table->string('avatar')->default('public\img\def.jpg');
+                $table->string('avatar')->default('public\img\def.png');
                 $table->integer('karma')->default(1);
                 $table->boolean('notification')->default(true);
-                $table->integer('type')->default(1);   //i normal user , 2 moderator , 3 admin
+                $table->integer('type')->default(1);   //1 normal user , 2 moderator , 3 admin
                 $table->timestamps();
                 $table->primary('id');
             }

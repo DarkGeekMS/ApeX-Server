@@ -14,7 +14,7 @@ class ReportPost extends Migration
     public function up()
     {
         Schema::create(
-            'reportPosts',
+            'report_posts',
             function (Blueprint $table) {
                 $table->string('postID');
                 $table->string('userID');

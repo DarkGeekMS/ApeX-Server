@@ -13,6 +13,7 @@ use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
 
+
 /**
  * @group Account
  *
