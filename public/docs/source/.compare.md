@@ -23,7 +23,7 @@ Welcome to the generated API reference.
 #Account
 
 Controls the authentication, info and messages of any user account.
-<!-- START_3a06114e88089d07a3c29bdb6f844602 -->
+<!-- START_311b0f388598aca8ed7f8fdf74916333 -->
 ## signUp
 Registers new user into the website.
 
@@ -38,15 +38,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/sign_up" \
+curl -X POST "http://localhost/api/sign_up" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"kn76EOtRNcxV9zcq","username":"b2HbPzf502ODwPQ0","password":"leDkVSAJzH2uTc7d","verify_password":"8qix7FWg1DidSUJp","userImage":"srz3g5QNoX1ARf29"}'
+    -d '{"email":"5mRMzM23yxUe1LYl","username":"94xFzBYqITLxAM6j","password":"8fh64iHVBtZag5uo","verify_password":"O6lxqofyXmGmFSzY","userImage":"LLLRgCzg79RGIbvF"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/sign_up");
+const url = new URL("http://localhost/api/sign_up");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -55,11 +55,11 @@ let headers = {
 }
 
 let body = {
-    "email": "kn76EOtRNcxV9zcq",
-    "username": "b2HbPzf502ODwPQ0",
-    "password": "leDkVSAJzH2uTc7d",
-    "verify_password": "8qix7FWg1DidSUJp",
-    "userImage": "srz3g5QNoX1ARf29"
+    "email": "5mRMzM23yxUe1LYl",
+    "username": "94xFzBYqITLxAM6j",
+    "password": "8fh64iHVBtZag5uo",
+    "verify_password": "O6lxqofyXmGmFSzY",
+    "userImage": "LLLRgCzg79RGIbvF"
 }
 
 fetch(url, {
@@ -73,7 +73,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST sign_up`
+`POST api/sign_up`
 
 #### Body Parameters
 
@@ -85,9 +85,9 @@ Parameter | Type | Status | Description
     verify_password | required |  optional  | string The repeated value of the password.
     userImage | string |  required  | The name of the image for the user.
 
-<!-- END_3a06114e88089d07a3c29bdb6f844602 -->
+<!-- END_311b0f388598aca8ed7f8fdf74916333 -->
 
-<!-- START_f2f2bd15a0a3125617af6284631682f0 -->
+<!-- START_67f683fe8a80401986f3d12a170787b0 -->
 ## login
 Validates user&#039;s credentials and logs him in.
 
@@ -100,15 +100,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/Sign_in" \
+curl -X POST "http://localhost/api/Sign_in" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"SeYmhNEEhGNvJYB9","password":"q3PgkWZBg6udW9OB"}'
+    -d '{"username":"hIbmsVNqhpCgOVz3","password":"09x378e7pOyBoTwa"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/Sign_in");
+const url = new URL("http://localhost/api/Sign_in");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -117,8 +117,8 @@ let headers = {
 }
 
 let body = {
-    "username": "SeYmhNEEhGNvJYB9",
-    "password": "q3PgkWZBg6udW9OB"
+    "username": "hIbmsVNqhpCgOVz3",
+    "password": "09x378e7pOyBoTwa"
 }
 
 fetch(url, {
@@ -132,7 +132,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST Sign_in`
+`POST api/Sign_in`
 
 #### Body Parameters
 
@@ -141,9 +141,9 @@ Parameter | Type | Status | Description
     username | string |  required  | The user's username.
     password | string |  required  | The user's password.
 
-<!-- END_f2f2bd15a0a3125617af6284631682f0 -->
+<!-- END_67f683fe8a80401986f3d12a170787b0 -->
 
-<!-- START_ee941fabd1f02f48390b18f4ed54065e -->
+<!-- START_9c2b68d84a5e58731426b62d8716d169 -->
 ## mailVerify
 Send a verification email to the user with a code in case of forgetting password.
 
@@ -155,15 +155,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/mail_verify" \
+curl -X POST "http://localhost/api/mail_verify" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"PlwnXs4IXFyjmOKI"}'
+    -d '{"username":"FK05KH1UCSKjQJZa"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/mail_verify");
+const url = new URL("http://localhost/api/mail_verify");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -172,7 +172,7 @@ let headers = {
 }
 
 let body = {
-    "username": "PlwnXs4IXFyjmOKI"
+    "username": "FK05KH1UCSKjQJZa"
 }
 
 fetch(url, {
@@ -186,7 +186,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST mail_verify`
+`POST api/mail_verify`
 
 #### Body Parameters
 
@@ -194,9 +194,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     username | string |  required  | The user's username.
 
-<!-- END_ee941fabd1f02f48390b18f4ed54065e -->
+<!-- END_9c2b68d84a5e58731426b62d8716d169 -->
 
-<!-- START_f3b96f752218b11aadbca472b737b895 -->
+<!-- START_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 ## checkCode
 Check whether the user entered the correct reset code sent to his email.
 
@@ -208,15 +208,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/check_code" \
+curl -X POST "http://localhost/api/check_code" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":16}'
+    -d '{"code":10}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/check_code");
+const url = new URL("http://localhost/api/check_code");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -225,7 +225,7 @@ let headers = {
 }
 
 let body = {
-    "code": 16
+    "code": 10
 }
 
 fetch(url, {
@@ -239,7 +239,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST check_code`
+`POST api/check_code`
 
 #### Body Parameters
 
@@ -247,9 +247,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     code | integer |  required  | The entered code.
 
-<!-- END_f3b96f752218b11aadbca472b737b895 -->
+<!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 
-<!-- START_99ada3ad1c00101e557456766317db7b -->
+<!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
 ## logout
 Logs out a user.
 
@@ -262,15 +262,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/sign_out" \
+curl -X POST "http://localhost/api/sign_out" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"ygvI8d9mzsOPScaC"}'
+    -d '{"token":"BnQgGRQMQl03x3av"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/sign_out");
+const url = new URL("http://localhost/api/sign_out");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -279,7 +279,7 @@ let headers = {
 }
 
 let body = {
-    "token": "ygvI8d9mzsOPScaC"
+    "token": "BnQgGRQMQl03x3av"
 }
 
 fetch(url, {
@@ -293,7 +293,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST sign_out`
+`POST api/sign_out`
 
 #### Body Parameters
 
@@ -301,9 +301,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_99ada3ad1c00101e557456766317db7b -->
+<!-- END_61c037b1e23dc1e0f83fb62a8024cf9d -->
 
-<!-- START_cb128bb391940d8304e5ebb273373143 -->
+<!-- START_17ab3166922a15e0dcef5180e5c57447 -->
 ## deleteMsg
 Delete private messages from the recipient&#039;s view of their inbox.
 
@@ -316,15 +316,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/del_msg" \
+curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"kgAXxG0OEWC8U8Rk","token":"g4vHhJqamjxWznan"}'
+    -d '{"id":"7Zp7WujVpxjwy0Om","token":"htUqIv4sZbaxaekO"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/del_msg");
+const url = new URL("http://localhost/api/del_msg");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -333,8 +333,8 @@ let headers = {
 }
 
 let body = {
-    "id": "kgAXxG0OEWC8U8Rk",
-    "token": "g4vHhJqamjxWznan"
+    "id": "7Zp7WujVpxjwy0Om",
+    "token": "htUqIv4sZbaxaekO"
 }
 
 fetch(url, {
@@ -348,7 +348,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST del_msg`
+`POST api/del_msg`
 
 #### Body Parameters
 
@@ -357,9 +357,9 @@ Parameter | Type | Status | Description
     id | string |  required  | The id of the message to be deleted.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_cb128bb391940d8304e5ebb273373143 -->
+<!-- END_17ab3166922a15e0dcef5180e5c57447 -->
 
-<!-- START_869a605c7c3ad87a651842dddd0f4492 -->
+<!-- START_293bfba07d359f07b62946a6702243f5 -->
 ## readMsg
 Read a sent message.
 
@@ -373,15 +373,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/read_msg" \
+curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"MlxFrl2EipaI7Kkq","token":"9CazMJJniGEDJ8bS"}'
+    -d '{"ID":"p68U1cgCPfq0BcKQ","token":"cjgJKrhsE1eN7v3p"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/read_msg");
+const url = new URL("http://localhost/api/read_msg");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -390,8 +390,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "MlxFrl2EipaI7Kkq",
-    "token": "9CazMJJniGEDJ8bS"
+    "ID": "p68U1cgCPfq0BcKQ",
+    "token": "cjgJKrhsE1eN7v3p"
 }
 
 fetch(url, {
@@ -405,7 +405,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST read_msg`
+`POST api/read_msg`
 
 #### Body Parameters
 
@@ -414,9 +414,62 @@ Parameter | Type | Status | Description
     ID | string |  required  | The id of the message.
     token | JWT |  required  | Used to verify the user recieving the message.
 
-<!-- END_869a605c7c3ad87a651842dddd0f4492 -->
+<!-- END_293bfba07d359f07b62946a6702243f5 -->
 
-<!-- START_e43f1f7cccba02a3ecbce11183ad7aeb -->
+<!-- START_d131f717df7db546af1657d1e7ce10f6 -->
+## me
+Returns the identity of the user logged in.
+
+Success Cases :
+1) return the user ID of the sent token.
+failure Cases:
+1) NoAccessRight token is not authorized.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/me" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"weBDvLZ5K6vzOFII"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/me");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "weBDvLZ5K6vzOFII"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST api/me`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    token | JWT |  required  | Used to verify the user.
+
+<!-- END_d131f717df7db546af1657d1e7ce10f6 -->
+
+<!-- START_7d778b4cd1f31a8abdc1f7156cf2439a -->
 ## updates
 Updates the preferences of the user.
 
@@ -430,15 +483,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X PATCH "http://localhost/updateprefs" \
+curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"aShoUoIWLiCWlQrD","change_password":"cIcymjkV1zETZ6To","deactivate_account":"GCtNhUTHFhzDMhfk","media_autoplay":true,"pm_notifications":true,"replies_notifications":false,"token":"RDaLGYU1B7lAfZLS"}'
+    -d '{"change_email":"T2P6dPjuKeApwFSn","change_password":"5drRL2AQJtdkgTWw","deactivate_account":"VRktO7XbSKC2l4bu","media_autoplay":false,"pm_notifications":true,"replies_notifications":true,"token":"pjrEhA8rcqH1yQD1"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/updateprefs");
+const url = new URL("http://localhost/api/updateprefs");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -447,13 +500,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "aShoUoIWLiCWlQrD",
-    "change_password": "cIcymjkV1zETZ6To",
-    "deactivate_account": "GCtNhUTHFhzDMhfk",
-    "media_autoplay": true,
+    "change_email": "T2P6dPjuKeApwFSn",
+    "change_password": "5drRL2AQJtdkgTWw",
+    "deactivate_account": "VRktO7XbSKC2l4bu",
+    "media_autoplay": false,
     "pm_notifications": true,
-    "replies_notifications": false,
-    "token": "RDaLGYU1B7lAfZLS"
+    "replies_notifications": true,
+    "token": "pjrEhA8rcqH1yQD1"
 }
 
 fetch(url, {
@@ -467,7 +520,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`PATCH updateprefs`
+`PATCH api/updateprefs`
 
 #### Body Parameters
 
@@ -481,9 +534,9 @@ Parameter | Type | Status | Description
     replies_notifications | boolean |  optional  | Enable notifications for replies.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_e43f1f7cccba02a3ecbce11183ad7aeb -->
+<!-- END_7d778b4cd1f31a8abdc1f7156cf2439a -->
 
-<!-- START_ef6e49b2e94875eba15ce9b052785989 -->
+<!-- START_7d73dd7c706d7ec669a1276ac0d40162 -->
 ## prefs
 Returns the preferences of the user.
 
@@ -495,15 +548,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/prefs" \
+curl -X GET -G "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"2QDk0BSeHGptRebA"}'
+    -d '{"token":"Yot4d31gY2z2X0hX"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/prefs");
+const url = new URL("http://localhost/api/prefs");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -512,7 +565,7 @@ let headers = {
 }
 
 let body = {
-    "token": "2QDk0BSeHGptRebA"
+    "token": "Yot4d31gY2z2X0hX"
 }
 
 fetch(url, {
@@ -531,7 +584,7 @@ null
 ```
 
 ### HTTP Request
-`GET prefs`
+`GET api/prefs`
 
 #### Body Parameters
 
@@ -539,67 +592,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_ef6e49b2e94875eba15ce9b052785989 -->
+<!-- END_7d73dd7c706d7ec669a1276ac0d40162 -->
 
-<!-- START_8534272b69ec50dc79d73c26608ba48c -->
-## me
-Returns the identity of the user logged in.
-
-Success Cases :
-1) return the user ID of the sent token.
-failure Cases:
-1) NoAccessRight token is not authorized.
-
-> Example request:
-
-```bash
-curl -X GET -G "http://localhost/me" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"token":"RxHS3JBTTIIDcOAr"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/me");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "token": "RxHS3JBTTIIDcOAr"
-}
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-null
-```
-
-### HTTP Request
-`GET me`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    token | JWT |  required  | Used to verify the user.
-
-<!-- END_8534272b69ec50dc79d73c26608ba48c -->
-
-<!-- START_6ced6195e6c39da21a9ac37b11f15624 -->
+<!-- START_4f5bd90551adf77b8dfc04a29b6a85ea -->
 ## profileInfo
 Displaying the profile info of the user.
 
@@ -612,15 +607,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/info" \
+curl -X GET -G "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"ototjg78djH7JfHr"}'
+    -d '{"token":"SX8aWzzI11jmwxZc"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/info");
+const url = new URL("http://localhost/api/info");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -629,7 +624,7 @@ let headers = {
 }
 
 let body = {
-    "token": "ototjg78djH7JfHr"
+    "token": "SX8aWzzI11jmwxZc"
 }
 
 fetch(url, {
@@ -648,7 +643,7 @@ null
 ```
 
 ### HTTP Request
-`GET info`
+`GET api/info`
 
 #### Body Parameters
 
@@ -656,9 +651,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_6ced6195e6c39da21a9ac37b11f15624 -->
+<!-- END_4f5bd90551adf77b8dfc04a29b6a85ea -->
 
-<!-- START_4849ce4d441fd19425e151ff49985f46 -->
+<!-- START_5f6a60fdc5acad163e3c29c7bbc137ed -->
 ## karma
 Returns the karma of the user.
 
@@ -670,15 +665,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/karma" \
+curl -X GET -G "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"qmJmMFfagPxwNR8a"}'
+    -d '{"token":"LNBS6o1h32Y8y2Hd"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/karma");
+const url = new URL("http://localhost/api/karma");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -687,7 +682,7 @@ let headers = {
 }
 
 let body = {
-    "token": "qmJmMFfagPxwNR8a"
+    "token": "LNBS6o1h32Y8y2Hd"
 }
 
 fetch(url, {
@@ -706,7 +701,7 @@ null
 ```
 
 ### HTTP Request
-`GET karma`
+`GET api/karma`
 
 #### Body Parameters
 
@@ -714,9 +709,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_4849ce4d441fd19425e151ff49985f46 -->
+<!-- END_5f6a60fdc5acad163e3c29c7bbc137ed -->
 
-<!-- START_792dbb5dfd8db302bbad16e36921d1b0 -->
+<!-- START_c61e9c2b3fdeea56ee207c8db3d88546 -->
 ## messages
 Returns the inbox messages of the user.
 
@@ -728,15 +723,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/messages" \
+curl -X GET -G "http://localhost/api/messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":9,"token":"cVaItnLzF0YRReFj"}'
+    -d '{"max":8,"token":"2Hu57YSvhYiRwt7M"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/messages");
+const url = new URL("http://localhost/api/messages");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -745,8 +740,8 @@ let headers = {
 }
 
 let body = {
-    "max": 9,
-    "token": "cVaItnLzF0YRReFj"
+    "max": 8,
+    "token": "2Hu57YSvhYiRwt7M"
 }
 
 fetch(url, {
@@ -765,7 +760,7 @@ null
 ```
 
 ### HTTP Request
-`GET messages`
+`GET api/messages`
 
 #### Body Parameters
 
@@ -774,12 +769,12 @@ Parameter | Type | Status | Description
     max | integer |  optional  | the maximum number of messages to be returned.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_792dbb5dfd8db302bbad16e36921d1b0 -->
+<!-- END_c61e9c2b3fdeea56ee207c8db3d88546 -->
 
 #Adminstration
 
 To manage the controls of admins and moderators
-<!-- START_518c2787d7457d13136ce9ab90c7822b -->
+<!-- START_be6a8ecb81dc276f7253051c44df54d6 -->
 ## deleteApexCom
 Deleting the ApexCom by the admin.
 
@@ -792,15 +787,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/del_ac" \
+curl -X POST "http://localhost/api/del_ac" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"l457Gcnox6TyXJwa","token":"wIxjAmRgsaSH38V0"}'
+    -d '{"Apex_ID":"rA59Br6tXi4uEHhf","token":"4iA46L45wyJOhUtU"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/del_ac");
+const url = new URL("http://localhost/api/del_ac");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -809,8 +804,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "l457Gcnox6TyXJwa",
-    "token": "wIxjAmRgsaSH38V0"
+    "Apex_ID": "rA59Br6tXi4uEHhf",
+    "token": "4iA46L45wyJOhUtU"
 }
 
 fetch(url, {
@@ -824,7 +819,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST del_ac`
+`POST api/del_ac`
 
 #### Body Parameters
 
@@ -833,9 +828,9 @@ Parameter | Type | Status | Description
     Apex_ID | string |  required  | The ID of the ApexCom to be deleted.
     token | JWT |  required  | Used to verify the admin ID.
 
-<!-- END_518c2787d7457d13136ce9ab90c7822b -->
+<!-- END_be6a8ecb81dc276f7253051c44df54d6 -->
 
-<!-- START_ef7b81f691245619539d9452a88ace88 -->
+<!-- START_ae6be58ef92cf112f862b268c39aaa22 -->
 ## deleteUser
 Delete a user from the application by the admin or self-delete (Account deactivation).
 
@@ -848,15 +843,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/del_user" \
+curl -X POST "http://localhost/api/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"kiIR7yAxlaarIA0j","Reason":"tpmw2YEc8oLEGWdv","token":"O8jxywUrrMYrVWmQ"}'
+    -d '{"UserID":"yeQH4Iq1A13eaMSF","Reason":"oLauhX593bQxTuAD","token":"KgEdLqHEaonTsrYq"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/del_user");
+const url = new URL("http://localhost/api/del_user");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -865,9 +860,9 @@ let headers = {
 }
 
 let body = {
-    "UserID": "kiIR7yAxlaarIA0j",
-    "Reason": "tpmw2YEc8oLEGWdv",
-    "token": "O8jxywUrrMYrVWmQ"
+    "UserID": "yeQH4Iq1A13eaMSF",
+    "Reason": "oLauhX593bQxTuAD",
+    "token": "KgEdLqHEaonTsrYq"
 }
 
 fetch(url, {
@@ -881,7 +876,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST del_user`
+`POST api/del_user`
 
 #### Body Parameters
 
@@ -891,9 +886,9 @@ Parameter | Type | Status | Description
     Reason | string |  optional  | The reason for deleting the user.
     token | JWT |  required  | Used to verify the admin or the same user ID.
 
-<!-- END_ef7b81f691245619539d9452a88ace88 -->
+<!-- END_ae6be58ef92cf112f862b268c39aaa22 -->
 
-<!-- START_0277897590e5bd3534956fc7b78f21cd -->
+<!-- START_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
 ## addModerator
 Adding (or Deleting) a moderator to ApexCom.
 
@@ -906,15 +901,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/add_mod" \
+curl -X POST "http://localhost/api/add_mod" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"68DI3LPGb96OR0It","token":"smmGjgA8ti6rI4Ih","UserID":"ZRhmKtZurxtBEU53"}'
+    -d '{"ApexComID":"r1snLjY9XT7TKlrr","token":"hTGktPMUHkahJU4z","UserID":"me6pKxMS5JCKmsMI"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/add_mod");
+const url = new URL("http://localhost/api/add_mod");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -923,9 +918,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "68DI3LPGb96OR0It",
-    "token": "smmGjgA8ti6rI4Ih",
-    "UserID": "ZRhmKtZurxtBEU53"
+    "ApexComID": "r1snLjY9XT7TKlrr",
+    "token": "hTGktPMUHkahJU4z",
+    "UserID": "me6pKxMS5JCKmsMI"
 }
 
 fetch(url, {
@@ -939,7 +934,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST add_mod`
+`POST api/add_mod`
 
 #### Body Parameters
 
@@ -949,12 +944,12 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the Admin ID.
     UserID | string |  required  | The user ID to be added as a moderator.
 
-<!-- END_0277897590e5bd3534956fc7b78f21cd -->
+<!-- END_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
 
 #ApexCom
 
 Controls the ApexCom info , posts and admin.
-<!-- START_f453d442cbe270ed50c2def3a3416115 -->
+<!-- START_931d45747883f17f4898d055e7277e3d -->
 ## about
 to get data about an ApexCom (moderators , contributors , rules , description and subscribers count).
 
@@ -967,15 +962,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/about" \
+curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"obFBwX1G0A3HfFtZ","_token":"l0U0E3CvoQ6qYmEn"}'
+    -d '{"ApexCom_id":"MXe472Ewx4UArpsI","_token":"okjZwPLMX7SFTl2z"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/about");
+const url = new URL("http://localhost/api/about");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -984,8 +979,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "obFBwX1G0A3HfFtZ",
-    "_token": "l0U0E3CvoQ6qYmEn"
+    "ApexCom_id": "MXe472Ewx4UArpsI",
+    "_token": "okjZwPLMX7SFTl2z"
 }
 
 fetch(url, {
@@ -1004,7 +999,7 @@ null
 ```
 
 ### HTTP Request
-`GET about`
+`GET api/about`
 
 #### Body Parameters
 
@@ -1013,9 +1008,9 @@ Parameter | Type | Status | Description
     ApexCom_id | string |  required  | The fullname of the community.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_f453d442cbe270ed50c2def3a3416115 -->
+<!-- END_931d45747883f17f4898d055e7277e3d -->
 
-<!-- START_e9b2e31f2002a2121d116e27b939619f -->
+<!-- START_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 ## posts
 to post text , image or video in any ApexCom.
 
@@ -1030,15 +1025,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/submit_post" \
+curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"6BgXogliUc1wK7Mr","body":"ifnptMs4wDNwqHY0","img_name":"dh8cgEtNgAX9ZFXz","video_url":"Hy844qjwNy5rLX3k","isLocked":false,"_token":"ihgu1HVCy6bJnbQm"}'
+    -d '{"ApexCom_id":"fNqI3sH5xshYxcI6","body":"uZecH7lSzFcv7ma8","img_name":"ZpOi6v5VtkTCOiUd","video_url":"APH4CObAVrSrqdn6","isLocked":true,"_token":"UST2aw7kiSDTFxTD"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/submit_post");
+const url = new URL("http://localhost/api/submit_post");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1047,12 +1042,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "6BgXogliUc1wK7Mr",
-    "body": "ifnptMs4wDNwqHY0",
-    "img_name": "dh8cgEtNgAX9ZFXz",
-    "video_url": "Hy844qjwNy5rLX3k",
-    "isLocked": false,
-    "_token": "ihgu1HVCy6bJnbQm"
+    "ApexCom_id": "fNqI3sH5xshYxcI6",
+    "body": "uZecH7lSzFcv7ma8",
+    "img_name": "ZpOi6v5VtkTCOiUd",
+    "video_url": "APH4CObAVrSrqdn6",
+    "isLocked": true,
+    "_token": "UST2aw7kiSDTFxTD"
 }
 
 fetch(url, {
@@ -1066,7 +1061,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST submit_post`
+`POST api/submit_post`
 
 #### Body Parameters
 
@@ -1079,9 +1074,9 @@ Parameter | Type | Status | Description
     isLocked | boolean |  optional  | To allow or disallow comments on the posted post.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_e9b2e31f2002a2121d116e27b939619f -->
+<!-- END_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 
-<!-- START_7cd1c92845723362129d03191c93e958 -->
+<!-- START_95d2609383a86210e2424765cf8031d1 -->
 ## subscribe
 for a user to subscribe in any ApexCom.
 
@@ -1094,15 +1089,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/subscribe" \
+curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"OImrsQthh5dGEcdm","_token":"rnoHRTDUzgphHk9N"}'
+    -d '{"ApexCom_id":"us0oVHU06jaS1u7H","_token":"EesIOHRBLa5zWylv"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/subscribe");
+const url = new URL("http://localhost/api/subscribe");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1111,8 +1106,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "OImrsQthh5dGEcdm",
-    "_token": "rnoHRTDUzgphHk9N"
+    "ApexCom_id": "us0oVHU06jaS1u7H",
+    "_token": "EesIOHRBLa5zWylv"
 }
 
 fetch(url, {
@@ -1126,7 +1121,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST subscribe`
+`POST api/subscribe`
 
 #### Body Parameters
 
@@ -1135,9 +1130,9 @@ Parameter | Type | Status | Description
     ApexCom_id | string |  required  | The fullname of the community required to be subscribed.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_7cd1c92845723362129d03191c93e958 -->
+<!-- END_95d2609383a86210e2424765cf8031d1 -->
 
-<!-- START_c3bc7678aa26afc45eeb4d785a212851 -->
+<!-- START_83008eaf25318b2ebea682cd9cd6b43b -->
 ## siteAdmin
 used by the site admin to create new ApexCom.
 
@@ -1150,15 +1145,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/site_admin" \
+curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_name":"4xKqc8jmN0VQl2GI","description":"Pv8VyEQy7jApVtLP","rules":"iUS5mpXs4CaLSUEB","img_name":"UYPEaVnvqyFvj9AN","_token":"P0FKRaCXcp6vAqpN"}'
+    -d '{"ApexCom_name":"f1io8djyEr81CIOX","description":"Hhsbjy3Dd4Wcj9Wj","rules":"3NsP0goJhd7yOQ5K","img_name":"a4FQbCDRJuqd9RXB","_token":"VNMuL6wI1l13ZBgt"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/site_admin");
+const url = new URL("http://localhost/api/site_admin");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1167,11 +1162,11 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_name": "4xKqc8jmN0VQl2GI",
-    "description": "Pv8VyEQy7jApVtLP",
-    "rules": "iUS5mpXs4CaLSUEB",
-    "img_name": "UYPEaVnvqyFvj9AN",
-    "_token": "P0FKRaCXcp6vAqpN"
+    "ApexCom_name": "f1io8djyEr81CIOX",
+    "description": "Hhsbjy3Dd4Wcj9Wj",
+    "rules": "3NsP0goJhd7yOQ5K",
+    "img_name": "a4FQbCDRJuqd9RXB",
+    "_token": "VNMuL6wI1l13ZBgt"
 }
 
 fetch(url, {
@@ -1185,7 +1180,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST site_admin`
+`POST api/site_admin`
 
 #### Body Parameters
 
@@ -1197,12 +1192,12 @@ Parameter | Type | Status | Description
     img_name | string |  optional  | The attached image to the community.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_c3bc7678aa26afc45eeb4d785a212851 -->
+<!-- END_83008eaf25318b2ebea682cd9cd6b43b -->
 
 #Links and comments
 
 controls the comments , replies and private messages for each user
-<!-- START_4479052af7e53f808c3e66f3a63e68f3 -->
+<!-- START_e795fade4d25e2473e7fd22cababfe99 -->
 ## add
 submit a new comment or reply to a comment on a post.
 
@@ -1215,15 +1210,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/comment" \
+curl -X POST "http://localhost/api/comment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"UZnpyuiVRgl9iwe6","content":"Vj7UDCd4RBpar8Ax","parent_ID":"dqZDz4JpPcdXMEOe","AuthID":"dsWWyojtkiMBp9nC"}'
+    -d '{"name":"fwyPOS5m2BfG8jz8","content":"Y85telqf3PynUrJi","parent_ID":"S3swDvD29zU4sD5G","AuthID":"ijOvmq7p1K0F8DDY"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/comment");
+const url = new URL("http://localhost/api/comment");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1232,10 +1227,10 @@ let headers = {
 }
 
 let body = {
-    "name": "UZnpyuiVRgl9iwe6",
-    "content": "Vj7UDCd4RBpar8Ax",
-    "parent_ID": "dqZDz4JpPcdXMEOe",
-    "AuthID": "dsWWyojtkiMBp9nC"
+    "name": "fwyPOS5m2BfG8jz8",
+    "content": "Y85telqf3PynUrJi",
+    "parent_ID": "S3swDvD29zU4sD5G",
+    "AuthID": "ijOvmq7p1K0F8DDY"
 }
 
 fetch(url, {
@@ -1249,7 +1244,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST comment`
+`POST api/comment`
 
 #### Body Parameters
 
@@ -1260,9 +1255,9 @@ Parameter | Type | Status | Description
     parent_ID | string |  required  | The fullname of the thing to be replied to.
     AuthID | JWT |  required  | Verifying user ID.
 
-<!-- END_4479052af7e53f808c3e66f3a63e68f3 -->
+<!-- END_e795fade4d25e2473e7fd22cababfe99 -->
 
-<!-- START_80708de049dc3d985cb6e8aeae33393b -->
+<!-- START_8d3b774b8525ca92a9eadadb8f46897c -->
 ## delete
 to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.
 
@@ -1276,15 +1271,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/DelComment" \
+curl -X POST "http://localhost/api/DelComment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"l0HVKmB5UeDkorKS","ID":"5jJon0MFNWTTSdo9"}'
+    -d '{"name":"GYstdc4s8daNtpmo","ID":"84snRGLSigdsagOF"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/DelComment");
+const url = new URL("http://localhost/api/DelComment");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1293,8 +1288,8 @@ let headers = {
 }
 
 let body = {
-    "name": "l0HVKmB5UeDkorKS",
-    "ID": "5jJon0MFNWTTSdo9"
+    "name": "GYstdc4s8daNtpmo",
+    "ID": "84snRGLSigdsagOF"
 }
 
 fetch(url, {
@@ -1308,7 +1303,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST DelComment`
+`POST api/DelComment`
 
 #### Body Parameters
 
@@ -1317,9 +1312,9 @@ Parameter | Type | Status | Description
     name | string |  required  | The fullname of the post,comment or reply to be deleted.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_80708de049dc3d985cb6e8aeae33393b -->
+<!-- END_8d3b774b8525ca92a9eadadb8f46897c -->
 
-<!-- START_2daae1bc9e1e0639e200fec2f7f6bb1b -->
+<!-- START_2a9d0f183252f771e6f2c77616bccd24 -->
 ## editText
 to edit the text of a post , comment or reply by its owner.
 
@@ -1333,15 +1328,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/Edit" \
+curl -X POST "http://localhost/api/Edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"ILpkIFTLhNHhfPfC","content":"4pm9D5rEI3A1HSBq","ID":"GinaX0sgr5uwy2Nf"}'
+    -d '{"name":"cDwYvS3kSEZbNOk7","content":"Lt0EP92eD6vRuttE","ID":"tArqWbxpeE9MWvYE"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/Edit");
+const url = new URL("http://localhost/api/Edit");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1350,9 +1345,9 @@ let headers = {
 }
 
 let body = {
-    "name": "ILpkIFTLhNHhfPfC",
-    "content": "4pm9D5rEI3A1HSBq",
-    "ID": "GinaX0sgr5uwy2Nf"
+    "name": "cDwYvS3kSEZbNOk7",
+    "content": "Lt0EP92eD6vRuttE",
+    "ID": "tArqWbxpeE9MWvYE"
 }
 
 fetch(url, {
@@ -1366,7 +1361,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST Edit`
+`POST api/Edit`
 
 #### Body Parameters
 
@@ -1376,9 +1371,9 @@ Parameter | Type | Status | Description
     content | string |  required  | The body of the thing to be edited.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_2daae1bc9e1e0639e200fec2f7f6bb1b -->
+<!-- END_2a9d0f183252f771e6f2c77616bccd24 -->
 
-<!-- START_e6e6c1d8554f35a2b7ff48374ad1e77b -->
+<!-- START_513d4e19011ae1f92bd8858b5eb059b2 -->
 ## report
 report a post , comment or a message to the ApexCom moderator
 ( message&#039;s reports will be sent to the site admin), posts or comments will be hidden implicitly as well.
@@ -1393,15 +1388,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/report" \
+curl -X POST "http://localhost/api/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"Io6GZ0OPjI2SgwJm","Reason":18,"ID":"MRo66VBbMTzkyznw"}'
+    -d '{"name":"aEJcsdV6YxoXfNkd","Reason":16,"ID":"WwInPsYafDK9uDmY"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/report");
+const url = new URL("http://localhost/api/report");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1410,9 +1405,9 @@ let headers = {
 }
 
 let body = {
-    "name": "Io6GZ0OPjI2SgwJm",
-    "Reason": 18,
-    "ID": "MRo66VBbMTzkyznw"
+    "name": "aEJcsdV6YxoXfNkd",
+    "Reason": 16,
+    "ID": "WwInPsYafDK9uDmY"
 }
 
 fetch(url, {
@@ -1426,7 +1421,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST report`
+`POST api/report`
 
 #### Body Parameters
 
@@ -1436,9 +1431,9 @@ Parameter | Type | Status | Description
     Reason | integer |  optional  | The index represent the reason for the report from an associative array.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_e6e6c1d8554f35a2b7ff48374ad1e77b -->
+<!-- END_513d4e19011ae1f92bd8858b5eb059b2 -->
 
-<!-- START_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
+<!-- START_1ce8121bc6bb159652da3758695c4f33 -->
 ## vote
 cast a vote on a post , comment or reply.
 
@@ -1452,15 +1447,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/vote" \
+curl -X POST "http://localhost/api/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"GTCWOGXMurBNZ90a","direction":16,"ID":"OuaAxHfhDddtCkX4"}'
+    -d '{"name":"SSWnkaks7j80ad6K","direction":3,"ID":"AYOl2B1GnqR1rv6i"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/vote");
+const url = new URL("http://localhost/api/vote");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1469,9 +1464,9 @@ let headers = {
 }
 
 let body = {
-    "name": "GTCWOGXMurBNZ90a",
-    "direction": 16,
-    "ID": "OuaAxHfhDddtCkX4"
+    "name": "SSWnkaks7j80ad6K",
+    "direction": 3,
+    "ID": "AYOl2B1GnqR1rv6i"
 }
 
 fetch(url, {
@@ -1485,7 +1480,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST vote`
+`POST api/vote`
 
 #### Body Parameters
 
@@ -1495,9 +1490,9 @@ Parameter | Type | Status | Description
     direction | integer |  required  | The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_b9ff8cde9ee2a2f03976eb4c9d896fa9 -->
+<!-- END_1ce8121bc6bb159652da3758695c4f33 -->
 
-<!-- START_e397a543c2de11e8173058943ccbae1e -->
+<!-- START_4a071a0a5195e750a36b0b89a51e2235 -->
 ## lock
 to lock or unlock a post so it can&#039;t recieve new comments.
 
@@ -1511,15 +1506,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/lock_post" \
+curl -X POST "http://localhost/api/lock_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"u6DOn5dJDrrYETNf","ID":"etm3913GhIsazfw8"}'
+    -d '{"name":"Y82TlX9bp2LfyUn4","ID":"96sIRSgI3v1qnhAB"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/lock_post");
+const url = new URL("http://localhost/api/lock_post");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1528,8 +1523,8 @@ let headers = {
 }
 
 let body = {
-    "name": "u6DOn5dJDrrYETNf",
-    "ID": "etm3913GhIsazfw8"
+    "name": "Y82TlX9bp2LfyUn4",
+    "ID": "96sIRSgI3v1qnhAB"
 }
 
 fetch(url, {
@@ -1543,7 +1538,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST lock_post`
+`POST api/lock_post`
 
 #### Body Parameters
 
@@ -1552,9 +1547,9 @@ Parameter | Type | Status | Description
     name | string |  required  | The fullname of the post to be locked.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_e397a543c2de11e8173058943ccbae1e -->
+<!-- END_4a071a0a5195e750a36b0b89a51e2235 -->
 
-<!-- START_e1f157eae6e3907a8770cb8504ae73cb -->
+<!-- START_ebf64eb08a02a3600dbec8e628a60a56 -->
 ## hide
 to hide or UnHide a post from the user view.
 
@@ -1567,15 +1562,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/Hide" \
+curl -X POST "http://localhost/api/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"HrkLl33SbvewUrs1","ID":"n4pOPDAlZeXGzL5o"}'
+    -d '{"name":"aWpOhJ7YvWS6HziL","ID":"1zGhOI9hbDqKm9bc"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/Hide");
+const url = new URL("http://localhost/api/Hide");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1584,8 +1579,8 @@ let headers = {
 }
 
 let body = {
-    "name": "HrkLl33SbvewUrs1",
-    "ID": "n4pOPDAlZeXGzL5o"
+    "name": "aWpOhJ7YvWS6HziL",
+    "ID": "1zGhOI9hbDqKm9bc"
 }
 
 fetch(url, {
@@ -1599,7 +1594,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST Hide`
+`POST api/Hide`
 
 #### Body Parameters
 
@@ -1608,9 +1603,9 @@ Parameter | Type | Status | Description
     name | string |  required  | The fullname of the post to be hidden.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_e1f157eae6e3907a8770cb8504ae73cb -->
+<!-- END_ebf64eb08a02a3600dbec8e628a60a56 -->
 
-<!-- START_3a7b8eca0c87791144dc77858615f215 -->
+<!-- START_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 ## save
 Save or UnSave a post or a comment.
 
@@ -1623,15 +1618,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/save" \
+curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"B5o9Ykc4jeVjCY7d","token":"tQQ42KA0sL30xyVp"}'
+    -d '{"ID":"WZ88UQwXFxYXkLRn","token":"1pejSri4UgjtYDnS"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/save");
+const url = new URL("http://localhost/api/save");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1640,8 +1635,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "B5o9Ykc4jeVjCY7d",
-    "token": "tQQ42KA0sL30xyVp"
+    "ID": "WZ88UQwXFxYXkLRn",
+    "token": "1pejSri4UgjtYDnS"
 }
 
 fetch(url, {
@@ -1655,7 +1650,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST save`
+`POST api/save`
 
 #### Body Parameters
 
@@ -1664,9 +1659,9 @@ Parameter | Type | Status | Description
     ID | string |  required  | The ID of the comment or post.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_3a7b8eca0c87791144dc77858615f215 -->
+<!-- END_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 
-<!-- START_5526adab58b86ca220fd6501e7826248 -->
+<!-- START_42544bc9403ef51f80610dbe397862b5 -->
 ## moreChildren
 to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
 
@@ -1679,15 +1674,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/moreComments" \
+curl -X GET -G "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"qv4XbPUItFmyF1Zx","ID":"yKhX35ZWvYn8MjAB"}'
+    -d '{"parent":"2wkcdc3Ro97tcLD4","ID":"yUXiC3e9EdLxR1IP"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/moreComments");
+const url = new URL("http://localhost/api/moreComments");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1696,8 +1691,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "qv4XbPUItFmyF1Zx",
-    "ID": "yKhX35ZWvYn8MjAB"
+    "parent": "2wkcdc3Ro97tcLD4",
+    "ID": "yUXiC3e9EdLxR1IP"
 }
 
 fetch(url, {
@@ -1716,7 +1711,7 @@ null
 ```
 
 ### HTTP Request
-`GET moreComments`
+`GET api/moreComments`
 
 #### Body Parameters
 
@@ -1725,12 +1720,12 @@ Parameter | Type | Status | Description
     parent | string |  required  | The fullname of the posts whose comments are being fetched
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_5526adab58b86ca220fd6501e7826248 -->
+<!-- END_42544bc9403ef51f80610dbe397862b5 -->
 
 #Moderation
 
 Controls the Moderators actions.
-<!-- START_10e4d0ba01548f1157b134c2866e29cd -->
+<!-- START_bfe5eadf66f0e0ddc26472dc0275da31 -->
 ## blockUser
 to block a user from ApexCom he is moderator in so that he can&#039;t interact in this ApexCom anymore.
 
@@ -1743,15 +1738,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/block" \
+curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"cFMMawNw05CzSyTC","user_id":"uv6aIrUg02llSOi9","_token":"iwlMssR9CbG7h9vt"}'
+    -d '{"ApexCom_id":"jnSVccyBOrpt92Oq","user_id":"HvePzgCWj65154cC","_token":"ciesRd7vPxV0bKLp"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/block");
+const url = new URL("http://localhost/api/block");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1760,9 +1755,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "cFMMawNw05CzSyTC",
-    "user_id": "uv6aIrUg02llSOi9",
-    "_token": "iwlMssR9CbG7h9vt"
+    "ApexCom_id": "jnSVccyBOrpt92Oq",
+    "user_id": "HvePzgCWj65154cC",
+    "_token": "ciesRd7vPxV0bKLp"
 }
 
 fetch(url, {
@@ -1776,7 +1771,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST block`
+`POST api/block`
 
 #### Body Parameters
 
@@ -1786,9 +1781,9 @@ Parameter | Type | Status | Description
     user_id | string |  required  | The fullname of the user to be blocked.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_10e4d0ba01548f1157b134c2866e29cd -->
+<!-- END_bfe5eadf66f0e0ddc26472dc0275da31 -->
 
-<!-- START_7d644ee67f837554ee42b61c3180377e -->
+<!-- START_85b1e06ff0cc2a00de486d21459568f9 -->
 ## ignoreReport
 to delete the ignored report from  ApexCom&#039;s reports.
 
@@ -1801,15 +1796,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/report_action" \
+curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"PBA9TKenJcdb8rQ8","_token":"qSGrD0GZfRVp7HC6"}'
+    -d '{"report_id":"Hqd2TfVcfJypPgi9","_token":"qFVk6QL6syjMLYwW"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/report_action");
+const url = new URL("http://localhost/api/report_action");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1818,8 +1813,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "PBA9TKenJcdb8rQ8",
-    "_token": "qSGrD0GZfRVp7HC6"
+    "report_id": "Hqd2TfVcfJypPgi9",
+    "_token": "qFVk6QL6syjMLYwW"
 }
 
 fetch(url, {
@@ -1833,7 +1828,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST report_action`
+`POST api/report_action`
 
 #### Body Parameters
 
@@ -1842,9 +1837,9 @@ Parameter | Type | Status | Description
     report_id | string |  required  | The fullname of the report to be ignored.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_7d644ee67f837554ee42b61c3180377e -->
+<!-- END_85b1e06ff0cc2a00de486d21459568f9 -->
 
-<!-- START_ce137a9fb84ef6789f44be899ecab3fe -->
+<!-- START_9e88c060d07f4e8b1dd6948de555c21c -->
 ## reviewReports
 view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
 
@@ -1856,15 +1851,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/review_reports" \
+curl -X GET -G "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"o7hyPB5WqvrAe7cT","_token":"74LiViSRePKfriy3"}'
+    -d '{"ApexCom_id":"p7paDYUztUVg5I2Q","_token":"ioc6GwisU8lBSnqL"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/review_reports");
+const url = new URL("http://localhost/api/review_reports");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1873,8 +1868,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "o7hyPB5WqvrAe7cT",
-    "_token": "74LiViSRePKfriy3"
+    "ApexCom_id": "p7paDYUztUVg5I2Q",
+    "_token": "ioc6GwisU8lBSnqL"
 }
 
 fetch(url, {
@@ -1893,7 +1888,7 @@ null
 ```
 
 ### HTTP Request
-`GET review_reports`
+`GET api/review_reports`
 
 #### Body Parameters
 
@@ -1902,12 +1897,12 @@ Parameter | Type | Status | Description
     ApexCom_id | string |  required  | The fullname of the community where the reported comments or posts.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_ce137a9fb84ef6789f44be899ecab3fe -->
+<!-- END_9e88c060d07f4e8b1dd6948de555c21c -->
 
 #User
 
 Control the user interaction with other users
-<!-- START_1a7af546cd175bbafae3c156085b8064 -->
+<!-- START_5603f5edd050cc1888d2fe64500d5499 -->
 ## block
 Block a user, so he can&#039;t send private messages or see the blocked user posts or comments.
 
@@ -1920,15 +1915,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/block_user" \
+curl -X POST "http://localhost/api/block_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"eZdCK7RfgxAqymLq","token":"14uXs7Kca1sme0YN"}'
+    -d '{"id":"U57hFuO1wBF3MDt5","token":"EgHttpjIXiqgHosZ"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/block_user");
+const url = new URL("http://localhost/api/block_user");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1937,8 +1932,8 @@ let headers = {
 }
 
 let body = {
-    "id": "eZdCK7RfgxAqymLq",
-    "token": "14uXs7Kca1sme0YN"
+    "id": "U57hFuO1wBF3MDt5",
+    "token": "EgHttpjIXiqgHosZ"
 }
 
 fetch(url, {
@@ -1952,7 +1947,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST block_user`
+`POST api/block_user`
 
 #### Body Parameters
 
@@ -1961,9 +1956,9 @@ Parameter | Type | Status | Description
     id | string |  required  | the id of the user to be blocked.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_1a7af546cd175bbafae3c156085b8064 -->
+<!-- END_5603f5edd050cc1888d2fe64500d5499 -->
 
-<!-- START_9a86fc0b67608be77b22a771d49949db -->
+<!-- START_77449fa4952e985b77eff4023c7451dd -->
 ## compose
 Send a private message to another user.
 
@@ -1976,15 +1971,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/compose" \
+curl -X POST "http://localhost/api/compose" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"to":"rkmAcNjqckGJJ5jy","subject":"2LwdbJ84W4QZ8y6p","mes":"boRDVyP4zy8IiEk4","token":"chvGp2nWGO5T8CR8"}'
+    -d '{"to":"8H9b1LpR0CJkwmrK","subject":"unQrpMwOQqDvkJga","mes":"DUw7ZlNgkMiF5iXd","token":"gOhLEWp16ulwuaB2"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/compose");
+const url = new URL("http://localhost/api/compose");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1993,10 +1988,10 @@ let headers = {
 }
 
 let body = {
-    "to": "rkmAcNjqckGJJ5jy",
-    "subject": "2LwdbJ84W4QZ8y6p",
-    "mes": "boRDVyP4zy8IiEk4",
-    "token": "chvGp2nWGO5T8CR8"
+    "to": "8H9b1LpR0CJkwmrK",
+    "subject": "unQrpMwOQqDvkJga",
+    "mes": "DUw7ZlNgkMiF5iXd",
+    "token": "gOhLEWp16ulwuaB2"
 }
 
 fetch(url, {
@@ -2010,7 +2005,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST compose`
+`POST api/compose`
 
 #### Body Parameters
 
@@ -2021,9 +2016,9 @@ Parameter | Type | Status | Description
     mes | text |  optional  | the body of the message.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_9a86fc0b67608be77b22a771d49949db -->
+<!-- END_77449fa4952e985b77eff4023c7451dd -->
 
-<!-- START_6b60bbfb91f5581a2b2f1932856691c2 -->
+<!-- START_642cf7a37db701458812f02d6082db55 -->
 ## userDataByAccountID
 Return user public data to be seen by another user.
 
@@ -2036,15 +2031,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/user_data" \
+curl -X GET -G "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"ZZRFlJqYwm3fWtci","token":"VcH2ucyGw6u5pkOh"}'
+    -d '{"id":"9UxvDCzZTDJyjici","token":"9IXClhEXZ0WY3K07"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/user_data");
+const url = new URL("http://localhost/api/user_data");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2053,8 +2048,8 @@ let headers = {
 }
 
 let body = {
-    "id": "ZZRFlJqYwm3fWtci",
-    "token": "VcH2ucyGw6u5pkOh"
+    "id": "9UxvDCzZTDJyjici",
+    "token": "9IXClhEXZ0WY3K07"
 }
 
 fetch(url, {
@@ -2073,7 +2068,7 @@ null
 ```
 
 ### HTTP Request
-`GET user_data`
+`GET api/user_data`
 
 #### Body Parameters
 
@@ -2082,10 +2077,10 @@ Parameter | Type | Status | Description
     id | string |  required  | The id of an existing user.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_6b60bbfb91f5581a2b2f1932856691c2 -->
+<!-- END_642cf7a37db701458812f02d6082db55 -->
 
 #general
-<!-- START_c0f505b72e10817948e65eb5eb744708 -->
+<!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
 ## search
 Returns a list of lists of ApexComs, posts and profiles that matches the given query.
 
@@ -2097,15 +2092,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/search" \
+curl -X GET -G "http://localhost/api/search" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"query":"5TmKJIRLUS1yQde4"}'
+    -d '{"query":"olpRlVuzQ3HAIyBw"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/search");
+const url = new URL("http://localhost/api/search");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2114,7 +2109,7 @@ let headers = {
 }
 
 let body = {
-    "query": "5TmKJIRLUS1yQde4"
+    "query": "olpRlVuzQ3HAIyBw"
 }
 
 fetch(url, {
@@ -2133,7 +2128,7 @@ null
 ```
 
 ### HTTP Request
-`GET search`
+`GET api/search`
 
 #### Body Parameters
 
@@ -2141,9 +2136,9 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     query | string |  required  | The query to be searched for.
 
-<!-- END_c0f505b72e10817948e65eb5eb744708 -->
+<!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
 
-<!-- START_05b3f813d60fda460fbe53c065926a61 -->
+<!-- START_09bdc60a87430aec21b4b32b21773baa -->
 ## sortPostsBy
 Returns a list of posts in a given ApexComm sorted either by the votes or by the date.
 
@@ -2156,15 +2151,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/sort_posts" \
+curl -X GET -G "http://localhost/api/sort_posts" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"5HPlFfalzsHTFQ1j","SortingParam":"mILxHeD2EsxGE4VT"}'
+    -d '{"ApexCommID":"RfKplYlHnUi0zbeI","SortingParam":"LVvz6aO31SWLDIfe"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/sort_posts");
+const url = new URL("http://localhost/api/sort_posts");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2173,8 +2168,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "5HPlFfalzsHTFQ1j",
-    "SortingParam": "mILxHeD2EsxGE4VT"
+    "ApexCommID": "RfKplYlHnUi0zbeI",
+    "SortingParam": "LVvz6aO31SWLDIfe"
 }
 
 fetch(url, {
@@ -2193,7 +2188,7 @@ null
 ```
 
 ### HTTP Request
-`GET sort_posts`
+`GET api/sort_posts`
 
 #### Body Parameters
 
@@ -2202,9 +2197,9 @@ Parameter | Type | Status | Description
     ApexCommID | string |  required  | The ID of the ApexComm that contains the posts.
     SortingParam | string |  optional  | The sorting parameter, takes a value of ['votes', 'date'], Default is 'date'.
 
-<!-- END_05b3f813d60fda460fbe53c065926a61 -->
+<!-- END_09bdc60a87430aec21b4b32b21773baa -->
 
-<!-- START_aab40918c3a3f4e3512a9b2c1177ea2b -->
+<!-- START_b402718e2399a5ffc349d38706b47a9f -->
 ## apexNames
 Returns a list of the names of the existing ApexComms.
 
@@ -2216,12 +2211,12 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/Apex_names" \
+curl -X GET -G "http://localhost/api/Apex_names" \
     -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
-const url = new URL("http://localhost/Apex_names");
+const url = new URL("http://localhost/api/Apex_names");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2244,12 +2239,12 @@ null
 ```
 
 ### HTTP Request
-`GET Apex_names`
+`GET api/Apex_names`
 
 
-<!-- END_aab40918c3a3f4e3512a9b2c1177ea2b -->
+<!-- END_b402718e2399a5ffc349d38706b47a9f -->
 
-<!-- START_06944a72aa732126f3e27ad338662810 -->
+<!-- START_75042856f5cd6cbf0efd54f67a2e85e8 -->
 ## getSubscribers
 Returns a list of the users subscribed to a certain ApexComm.
 
@@ -2262,15 +2257,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/get_subscribers" \
+curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"awEAz1pr5CjUYYmt","_token":"qSC217YWg5BS2kgF"}'
+    -d '{"ApexCommID":"yBTuG2OwpUNKVBD8","_token":"nSVU9fHQ9CnXLOJq"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/get_subscribers");
+const url = new URL("http://localhost/api/get_subscribers");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2279,8 +2274,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "awEAz1pr5CjUYYmt",
-    "_token": "qSC217YWg5BS2kgF"
+    "ApexCommID": "yBTuG2OwpUNKVBD8",
+    "_token": "nSVU9fHQ9CnXLOJq"
 }
 
 fetch(url, {
@@ -2299,7 +2294,7 @@ null
 ```
 
 ### HTTP Request
-`GET get_subscribers`
+`GET api/get_subscribers`
 
 #### Body Parameters
 
@@ -2308,6 +2303,6 @@ Parameter | Type | Status | Description
     ApexCommID | string |  required  | The ID of the ApexComm that contains the subscribers.
     _token | string |  required  | Verifying user ID.
 
-<!-- END_06944a72aa732126f3e27ad338662810 -->
+<!-- END_75042856f5cd6cbf0efd54f67a2e85e8 -->
 
 
