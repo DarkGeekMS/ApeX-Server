@@ -13,6 +13,7 @@ use App\saveComment;
 use App\savePost;
 use App\message;
 use App\hidden;
+use App\Http\Controllers\Account;
 
 /**
  * @group Links and comments
@@ -368,8 +369,31 @@ class CommentandLinks extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function save()
-    {
-        return;
+    public function save(Request $request)
+    {   
+        $account=new Account ;
+        $user=$account->me($request);
+        $type=$user->only('type');
+        $userid= $request->only('id');
+        $commentid=$request->only('ID');
+        $comment=DB::table('comments')->where('id','=', $commentid)->get();
+        $postid=$request->only('ID');
+        $post=DB::table('posts')->where('id','=', $postid)->get();
+       
+        if($comment){                                                            //to check that the comment exists
+            DB::table('savecomments')->insert(
+                ['comID' => $commentid, 'userID' =>$userid]
+            );
+        }
+        else if($post){                                                         //to check that the post exists
+            DB::table('saveposts')->insert(
+                ['postID' => $postid, 'userID' =>$userid]
+            );
+        }
+        else{
+            return response()->json(['error' => 'post or comment doesnot exist'], 500);
+        }
+
+        return response()->json(['value'=>true],200);
     }
 }
