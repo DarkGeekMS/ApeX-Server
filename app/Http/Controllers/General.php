@@ -84,30 +84,37 @@ class General extends Controller
         $account = new Account();
 
         // getting the user_id related to the token in the request and validate.
-        $user_id = $account->me($request);
+        $user_id = $account->me($request)->getData()->user->id;
 
-        if (!$user_id) {
+        // checking if the user exists.
+        $exists = User::where('id',$user_id)->count();
+
+        // return a message error if not existing
+        if (!$exists) {
             return response()->json(['error' => 'invalid user'], 404);
         }
 
         $apex_id = $request['ApexCommID'];
 
+        // checking if the apexCom exists.
+        $exists = apexCom::where('id',$apex_id)->count();
+
         // return an error message if the id (fullname) of the apexcom was not found.
-        if(!$apex_id){
+        if(!$exists){
             return response()->json(['error' => 'ApexComm is not found.'], 404);
         }
 
         // check if the validated user was blocked from the apexcom.
         $blocked = apexBlock::where([
             ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
-            
+
         // return an error for if the user was blocked from the apexcom.
         if($blocked != 0){
             return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
         }
 
         // get the subscribers' for the apexcom user IDs.
-        $subscribers = subscriber::where('apexID',$apex_id)->get('userID');
+        $subscribers = subscriber::where('apexID',$apex_id)->get();
 
         // return the subscribers user IDs.
         return response()->json(compact('subscribers'));
