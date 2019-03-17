@@ -67,15 +67,24 @@ class ApexCom extends Controller
         if($blocked != 0){
             return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
         }
-        
-        $contributers = DB::table('posts')->where('apex_id',$apex_id)->select('posted_by')->distinct('posted_by')->get()->count();
+
+        // getting about info (contributers_count,moderators,subscribers_count,name,description,rules)
+
+        $contributers_count = DB::table('posts')->where('apex_id',$apex_id)->select('posted_by')->distinct('posted_by')->get()->count();
+
         $moderators = moderator::where('apexID', $apex_id)->get('userID');
+
         $subscribers_count = subscriber::where('apexID', $apex_id)->count();
+
         $apexCom = apexComModel::find($apex_id);
+
         $name = $apexCom->name;
+
         $description = $apexCom->description;
+        
         $rules = $apexCom->rules;
-        return response()->json(compact('contributers','moderators','subscribers_count','name',
+
+        return response()->json(compact('contributers_count','moderators','subscribers_count','name',
         'description','rules'));
     }
 
