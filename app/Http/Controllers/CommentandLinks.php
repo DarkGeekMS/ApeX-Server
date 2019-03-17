@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\comment;
 use App\commentVote;
 use App\User;
@@ -25,7 +24,7 @@ use App\Http\Controllers\Account;
 
 class CommentandLinks extends Controller
 {
-    private $account=new Account ;
+    //private $account=new Account ;
     /**
      * add
      * submit a new comment or reply to a comment on a post.
@@ -43,7 +42,7 @@ class CommentandLinks extends Controller
 
     public function add(Request $request)
     {
-
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -116,7 +115,7 @@ class CommentandLinks extends Controller
 
     public function delete(Request $request)
     {
-
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -227,7 +226,7 @@ class CommentandLinks extends Controller
 
     public function lock(Request $request)
     {
-
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -279,7 +278,7 @@ class CommentandLinks extends Controller
 
     public function hide(Request $request)
     {
-
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -343,7 +342,7 @@ class CommentandLinks extends Controller
 
     public function report(Request $request)
     {
-
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -427,7 +426,7 @@ class CommentandLinks extends Controller
 
     public function vote(Request $request)
     {
-
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -506,24 +505,57 @@ class CommentandLinks extends Controller
 
     public function save(Request $request)
     {
-
+        $account=new Account ;
         $user=$account->me($request);
-        $type=$user->only('type');
-        $userid= $request->only('id');
-        $commentid=$request->only('ID');
-        $comment=DB::table('comments')->where('id', '=', $commentid)->get();
-        $postid=$request->only('ID');
-        $post=DB::table('posts')->where('id', '=', $postid)->get();
+        $user=$user->getData()->user;
+        $id= $user->id;
 
-        if ($comment) {                                                            //to check that the comment exists
-            DB::table('savecomments')->insert(
-                ['comID' => $commentid, 'userID' =>$userid]
+        $commentid=$request['ID'];
+        $comment=DB::table('comments')->where('id', '=', $commentid)->get();
+
+
+        $postid=$request['ID'];
+        $post=DB::table('posts')->where('id', '=', $postid)->get();
+        
+        if (count($comment)) {                                                            //to check that the comment exists
+                                                                                          
+            $commentsaved=DB::table('savecomments')->where([                             //to check if the comment is saved 
+                ['comID', '=', $commentid],
+                ['userID', '=', $id]
+                ])->get();
+            
+            if(count($commentsaved)){
+                DB::table('savecomments')->where([
+                ['comID', '=', $commentid],
+                ['userID', '=', $id]
+                ])->delete();
+            }
+            else{
+                DB::table('savecomments')->insert(
+                ['comID' => $commentid, 'userID' =>$id]
             );
-        } elseif ($post) {                                                         //to check that the post exists
-            DB::table('saveposts')->insert(
-                ['postID' => $postid, 'userID' =>$userid]
+            }
+        }
+        elseif (count($post)) {                                                         //to check that the post exists
+            
+            $postsaved=DB::table('saveposts')->where([                                  //to check if the post is saved 
+                ['postID', '=', $postid],
+                ['userID', '=', $id]
+                ])->get();
+            
+            if(count($postsaved)){
+                DB::table('saveposts')->where([
+                ['postID', '=', $postid],
+                ['userID', '=', $id]
+                ])->delete();
+            }
+            else{
+                DB::table('saveposts')->insert(
+                ['postID' => $postid, 'userID' =>$id]
             );
-        } else {
+             }
+        } 
+        else {
             return response()->json(['error' => 'post or comment doesnot exist'], 500);
         }
         return response()->json(['value'=>true], 200);
