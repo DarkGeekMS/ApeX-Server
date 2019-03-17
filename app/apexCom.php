@@ -15,4 +15,13 @@ class apexCom extends Model
     ];
 
     public $timestamps = false;
+    public $incrementing = false;
+
+    /**
+     * Get the posts for the apexCom.
+     */
+    public function posts()
+    {
+        return $this->hasMany(post::class, 'apex_id', 'id');
+    }
 }
