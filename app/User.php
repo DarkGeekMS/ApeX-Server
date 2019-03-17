@@ -15,7 +15,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $guarded = ['karma' , 'notification' , 'type'];
+    protected $guarded = ['karma' , 'notification' , 'type' , 'fullname'];
     public $incrementing = false;
 
     /**

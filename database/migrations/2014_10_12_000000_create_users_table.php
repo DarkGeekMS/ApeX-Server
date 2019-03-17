@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             'users',
             function (Blueprint $table) {
                 $table->string('id')->unique();
-                $table->string('fullname');
+                $table->string('fullname')->nullable();
                 $table->string('email')->unique();
                 $table->string('username')->unique();
                 $table->string('password');
