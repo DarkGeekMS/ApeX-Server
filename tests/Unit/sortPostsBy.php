@@ -10,7 +10,9 @@ use App\apexCom;
 class sortPostsBy extends TestCase
 {
     /**
-     * A basic unit test example.
+     * Test sorting the posts by date.
+     * 
+     * @test
      *
      * @return void
      */
@@ -18,8 +20,79 @@ class sortPostsBy extends TestCase
     {
         $response = $this->json(
             'GET', '/api/sort_posts', [
-            'apexComID' => apexCom::firstOrFail(),
+            'apexComID' => apexCom::firstOrFail()->id,
             'sortingParam' => 'date'
+            ]
+        );
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Test sorting the posts by votes.
+     * 
+     * @test
+     *
+     * @return void
+     */
+    public function sortbyVotes()
+    {
+        $response = $this->json(
+            'GET', '/api/sort_posts', [
+            'apexComID' => apexCom::firstOrFail()->id,
+            'sortingParam' => 'votes'
+            ]
+        );
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Test invalid apexComID.
+     * 
+     * @test
+     *
+     * @return void
+     */
+    public function invalidApexComID()
+    {
+        $response = $this->json(
+            'GET', '/api/sort_posts', [
+            'apexComID' => '-1',
+            'sortingParam' => 'votes'
+            ]
+        );
+        $response->assertStatus(404);
+    }
+
+    /**
+     * Test invalid sortingParam.
+     * 
+     * @test
+     *
+     * @return void
+     */
+    public function invalidSortingParam()
+    {
+        $response = $this->json(
+            'GET', '/api/sort_posts', [
+            'apexComID' => apexCom::firstOrFail()->id,
+            'sortingParam' => 'something'
+            ]
+        );
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Test no given sortingParam.
+     * 
+     * @test
+     *
+     * @return void
+     */
+    public function noSortingParam()
+    {
+        $response = $this->json(
+            'GET', '/api/sort_posts', [
+            'apexComID' => apexCom::firstOrFail()->id,
             ]
         );
         $response->assertStatus(200);

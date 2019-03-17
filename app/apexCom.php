@@ -15,7 +15,6 @@ class apexCom extends Model
       'description',
     ];
 
-    public $timestamps = false;
     public $incrementing = false;
 
     /**
