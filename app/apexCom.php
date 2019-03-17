@@ -12,5 +12,7 @@ class apexCom extends Model
       'banner',
       'rules',
       'description',
-    ]
+    ];
+    public $table = 'apexcoms';
+    public $incrementing = false;
 }

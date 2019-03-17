@@ -9,5 +9,5 @@ class subscriber extends Model
     protected $fillable = [
       'apexID',
       'userID',
-    ]
+    ];
 }
