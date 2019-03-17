@@ -16,14 +16,18 @@ class MeValid extends TestCase
     public function testExample()
     {
         $loginResponse = $this->json(
-            'POST', '/api/Sign_in', [
+            'POST',
+            '/api/Sign_in',
+            [
             'username' => 'Mohamed1',
             'password' => '1234567'
             ]
         );
         $token = $loginResponse->json()["token"];
         $meResponse = $this->json(
-            'POST', '/api/me', [
+            'POST',
+            '/api/me',
+            [
             'token' => $token
             ]
         );

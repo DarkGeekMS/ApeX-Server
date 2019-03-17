@@ -13,7 +13,6 @@ use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
 
-
 /**
  * @group Account
  *
@@ -44,7 +43,8 @@ class Account extends Controller
     {
         //validating the input data to be correct
         $validator = Validator::make(
-            $request->all(), [
+            $request->all(),
+            [
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'username' => 'required|string|max:50|unique:users',
@@ -74,7 +74,7 @@ class Account extends Controller
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password
-  
+
         //creating new user with the posted data from the request
         $user = new User($requestData);
         $avatar = "storage/avatars/users/default.png"; //setting the default avatar
@@ -115,7 +115,7 @@ class Account extends Controller
             //Returning an error if the token cannot be created with 500 status code
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        //Returning the token 
+          //Returning the token
         return response()->json(compact('token'));
     }
 
@@ -174,11 +174,11 @@ class Account extends Controller
 
     public function logout(Request $request)
     {
-        try{
+        try {
             //Trying to parse the token given from the request
             $token = JWTAuth::parseToken();
             $token->invalidate(); // Blocking the token
-        } catch(JWTException $e){
+        } catch (JWTException $e) {
             //Returning token error with 400 status code
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
@@ -298,13 +298,12 @@ class Account extends Controller
                 user doesn't exist with 404 status code*/
                 return response()->json(['user_not_found'], 404);
             }
-        }
-        catch(JWTException $e){
+        } catch (JWTException $e) {
             //Returning token error with the error message if any error occured
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
         //Returning the data of the user with 200 status code
-        return response()->json(compact('user'));    
+        return response()->json(compact('user'));
     }
 
 

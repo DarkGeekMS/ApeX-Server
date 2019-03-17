@@ -17,7 +17,3 @@ Route::get(
         return view('welcome');
     }
 );
-
-//Route::get('/get_subscribers', 'General@getSubscribers');
-//Route::get('/subscribe', 'ApexCom@subscribe');
-

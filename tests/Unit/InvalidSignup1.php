@@ -16,7 +16,9 @@ class InvalidSignup1 extends TestCase
     public function testExample()
     {
         $response = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'fullname' => 'mohamed ramzy',
             'email' => '1@gmail.com',
             'password' => '1234567',

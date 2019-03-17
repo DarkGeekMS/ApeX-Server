@@ -16,10 +16,12 @@ class InvalidLogout extends TestCase
     public function testExample()
     {
         $logoutResponse = $this->json(
-            'POST', '/api/sign_out', [
+            'POST',
+            '/api/sign_out',
+            [
             'token' => "invalid token"
             ]
         );
-        $logoutResponse->assertStatus(400)->assertSeeText("token_error");       
+        $logoutResponse->assertStatus(400)->assertSeeText("token_error");
     }
 }

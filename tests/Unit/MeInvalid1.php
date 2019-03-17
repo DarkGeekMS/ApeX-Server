@@ -16,10 +16,12 @@ class MeInvalid1 extends TestCase
     public function testExample()
     {
         $meResponse = $this->json(
-            'POST', '/api/me', [
+            'POST',
+            '/api/me',
+            [
             'token' => 'invalid token'
             ]
         );
-        $meResponse->assertStatus(400)->assertSee("token_error");    
+        $meResponse->assertStatus(400)->assertSee("token_error");
     }
 }

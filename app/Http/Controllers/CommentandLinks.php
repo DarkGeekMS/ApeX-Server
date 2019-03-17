@@ -25,7 +25,7 @@ use App\Http\Controllers\Account;
 
 class CommentandLinks extends Controller
 {
-    private $account=new Account ;
+    //private $account=new Account ;
     /**
      * add
      * submit a new comment or reply to a comment on a post.
@@ -43,7 +43,8 @@ class CommentandLinks extends Controller
 
     public function add(Request $request)
     {
-
+        $request= $request->all();
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -116,7 +117,8 @@ class CommentandLinks extends Controller
 
     public function delete(Request $request)
     {
-
+        $request= $request->all();
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -227,7 +229,8 @@ class CommentandLinks extends Controller
 
     public function lock(Request $request)
     {
-
+        $request= $request->all();
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -279,7 +282,8 @@ class CommentandLinks extends Controller
 
     public function hide(Request $request)
     {
-
+        $request= $request->all();
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -343,7 +347,8 @@ class CommentandLinks extends Controller
 
     public function report(Request $request)
     {
-
+        $request= $request->all();
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -368,9 +373,9 @@ class CommentandLinks extends Controller
                 return response()->json(['error' => 'invalid Action'], 404);
             }
 
-            $report = DB::table('reportPosts')->where('userID', $user['id'])->where('postID', $post['id'])->get();
+            $report = DB::table('report_posts')->where('userID', $user['id'])->where('postID', $post['id'])->get();
             if (!count($report)) {
-                DB::table('reportPosts')->insert(['userID'=> $user['id'],
+                DB::table('report_posts')->insert(['userID'=> $user['id'],
                 'postID' => $post['id'] , 'content' => $request['content']]);
                 return response()->json([$value =>true], 200);
             } else {
@@ -395,9 +400,9 @@ class CommentandLinks extends Controller
                 return response()->json(['error' => 'invalid Action'], 404);
             }
 
-            $report = DB::table('reportComments')->where('userID', $user['id'])->where('comID', $comment['id'])->get();
+            $report = DB::table('report_comments')->where('userID', $user['id'])->where('comID', $comment['id'])->get();
             if (!count($report)) {
-                DB::table('reportComments')->insert(['userID'=> $user['id'],
+                DB::table('report_comments')->insert(['userID'=> $user['id'],
                 'comID' => $comment['id'] , 'content' => $request['content']]);
                 return response()->json([$value =>true], 200);
             } else {
@@ -427,7 +432,8 @@ class CommentandLinks extends Controller
 
     public function vote(Request $request)
     {
-
+        $request= $request->all();
+        $account=new Account ;
         $user = $account->me($request);
 
         if (!$user) {
@@ -467,21 +473,21 @@ class CommentandLinks extends Controller
                 return response()->json(['error' => 'comment not exists'], 300);
             }
 
-            $exists = DB::table('commentVotes')->where('comID', $request['name'])
+            $exists = DB::table('comment_votes')->where('comID', $request['name'])
              ->where('userID', $userID)->get();
 
             if (!count($exits)) {
-                DB::table('commentVotes')->insert(['comID'=> $request['name'], 'userID' =>$user['id'] ]);
-                $NoVotes = DB::table('commentVotes')->where('comID', $request['name'])->count();
+                DB::table('comment_votes')->insert(['comID'=> $request['name'], 'userID' =>$user['id'] ]);
+                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->count();
                 return response()->json(['votes' => $NoVotes], 200);
             }
             if ($exists['dir'] == $request['dir']) {
                 $exits-> delete();
-                $NoVotes = DB::table('commentVotes')->where('comID', $request['name'])->count();
+                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->count();
                 return response()->json(['votes' => $NoVotes], 200);
             } else {
                 $exits ->update(['dir' => $request['dir']]);
-                $NoVotes = DB::table('commentVotes')->where('comID', $request['name'])->count();
+                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->count();
                 return response()->json(['votes' => $NoVotes], 200);
             }
         }

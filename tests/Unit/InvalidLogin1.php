@@ -16,11 +16,13 @@ class InvalidLogin1 extends TestCase
     public function testExample()
     {
         $response = $this->json(
-            'POST', '/api/Sign_in', [
+            'POST',
+            '/api/Sign_in',
+            [
             'username' => 'Mohamed1',
             'password' => '12345678'
             ]
         );
-        $response->assertStatus(400);    
+        $response->assertStatus(400);
     }
 }
