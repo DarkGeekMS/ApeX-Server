@@ -73,15 +73,9 @@ class Account extends Controller
         unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
-<<<<<<< HEAD
         $requestData["password"] = Hash::make($password); // Hashing the password
   
         //creating new user with the posted data from the request
-=======
-        $requestData["password"] = Hash::make($password);
-
-
->>>>>>> 929cf2463e7639e075add3e56c820f6b87931e08
         $user = new User($requestData);
         $avatar = "storage/avatars/users/default.png"; //setting the default avatar
         $user->avatar = $avatar;
@@ -180,19 +174,12 @@ class Account extends Controller
 
     public function logout(Request $request)
     {
-<<<<<<< HEAD
         try{
             //Trying to parse the token given from the request
             $token = JWTAuth::parseToken();
             $token->invalidate(); // Blocking the token
         } catch(JWTException $e){
             //Returning token error with 400 status code
-=======
-        try {
-            $token = JWTAuth::parseToken();
-            $token->invalidate();
-        } catch (JWTException $e) {
->>>>>>> 929cf2463e7639e075add3e56c820f6b87931e08
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
         //Returning the token with null value with 200 status code
@@ -311,7 +298,6 @@ class Account extends Controller
                 user doesn't exist with 404 status code*/
                 return response()->json(['user_not_found'], 404);
             }
-<<<<<<< HEAD
         }
         catch(JWTException $e){
             //Returning token error with the error message if any error occured
@@ -319,12 +305,6 @@ class Account extends Controller
         }
         //Returning the data of the user with 200 status code
         return response()->json(compact('user'));    
-=======
-        } catch (JWTException $e) {
-            return response()->json(['token_error' => $e->getMessage()], 400);
-        }
-        return response()->json(compact('user'));
->>>>>>> 929cf2463e7639e075add3e56c820f6b87931e08
     }
 
 
