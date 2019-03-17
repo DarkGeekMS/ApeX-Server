@@ -9,6 +9,6 @@ class block extends Model
     protected $fillable = [
       'blockerID',
       'blockedID',
-
-    ]
+    ];
+    public $incrementing = false;
 }

@@ -54,15 +54,15 @@ Route::post('/site_admin', 'ApexCom@siteAdmin');
 
 // links and comments
 
-Route::post('/comment', 'Comment@add');
-Route::post('/DelComment', 'Comment@delete');
-Route::post('/Edit', 'Comment@editText');
-Route::post('/report', 'Comment@report');
-Route::post('/vote', 'Comment@vote');
-Route::post('/lock_post', 'Comment@lock');
-Route::post('/Hide', 'Comment@hide');
-Route::post('/save', 'Comment@save');
-Route::get('/moreComments', 'Comment@moreChildren');
+Route::post('/comment', 'CommentandLinks@add');
+Route::post('/DelComment', 'CommentandLinks@delete');
+Route::post('/Edit', 'CommentandLinks@editText');
+Route::post('/report', 'CommentandLinks@report');
+Route::post('/vote', 'CommentandLinks@vote');
+Route::post('/lock_post', 'CommentandLinks@lock');
+Route::post('/Hide', 'CommentandLinks@hide');
+Route::post('/save', 'CommentandLinks@save');
+Route::get('/moreComments', 'CommentandLinks@moreChildren');
 
 
 

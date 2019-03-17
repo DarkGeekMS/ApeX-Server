@@ -14,11 +14,12 @@ class CommentVote extends Migration
     public function up()
     {
         Schema::create(
-            'commentVotes',
+            'comment_votes',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');
                 $table->integer('dir')->default(0);
+                $table->timestamps();
                 $table->primary(['userID','comID']);
                 $table->foreign('comID')->references('id')->on('comments')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

@@ -9,5 +9,6 @@ class moderator extends Model
     protected $fillable = [
       'apexID',
       'userID',
-    ]
+    ];
+    public $incrementing = false;
 }

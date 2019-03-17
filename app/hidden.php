@@ -9,5 +9,6 @@ class hidden extends Model
     protected $fillable = [
       'postID',
       'userID',
-    ]
+    ];
+    public $incrementing = false;
 }

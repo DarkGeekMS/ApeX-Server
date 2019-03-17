@@ -12,5 +12,6 @@ class comment extends Model
       'content',
       'root',
       'parent',
-    ]
+    ];
+    public $incrementing = false;
 }

@@ -19,6 +19,7 @@ class Vote extends Migration
                 $table->string('postID');
                 $table->string('userID');
                 $table->primary(['postID','userID']);
+                $table->timestamps();
                 $table->integer('dir')->default(0);
                 $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
