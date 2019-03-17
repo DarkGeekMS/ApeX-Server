@@ -11,6 +11,4 @@ class moderator extends Model
       'userID',
     ];
     public $incrementing = false;
-
-    public $timestamps = false;
 }

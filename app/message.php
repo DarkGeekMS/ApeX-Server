@@ -18,6 +18,4 @@ class message extends Model
       'delReceive'
     ];
     public $incrementing = false;
-
-    public $timestamps = false;
 }

@@ -16,6 +16,4 @@ class post extends Model
       'locked',
     ];
     public $incrementing = false;
-
-    public $timestamps = false;
 }

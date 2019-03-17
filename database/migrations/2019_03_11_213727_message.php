@@ -22,10 +22,10 @@ class Message extends Migration
                 $table->string('parent')->nullable();
                 $table->string('sender');
                 $table->string('receiver');
-                $table->timestamps();
                 $table->boolean('received')->default(false);
                 $table->boolean('delSend')->default(false);
                 $table->boolean('delReceive')->default(false);
+                $table->timestamps();
                 $table->primary('id');
                 $table->foreign('parent')->references('id')->on('messages')->onDelete('cascade');
                 $table->foreign('sender')->references('id')->on('users')->onDelete('cascade');

@@ -13,7 +13,6 @@ $factory->define(App\message::class, function (Faker $faker) {
         'receiver'=>factory(App\User::class)->create(),
         'received'=>false,
         'delSend'=>false,
-        'delReceive'=>false,
-        'sentAt'=>now()
+        'delReceive'=>false
     ];
 });

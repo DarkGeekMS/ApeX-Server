@@ -21,8 +21,8 @@ class Comment extends Migration
                 $table->text('content');
                 $table->string('root')->nullable();     //post id
                 $table->string('parent')->nullable();  //comment id
-                $table->primary('id');
                 $table->timestamps();
+                $table->primary('id');
                 $table->foreign('commented_by')->references('id')->on('users')->onDelete('cascade');
                 $table->foreign('root')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('parent')->references('id')->on('comments')->onDelete('cascade');
