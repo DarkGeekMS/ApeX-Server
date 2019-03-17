@@ -13,9 +13,7 @@ class post extends Model
       'img',
       'videolink',
       'content',
-      'posted_at',
       'locked',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

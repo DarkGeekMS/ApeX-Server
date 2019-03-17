@@ -10,6 +10,5 @@ class saveComment extends Model
       'comID',
       'userID',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

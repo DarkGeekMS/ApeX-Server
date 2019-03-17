@@ -10,6 +10,5 @@ class subscriber extends Model
       'apexID',
       'userID',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

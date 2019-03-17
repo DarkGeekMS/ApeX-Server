@@ -18,6 +18,7 @@ class ApexBlocks extends Migration
             function (Blueprint $table) {
                 $table->string('ApexID');
                 $table->string('blockedID');
+                $table->timestamps();
                 $table->primary(['blockedID','ApexID']);
                 $table->foreign('blockedID')->references('id')->on('users')->onDelete('cascade');
                 $table->foreign('ApexID')->references('id')->on('apex_coms')->onDelete('cascade');

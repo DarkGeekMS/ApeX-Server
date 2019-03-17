@@ -24,7 +24,7 @@ class Account extends Controller
 {
 
     /**
-     * signUp
+     * SignUp
      * Registers new user into the website.
      * Success Cases :
      * 1) return true to ensure that the user created successfully.
@@ -40,47 +40,51 @@ class Account extends Controller
      * @bodyParam verify_password required string The repeated value of the password.
      * @bodyParam userImage string required The name of the image for the user.
      */
-
     public function signUp(Request $request)
     {
+        //validating the input data to be correct
         $validator = Validator::make(
             $request->all(), [
-            'fullname' => 'required|string|max:50',
             'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
             'username' => 'required|string|max:50|unique:users',
             'avatar' => 'image'
             ]
         );
-
+        //selecting the last user inserted to generate the new user id
         $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
-        $id = "t2_1";
+        $id = "t2_1"; // Default id if there aren't any existing users
         if ($lastUser) {
             $id = $lastUser->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t2_".($newIdx+1);
+            $newIdx = (int)explode("_", $id)[1]; // Getting the id number
+            $id = "t2_".($newIdx+1); //constructing the new id with t2_i format
         }
-
+        //Returning the validation errors in case of validation failure
         if ($validator->fails()) {
+            //converting the errors to json and returning them with 400 status code
             return response()->json($validator->errors()->toJson(), 400);
         }
 
         $requestData = $request->all();
         $requestData['id'] = $id;
+        /*removing password_confirmation from the request data as we don't need it
+        in the database
+        */
         unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
-        $requestData["password"] = Hash::make($password);
+        $requestData["password"] = Hash::make($password); // Hashing the password
   
-
+        //creating new user with the posted data from the request
         $user = new User($requestData);
-        $avatar = "storage/avatars/users/default.png";
+        $avatar = "storage/avatars/users/default.png"; //setting the default avatar
         $user->avatar = $avatar;
         $user->id = $id;
-        $user->save();
+        $user->save(); //saving the user to the database
 
-        $token = JWTAuth::fromUser($user);
+        $token = JWTAuth::fromUser($user); // Generating the user token
 
+        //Returning the user data and the token with 200 status code
         return response()->json(compact('user', 'token'), 200);
     }
 
@@ -99,15 +103,19 @@ class Account extends Controller
 
     public function login(Request $request)
     {
+        //Selecting username and password from the request data
         $credentials = $request->only('username', 'password');
         try {
+            //Trying logging in with the given credentials
             if (!$token = JWTAuth::attempt($credentials)) {
+                //Returning invalid credentials error with 400 status code
                 return response()->json(['error' => 'invalid_credentials'], 400);
             }
         } catch (JWTException $e) {
+            //Returning an error if the token cannot be created with 500 status code
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
+        //Returning the token 
         return response()->json(compact('token'));
     }
 
@@ -167,11 +175,14 @@ class Account extends Controller
     public function logout(Request $request)
     {
         try{
+            //Trying to parse the token given from the request
             $token = JWTAuth::parseToken();
-            $token->invalidate();
+            $token->invalidate(); // Blocking the token
         } catch(JWTException $e){
+            //Returning token error with 400 status code
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
+        //Returning the token with null value with 200 status code
         return response()->json(['token' => null], 200);
     }
 
@@ -281,13 +292,18 @@ class Account extends Controller
     public function me(Request $request)
     {
         try {
+            //Parsing the given token, trying to login and getting user data
             if (!$user = JWTAuth::parseToken()->authenticate()) {
+                /*Returning error if the token is a valid JWT but the encoded
+                user doesn't exist with 404 status code*/
                 return response()->json(['user_not_found'], 404);
             }
         }
         catch(JWTException $e){
+            //Returning token error with the error message if any error occured
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
+        //Returning the data of the user with 200 status code
         return response()->json(compact('user'));    
     }
 

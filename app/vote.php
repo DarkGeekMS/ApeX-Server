@@ -11,6 +11,5 @@ class vote extends Model
       'userID',
       'dir',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

@@ -18,6 +18,7 @@ class Block extends Migration
             function (Blueprint $table) {
                 $table->string('blockerID');
                 $table->string('blockedID');
+                $table->timestamps();
                 $table->primary(['blockedID','blockerID']);
                 $table->foreign('blockedID')->references('id')->on('users')->onDelete('cascade');
                 $table->foreign('blockerID')->references('id')->on('users')->onDelete('cascade');

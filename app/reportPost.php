@@ -11,6 +11,5 @@ class reportPost extends Model
       'userID',
       'content',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

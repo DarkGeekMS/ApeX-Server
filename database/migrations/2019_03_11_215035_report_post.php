@@ -19,6 +19,7 @@ class ReportPost extends Migration
                 $table->string('postID');
                 $table->string('userID');
                 $table->text('content');
+                $table->timestamps();
                 $table->primary(['userID','postID']);
                 $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

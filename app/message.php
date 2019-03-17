@@ -10,7 +10,6 @@ class message extends Model
       'id',
       'content',
       'subject',
-      'sentAt',
       'parent',
       'sender',
       'receiver',
@@ -18,6 +17,5 @@ class message extends Model
       'delSend',
       'delReceive'
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

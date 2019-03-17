@@ -12,7 +12,6 @@ $factory->define(App\post::class, function (Faker $faker) {
       'img'=>null,
       'videolink'=>null,
       'content'=>$faker->text,
-      'posted_at'=>now(),
       'locked'=>false
     ];
 });

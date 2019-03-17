@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\subscriber;
+use App\apexCom as apexComModel;
+use App\apexBlock;
+use App\User;
+use App\Http\Controllers\Account;
 
 /**
  * @group ApexCom
@@ -26,9 +32,33 @@ class ApexCom extends Controller
      * @bodyParam _token JWT required Verifying user ID.
      */
 
-    public function about()
+    public function about(Request $request)
     {
-        return;
+        $account = new Account();
+        
+        // getting the user_id related to the token in the request and validate.
+        $user_id = $account->me($request);
+        
+        if (!$user_id) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
+        
+        $apex_id = $request['ApexCom_id'];
+        
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if(!$apex_id){
+            return response()->json(['error' => 'ApexComm is not found.'], 404);
+        }
+        
+        // check if the validated user was blocked from the apexcom.
+        $blocked = apexBlock::where([
+            ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+            
+        // return an error for if the user was blocked from the apexcom.
+        if($blocked != 0){
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        }
+        
     }
 
 
@@ -75,9 +105,54 @@ class ApexCom extends Controller
      */
 
 
-    public function subscribe()
+    public function subscribe(Request $request)
     {
-        return;
+        $account = new Account();
+        
+        // getting the user_id related to the token in the request and validate.
+        $user_id = $account->me($request);
+        
+        if (!$user_id) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
+        
+        $apex_id = $request['ApexCom_id'];
+        
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if(!$apex_id){
+            return response()->json(['error' => 'ApexComm is not found.'], 404);
+        }
+        
+        // check if the validated user was blocked from the apexcom.
+        $blocked = apexBlock::where([
+            ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+            
+        // return an error for if the user was blocked from the apexcom.
+        if($blocked != 0){
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        }
+        
+        // get if the user was previously subscribing the apexcom.
+        $unsubscribe = subscriber::where([
+            ['apexID', '=',$apex_id],['userID', '=',$user_id] ])->count();
+
+        // unsubscribe if previously subscribed and return true to ensure the success of unsubscribe.
+        if($unsubscribe)
+        {
+            subscriber::where([
+                ['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
+
+            return response()->json([1], 200);
+        }
+
+        // if not previously subscribed then subscribe and store it in the database.
+        subscriber::create([
+            'apexID' => $apex_id ,
+            'userID' => $user_id
+        ]);
+
+        // return true to ensure the success of subscription.
+        return response()->json([1], 200);
     }
 
 
@@ -91,7 +166,7 @@ class ApexCom extends Controller
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
      *
-     * @bodyParam ApexCom_name string required The fullname of the community.
+     * @bodyParam ApexCom_name string required The name of the community.
      * @bodyParam description string required The description of the community.
      * @bodyParam rules string required The rules of the community.
      * @bodyParam img_name string The attached image to the community.

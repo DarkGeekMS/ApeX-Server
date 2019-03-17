@@ -10,6 +10,5 @@ class savePost extends Model
       'postID',
       'userID',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

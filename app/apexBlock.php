@@ -10,6 +10,5 @@ class apexBlock extends Model
       'ApexID',
       'blockedID',
     ];
-
-    public $timestamps = false;
+    public $incrementing = false;
 }

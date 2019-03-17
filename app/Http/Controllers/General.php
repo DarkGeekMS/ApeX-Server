@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\apexCom;
 use App\vote;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
+use App\subscriber;
+use App\apexCom;
+use App\apexBlock;
+use App\User;
+use App\Http\Controllers\Account;
+
 class General extends Controller
 {
 
@@ -93,8 +98,37 @@ class General extends Controller
      * @bodyParam _token string required Verifying user ID.
      */
 
-    public function getSubscribers()
+    public function getSubscribers(Request $request)
     {
-        return;
+        $account = new Account();
+
+        // getting the user_id related to the token in the request and validate.
+        $user_id = $account->me($request);
+
+        if (!$user_id) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
+
+        $apex_id = $request['ApexCommID'];
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if(!$apex_id){
+            return response()->json(['error' => 'ApexComm is not found.'], 404);
+        }
+
+        // check if the validated user was blocked from the apexcom.
+        $blocked = apexBlock::where([
+            ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+            
+        // return an error for if the user was blocked from the apexcom.
+        if($blocked != 0){
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        }
+
+        // get the subscribers' for the apexcom user IDs.
+        $subscribers = subscriber::where('apexID',$apex_id)->get('userID');
+
+        // return the subscribers user IDs.
+        return response()->json(compact('subscribers'));
     }
 }
