@@ -33,21 +33,17 @@ class Administration extends Controller
         $user=me($request);
         $type=$user->only('type');
         $apexid= $request->only('Apex_ID');
-        $apexcom=DB::table('apexcoms')->where('id','=', $apexid)->get();
-       if($type==3){                                                     //to check for admin
-            if($apexcom){                                                //to check that the apexcom exists
-                DB::table('apexcoms')->where('id','=',$apexid)->delete();
-            }
-            else{
+        $apexcom=DB::table('apexcoms')->where('id', '=', $apexid)->get();
+        if ($type==3) {                                                     //to check for admin
+            if ($apexcom) {                                                //to check that the apexcom exists
+                DB::table('apexcoms')->where('id', '=', $apexid)->delete();
+            } else {
                 return response()->json(['error' => 'ApexCom doesnot exist'], 500);
             }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Unauthorized access'], 400);
-
         }
-        return response()->json(['value'=>true],300);
-
+         return response()->json(['value'=>true], 300);
     }
 
 
@@ -73,31 +69,24 @@ class Administration extends Controller
         $type=$user->only('type');
         $userid= $request->only('UserID');
         $id=$request->only('id');
-        $usertobedeleted=DB::table('users')->where('id','=', $userid)->get();
+        $usertobedeleted=DB::table('users')->where('id', '=', $userid)->get();
 
-       if($type==3){                                                             //to check for admin
-            if($usertobedeleted){                                                //to check that the user exists
-                DB::table('users')->where('id','=',$userid)->delete();
-            }
-            else{
+        if ($type==3) {                                                             //to check for admin
+            if ($usertobedeleted) {                                                //to check that the user exists
+                DB::table('users')->where('id', '=', $userid)->delete();
+            } else {
                 return response()->json(['error' => 'User doesnot exist'], 500);
             }
-        }
-        else if($type==1 || $type==2){                                           //to check for user or moderator
-
-            if($usertobedeleted && $id=$userid){                                 //to check that the user exists and has the same id
-
-                DB::table('users')->where('id','=',$userid)->delete();
-            }
-            else{
+        } elseif ($type==1 || $type==2) {                                           //to check for user or moderator
+            if ($usertobedeleted && $id=$userid) {                //to check that the user exists and has the same id
+                DB::table('users')->where('id', '=', $userid)->delete();
+            } else {
                 return response()->json(['error' => 'Cannot delete user'], 400);
             }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Unauthorized access'], 300);
-
         }
-        return response()->json(['value'=>true],200);
+        return response()->json(['value'=>true], 200);
     }
 
 
@@ -123,20 +112,18 @@ class Administration extends Controller
         $type=$user->only('type');
         $userid= $request->only('UserID');
         $apexid=$request->only('ApexComID');
-        $apex=DB::table('apexcoms')->where('id','=', $apexid)->get();
-        if($type==3){                                                             //to check for admin
-            if($apex){                                                            //to check that the user exists
+        $apex=DB::table('apexcoms')->where('id', '=', $apexid)->get();
+        if ($type==3) {                                                             //to check for admin
+            if ($apex) {                                                            //to check that the user exists
                 DB::table('moderators')->insert(
                     ['apexID' => $apexid, 'userID' =>$userid]
                 );
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'ApexCom doesnot exist'], 500);
             }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Unauthorized access'], 300);
         }
-        return response()->json(['value'=>true],200);
+        return response()->json(['value'=>true], 200);
     }
 }

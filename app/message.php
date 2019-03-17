@@ -10,7 +10,6 @@ class message extends Model
       'id',
       'content',
       'subject',
-      'sentAt',
       'parent',
       'sender',
       'receiver',

@@ -13,7 +13,6 @@ class post extends Model
       'img',
       'videolink',
       'content',
-      'posted_at',
       'locked',
     ];
     public $incrementing = false;
