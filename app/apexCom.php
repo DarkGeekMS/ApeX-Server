@@ -14,5 +14,14 @@ class apexCom extends Model
       'rules',
       'description',
     ];
+
     public $incrementing = false;
+
+    /**
+     * Get the posts for the apexCom.
+     */
+    public function posts()
+    {
+        return $this->hasMany(post::class, 'apex_id', 'id');
+    }
 }
