@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use App\Http\Controllers\Account;
 
 /**
  * @group Adminstration
@@ -26,9 +28,22 @@ class Administration extends Controller
      * @bodyParam token JWT required Used to verify the admin ID.
      */
 
-    public function deleteApexCom()
+    public function deleteApexCom(Request $request)
     {
-        return;
+        $user=me($request);
+        $type=$user->only('type');
+        $apexid= $request->only('Apex_ID');
+        $apexcom=DB::table('apexcoms')->where('id', '=', $apexid)->get();
+        if ($type==3) {                                                     //to check for admin
+            if ($apexcom) {                                                //to check that the apexcom exists
+                DB::table('apexcoms')->where('id', '=', $apexid)->delete();
+            } else {
+                return response()->json(['error' => 'ApexCom doesnot exist'], 500);
+            }
+        } else {
+            return response()->json(['error' => 'Unauthorized access'], 400);
+        }
+         return response()->json(['value'=>true], 300);
     }
 
 
@@ -45,13 +60,33 @@ class Administration extends Controller
      * 2) NoAccessRight the token is not the site admin or the same user token id.
      *
      * @bodyParam UserID string required The ID of the user to be deleted.
-     * @bodyParam Reason string The reason for deleting the user.
      * @bodyParam token JWT required Used to verify the admin or the same user ID.
      */
 
-    public function deleteUser()
+    public function deleteUser(Request $request)
     {
-        return;
+        $user=me($request);
+        $type=$user->only('type');
+        $userid= $request->only('UserID');
+        $id=$request->only('id');
+        $usertobedeleted=DB::table('users')->where('id', '=', $userid)->get();
+
+        if ($type==3) {                                                             //to check for admin
+            if ($usertobedeleted) {                                                //to check that the user exists
+                DB::table('users')->where('id', '=', $userid)->delete();
+            } else {
+                return response()->json(['error' => 'User doesnot exist'], 500);
+            }
+        } elseif ($type==1 || $type==2) {                                           //to check for user or moderator
+            if ($usertobedeleted && $id=$userid) {                //to check that the user exists and has the same id
+                DB::table('users')->where('id', '=', $userid)->delete();
+            } else {
+                return response()->json(['error' => 'Cannot delete user'], 400);
+            }
+        } else {
+            return response()->json(['error' => 'Unauthorized access'], 300);
+        }
+        return response()->json(['value'=>true], 200);
     }
 
 
@@ -71,8 +106,24 @@ class Administration extends Controller
      * @bodyParam UserID string required The user ID to be added as a moderator.
      */
 
-    public function addModerator()
+    public function addModerator(Request $request)
     {
-        return;
+        $user=me($request);
+        $type=$user->only('type');
+        $userid= $request->only('UserID');
+        $apexid=$request->only('ApexComID');
+        $apex=DB::table('apexcoms')->where('id', '=', $apexid)->get();
+        if ($type==3) {                                                             //to check for admin
+            if ($apex) {                                                            //to check that the user exists
+                DB::table('moderators')->insert(
+                    ['apexID' => $apexid, 'userID' =>$userid]
+                );
+            } else {
+                return response()->json(['error' => 'ApexCom doesnot exist'], 500);
+            }
+        } else {
+            return response()->json(['error' => 'Unauthorized access'], 300);
+        }
+        return response()->json(['value'=>true], 200);
     }
 }

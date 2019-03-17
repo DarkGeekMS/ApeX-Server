@@ -10,5 +10,6 @@ class vote extends Model
       'postID',
       'userID',
       'dir',
-    ]
+    ];
+    public $incrementing = false;
 }

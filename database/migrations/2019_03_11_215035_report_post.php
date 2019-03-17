@@ -14,11 +14,12 @@ class ReportPost extends Migration
     public function up()
     {
         Schema::create(
-            'reportPosts',
+            'report_posts',
             function (Blueprint $table) {
                 $table->string('postID');
                 $table->string('userID');
                 $table->text('content');
+                $table->timestamps();
                 $table->primary(['userID','postID']);
                 $table->foreign('postID')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

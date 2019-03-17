@@ -11,6 +11,6 @@ class moderators extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\moderator::class, 10)->create();
     }
 }

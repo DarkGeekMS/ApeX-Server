@@ -11,6 +11,6 @@ class apeXcoms extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\apexCom::class, 10)->create();
     }
 }

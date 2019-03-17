@@ -14,11 +14,12 @@ class ReportComment extends Migration
     public function up()
     {
         Schema::create(
-            'reportComments',
+            'report_comments',
             function (Blueprint $table) {
                 $table->string('comID');
                 $table->string('userID');
                 $table->text('content');
+                $table->timestamps();
                 $table->primary(['userID','comID']);
                 $table->foreign('comID')->references('id')->on('comments')->onDelete('cascade');
                 $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');

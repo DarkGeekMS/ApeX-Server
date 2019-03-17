@@ -11,10 +11,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(Users::class);
-         $this->call(apeXcoms::class);
-         $this->call(messages::class);
-         $this->call(posts::class);
-         $this->call(comments::class);
+         $this->call([
+           Users::class,
+           apeXcoms::class,
+           posts::class,
+           messages::class,
+           comments::class,
+           apexBlocks::class,
+           blocks::class,
+           commentVotes::class,
+           hiddens::class,
+           moderators::class,
+           reportComments::class,
+           reportPosts::class,
+           saveComments::class,
+           savePosts::class,
+           subscribers::class,
+           votes::class
+         ]);
     }
 }
