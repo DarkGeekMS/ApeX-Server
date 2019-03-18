@@ -10,6 +10,7 @@ class post extends Model
       'id',
       'posted_by',
       'apex_id',
+      'title',
       'img',
       'videolink',
       'content',

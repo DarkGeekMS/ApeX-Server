@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\message::class, function (Faker $faker) {
     $users = DB::table('users')->pluck('id')->all();
     return [
-        'id'=>'t4_'.str_random(6),
+        'id'=>'t4_'.(string)rand(100000, 999999),
         'content'=> $faker->text,
         'subject'=>str_random(10),
         'parent'=>null,
