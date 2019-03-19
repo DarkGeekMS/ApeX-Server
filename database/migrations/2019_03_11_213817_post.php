@@ -19,6 +19,7 @@ class Post extends Migration
                 $table->string('id')->unique();
                 $table->string('posted_by');
                 $table->string('apex_id');
+                $table->string('title');
                 $table->string('img')->nullable();
                 $table->string('videolink')->nullable();
                 $table->text('content')->nullable();

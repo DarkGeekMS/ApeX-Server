@@ -51,22 +51,20 @@
 <h1>Account</h1>
 <p>Controls the authentication, info and messages of any user account.</p>
 <!-- START_311b0f388598aca8ed7f8fdf74916333 -->
-<h2>signUp</h2>
+<h2>SignUp</h2>
 <p>Registers new user into the website.</p>
 <p>Success Cases :
-1) return true to ensure that the user created successfully.
+1) return user data and JWT token to ensure that the user created successfully.
 failure Cases:
-1) verify_password is not the same as the password.
-2) username and email are the same.
-3) username already exits.
-4) email already exists.</p>
+1) username already exits.
+2) email already exists.</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/sign_up" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"5mRMzM23yxUe1LYl","username":"94xFzBYqITLxAM6j","password":"8fh64iHVBtZag5uo","verify_password":"O6lxqofyXmGmFSzY","userImage":"LLLRgCzg79RGIbvF"}'
+    -d '{"email":"5Ju9y4QEKg3LlaHe","username":"Fip4mCpXeX93yCXI","password":"lPz8HUlOtf9P356K"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/sign_up");
 
@@ -77,11 +75,9 @@ let headers = {
 }
 
 let body = {
-    "email": "5mRMzM23yxUe1LYl",
-    "username": "94xFzBYqITLxAM6j",
-    "password": "8fh64iHVBtZag5uo",
-    "verify_password": "O6lxqofyXmGmFSzY",
-    "userImage": "LLLRgCzg79RGIbvF"
+    "email": "5Ju9y4QEKg3LlaHe",
+    "username": "Fip4mCpXeX93yCXI",
+    "password": "lPz8HUlOtf9P356K"
 }
 
 fetch(url, {
@@ -91,6 +87,47 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "user": {
+        "email": "hello@gmail.com",
+        "username": "MohamedRamzy1234",
+        "id": "t2_13",
+        "avatar": "storage\/avatars\/users\/default.png",
+        "updated_at": "2019-03-19 18:30:05",
+        "created_at": "2019-03-19 18:30:05"
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwv"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "email": [
+        "The email has already been taken."
+    ],
+    "username": [
+        "The username has already been taken."
+    ]
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "email": [
+        "The email has already been taken."
+    ]
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "username": [
+        "The username has already been taken."
+    ]
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST api/sign_up</code></p>
 <h4>Body Parameters</h4>
@@ -122,18 +159,6 @@ fetch(url, {
 <td>required</td>
 <td>The choosen password.</td>
 </tr>
-<tr>
-<td>verify_password</td>
-<td>required</td>
-<td>optional</td>
-<td>string The repeated value of the password.</td>
-</tr>
-<tr>
-<td>userImage</td>
-<td>string</td>
-<td>required</td>
-<td>The name of the image for the user.</td>
-</tr>
 </tbody>
 </table>
 <!-- END_311b0f388598aca8ed7f8fdf74916333 -->
@@ -141,7 +166,7 @@ fetch(url, {
 <h2>login</h2>
 <p>Validates user&#039;s credentials and logs him in.</p>
 <p>Success Cases :
-1) return true to ensure that the user loggedin successfully.
+1) return JWT token to ensure that the user loggedin successfully.
 failure Cases:
 1) username is not found.
 2) invalid password.</p>
@@ -151,7 +176,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Sign_in" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"hIbmsVNqhpCgOVz3","password":"09x378e7pOyBoTwa"}'
+    -d '{"username":"HOSQHD2QBGkashSg","password":"iE1FRSo6Ts0z9Gku"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Sign_in");
 
@@ -162,8 +187,8 @@ let headers = {
 }
 
 let body = {
-    "username": "hIbmsVNqhpCgOVz3",
-    "password": "09x378e7pOyBoTwa"
+    "username": "HOSQHD2QBGkashSg",
+    "password": "iE1FRSo6Ts0z9Gku"
 }
 
 fetch(url, {
@@ -173,6 +198,24 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9X2luIiwiaWF0IjoxNTUzMD"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "invalid_credentials"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "could_not_create_token"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST api/Sign_in</code></p>
 <h4>Body Parameters</h4>
@@ -214,7 +257,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/mail_verify" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"FK05KH1UCSKjQJZa"}'
+    -d '{"username":"jy42VbJKyOa0zCH3"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/mail_verify");
 
@@ -225,7 +268,7 @@ let headers = {
 }
 
 let body = {
-    "username": "FK05KH1UCSKjQJZa"
+    "username": "jy42VbJKyOa0zCH3"
 }
 
 fetch(url, {
@@ -270,7 +313,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/check_code" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":10}'
+    -d '{"code":20}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/check_code");
 
@@ -281,7 +324,7 @@ let headers = {
 }
 
 let body = {
-    "code": 10
+    "code": 20
 }
 
 fetch(url, {
@@ -314,20 +357,19 @@ fetch(url, {
 </table>
 <!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 <!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
-<h2>logout</h2>
+<h2>Logout</h2>
 <p>Logs out a user.</p>
 <p>Success Cases :
-1) return true to ensure that the user is logout successfully.
+1) return token equals to null to ensure that the user is logout successfully.
 failure Cases:
-1) user ID already logged out.
-2) NoAccessRight token is not authorized.</p>
+1) Token invalid</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/sign_out" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"BnQgGRQMQl03x3av"}'
+    -d '{"token":"1rfvbiqaLVGaerqw"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/sign_out");
 
@@ -338,7 +380,7 @@ let headers = {
 }
 
 let body = {
-    "token": "BnQgGRQMQl03x3av"
+    "token": "1rfvbiqaLVGaerqw"
 }
 
 fetch(url, {
@@ -348,6 +390,18 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token": null
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token_error": "wrong number of segments"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST api/sign_out</code></p>
 <h4>Body Parameters</h4>
@@ -384,7 +438,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"7Zp7WujVpxjwy0Om","token":"htUqIv4sZbaxaekO"}'
+    -d '{"id":"FeVM4MGf2c8Jumi2","token":"DTZAk65xB3osnMpG"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/del_msg");
 
@@ -395,8 +449,8 @@ let headers = {
 }
 
 let body = {
-    "id": "7Zp7WujVpxjwy0Om",
-    "token": "htUqIv4sZbaxaekO"
+    "id": "FeVM4MGf2c8Jumi2",
+    "token": "DTZAk65xB3osnMpG"
 }
 
 fetch(url, {
@@ -449,7 +503,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"p68U1cgCPfq0BcKQ","token":"cjgJKrhsE1eN7v3p"}'
+    -d '{"ID":"iSUR6U4HjhfgEzSm","token":"bLSL7KCtbo2EslIQ"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/read_msg");
 
@@ -460,8 +514,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "p68U1cgCPfq0BcKQ",
-    "token": "cjgJKrhsE1eN7v3p"
+    "ID": "iSUR6U4HjhfgEzSm",
+    "token": "bLSL7KCtbo2EslIQ"
 }
 
 fetch(url, {
@@ -500,10 +554,10 @@ fetch(url, {
 </table>
 <!-- END_293bfba07d359f07b62946a6702243f5 -->
 <!-- START_d131f717df7db546af1657d1e7ce10f6 -->
-<h2>me</h2>
+<h2>Me</h2>
 <p>Returns the identity of the user logged in.</p>
 <p>Success Cases :
-1) return the user ID of the sent token.
+1) return the user object of the sent token as json.
 failure Cases:
 1) NoAccessRight token is not authorized.</p>
 <blockquote>
@@ -512,7 +566,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"weBDvLZ5K6vzOFII"}'
+    -d '{"token":"sMClXysJHkg8rkbu"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/me");
 
@@ -523,7 +577,7 @@ let headers = {
 }
 
 let body = {
-    "token": "weBDvLZ5K6vzOFII"
+    "token": "sMClXysJHkg8rkbu"
 }
 
 fetch(url, {
@@ -533,6 +587,35 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "user": {
+        "id": "t2_2",
+        "fullname": null,
+        "email": "111@gmail.com",
+        "username": "MohamedRamzy123",
+        "avatar": "storage\/avatars\/users\/default.png",
+        "karma": 1,
+        "notification": 1,
+        "type": 1,
+        "created_at": "2019-03-18 09:36:09",
+        "updated_at": "2019-03-18 09:36:09"
+    }
+}</code></pre>
+<blockquote>
+<p>Example response (404):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "user_not_found"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token_error": "The token has been blacklisted"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST api/me</code></p>
 <h4>Body Parameters</h4>
@@ -570,7 +653,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"T2P6dPjuKeApwFSn","change_password":"5drRL2AQJtdkgTWw","deactivate_account":"VRktO7XbSKC2l4bu","media_autoplay":false,"pm_notifications":true,"replies_notifications":true,"token":"pjrEhA8rcqH1yQD1"}'
+    -d '{"change_email":"RGuD7U3VplBt7mUA","change_password":"g6Hj3UQ7NE18kVWL","deactivate_account":"D27KrbNA4CO6jdKO","media_autoplay":false,"pm_notifications":false,"replies_notifications":true,"token":"pdabW8uJ6sBPM7UG"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/updateprefs");
 
@@ -581,13 +664,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "T2P6dPjuKeApwFSn",
-    "change_password": "5drRL2AQJtdkgTWw",
-    "deactivate_account": "VRktO7XbSKC2l4bu",
+    "change_email": "RGuD7U3VplBt7mUA",
+    "change_password": "g6Hj3UQ7NE18kVWL",
+    "deactivate_account": "D27KrbNA4CO6jdKO",
     "media_autoplay": false,
-    "pm_notifications": true,
+    "pm_notifications": false,
     "replies_notifications": true,
-    "token": "pjrEhA8rcqH1yQD1"
+    "token": "pdabW8uJ6sBPM7UG"
 }
 
 fetch(url, {
@@ -668,7 +751,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"Yot4d31gY2z2X0hX"}'
+    -d '{"token":"NaoReSLd6H5fbM4u"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/prefs");
 
@@ -679,7 +762,7 @@ let headers = {
 }
 
 let body = {
-    "token": "Yot4d31gY2z2X0hX"
+    "token": "NaoReSLd6H5fbM4u"
 }
 
 fetch(url, {
@@ -729,7 +812,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"SX8aWzzI11jmwxZc"}'
+    -d '{"token":"4TinbL94QVn1eUXj"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/info");
 
@@ -740,7 +823,7 @@ let headers = {
 }
 
 let body = {
-    "token": "SX8aWzzI11jmwxZc"
+    "token": "4TinbL94QVn1eUXj"
 }
 
 fetch(url, {
@@ -789,7 +872,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"LNBS6o1h32Y8y2Hd"}'
+    -d '{"token":"hF4FTejNgZzsBDWU"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/karma");
 
@@ -800,7 +883,7 @@ let headers = {
 }
 
 let body = {
-    "token": "LNBS6o1h32Y8y2Hd"
+    "token": "hF4FTejNgZzsBDWU"
 }
 
 fetch(url, {
@@ -849,7 +932,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":8,"token":"2Hu57YSvhYiRwt7M"}'
+    -d '{"max":20,"token":"NJ1VVBwtuDastja5"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/messages");
 
@@ -860,8 +943,8 @@ let headers = {
 }
 
 let body = {
-    "max": 8,
-    "token": "2Hu57YSvhYiRwt7M"
+    "max": 20,
+    "token": "NJ1VVBwtuDastja5"
 }
 
 fetch(url, {
@@ -919,7 +1002,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/del_ac" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"rA59Br6tXi4uEHhf","token":"4iA46L45wyJOhUtU"}'
+    -d '{"Apex_ID":"YXnufTmpt7cC9Cqo","token":"rKPQ7PjhMrnMqK7T"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/del_ac");
 
@@ -930,8 +1013,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "rA59Br6tXi4uEHhf",
-    "token": "4iA46L45wyJOhUtU"
+    "Apex_ID": "YXnufTmpt7cC9Cqo",
+    "token": "rKPQ7PjhMrnMqK7T"
 }
 
 fetch(url, {
@@ -983,7 +1066,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"yeQH4Iq1A13eaMSF","Reason":"oLauhX593bQxTuAD","token":"KgEdLqHEaonTsrYq"}'
+    -d '{"UserID":"FbdE8Gqz9lxAm38l","token":"Qr07hK8WbmZXrhFY"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/del_user");
 
@@ -994,9 +1077,8 @@ let headers = {
 }
 
 let body = {
-    "UserID": "yeQH4Iq1A13eaMSF",
-    "Reason": "oLauhX593bQxTuAD",
-    "token": "KgEdLqHEaonTsrYq"
+    "UserID": "FbdE8Gqz9lxAm38l",
+    "token": "Qr07hK8WbmZXrhFY"
 }
 
 fetch(url, {
@@ -1026,12 +1108,6 @@ fetch(url, {
 <td>The ID of the user to be deleted.</td>
 </tr>
 <tr>
-<td>Reason</td>
-<td>string</td>
-<td>optional</td>
-<td>The reason for deleting the user.</td>
-</tr>
-<tr>
 <td>token</td>
 <td>JWT</td>
 <td>required</td>
@@ -1054,7 +1130,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/add_mod" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"r1snLjY9XT7TKlrr","token":"hTGktPMUHkahJU4z","UserID":"me6pKxMS5JCKmsMI"}'
+    -d '{"ApexComID":"xt0W5rgI2cd5B70C","token":"BELEtj43DssNUrhQ","UserID":"b3PONSB6GYnGJCfA"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/add_mod");
 
@@ -1065,9 +1141,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "r1snLjY9XT7TKlrr",
-    "token": "hTGktPMUHkahJU4z",
-    "UserID": "me6pKxMS5JCKmsMI"
+    "ApexComID": "xt0W5rgI2cd5B70C",
+    "token": "BELEtj43DssNUrhQ",
+    "UserID": "b3PONSB6GYnGJCfA"
 }
 
 fetch(url, {
@@ -1115,7 +1191,7 @@ fetch(url, {
 <p>Controls the ApexCom info , posts and admin.</p>
 <!-- START_931d45747883f17f4898d055e7277e3d -->
 <h2>about</h2>
-<p>to get data about an ApexCom (moderators , contributors , rules , description and subscribers count).</p>
+<p>to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).</p>
 <p>Success Cases :
 1) return the information about the ApexCom.
 failure Cases:
@@ -1127,7 +1203,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"MXe472Ewx4UArpsI","_token":"okjZwPLMX7SFTl2z"}'
+    -d '{"ApexCom_id":"OfZ7PjwNIfXO6R0H","token":"MNPpKzBciqEemnqr"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/about");
 
@@ -1138,8 +1214,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "MXe472Ewx4UArpsI",
-    "_token": "okjZwPLMX7SFTl2z"
+    "ApexCom_id": "OfZ7PjwNIfXO6R0H",
+    "token": "MNPpKzBciqEemnqr"
 }
 
 fetch(url, {
@@ -1150,9 +1226,435 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
-<p>Example response (200):</p>
+<p>Example response (500):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "message": "Undefined property: stdClass::$user",
+    "exception": "ErrorException",
+    "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\ApexCom.php",
+    "line": 42,
+    "trace": [
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\ApexCom.php",
+            "line": 42,
+            "function": "handleError",
+            "class": "Illuminate\\Foundation\\Bootstrap\\HandleExceptions",
+            "type": "-&gt;"
+        },
+        {
+            "function": "about",
+            "class": "App\\Http\\Controllers\\ApexCom",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+            "line": 54,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+            "line": 45,
+            "function": "callAction",
+            "class": "Illuminate\\Routing\\Controller",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 219,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\ControllerDispatcher",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 176,
+            "function": "runController",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 680,
+            "function": "run",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+            "line": 41,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+            "line": 58,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 682,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 657,
+            "function": "runRouteWithinStack",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 623,
+            "function": "runRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 612,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 176,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Foundation\\Http\\{closure}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
+            "line": 57,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Fideloper\\Proxy\\TrustProxies",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 21,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 21,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+            "line": 27,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
+            "line": 62,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 151,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 116,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 276,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 260,
+            "function": "callLaravelRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 36,
+            "function": "makeApiCall",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 49,
+            "function": "__invoke",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 68,
+            "function": "resolve",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
+            "line": 57,
+            "function": "getResponse",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 201,
+            "function": "processRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\Generator",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 59,
+            "function": "processRoutes",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "function": "handle",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 32,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 90,
+            "function": "Illuminate\\Container\\{closure}",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 34,
+            "function": "callBoundMethod",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+            "line": 580,
+            "function": "call",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 183,
+            "function": "call",
+            "class": "Illuminate\\Container\\Container",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Command\\Command.php",
+            "line": 255,
+            "function": "execute",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 170,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Command\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "line": 908,
+            "function": "run",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "line": 269,
+            "function": "doRunCommand",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "line": 145,
+            "function": "doRun",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+            "line": 90,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+            "line": 122,
+            "function": "run",
+            "class": "Illuminate\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\artisan",
+            "line": 37,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Console\\Kernel",
+            "type": "-&gt;"
+        }
+    ]
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/about</code></p>
 <h4>Body Parameters</h4>
@@ -1173,7 +1675,7 @@ fetch(url, {
 <td>The fullname of the community.</td>
 </tr>
 <tr>
-<td>_token</td>
+<td>token</td>
 <td>JWT</td>
 <td>required</td>
 <td>Verifying user ID.</td>
@@ -1197,7 +1699,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"fNqI3sH5xshYxcI6","body":"uZecH7lSzFcv7ma8","img_name":"ZpOi6v5VtkTCOiUd","video_url":"APH4CObAVrSrqdn6","isLocked":true,"_token":"UST2aw7kiSDTFxTD"}'
+    -d '{"ApexCom_id":"dlxmhcAHfFfLvvS4","body":"X80mjlAPoKFlzMHm","img_name":"HBakVHysfHEzcepn","video_url":"i9WemwHVKrJhtiDB","isLocked":false,"token":"gLRTvOVrUfPS7VfT"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/submit_post");
 
@@ -1208,12 +1710,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "fNqI3sH5xshYxcI6",
-    "body": "uZecH7lSzFcv7ma8",
-    "img_name": "ZpOi6v5VtkTCOiUd",
-    "video_url": "APH4CObAVrSrqdn6",
-    "isLocked": true,
-    "_token": "UST2aw7kiSDTFxTD"
+    "ApexCom_id": "dlxmhcAHfFfLvvS4",
+    "body": "X80mjlAPoKFlzMHm",
+    "img_name": "HBakVHysfHEzcepn",
+    "video_url": "i9WemwHVKrJhtiDB",
+    "isLocked": false,
+    "token": "gLRTvOVrUfPS7VfT"
 }
 
 fetch(url, {
@@ -1267,7 +1769,7 @@ fetch(url, {
 <td>To allow or disallow comments on the posted post.</td>
 </tr>
 <tr>
-<td>_token</td>
+<td>token</td>
 <td>JWT</td>
 <td>required</td>
 <td>Verifying user ID.</td>
@@ -1289,7 +1791,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"us0oVHU06jaS1u7H","_token":"EesIOHRBLa5zWylv"}'
+    -d '{"ApexCom_id":"GVcnq0nD1aDQoY5f","token":"5gPWAU3K8zgdbvDb"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/subscribe");
 
@@ -1300,8 +1802,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "us0oVHU06jaS1u7H",
-    "_token": "EesIOHRBLa5zWylv"
+    "ApexCom_id": "GVcnq0nD1aDQoY5f",
+    "token": "5gPWAU3K8zgdbvDb"
 }
 
 fetch(url, {
@@ -1331,7 +1833,7 @@ fetch(url, {
 <td>The fullname of the community required to be subscribed.</td>
 </tr>
 <tr>
-<td>_token</td>
+<td>token</td>
 <td>JWT</td>
 <td>required</td>
 <td>Verifying user ID.</td>
@@ -1353,7 +1855,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_name":"f1io8djyEr81CIOX","description":"Hhsbjy3Dd4Wcj9Wj","rules":"3NsP0goJhd7yOQ5K","img_name":"a4FQbCDRJuqd9RXB","_token":"VNMuL6wI1l13ZBgt"}'
+    -d '{"ApexCom_name":"Sye5SId0f9b2U6Vf","description":"Rk08FNaBUVTxRYdO","rules":"NjhbbCHBVVV2CgZ9","img_name":"Qoc7RIybCZRYpNjp","token":"RJvSqRH01H1vlQYr"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/site_admin");
 
@@ -1364,11 +1866,11 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_name": "f1io8djyEr81CIOX",
-    "description": "Hhsbjy3Dd4Wcj9Wj",
-    "rules": "3NsP0goJhd7yOQ5K",
-    "img_name": "a4FQbCDRJuqd9RXB",
-    "_token": "VNMuL6wI1l13ZBgt"
+    "ApexCom_name": "Sye5SId0f9b2U6Vf",
+    "description": "Rk08FNaBUVTxRYdO",
+    "rules": "NjhbbCHBVVV2CgZ9",
+    "img_name": "Qoc7RIybCZRYpNjp",
+    "token": "RJvSqRH01H1vlQYr"
 }
 
 fetch(url, {
@@ -1395,7 +1897,7 @@ fetch(url, {
 <td>ApexCom_name</td>
 <td>string</td>
 <td>required</td>
-<td>The fullname of the community.</td>
+<td>The name of the community.</td>
 </tr>
 <tr>
 <td>description</td>
@@ -1416,7 +1918,7 @@ fetch(url, {
 <td>The attached image to the community.</td>
 </tr>
 <tr>
-<td>_token</td>
+<td>token</td>
 <td>JWT</td>
 <td>required</td>
 <td>Verifying user ID.</td>
@@ -1440,7 +1942,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/comment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"fwyPOS5m2BfG8jz8","content":"Y85telqf3PynUrJi","parent_ID":"S3swDvD29zU4sD5G","AuthID":"ijOvmq7p1K0F8DDY"}'
+    -d '{"name":"QikSn3IEy499dosu","content":"WbGslmIXg3NjmoS5","parent_ID":"P6et9NETl5H5wJt4","AuthID":"Ym2VWuPMKHl6Lzfe"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/comment");
 
@@ -1451,10 +1953,10 @@ let headers = {
 }
 
 let body = {
-    "name": "fwyPOS5m2BfG8jz8",
-    "content": "Y85telqf3PynUrJi",
-    "parent_ID": "S3swDvD29zU4sD5G",
-    "AuthID": "ijOvmq7p1K0F8DDY"
+    "name": "QikSn3IEy499dosu",
+    "content": "WbGslmIXg3NjmoS5",
+    "parent_ID": "P6et9NETl5H5wJt4",
+    "AuthID": "Ym2VWuPMKHl6Lzfe"
 }
 
 fetch(url, {
@@ -1519,7 +2021,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/DelComment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"GYstdc4s8daNtpmo","ID":"84snRGLSigdsagOF"}'
+    -d '{"name":"oIO8KQkMTMBqPJVZ","ID":"4mqw2YJlNQF1h9VU"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/DelComment");
 
@@ -1530,8 +2032,8 @@ let headers = {
 }
 
 let body = {
-    "name": "GYstdc4s8daNtpmo",
-    "ID": "84snRGLSigdsagOF"
+    "name": "oIO8KQkMTMBqPJVZ",
+    "ID": "4mqw2YJlNQF1h9VU"
 }
 
 fetch(url, {
@@ -1584,7 +2086,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"cDwYvS3kSEZbNOk7","content":"Lt0EP92eD6vRuttE","ID":"tArqWbxpeE9MWvYE"}'
+    -d '{"name":"c81zro48kxW7lMCi","content":"xbNhYVIpWz4q8QPv","ID":"xqxeVoELQa0NZSVU"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Edit");
 
@@ -1595,9 +2097,9 @@ let headers = {
 }
 
 let body = {
-    "name": "cDwYvS3kSEZbNOk7",
-    "content": "Lt0EP92eD6vRuttE",
-    "ID": "tArqWbxpeE9MWvYE"
+    "name": "c81zro48kxW7lMCi",
+    "content": "xbNhYVIpWz4q8QPv",
+    "ID": "xqxeVoELQa0NZSVU"
 }
 
 fetch(url, {
@@ -1657,7 +2159,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"aEJcsdV6YxoXfNkd","Reason":16,"ID":"WwInPsYafDK9uDmY"}'
+    -d '{"name":"I2MybGiC6KCwWoXm","Reason":2,"ID":"nnUABoF1w6QZeuFO"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/report");
 
@@ -1668,9 +2170,9 @@ let headers = {
 }
 
 let body = {
-    "name": "aEJcsdV6YxoXfNkd",
-    "Reason": 16,
-    "ID": "WwInPsYafDK9uDmY"
+    "name": "I2MybGiC6KCwWoXm",
+    "Reason": 2,
+    "ID": "nnUABoF1w6QZeuFO"
 }
 
 fetch(url, {
@@ -1729,7 +2231,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"SSWnkaks7j80ad6K","direction":3,"ID":"AYOl2B1GnqR1rv6i"}'
+    -d '{"name":"yjIV2agQ0s7dc66L","direction":10,"ID":"TQXlWYK04qf7ZThc"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/vote");
 
@@ -1740,9 +2242,9 @@ let headers = {
 }
 
 let body = {
-    "name": "SSWnkaks7j80ad6K",
-    "direction": 3,
-    "ID": "AYOl2B1GnqR1rv6i"
+    "name": "yjIV2agQ0s7dc66L",
+    "direction": 10,
+    "ID": "TQXlWYK04qf7ZThc"
 }
 
 fetch(url, {
@@ -1801,7 +2303,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/lock_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"Y82TlX9bp2LfyUn4","ID":"96sIRSgI3v1qnhAB"}'
+    -d '{"name":"dxhf8TdL2S2LtsOV","ID":"mR4WL51RIpiaDOuw"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/lock_post");
 
@@ -1812,8 +2314,8 @@ let headers = {
 }
 
 let body = {
-    "name": "Y82TlX9bp2LfyUn4",
-    "ID": "96sIRSgI3v1qnhAB"
+    "name": "dxhf8TdL2S2LtsOV",
+    "ID": "mR4WL51RIpiaDOuw"
 }
 
 fetch(url, {
@@ -1865,7 +2367,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"aWpOhJ7YvWS6HziL","ID":"1zGhOI9hbDqKm9bc"}'
+    -d '{"name":"rnYDPjoqCGiY9gKh","ID":"O8LfwsnVEkdps8Ry"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Hide");
 
@@ -1876,8 +2378,8 @@ let headers = {
 }
 
 let body = {
-    "name": "aWpOhJ7YvWS6HziL",
-    "ID": "1zGhOI9hbDqKm9bc"
+    "name": "rnYDPjoqCGiY9gKh",
+    "ID": "O8LfwsnVEkdps8Ry"
 }
 
 fetch(url, {
@@ -1929,7 +2431,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"WZ88UQwXFxYXkLRn","token":"1pejSri4UgjtYDnS"}'
+    -d '{"ID":"xbWJaE6Etj95Dpko","token":"4XtBBqPvDaLwEgPu"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/save");
 
@@ -1940,8 +2442,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "WZ88UQwXFxYXkLRn",
-    "token": "1pejSri4UgjtYDnS"
+    "ID": "xbWJaE6Etj95Dpko",
+    "token": "4XtBBqPvDaLwEgPu"
 }
 
 fetch(url, {
@@ -1993,7 +2495,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"2wkcdc3Ro97tcLD4","ID":"yUXiC3e9EdLxR1IP"}'
+    -d '{"parent":"pdhirteFOoRKRDlf","ID":"pqk1i8BC3D1OQXdA"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/moreComments");
 
@@ -2004,8 +2506,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "2wkcdc3Ro97tcLD4",
-    "ID": "yUXiC3e9EdLxR1IP"
+    "parent": "pdhirteFOoRKRDlf",
+    "ID": "pqk1i8BC3D1OQXdA"
 }
 
 fetch(url, {
@@ -2063,7 +2565,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"jnSVccyBOrpt92Oq","user_id":"HvePzgCWj65154cC","_token":"ciesRd7vPxV0bKLp"}'
+    -d '{"ApexCom_id":"1tI2JSYMO5Zv74vS","user_id":"43HVDfZVPeErxlpk","_token":"yaSTpGiQgVwVLcVb"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/block");
 
@@ -2074,9 +2576,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "jnSVccyBOrpt92Oq",
-    "user_id": "HvePzgCWj65154cC",
-    "_token": "ciesRd7vPxV0bKLp"
+    "ApexCom_id": "1tI2JSYMO5Zv74vS",
+    "user_id": "43HVDfZVPeErxlpk",
+    "_token": "yaSTpGiQgVwVLcVb"
 }
 
 fetch(url, {
@@ -2134,7 +2636,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"Hqd2TfVcfJypPgi9","_token":"qFVk6QL6syjMLYwW"}'
+    -d '{"report_id":"AADZhtIqvGMPIln2","_token":"FVOflMNk2g4mPMK7"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/report_action");
 
@@ -2145,8 +2647,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "Hqd2TfVcfJypPgi9",
-    "_token": "qFVk6QL6syjMLYwW"
+    "report_id": "AADZhtIqvGMPIln2",
+    "_token": "FVOflMNk2g4mPMK7"
 }
 
 fetch(url, {
@@ -2197,7 +2699,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"p7paDYUztUVg5I2Q","_token":"ioc6GwisU8lBSnqL"}'
+    -d '{"ApexCom_id":"4hjqXOJHEyhlJoNT","_token":"wvcxYX39wkEWfgNm"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/review_reports");
 
@@ -2208,8 +2710,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "p7paDYUztUVg5I2Q",
-    "_token": "ioc6GwisU8lBSnqL"
+    "ApexCom_id": "4hjqXOJHEyhlJoNT",
+    "_token": "wvcxYX39wkEWfgNm"
 }
 
 fetch(url, {
@@ -2267,7 +2769,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/block_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"U57hFuO1wBF3MDt5","token":"EgHttpjIXiqgHosZ"}'
+    -d '{"id":"N6MN5IMn1VMSbboq","token":"t863qxsWtHFjYxtV"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/block_user");
 
@@ -2278,8 +2780,8 @@ let headers = {
 }
 
 let body = {
-    "id": "U57hFuO1wBF3MDt5",
-    "token": "EgHttpjIXiqgHosZ"
+    "id": "N6MN5IMn1VMSbboq",
+    "token": "t863qxsWtHFjYxtV"
 }
 
 fetch(url, {
@@ -2331,7 +2833,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/compose" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"to":"8H9b1LpR0CJkwmrK","subject":"unQrpMwOQqDvkJga","mes":"DUw7ZlNgkMiF5iXd","token":"gOhLEWp16ulwuaB2"}'
+    -d '{"to":"gleATMVOShYvM4pG","subject":"fJAs5hf2M2JYqVKz","mes":"bI4Yx9uZ73ts2u5r","token":"HTOIrj0k84WAwFdA"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/compose");
 
@@ -2342,10 +2844,10 @@ let headers = {
 }
 
 let body = {
-    "to": "8H9b1LpR0CJkwmrK",
-    "subject": "unQrpMwOQqDvkJga",
-    "mes": "DUw7ZlNgkMiF5iXd",
-    "token": "gOhLEWp16ulwuaB2"
+    "to": "gleATMVOShYvM4pG",
+    "subject": "fJAs5hf2M2JYqVKz",
+    "mes": "bI4Yx9uZ73ts2u5r",
+    "token": "HTOIrj0k84WAwFdA"
 }
 
 fetch(url, {
@@ -2409,7 +2911,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"9UxvDCzZTDJyjici","token":"9IXClhEXZ0WY3K07"}'
+    -d '{"id":"b7zhKa1ORcz8zVuE","token":"dNdPTPNW2ZvorqXM"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/user_data");
 
@@ -2420,8 +2922,8 @@ let headers = {
 }
 
 let body = {
-    "id": "9UxvDCzZTDJyjici",
-    "token": "9IXClhEXZ0WY3K07"
+    "id": "b7zhKa1ORcz8zVuE",
+    "token": "dNdPTPNW2ZvorqXM"
 }
 
 fetch(url, {
@@ -2466,18 +2968,19 @@ fetch(url, {
 <h1>general</h1>
 <!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
 <h2>search</h2>
-<p>Returns a list of lists of ApexComs, posts and profiles that matches the given query.</p>
+<p>Returns a json contains of posts, ApexComs and users that matches the given query.</p>
 <p>Success Cases :
 1) Return the result successfully.
 failure Cases:
-1) No matches found.</p>
+1) No matches found.
+2) Return response code 500 if there is a server-side error</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/search" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"query":"olpRlVuzQ3HAIyBw"}'
+    -d '{"query":"mdcxbhZpf1PgNxn4"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/search");
 
@@ -2488,7 +2991,7 @@ let headers = {
 }
 
 let body = {
-    "query": "olpRlVuzQ3HAIyBw"
+    "query": "mdcxbhZpf1PgNxn4"
 }
 
 fetch(url, {
@@ -2499,9 +3002,13 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
-<p>Example response (200):</p>
+<p>Example response (400):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "query": [
+        "The query field is required."
+    ]
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/search</code></p>
 <h4>Body Parameters</h4>
@@ -2526,19 +3033,21 @@ fetch(url, {
 <!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
 <!-- START_09bdc60a87430aec21b4b32b21773baa -->
 <h2>sortPostsBy</h2>
-<p>Returns a list of posts in a given ApexComm sorted either by the votes or by the date.</p>
+<p>Returns a list of posts in a given ApexComm sorted either by the votes or by the date when they were created
+or by the comments count.</p>
 <p>Success Cases :
 1) Return the result successfully.
 failure Cases:
-1) ApexComm fullname (ID) is not found.
-2) The given parameter is out of the specified values, in this case it uses the default values.</p>
+1) ApexCom fullname (ID) is not found.
+2) The given parameter is out of the specified values, in this case it uses the default values.
+3) Return response code 500 if there is a server-side error</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/sort_posts" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"RfKplYlHnUi0zbeI","SortingParam":"LVvz6aO31SWLDIfe"}'
+    -d '{"apexComID":"fao94ON9O4lhmXO7","sortingParam":"2Dzf4NxhZxMP9fLX"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/sort_posts");
 
@@ -2549,8 +3058,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "RfKplYlHnUi0zbeI",
-    "SortingParam": "LVvz6aO31SWLDIfe"
+    "apexComID": "fao94ON9O4lhmXO7",
+    "sortingParam": "2Dzf4NxhZxMP9fLX"
 }
 
 fetch(url, {
@@ -2561,9 +3070,13 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
-<p>Example response (200):</p>
+<p>Example response (400):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "apexComID": [
+        "The apex com i d field is required."
+    ]
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/sort_posts</code></p>
 <h4>Body Parameters</h4>
@@ -2578,27 +3091,27 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>ApexCommID</td>
+<td>apexComID</td>
 <td>string</td>
 <td>required</td>
 <td>The ID of the ApexComm that contains the posts.</td>
 </tr>
 <tr>
-<td>SortingParam</td>
+<td>sortingParam</td>
 <td>string</td>
 <td>optional</td>
-<td>The sorting parameter, takes a value of ['votes', 'date'], Default is 'date'.</td>
+<td>The sorting parameter, takes a value of ['votes', 'date', 'comments'], Default is 'date'.</td>
 </tr>
 </tbody>
 </table>
 <!-- END_09bdc60a87430aec21b4b32b21773baa -->
 <!-- START_b402718e2399a5ffc349d38706b47a9f -->
 <h2>apexNames</h2>
-<p>Returns a list of the names of the existing ApexComms.</p>
+<p>Returns a list of the names and ids of all of the existing ApexComms.</p>
 <p>Success Cases :
 1) Return the result successfully.
 failure Cases:
-1) Return empty list if there are no existing ApexComms.</p>
+1) Return response code 500 if there is a server-side error.</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -2621,7 +3134,56 @@ fetch(url, {
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">[
+    {
+        "id": "t5_668143",
+        "name": "0COYmclyX0"
+    },
+    {
+        "id": "t5_310020",
+        "name": "AJMYJpP4QZ"
+    },
+    {
+        "id": "t5_774867",
+        "name": "CShwbNJSbX"
+    },
+    {
+        "id": "t5_100000",
+        "name": "Elder Scrolls"
+    },
+    {
+        "id": "t5_308699",
+        "name": "J54M6qoxFY"
+    },
+    {
+        "id": "t5_931688",
+        "name": "MzOJNcJdzb"
+    },
+    {
+        "id": "t5_100001",
+        "name": "New dawn"
+    },
+    {
+        "id": "t5_519782",
+        "name": "PGkkAoyfmT"
+    },
+    {
+        "id": "t5_102313",
+        "name": "uETKi32V9J"
+    },
+    {
+        "id": "t5_242032",
+        "name": "VVpS08SHCM"
+    },
+    {
+        "id": "t5_969149",
+        "name": "xqPJ5rAGNK"
+    },
+    {
+        "id": "t5_796942",
+        "name": "yQmxTL7fkm"
+    }
+]</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/Apex_names</code></p>
 <!-- END_b402718e2399a5ffc349d38706b47a9f -->
@@ -2639,7 +3201,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"yBTuG2OwpUNKVBD8","_token":"nSVU9fHQ9CnXLOJq"}'
+    -d '{"ApexCommID":"ralETQpWnKWHanRt","_token":"7qNPsOyGBf6DqF7V"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/get_subscribers");
 
@@ -2650,8 +3212,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "yBTuG2OwpUNKVBD8",
-    "_token": "nSVU9fHQ9CnXLOJq"
+    "ApexCommID": "ralETQpWnKWHanRt",
+    "_token": "7qNPsOyGBf6DqF7V"
 }
 
 fetch(url, {
@@ -2662,9 +3224,435 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
-<p>Example response (200):</p>
+<p>Example response (500):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "message": "Undefined property: stdClass::$user",
+    "exception": "ErrorException",
+    "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\General.php",
+    "line": 164,
+    "trace": [
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\General.php",
+            "line": 164,
+            "function": "handleError",
+            "class": "Illuminate\\Foundation\\Bootstrap\\HandleExceptions",
+            "type": "-&gt;"
+        },
+        {
+            "function": "getSubscribers",
+            "class": "App\\Http\\Controllers\\General",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+            "line": 54,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+            "line": 45,
+            "function": "callAction",
+            "class": "Illuminate\\Routing\\Controller",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 219,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\ControllerDispatcher",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "line": 176,
+            "function": "runController",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 680,
+            "function": "run",
+            "class": "Illuminate\\Routing\\Route",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+            "line": 41,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+            "line": 58,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 682,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 657,
+            "function": "runRouteWithinStack",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 623,
+            "function": "runRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 612,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 176,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 30,
+            "function": "Illuminate\\Foundation\\Http\\{closure}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
+            "line": 57,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Fideloper\\Proxy\\TrustProxies",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 21,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 21,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+            "line": 27,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
+            "line": 62,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 104,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 151,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 116,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 276,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 260,
+            "function": "callLaravelRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "line": 36,
+            "function": "makeApiCall",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 49,
+            "function": "__invoke",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "line": 68,
+            "function": "resolve",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
+            "line": 57,
+            "function": "getResponse",
+            "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 201,
+            "function": "processRoute",
+            "class": "Mpociot\\ApiDoc\\Tools\\Generator",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "line": 59,
+            "function": "processRoutes",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "function": "handle",
+            "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 32,
+            "function": "call_user_func_array"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 90,
+            "function": "Illuminate\\Container\\{closure}",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "line": 34,
+            "function": "callBoundMethod",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+            "line": 580,
+            "function": "call",
+            "class": "Illuminate\\Container\\BoundMethod",
+            "type": "::"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 183,
+            "function": "call",
+            "class": "Illuminate\\Container\\Container",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Command\\Command.php",
+            "line": 255,
+            "function": "execute",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "line": 170,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Command\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "line": 908,
+            "function": "run",
+            "class": "Illuminate\\Console\\Command",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "line": 269,
+            "function": "doRunCommand",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "line": 145,
+            "function": "doRun",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+            "line": 90,
+            "function": "run",
+            "class": "Symfony\\Component\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+            "line": 122,
+            "function": "run",
+            "class": "Illuminate\\Console\\Application",
+            "type": "-&gt;"
+        },
+        {
+            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\artisan",
+            "line": 37,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Console\\Kernel",
+            "type": "-&gt;"
+        }
+    ]
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/get_subscribers</code></p>
 <h4>Body Parameters</h4>

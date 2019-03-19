@@ -37,8 +37,8 @@ Route::get('/messages', 'Account@inbox');
 
 // administration
 
-Route::post('/del_ac', 'Administration@deleteApexCom');
-Route::post('/del_user', 'Administration@deleteUser');
+Route::delete('/del_ac', 'Administration@deleteApexCom');
+Route::delete('/del_user', 'Administration@deleteUser');
 Route::post('/add_mod', 'Administration@addModerator');
 
 
@@ -55,8 +55,8 @@ Route::post('/site_admin', 'ApexCom@siteAdmin');
 // links and comments
 
 Route::post('/comment', 'CommentandLinks@add');
-Route::post('/DelComment', 'CommentandLinks@delete');
-Route::post('/Edit', 'CommentandLinks@editText');
+Route::delete('/DelComment', 'CommentandLinks@delete');
+Route::patch('/Edit', 'CommentandLinks@editText');
 Route::post('/report', 'CommentandLinks@report');
 Route::post('/vote', 'CommentandLinks@vote');
 Route::post('/lock_post', 'CommentandLinks@lock');

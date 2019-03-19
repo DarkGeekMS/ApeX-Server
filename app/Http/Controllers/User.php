@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\block;
 
 /**
  * @group User
@@ -18,18 +19,53 @@ class User extends Controller
      * block
      * Block a user, so he can't send private messages or see the blocked user posts or comments.
      * Success Cases :
-     * 1) return true to ensure that the user is blocked successfully.
+     * 1) return status code 200 to ensure that the user is blocked successfully.
      * failure Cases:
-     * 1) blockeduser id is not found or already blocked for the current user.
-     * 2) NoAccessRight token is not authorized.
+     * 1) No Access Right token is not authorized.
+     * 2) Blocked user id is not found (status code 404)
+     * 3) The user is already blocked for the current user (status code 400).
+     * 4) The user is blocking himself
      *
-     * @bodyParam id string required the id of the user to be blocked.
+     * @bodyParam blockedID string required the id of the user to be blocked.
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function block()
+    public function block(Request $request)
     {
-        return;
+        $account = new Account();
+        $meResponse = $account->me($request);
+        if (!array_key_exists('user', $meResponse->getData())) {
+            //there is token_error or user_not found_error
+            return $meResponse;
+        }
+        $blockerID = $meResponse->getData()->user['id'];
+        
+        $validator = validator(
+            $request->only('blockedID'), ['blockedID' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return response($validator->errors(), 400);
+        }
+        $blockedID = $request->blockedID;
+        \App\User::findOrFail($blockedID);  //raises an error if user is not found
+
+        if (block::where(compact('blockerID', 'blockedID'))->exists()) {
+            return response(
+                ['error' => 'The user is already blocked for the current user'], 400
+            );
+        }
+
+        if ($blockedID === $blockerID) {
+            return response(['error' => "The user can't block himself"], 400);
+        }
+
+        try{
+            block::insert(compact('blockerID', 'blockedID'));
+        }catch(\Exception $e){
+            return response(['error' => 'server-side error'], 500);
+        }
+
+        return response(null, 200);
     }
 
     /**
