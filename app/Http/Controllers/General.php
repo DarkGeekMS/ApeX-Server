@@ -164,7 +164,7 @@ class General extends Controller
         $user_id = $account->me($request)->getData()->user->id;
 
         // checking if the user exists.
-        $exists = User::where('id',$user_id)->count();
+        $exists = User::where('id', $user_id)->count();
 
         // return a message error if not existing
         if (!$exists) {
@@ -174,24 +174,28 @@ class General extends Controller
         $apex_id = $request['ApexCommID'];
 
         // checking if the apexCom exists.
-        $exists = apexCom::where('id',$apex_id)->count();
+        $exists = apexCom::where('id', $apex_id)->count();
 
         // return an error message if the id (fullname) of the apexcom was not found.
-        if(!$exists){
+        if (!$exists) {
             return response()->json(['error' => 'ApexComm is not found.'], 404);
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where([
-            ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+        $blocked = apexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id]])->count();
 
         // return an error for if the user was blocked from the apexcom.
-        if($blocked != 0){
-            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        if ($blocked != 0) {
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 400);
         }
 
         // get the subscribers' for the apexcom user IDs.
-        $subscribers = subscriber::where('apexID',$apex_id)->get();
+        $subscribers_id = subscriber::select('userID')->where('apexID', '=', $apex_id);
+        $subscribers = User::joinSub(
+            $subscribers_id, 'apex_subscribers', function ($join) {
+                $join->on('id', '=', 'userID');
+            }
+        )->get();
 
         // return the subscribers user IDs.
         return response()->json(compact('subscribers'));

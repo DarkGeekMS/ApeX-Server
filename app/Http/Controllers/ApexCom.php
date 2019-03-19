@@ -42,7 +42,7 @@ class ApexCom extends Controller
         $user_id = $account->me($request)->getData()->user->id;
 
         // checking if the user exists.
-        $exists = User::where('id',$user_id)->count();
+        $exists = User::where('id', $user_id)->count();
 
         // return a message error if not existing
         if (!$exists) {
@@ -52,25 +52,25 @@ class ApexCom extends Controller
         $apex_id = $request['ApexCom_ID'];
 
         // checking if the apexCom exists.
-        $exists = apexComModel::where('id',$apex_id)->count();
+        $exists = apexComModel::where('id', $apex_id)->count();
 
         // return an error message if the id (fullname) of the apexcom was not found.
-        if(!$exists){
+        if (!$exists) {
             return response()->json(['error' => 'ApexComm is not found.'], 404);
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where([
-            ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+        $blocked = apexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
 
         // return an error for if the user was blocked from the apexcom.
-        if($blocked != 0){
-            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        if ($blocked != 0) {
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 400);
         }
 
         // getting about info (contributers_count,moderators,subscribers_count,name,description,rules)
 
-        $contributers_count = DB::table('posts')->where('apex_id',$apex_id)->select('posted_by')->distinct('posted_by')->get()->count();
+        $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
+            ->select('posted_by')->distinct('posted_by')->get()->count();
 
         $moderators = moderator::where('apexID', $apex_id)->get('userID');
 
@@ -84,8 +84,12 @@ class ApexCom extends Controller
         
         $rules = $apexCom->rules;
 
-        return response()->json(compact('contributers_count','moderators','subscribers_count','name',
-        'description','rules'));
+        return response()->json( 
+            compact(
+                'contributers_count', 'moderators', 'subscribers_count', 'name',
+                'description', 'rules' 
+            ) 
+        );
     }
 
 
@@ -140,7 +144,7 @@ class ApexCom extends Controller
         $user_id = $account->me($request)->getData()->user->id;
 
         // checking if the user exists.
-        $exists = User::where('id',$user_id)->count();
+        $exists = User::where('id', $user_id)->count();
 
         // return a message error if not existing
         if (!$exists) {
@@ -150,43 +154,45 @@ class ApexCom extends Controller
         $apex_id = $request['ApexCom_ID'];
 
         // checking if the apexCom exists.
-        $exists = apexComModel::where('id',$apex_id)->count();
+        $exists = apexComModel::where('id', $apex_id)->count();
 
         // return an error message if the id (fullname) of the apexcom was not found.
-        if(!$exists){
+        if (!$exists) {
             return response()->json(['error' => 'ApexComm is not found.'], 404);
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where([
-            ['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+        $blocked = apexBlock::where(
+            [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
+        )->count();
 
         // return an error for if the user was blocked from the apexcom.
-        if($blocked != 0){
-            return response()->json(['error' => 'You are blocked from this Apexcom'], 404);
+        if ($blocked != 0) {
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 400);
         }
         
         // get if the user was previously subscribing the apexcom.
-        $unsubscribe = subscriber::where([
-            ['apexID', '=',$apex_id],['userID', '=',$user_id] ])->count();
+        $unsubscribe = subscriber::where(
+            [['apexID', '=',$apex_id],['userID', '=',$user_id] ]
+        )->count();
 
         // unsubscribe if previously subscribed and return true to ensure the success of unsubscribe.
-        if($unsubscribe)
-        {
-            subscriber::where([
-                ['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
+        if ($unsubscribe) {
+            subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
-            return response()->json([1], 200);
+            return true;
         }
 
         // if not previously subscribed then subscribe and store it in the database.
-        subscriber::create([
-            'apexID' => $apex_id ,
-            'userID' => $user_id
-        ]);
+        subscriber::create(
+            [
+                'apexID' => $apex_id ,
+                'userID' => $user_id
+            ]
+        );
 
         // return true to ensure the success of subscription.
-        return response()->json([2], 200);
+        return true;
     }
 
 
