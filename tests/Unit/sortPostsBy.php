@@ -10,88 +10,57 @@ use App\apexCom;
 class sortPostsBy extends TestCase
 {
     /**
-     * Test sorting the posts by date.
+     * Test sorting the posts by valid sortingParam.
      * 
      * @test
      *
      * @return void
      */
-    public function sortbyDate()
+    public function validSort()
     {
         $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
-        $response = $this->json(
-            'GET', '/api/sort_posts', [
-            'apexComID' => $apexComID,
-            'sortingParam' => 'date'
-            ]
-        );
-        $response->assertStatus(200);
-        $posts = $response->json('posts');
-        for ($i=0; $i < count($posts)-1; $i++) { 
-            //assert that the apex_id of the posts in the result 
-            //is equal to apexComID in the given request
-            $this->assertTrue($posts[$i]['apex_id'] === $apexComID);
-            //assert that the posts are orderd by date correctly
+        $sortingParams = [
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+        ];
+        foreach ($sortingParams as $sortingParam => $sortedColumn) {
+            $response = $this->json(
+                'GET', '/api/sort_posts', [
+                    'apexComID' => $apexComID,
+                    'sortingParam' => $sortingParam
+                ]
+            );
+            $response->assertStatus(200);
+            $posts = $response->json('posts');
             $this->assertTrue(
-                $posts[$i]['created_at'] >= $posts[$i+1]['created_at']
+                $this->_checkPosts($apexComID, $posts, $sortedColumn)
             );
         }
+        
     }
 
+    
     /**
-     * Test sorting the posts by votes.
+     * Just a helper fuction to test that the posts are sorted correctly
      * 
-     * @test
-     *
-     * @return void
+     * @param string $apexComID    the apexComID that contains the posts
+     * @param array  $posts        the posts itself
+     * @param string $sortingParam the param that the posts are sorted by in the database
+     * 
+     * @return bool
      */
-    public function sortbyVotes()
+    private function _checkPosts($apexComID, $posts, $sortingParam)
     {
-        $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
-        $response = $this->json(
-            'GET', '/api/sort_posts', [
-            'apexComID' => $apexComID,
-            'sortingParam' => 'votes'
-            ]
-        );
-        $response->assertStatus(200);
-        $posts = $response->json('posts');
         for ($i=0; $i < count($posts)-1; $i++) { 
             
-            $this->assertTrue($posts[$i]['apex_id'] === $apexComID);
-            //assert that the posts are orderd by votes correctly
-            $this->assertTrue(
-                $posts[$i]['votes'] >= $posts[$i+1]['votes']
-            );
-        }
-    }
-
-    /**
-     * Test sorting the posts by the number of comments.
-     * 
-     * @test
-     *
-     * @return void
-     */
-    public function sortbyComments()
-    {
-        $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
-        $response = $this->json(
-            'GET', '/api/sort_posts', [
-            'apexComID' => $apexComID,
-            'sortingParam' => 'comments'
-            ]
-        );
-        $response->assertStatus(200);
-        $posts = $response->json('posts');
-        for ($i=0; $i < count($posts)-1; $i++) { 
+            if ($posts[$i]['apex_id'] !== $apexComID) {
+                return false;
+            };
             
-            $this->assertTrue($posts[$i]['apex_id'] === $apexComID);
-            //assert that the posts are orderd by votes correctly
-            $this->assertTrue(
-                $posts[$i]['comments_num'] >= $posts[$i+1]['comments_num']
-            );
+            if ($posts[$i][$sortingParam] < $posts[$i+1][$sortingParam]) {
+                return false;
+            }
         }
+        return true;
     }
 
     /**
@@ -131,14 +100,9 @@ class sortPostsBy extends TestCase
         );
         $response->assertStatus(200);
         $posts = $response->json('posts');
-        for ($i=0; $i < count($posts)-1; $i++) { 
-            
-            $this->assertTrue($posts[$i]['apex_id'] === $apexComID);
-
-            $this->assertTrue(
-                $posts[$i]['created_at'] >= $posts[$i+1]['created_at']
-            );
-        }
+        $this->assertTrue(
+            $this->_checkPosts($apexComID, $posts, 'created_at')
+        );
     }
 
     /**
@@ -159,13 +123,8 @@ class sortPostsBy extends TestCase
         );
         $response->assertStatus(200);
         $posts = $response->json('posts');
-        for ($i=0; $i < count($posts)-1; $i++) { 
-            
-            $this->assertTrue($posts[$i]['apex_id'] === $apexComID);
-
-            $this->assertTrue(
-                $posts[$i]['created_at'] >= $posts[$i+1]['created_at']
-            );
-        }
+        $this->assertTrue(
+            $this->_checkPosts($apexComID, $posts, 'created_at')
+        );
     }
 }
