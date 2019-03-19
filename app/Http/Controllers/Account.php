@@ -13,7 +13,6 @@ use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
 
-
 /**
  * @group Account
  *
@@ -42,7 +41,7 @@ class Account extends Controller
      *   "id": "t2_13",
      *   "avatar": "storage/avatars/users/default.png",
      *   "updated_at": "2019-03-19 18:30:05",
-     *   "created_at": "2019-03-19 18:30:05" 
+     *   "created_at": "2019-03-19 18:30:05"
      *  },
      *  "token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwv"
      * }
@@ -99,7 +98,7 @@ class Account extends Controller
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password
-  
+
         //creating new user with the posted data from the request
         $user = new User($requestData);
         $avatar = "storage/avatars/users/default.png"; //setting the default avatar
@@ -149,7 +148,7 @@ class Account extends Controller
             //Returning an error if the token cannot be created with 400 status code
             return response()->json(['error' => 'could_not_create_token'], 400);
         }
-        //Returning the token 
+        //Returning the token
         return response()->json(compact('token'));
     }
 
@@ -201,7 +200,7 @@ class Account extends Controller
      * 1) return token equals to null to ensure that the user is logout successfully.
      * failure Cases:
      * 1) Token invalid
-     
+
      * @response{
      * "token":null
      * }
@@ -363,7 +362,7 @@ class Account extends Controller
             return response()->json(['token_error' => $e->getMessage()], 400);
         }
         //Returning the data of the user with 200 status code
-        return response()->json(compact('user'));    
+        return response()->json(compact('user'));
     }
 
 

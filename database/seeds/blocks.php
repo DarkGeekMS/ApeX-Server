@@ -11,6 +11,10 @@ class blocks extends Seeder
      */
     public function run()
     {
+        DB::table('blocks')->insert([
+            'blockerID' => 't2_100000',
+            'blockedID' => 't2_100001'
+        ]);
         factory(App\block::class, 10)->create();
     }
 }
