@@ -112,8 +112,8 @@ class Account extends Controller
                 return response()->json(['error' => 'invalid_credentials'], 400);
             }
         } catch (JWTException $e) {
-            //Returning an error if the token cannot be created with 500 status code
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            //Returning an error if the token cannot be created with 400 status code
+            return response()->json(['error' => 'could_not_create_token'], 400);
         }
         //Returning the token 
         return response()->json(compact('token'));
