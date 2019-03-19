@@ -27,19 +27,44 @@ class Account extends Controller
      * SignUp
      * Registers new user into the website.
      * Success Cases :
-     * 1) return true to ensure that the user created successfully.
+     * 1) return user data and JWT token to ensure that the user created successfully.
      * failure Cases:
-     * 1) verify_password is not the same as the password.
-     * 2) username and email are the same.
-     * 3) username already exits.
-     * 4) email already exists.
+     * 1) username already exits.
+     * 2) email already exists.
      *
      * @bodyParam email string required The email of the user.
      * @bodyParam username string required The choosen username.
      * @bodyParam password string required The choosen password.
-     * @bodyParam verify_password required string The repeated value of the password.
-     * @bodyParam userImage string required The name of the image for the user.
-     */
+     * @response{
+     *  "user":{
+     *   "email": "hello@gmail.com",
+     *  "username": "MohamedRamzy1234",
+     *   "id": "t2_13",
+     *   "avatar": "storage/avatars/users/default.png",
+     *   "updated_at": "2019-03-19 18:30:05",
+     *   "created_at": "2019-03-19 18:30:05" 
+     *  },
+     *  "token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwv"
+     * }
+     * @response  400{
+     * "email": [
+     *  "The email has already been taken."
+     * ],
+     * "username": [
+     *    "The username has already been taken."
+     * ]
+     * }
+     * @response  400{
+     * "email": [
+     *  "The email has already been taken."
+     * ]
+     * }
+     * @response  400{
+     * "username": [
+     *    "The username has already been taken."
+     * ]
+     * }
+    */
     public function signUp(Request $request)
     {
         //validating the input data to be correct
@@ -62,7 +87,7 @@ class Account extends Controller
         //Returning the validation errors in case of validation failure
         if ($validator->fails()) {
             //converting the errors to json and returning them with 400 status code
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $requestData = $request->all();
@@ -92,13 +117,22 @@ class Account extends Controller
      * login
      * Validates user's credentials and logs him in.
      * Success Cases :
-     * 1) return true to ensure that the user loggedin successfully.
+     * 1) return JWT token to ensure that the user loggedin successfully.
      * failure Cases:
      * 1) username is not found.
      * 2) invalid password.
      *
      * @bodyParam username string required The user's username.
      * @bodyParam password string required The user's password.
+     * @response{
+     * "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9X2luIiwiaWF0IjoxNTUzMD"
+     * }
+     * @response  400{
+     * "error": "invalid_credentials"
+     * }
+     * @response  400{
+     * "error": "could_not_create_token"
+     * }
      */
 
     public function login(Request $request)
@@ -161,14 +195,19 @@ class Account extends Controller
 
 
     /**
-     * logout
+     * Logout
      * Logs out a user.
      * Success Cases :
-     * 1) return true to ensure that the user is logout successfully.
+     * 1) return token equals to null to ensure that the user is logout successfully.
      * failure Cases:
-     * 1) user ID already logged out.
-     * 2) NoAccessRight token is not authorized.
-     *
+     * 1) Token invalid
+     
+     * @response{
+     * "token":null
+     * }
+     * @response  400{
+     * "token_error":"wrong number of segments"
+     * }
      * @bodyParam token JWT required Used to verify the user.
      */
 
@@ -279,13 +318,33 @@ class Account extends Controller
 
 
     /**
-     * me
+     * Me
      * Returns the identity of the user logged in.
      * Success Cases :
-     * 1) return the user ID of the sent token.
+     * 1) return the user object of the sent token as json.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      *
+     * @response{
+     * "user": {
+     *   "id": "t2_2",
+     *   "fullname": null,
+     *   "email": "111@gmail.com",
+     *   "username": "MohamedRamzy123",
+     *   "avatar": "storage/avatars/users/default.png",
+     *   "karma": 1,
+     *   "notification": 1,
+     *   "type": 1,
+     *   "created_at": "2019-03-18 09:36:09",
+     *   "updated_at": "2019-03-18 09:36:09"
+     *  }
+     * }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      * @bodyParam token JWT required Used to verify the user.
      */
 
@@ -296,7 +355,7 @@ class Account extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 /*Returning error if the token is a valid JWT but the encoded
                 user doesn't exist with 404 status code*/
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['error' => 'user_not_found'], 404);
             }
         }
         catch(JWTException $e){
