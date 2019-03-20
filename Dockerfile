@@ -27,7 +27,7 @@ ENV PREPARE=${PREPARE}
 
 # pass `--build-arg TEST=true` on building to run tests
 ARG TEST
-ENV TEST=${TEST}}
+ENV TEST=${TEST}
 
 RUN dos2unix scripts/run.sh
 
