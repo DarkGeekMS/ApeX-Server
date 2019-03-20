@@ -12,10 +12,10 @@ class comments extends Seeder
     public function run()
     {
         DB::table('comments')->insert([
-            'id' => 't1_100000',
-            'commented_by' => 't2_100000',
+            'id' => 't1_1',
+            'commented_by' => 't2_1',
             'content' => 'Hey there',
-            'root' => 't3_100000'
+            'root' => 't3_1'
         ]);
         factory(App\comment::class, 10)->create();
     }

@@ -12,8 +12,8 @@ class hiddens extends Seeder
     public function run()
     {
         DB::table('hiddens')->insert([
-            'postID' => 't3_100000',
-            'userID' => 't2_100002'
+            'postID' => 't3_1',
+            'userID' => 't2_3'
         ]);
         factory(App\hidden::class, 10)->create();
     }

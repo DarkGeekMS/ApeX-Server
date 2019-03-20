@@ -55,7 +55,7 @@ Route::post('/site_admin', 'ApexCom@siteAdmin');
 // links and comments
 
 Route::post('/comment', 'CommentandLinks@add');
-Route::delete('/DelComment', 'CommentandLinks@delete');
+Route::delete('/delete', 'CommentandLinks@delete');
 Route::patch('/Edit', 'CommentandLinks@editText');
 Route::post('/report', 'CommentandLinks@report');
 Route::post('/vote', 'CommentandLinks@vote');

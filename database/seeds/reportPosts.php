@@ -12,8 +12,8 @@ class reportPosts extends Seeder
     public function run()
     {
         DB::table('report_posts')->insert([
-            'postID' => 't3_100000',
-            'userID' => 't2_100000',
+            'postID' => 't3_1',
+            'userID' => 't2_1',
             'content' => 'Sensitive content'
         ]);
         factory(App\reportPost::class, 10)->create();

@@ -12,10 +12,10 @@ class messages extends Seeder
     public function run()
     {
         DB::table('messages')->insert([
-            'id' => 't4_100000',
+            'id' => 't4_1',
             'content' => 'Hello there',
-            'sender' => 't2_100001',
-            'receiver' => 't2_100002'
+            'sender' => 't2_2',
+            'receiver' => 't2_3'
         ]);
         factory(App\message::class, 10)->create();
     }
