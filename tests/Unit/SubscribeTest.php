@@ -10,7 +10,7 @@ use apexCom;
 use apexBlock;
 use subscriber;
 
-class AboutTest extends TestCase
+class SubscribeTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -40,11 +40,11 @@ class AboutTest extends TestCase
             ]
         );
 
-        // hit the route with an invalid id of an apexcom to get its subscribers
+        // hit the route with an invalid id of an apexcom to subscribe
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST', '/api/subscribe', [
                 'token' => $sign_up->token,
-                'ApexCommID' => '12354'
+                'ApexCom_ID' => '411636'
             ]
         );
 
@@ -84,9 +84,9 @@ class AboutTest extends TestCase
 
         // hit the route with the blocked user
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST', '/api/subscribe', [
                 'token' => $sign_up->token,
-                'ApexCommID' => $apex_id
+                'ApexCom_ID' => $apex_id
             ]
         );
 
@@ -115,16 +115,16 @@ class AboutTest extends TestCase
             ]
         );
 
-        //get any apex com and hit the route with it to get its subscribers
+        //get any apex com and hit the route with it to subscribe
         $apex_id = apexCom::first()['id'];
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST', '/api/subscribe', [
                 'token' => $sign_up->token,
-                'ApexCommID' => $apex_id
+                'ApexCom_ID' => $apex_id
             ]
         );
 
-        // a list of subscriber users should be returned.
+        // .
         $response->assertStatus(200);
     }
 }
