@@ -41,11 +41,12 @@ class General extends Controller
             }
     
             $query = $request->input('query');
-            $apexComs = apexCom::where('name', 'like', '%'.$query.'%')->get();
+            $apexComs = apexCom::where('name', 'like', '%'.$query.'%')
+                ->orWhere('description', 'like', '%'.$query.'%')->get();
             $users = User::where('fullname', 'like', '%'.$query.'%')
                 ->orWhere('username', 'like', '%'.$query.'%')->get();
-            $posts = post::where('content', 'like', '%'.$query.'%')->get();
-                //->orWhere('title', 'like', '%'.$query.'%');
+            $posts = post::where('title', 'like', '%'.$query.'%')
+                ->orWhere('content', 'like', '%'.$query.'%')->get();
             return compact('posts', 'apexComs', 'users');
 
         }catch(\Exception $e){
@@ -99,7 +100,7 @@ class General extends Controller
     
                 $votesTable = vote::select('postID', DB::raw('SUM(dir) as votes'))->groupBy('postID');
     
-                $posts = post::joinSub(
+                $posts = post::leftJoinSub(
                     $votesTable, 'votes_table', function ($join) {
                         $join->on('posts.id', '=', 'votes_table.postID');
                     }
@@ -110,7 +111,7 @@ class General extends Controller
 
                 $commentsTable = comment::select('root', DB::raw('count(*) as comments_num'))->groupBy('root');
 
-                $posts = post::joinSub(
+                $posts = post::leftJoinSub(
                     $commentsTable, 'comments_table', function ($join) {
                         $join->on('posts.id', '=', 'comments_table.root');
                     }
