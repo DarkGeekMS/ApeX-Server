@@ -11,6 +11,7 @@ use App\User;
 use App\moderator;
 use App\post;
 use App\Http\Controllers\Account;
+use Carbon\Carbon;
 
 /**
  * @group ApexCom
@@ -206,15 +207,62 @@ class ApexCom extends Controller
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
      *
-     * @bodyParam ApexCom_name string required The name of the community.
+     * @bodyParam name string required The name of the community.
      * @bodyParam description string required The description of the community.
      * @bodyParam rules string required The rules of the community.
-     * @bodyParam img_name string The attached image to the community.
+     * @bodyParam avatar string The icon image to the community.
+     * @bodyParam banner string The header image to the community.
      * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function siteAdmin()
+    public function siteAdmin(Request $request)
     {
-        return;
+        $account = new Account();
+
+        // getting the user_id and user_type related to the token in the request and validate.
+        $User = $account->me($request)->getData()->user;
+
+        $user_id = $User->id;
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return a message error if not existing
+        if (!$exists) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
+
+        // checking the type of the user if not an admin no access rights
+        $user_type = $User->type;
+        if ($user_type != 3) {
+            return response()->json(['error' => 'No Access Rights to create or edit an ApexCom'], 400);
+        }
+
+        // validate data of the request.
+        $validated = $request->validate(
+            [
+                'name' => ['required', 'min:3', 'max:100'],
+                'description' => ['required', 'min:3', 'max:800'],
+                'rules' => ['required', 'min:3', 'max:100'],
+                'avatar' => ['image'],
+                'banner' => ['image']
+            ]
+        );
+
+        // check if apexcom exists update its information if not then create a new apexcom
+        // and return true
+
+        $exists = apexComModel::where('name', $request['ApexCom_name'])->first();
+
+        if (is_null($exists)) {
+            $mytime = Carbon\Carbon::now()->toDateTimeString();
+            $id = 't5_'.$mytime;
+            //$validated = 
+            apexComModel::create($validated);
+            return true;
+        }
+
+        $exists->update($validated);
+        return true;
     }
 }
