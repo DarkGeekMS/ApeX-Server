@@ -19,8 +19,8 @@ class InvalidReply extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -29,7 +29,7 @@ class InvalidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_01'
             ]
         );
         $response->assertStatus(404);
@@ -41,8 +41,8 @@ class InvalidReply extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -51,7 +51,7 @@ class InvalidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_01'
             ]
         );
         $response->assertStatus(404);
@@ -73,7 +73,7 @@ class InvalidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_4'
             ]
         );
         $response->assertStatus(404);

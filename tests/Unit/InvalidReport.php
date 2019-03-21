@@ -31,7 +31,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_5'
             ]
         );
         $response->assertStatus(404);
@@ -44,8 +44,8 @@ class InvalidReport extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -54,7 +54,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_01'
             ]
         );
         $response->assertStatus(404);
@@ -67,8 +67,8 @@ class InvalidReport extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -77,11 +77,12 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_01'
             ]
         );
         $response->assertStatus(404);
     }
+
     //moderator in the apexcom holds the post or comment to be reported
     public function modUser()
     {
@@ -89,8 +90,8 @@ class InvalidReport extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -99,7 +100,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(404);
@@ -112,8 +113,8 @@ class InvalidReport extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'King',
+            'password' => 'queen12'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -122,7 +123,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(404);
@@ -135,8 +136,8 @@ class InvalidReport extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'King',
+            'password' => 'queen12'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -145,7 +146,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_5'
             ]
         );
         $response->assertStatus(404);

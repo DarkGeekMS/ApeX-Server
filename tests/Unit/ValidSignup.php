@@ -17,7 +17,9 @@ class ValidSignup extends TestCase
     public function testSignup()
     {
         $response = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'email' => Str::random(15)."@gmail.com",
             'password' => '1234567',
             'username' => Str::random(15),

@@ -15,14 +15,16 @@ class ValidReply extends TestCase
      */
 
      //comment to post
+     //login by a user to get a token then send request to comment method
+     // check the response status = 200 means success (comment to post added)
     public function commentToPost()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -31,21 +33,24 @@ class ValidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'parent' => 't3_4',
+            'content' => ' comment to post '
             ]
         );
         $response->assertStatus(200);
     }
 
     // reply to comment or another reply
+    //login by a user to get a token then send request to comment method
+    // check the response status = 200 means success (reply to comment added)
     public function replyToComment()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -54,21 +59,24 @@ class ValidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'parent' => 't1_5',
+            'content' => ' reply to comment '
             ]
         );
         $response->assertStatus(200);
     }
 
     //reply to message
+    //login by a user to get a token then send request to comment method
+    // check the response status = 200 means success (reply to message added)
     public function replyToMessage()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -77,7 +85,8 @@ class ValidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'parent' => 't4_1',
+            'content' => ' reply to message '
             ]
         );
         $response->assertStatus(200);

@@ -20,8 +20,8 @@ class InvalidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -30,7 +30,8 @@ class InvalidVote extends TestCase
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't4_1'
+            'name' => 't3_01',
+            'dir' => 1
             ]
         );
         $response->assertStatus(404);
@@ -43,8 +44,8 @@ class InvalidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -53,7 +54,8 @@ class InvalidVote extends TestCase
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't1_1'
+            'name' => 't1_01',
+            'dir' => 1
             ]
         );
         $response->assertStatus(404);
@@ -66,7 +68,7 @@ class InvalidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
+            'username' => 'Monda Talaat',
             'password' => '1561998'
             ]
         );

@@ -21,39 +21,40 @@ class InvalidDelete extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'POST',
-            '/api/DelComment',
+            '/api/delete',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_06'
             ]
         );
         $response->assertStatus(404);
     }
-    //no user
-    public function noUser()
+
+    //no comment or reply
+    public function noComment()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'POST',
-            '/api/DelComment',
+            '/api/delete',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_01'
             ]
         );
         $response->assertStatus(404);
@@ -66,19 +67,42 @@ class InvalidDelete extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Anyone',
+            'password' => '451447'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'POST',
-            '/api/DelComment',
+            '/api/delete',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_5'
             ]
         );
-        $response->assertStatus(400);
+        $response->assertStatus(404);
+    }
+
+    //not post owner , admin or moderator in the apexcom where the post in
+    public function notModerator()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json()["token"];
+        $response = $this->json(
+            'POST',
+            '/api/delete',
+            [
+            'token' => $token,
+            'name' => 't3_6'
+            ]
+        );
+        $response->assertStatus(404);
     }
 }

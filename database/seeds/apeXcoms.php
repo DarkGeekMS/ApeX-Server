@@ -12,7 +12,7 @@ class apeXcoms extends Seeder
     public function run()
     {
         DB::table('apex_coms')->insert([
-            'id' => 't5_100000',
+            'id' => 't5_1',
             'name' => 'Elder Scrolls',
             'avatar' => 'public\img\apx.png',
             'banner' => 'public\img\banner.jpg',
@@ -21,7 +21,7 @@ class apeXcoms extends Seeder
         ]);
 
         DB::table('apex_coms')->insert([
-            'id' => 't5_100001',
+            'id' => 't5_2',
             'name' => 'New dawn',
             'avatar' => 'public\img\apx.png',
             'banner' => 'public\img\banner.jpg',
