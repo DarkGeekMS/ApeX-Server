@@ -11,6 +11,7 @@ class sortPostsBy extends TestCase
 {
     /**
      * Test sorting the posts by valid sortingParam.
+     * asummes that there are some recordes in the database
      * 
      * @test
      *
@@ -84,6 +85,7 @@ class sortPostsBy extends TestCase
     /**
      * Test invalid sortingParam.
      * it will use the default parameter 'date'
+     * asummes that there are some recordes in the database
      * 
      * @test
      *
@@ -108,6 +110,7 @@ class sortPostsBy extends TestCase
     /**
      * Test no given sortingParam.
      * it will use the default parameter 'date'
+     * asummes that there are some recordes in the database
      * 
      * @test
      *

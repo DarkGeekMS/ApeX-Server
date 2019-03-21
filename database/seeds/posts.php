@@ -12,9 +12,9 @@ class posts extends Seeder
     public function run()
     {
         DB::table('posts')->insert([
-            'id' => 't3_100000',
-            'posted_by' => 't2_100002',
-            'apex_id' => 't5_100000',
+            'id' => 't3_1',
+            'posted_by' => 't2_3',
+            'apex_id' => 't5_1',
             'title' => 'Anything'
         ]);
         factory(App\post::class, 10)->create();

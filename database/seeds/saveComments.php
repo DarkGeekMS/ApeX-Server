@@ -12,8 +12,8 @@ class saveComments extends Seeder
     public function run()
     {
         DB::table('save_comments')->insert([
-            'comID' => 't1_100000',
-            'userID' => 't2_100001'
+            'comID' => 't1_1',
+            'userID' => 't2_2'
         ]);
         factory(App\saveComment::class, 10)->create();
     }
