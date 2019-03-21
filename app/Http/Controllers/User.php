@@ -18,13 +18,15 @@ class User extends Controller
     /**
      * block
      * Block a user, so he can't send private messages or see the blocked user posts or comments.
+     * if the user is already blocked, the request will unblock him
      * Success Cases :
-     * 1) return status code 200 and json contains 'the user has been blocked successfully'.
+     * 1) return status code 200 and json contains 
+     *  'the user has been blocked successfully' if the user was not blocked
+     *  or 'the user has been unblocked seccessfully' if the user was blocked already.
      * failure Cases:
      * 1) No Access Right token is not authorized.
      * 2) Blocked user id is not found (status code 404)
-     * 3) The user is already blocked for the current user (status code 400).
-     * 4) The user is blocking himself
+     * 3) The user is blocking himself (status code 400)
      *
      * @bodyParam blockedID string required the id of the user to be blocked.
      * @bodyParam token JWT required Used to verify the user.
@@ -50,8 +52,13 @@ class User extends Controller
         \App\User::findOrFail($blockedID);  //raises an error if user is not found
 
         if (block::where(compact('blockerID', 'blockedID'))->exists()) {
+            try{
+                block::where(compact('blockerID', 'blockedID'))->delete();
+            }catch(\Exception $e){
+                return response(['error' => 'server-side error'], 500);
+            }
             return response(
-                ['error' => 'The user is already blocked for the current user'], 400
+                ['result' => 'The user has been unblocked successfully'], 200
             );
         }
 
