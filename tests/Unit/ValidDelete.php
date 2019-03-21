@@ -28,9 +28,9 @@ class ValidDelete extends TestCase
              'password' => 'killa$&12'
              ]
          );
-         $token = $loginResponse->json()["token"];
+         $token = $loginResponse->json('token');
          $response = $this->json(
-             'POST',
+             'DELETE',
              '/api/delete',
              [
              'token' => $token,
@@ -62,7 +62,7 @@ class ValidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -94,7 +94,7 @@ class ValidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -124,7 +124,7 @@ class ValidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -154,7 +154,7 @@ class ValidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -185,7 +185,7 @@ class ValidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -216,7 +216,7 @@ class ValidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,

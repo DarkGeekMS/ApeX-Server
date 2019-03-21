@@ -27,7 +27,7 @@ class InvalidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -57,7 +57,7 @@ class InvalidDelete extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
@@ -84,16 +84,16 @@ class InvalidDelete extends TestCase
             'password' => '451447'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,
             'name' => 't3_5'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
     /**
@@ -113,9 +113,9 @@ class InvalidDelete extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
-            'POST',
+            'DELETE',
             '/api/delete',
             [
             'token' => $token,

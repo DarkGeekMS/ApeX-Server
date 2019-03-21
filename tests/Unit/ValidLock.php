@@ -25,7 +25,7 @@ class ValidLock extends TestCase
             'password' => 'queen12'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -55,7 +55,7 @@ class ValidLock extends TestCase
             'password' => 'queen12'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -85,7 +85,7 @@ class ValidLock extends TestCase
             'password' => 'killa$&12'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -115,7 +115,7 @@ class ValidLock extends TestCase
             'password' => 'killa$&12'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -145,7 +145,7 @@ class ValidLock extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -175,7 +175,7 @@ class ValidLock extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',

@@ -28,7 +28,7 @@ class ValidReply extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/comment',
@@ -60,7 +60,7 @@ class ValidReply extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/comment',
