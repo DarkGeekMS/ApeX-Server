@@ -39,6 +39,33 @@ class sortPostsBy extends TestCase
         
     }
 
+    /**
+     * Test sorting the posts with no apexComID (it uses the default (null)).
+     * asummes that there are some recordes in the database
+     * 
+     * @test
+     *
+     * @return void
+     */
+    public function noApexCom()
+    {
+        $sortingParams = [
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+        ];
+        foreach ($sortingParams as $sortingParam => $sortedColumn) {
+            $response = $this->json(
+                'GET', '/api/sort_posts', [
+                    'sortingParam' => $sortingParam
+                ]
+            );
+            $response->assertStatus(200);
+            $posts = $response->json('posts');
+            $this->assertTrue(
+                $this->_checkPosts(null, $posts, $sortedColumn)
+            );
+        }
+        
+    }
     
     /**
      * Just a helper fuction to test that the posts are sorted correctly
@@ -53,7 +80,7 @@ class sortPostsBy extends TestCase
     {
         for ($i=0; $i < count($posts)-1; $i++) { 
             
-            if ($posts[$i]['apex_id'] !== $apexComID) {
+            if ($apexComID !== null && $posts[$i]['apex_id'] !== $apexComID) {
                 return false;
             };
             
