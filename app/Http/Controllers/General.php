@@ -59,8 +59,10 @@ class General extends Controller
 
     /**
      * sortPostsBy
-     * Returns a list of posts in a given ApexComm sorted either by the votes or by the date when they were created
-     * or by the comments count.
+     * Returns a list of posts in a given ApexComm
+     * sorted either by the votes or by the date when they were created
+     * or by the comments count. When apexComID is not specified or equals null,
+     * it returns all the posts in all apexComs
      * Success Cases :
      * 1) Return the result successfully.
      * failure Cases:
@@ -68,58 +70,58 @@ class General extends Controller
      * 2) The given parameter is out of the specified values, in this case it uses the default values.
      * 3) Return response code 500 if there is a server-side error
      *
-     * @bodyParam apexComID string required The ID of the ApexComm that contains the posts.
+     * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default in null.
      * @bodyParam sortingParam string The sorting parameter, takes a value of ['votes', 'date', 'comments'], Default is 'date'.
      */
 
     public function sortPostsBy(Request $request)
     {
         $validator = validator(
-            $request->only('apexComID'),
-            ['apexComID' => 'required|string']
+            $request->all(), ['apexComID' => 'string', 'sortingParam' => 'string']
         );
 
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
 
-        $apexCom = apexCom::findOrFail($request->apexComID);
-
         $sortingParam = $request->input('sortingParam', 'date');
         if (!in_array($sortingParam, ['date', 'votes', 'comments'])) {
             $sortingParam = 'date';
         }
+        $apexComID = $request->input('apexComID', null);
+        $posts = post::query();
+
+        if ($apexComID !== null) {
+            apexCom::findOrFail($apexComID); //raises an error if it's not found
+            $posts = $posts->where('apex_id', $apexComID);
+        }
+        $votesTable = vote::select('postID', DB::raw('SUM(dir) as votes'))->groupBy('postID');
+        $commentsTable = comment::select('root', DB::raw('count(*) as comments_num'))->groupBy('root');
+
+        $posts = $posts->leftJoinSub(
+            $votesTable, 'votes_table', function ($join) {
+                $join->on('posts.id', '=', 'votes_table.postID');
+            }
+        );
+
+        $posts = $posts->leftJoinSub(
+            $commentsTable, 'comments_table', function ($join) {
+                $join->on('posts.id', '=', 'comments_table.root');
+            }
+        );
+
+        $posts = $posts->select('posts.*', 'votes', 'comments_num');
 
         try {
             if ($sortingParam === 'date') {
-                $posts = $apexCom->posts()->orderBy('created_at', 'desc')->get();
-                return  response()->json(compact('posts'));
+                $posts = $posts->orderBy('created_at', 'desc')->get();
             } elseif ($sortingParam === 'votes') {
-                $votesTable = vote::select('postID', DB::raw('SUM(dir) as votes'))->groupBy('postID');
-
-                $posts = post::leftJoinSub(
-                    $votesTable,
-                    'votes_table',
-                    function ($join) {
-                        $join->on('posts.id', '=', 'votes_table.postID');
-                    }
-                )->where('apex_id', $apexCom->id)->orderBy('votes', 'desc')->get();
-
-                return  response()->json(compact('posts'));
+                $posts = $posts->orderBy('votes', 'desc')->get();
             } elseif ($sortingParam === 'comments') {
-                $commentsTable = comment::select('root', DB::raw('count(*) as comments_num'))->groupBy('root');
-
-                $posts = post::leftJoinSub(
-                    $commentsTable,
-                    'comments_table',
-                    function ($join) {
-                        $join->on('posts.id', '=', 'comments_table.root');
-                    }
-                )->where('apex_id', $apexCom->id)->orderBy('comments_num', 'desc')->get();
-
-                return  response()->json(compact('posts'));
+                $posts = $posts->orderBy('comments_num', 'desc')->get();
             }
-        } catch (\Exception $e) {
+            return compact('posts', 'sortingParam');
+        } catch(\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
     }

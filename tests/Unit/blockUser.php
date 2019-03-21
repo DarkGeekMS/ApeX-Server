@@ -59,13 +59,12 @@ class blockUser extends TestCase
             compact('token', 'blockedID')
         );
 
-        $response->assertStatus(400)->assertSee(
-            'The user is already blocked for the current user'
+        $response->assertStatus(200)->assertSee(
+            'The user has been unblocked successfully'
         );
 
-        //delete the created users and block
-        block::where(compact('blockerID', 'blockedID'))->delete();
-
+        $this->assertDatabaseMissing('blocks', compact('blockerID', 'blockedID'));
+        //delete the created users
         User::where('id', $blockerID)->orWhere('id', $blockedID)->delete();
     }
 
