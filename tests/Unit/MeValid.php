@@ -16,26 +16,26 @@ class MeValid extends TestCase
      */
     public function testExample()
     {
-        $email = Str::random(15)."@gmail.com";
-        $username = Str::random(15);
+  /*      $email = "test@gmail.com";
+        $username = 'mondaa';
         $firstSignup = $this->json(
             'POST',
             '/api/sign_up',
             [
             'email' => $email,
-            'password' => '1234567',
+            'password' => 'monda21',
             'username' => $username
             ]
-        );
+        );*/
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => $username,
-            'password' => '1234567'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $meResponse = $this->json(
             'POST',
             '/api/me',
@@ -43,6 +43,14 @@ class MeValid extends TestCase
             'token' => $token
             ]
         );
-        $meResponse->assertStatus(200)->assertDontSee("token_error");
+        $meResponse->assertStatus(200);
+        $response1 = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
+        $response1->assertStatus(200);
     }
 }

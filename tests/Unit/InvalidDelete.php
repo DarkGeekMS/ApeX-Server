@@ -9,11 +9,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class InvalidDelete extends TestCase
 {
     /**
-     * A basic unit test example.
+     *
+     * @test
      *
      * @return void
      */
-
     //no post
     public function noPost()
     {
@@ -37,6 +37,13 @@ class InvalidDelete extends TestCase
         $response->assertStatus(404);
     }
 
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no comment or reply
     public function noComment()
     {
@@ -60,6 +67,12 @@ class InvalidDelete extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //not post owner , admin or moderator in the apexcom where the post in
     public function invalidUser()
     {
@@ -83,6 +96,12 @@ class InvalidDelete extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //not post owner , admin or moderator in the apexcom where the post in
     public function notModerator()
     {

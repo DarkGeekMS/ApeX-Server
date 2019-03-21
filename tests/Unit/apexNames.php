@@ -12,6 +12,7 @@ class apexNames extends TestCase
      * Test apexNames function
      *
      * @test
+     *
      * @return void
      */
     public function getNames()

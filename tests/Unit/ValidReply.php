@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidReply extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
      //comment to post
      //login by a user to get a token then send request to comment method
@@ -40,6 +41,12 @@ class ValidReply extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     // reply to comment or another reply
     //login by a user to get a token then send request to comment method
     // check the response status = 200 means success (reply to comment added)
@@ -66,6 +73,12 @@ class ValidReply extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //reply to message
     //login by a user to get a token then send request to comment method
     // check the response status = 200 means success (reply to message added)

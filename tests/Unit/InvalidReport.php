@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidReport extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
      //no user
     public function noUser()
@@ -25,7 +26,7 @@ class InvalidReport extends TestCase
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -34,9 +35,15 @@ class InvalidReport extends TestCase
             'name' => 't3_5'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no post
     public function noPost()
     {
@@ -48,7 +55,7 @@ class InvalidReport extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -60,6 +67,12 @@ class InvalidReport extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no comment
     public function noComment()
     {
@@ -71,7 +84,7 @@ class InvalidReport extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -83,6 +96,12 @@ class InvalidReport extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //moderator in the apexcom holds the post or comment to be reported
     public function modUser()
     {
@@ -94,7 +113,7 @@ class InvalidReport extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -106,6 +125,12 @@ class InvalidReport extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     // admin in the website
     public function adminUser()
     {
@@ -117,7 +142,7 @@ class InvalidReport extends TestCase
             'password' => 'queen12'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -129,6 +154,12 @@ class InvalidReport extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //the owner of the post to be reported or hase the reported comment
     public function owner()
     {
@@ -140,7 +171,7 @@ class InvalidReport extends TestCase
             'password' => 'queen12'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',

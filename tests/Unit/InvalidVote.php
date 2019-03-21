@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidVote extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
      //no post
     public function invalidPost()
     {
@@ -24,7 +25,7 @@ class InvalidVote extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -37,6 +38,12 @@ class InvalidVote extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no comment
     public function invalidComment()
     {
@@ -61,6 +68,12 @@ class InvalidVote extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no user
     public function invalidUser()
     {
@@ -72,7 +85,8 @@ class InvalidVote extends TestCase
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -81,6 +95,6 @@ class InvalidVote extends TestCase
             'name' => 't1_1'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }

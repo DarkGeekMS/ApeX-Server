@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidDelete extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
      //post owner ( post owner can delete any comment on his post).
      //login to get a token for a post owner and call delete function to delete a comment on this post.
@@ -40,6 +41,12 @@ class ValidDelete extends TestCase
          $this->assertDatabaseMissing('comments', ['id' => 't1_1']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
      //post owner
      //login to get a token for a post owner and call delete function to delete the post
      //response status = 200 post deleted successfully.
@@ -66,6 +73,12 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('posts', ['id' => 't3_1']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //comment owner
     //login to get a token for a comment owner and call delete function to delete the comment
     //response status = 200 comment deleted successfully.
@@ -92,6 +105,12 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => 't1_2']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //admin in the website delete post
     public function adminPost()
     {
@@ -116,6 +135,12 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('posts', ['id' => 't3_2']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //admin in the website delete post
     public function adminComment()
     {
@@ -140,6 +165,12 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => 't1_3']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //moderator in the apexcom where the post or comment to be deleted
     public function moderatorComment()
     {
@@ -165,6 +196,12 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => 't1_4']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //moderator in the apexcom where the post or comment to be deleted
     public function moderatorPost()
     {

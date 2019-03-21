@@ -74,31 +74,24 @@ class Administration extends Controller
         $id=$user->id;
 
         $userid= $request['UserID'];
-        $usertobedeleted=DB::table('users')->where('id','=', $userid)->get();
+        $usertobedeleted=DB::table('users')->where('id', '=', $userid)->get();
 
-       if($type==3){                                                             //to check for admin
-            if($usertobedeleted){                                                //to check that the user exists
-                DB::table('users')->where('id','=',$userid)->delete();
-            }
-            else{
+        if ($type==3) {                                                             //to check for admin
+            if ($usertobedeleted) {                                                //to check that the user exists
+                DB::table('users')->where('id', '=', $userid)->delete();
+            } else {
                 return response()->json(['error' => 'User doesnot exist'], 500);
             }
-        }
-        else if($type==1 || $type==2){                                           //to check for user or moderator
-
-            if($usertobedeleted && $id=$userid){                                 //to check that the user exists and has the same id
-
-                DB::table('users')->where('id','=',$userid)->delete();
-            }
-            else{
+        } elseif ($type==1 || $type==2) {                                           //to check for user or moderator
+            if ($usertobedeleted && $id=$userid) {                   //to check that the user exists and has the same id
+                DB::table('users')->where('id', '=', $userid)->delete();
+            } else {
                 return response()->json(['error' => 'Cannot delete user'], 400);
             }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Unauthorized access'], 300);
-
         }
-        return response()->json(['value'=>true],200);
+        return response()->json(['value'=>true], 200);
     }
 
 
@@ -128,20 +121,18 @@ class Administration extends Controller
         $userid= $request['UserID'];
         $apexid=$request['ApexComID'];
 
-        $apex=DB::table('apexcoms')->where('id','=', $apexid)->get();
-        if($type==3){                                                             //to check for admin
-            if(count($apex)){                                                            //to check that the user exists
+        $apex=DB::table('apexcoms')->where('id', '=', $apexid)->get();
+        if ($type==3) {                                                             //to check for admin
+            if (count($apex)) {                                                   //to check that the user exists
                 DB::table('moderators')->insert(
                     ['apexID' => $apexid, 'userID' =>$userid]
                 );
+            } else {
+                return response()->json(['error' => 'ApexCom doesnot exist'], 404);
             }
-            else{
-                return response()->json(['error' => 'ApexCom doesnot exist'], 500);
-            }
+        } else {
+            return response()->json(['error' => 'Unauthorized access'], 400);
         }
-        else{
-            return response()->json(['error' => 'Unauthorized access'], 300);
-        }
-        return response()->json(['value'=>true],200);
+        return response()->json(['value'=>true], 200);
     }
 }

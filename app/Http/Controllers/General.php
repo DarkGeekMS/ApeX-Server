@@ -25,21 +25,22 @@ class General extends Controller
      * failure Cases:
      * 1) No matches found.
      * 2) Return response code 500 if there is a server-side error
-     * 
+     *
      * @bodyParam query string required The query to be searched for.
      */
 
     public function search(Request $request)
     {
-        try{
+        try {
             $validator = validator(
-                $request->all(), ['query' => 'required|string|min:3']
+                $request->all(),
+                ['query' => 'required|string|min:3']
             );
-    
+
             if ($validator->fails()) {
                 return response($validator->errors(), 400);
             }
-    
+
             $query = $request->input('query');
             $apexComs = apexCom::where('name', 'like', '%'.$query.'%')
                 ->orWhere('description', 'like', '%'.$query.'%')->get();
@@ -48,11 +49,9 @@ class General extends Controller
             $posts = post::where('title', 'like', '%'.$query.'%')
                 ->orWhere('content', 'like', '%'.$query.'%')->get();
             return compact('posts', 'apexComs', 'users');
-
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
-
     }
 
 
@@ -76,50 +75,51 @@ class General extends Controller
     public function sortPostsBy(Request $request)
     {
         $validator = validator(
-            $request->only('apexComID'), ['apexComID' => 'required|string']
+            $request->only('apexComID'),
+            ['apexComID' => 'required|string']
         );
 
         if ($validator->fails()) {
-            return response($validator->errors(), 400);
+            return  response()->json($validator->errors(), 400);
         }
 
         $apexCom = apexCom::findOrFail($request->apexComID);
-        
+
         $sortingParam = $request->input('sortingParam', 'date');
         if (!in_array($sortingParam, ['date', 'votes', 'comments'])) {
             $sortingParam = 'date';
         }
 
-        try{
+        try {
             if ($sortingParam === 'date') {
-    
                 $posts = $apexCom->posts()->orderBy('created_at', 'desc')->get();
-                return compact('posts');
-    
+                return  response()->json(compact('posts'));
             } elseif ($sortingParam === 'votes') {
-    
                 $votesTable = vote::select('postID', DB::raw('SUM(dir) as votes'))->groupBy('postID');
-    
+
                 $posts = post::leftJoinSub(
-                    $votesTable, 'votes_table', function ($join) {
+                    $votesTable,
+                    'votes_table',
+                    function ($join) {
                         $join->on('posts.id', '=', 'votes_table.postID');
                     }
                 )->where('apex_id', $apexCom->id)->orderBy('votes', 'desc')->get();
-                    
-                return compact('posts');
-            } elseif ($sortingParam === 'comments') {
 
+                return  response()->json(compact('posts'));
+            } elseif ($sortingParam === 'comments') {
                 $commentsTable = comment::select('root', DB::raw('count(*) as comments_num'))->groupBy('root');
 
                 $posts = post::leftJoinSub(
-                    $commentsTable, 'comments_table', function ($join) {
+                    $commentsTable,
+                    'comments_table',
+                    function ($join) {
                         $join->on('posts.id', '=', 'comments_table.root');
                     }
                 )->where('apex_id', $apexCom->id)->orderBy('comments_num', 'desc')->get();
 
-                return compact('posts');
+                return  response()->json(compact('posts'));
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
     }
@@ -136,13 +136,14 @@ class General extends Controller
 
     public function apexNames()
     {
-        try{
-            return apexCom::select('id', 'name')->get();
-        }catch(\Exception $e){
+        try {
+            $Anames = apexCom::select('id', 'name')->get();
+            return response()->json([$Anames], 200);
+        } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
     }
-  
+
 
     /**
      * getSubscribers
@@ -193,7 +194,9 @@ class General extends Controller
         // get the subscribers' for the apexcom user IDs.
         $subscribers_id = subscriber::select('userID')->where('apexID', '=', $apex_id);
         $subscribers = User::joinSub(
-            $subscribers_id, 'apex_subscribers', function ($join) {
+            $subscribers_id,
+            'apex_subscribers',
+            function ($join) {
                 $join->on('id', '=', 'userID');
             }
         )->get();

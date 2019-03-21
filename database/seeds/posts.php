@@ -41,7 +41,7 @@ class posts extends Seeder
 
         DB::table('posts')->insert([
             'id' => 't3_5',
-            'posted_by' => 't2_1',
+            'posted_by' => 't2_2',
             'apex_id' => 't5_2',
             'title' => 'Anything'
         ]);

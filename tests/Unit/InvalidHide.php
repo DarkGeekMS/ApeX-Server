@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidHide extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
     //no user
     public function noUser()
@@ -25,8 +26,7 @@ class InvalidHide extends TestCase
             'password' => 'tc'
             ]
         );
-        $token = $loginResponse->json()["token"];
-
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/Hide',
@@ -36,9 +36,15 @@ class InvalidHide extends TestCase
             ]
         );
 
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     public function noPost()
     {
         $loginResponse = $this->json(

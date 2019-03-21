@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidLock extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
     //not moderator in the apeXcom where the post in
     public function notModerator()
@@ -25,7 +26,7 @@ class InvalidLock extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -37,6 +38,12 @@ class InvalidLock extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no post
     public function noPost()
     {
@@ -60,6 +67,12 @@ class InvalidLock extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no user
     public function noUser()
     {
@@ -71,7 +84,7 @@ class InvalidLock extends TestCase
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
@@ -80,6 +93,6 @@ class InvalidLock extends TestCase
             'name' => 't3_6'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }

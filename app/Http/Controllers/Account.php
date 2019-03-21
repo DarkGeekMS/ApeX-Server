@@ -73,17 +73,19 @@ class Account extends Controller
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'username' => 'required|string|max:50|unique:users',
-            'avatar' => 'image'
+            //'avatar' => 'image'
             ]
         );
-        //selecting the last user inserted to generate the new user id
-        $lastUser = DB::table('users')->orderBy('id', 'desc')->first();
-        $id = "t2_1"; // Default id if there aren't any existing users
+
+        $count = DB::table('users')->count();
+
+        $id = "t2_".($count+1000);
+    /*
         if ($lastUser) {
             $id = $lastUser->id;
             $newIdx = (int)explode("_", $id)[1]; // Getting the id number
             $id = "t2_".($newIdx+1); //constructing the new id with t2_i format
-        }
+        }*/
         //Returning the validation errors in case of validation failure
         if ($validator->fails()) {
             //converting the errors to json and returning them with 400 status code

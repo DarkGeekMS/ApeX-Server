@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidLock extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
     //admin lock post
     public function adminLock()
     {
@@ -37,6 +38,12 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //admin unlock post
     public function adminUnlock()
     {
@@ -61,7 +68,12 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
     }
 
-
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //post owner lock the post
     public function ownerLock()
     {
@@ -86,6 +98,12 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //post owner unlock the post
     public function ownerUnlock()
     {
@@ -110,6 +128,12 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //moderator in the Apexcom where the post in lock the post
     public function moderatorLock()
     {
@@ -134,6 +158,12 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //moderator in the Apexcom where the post in unlock the post
     public function moderatorUnlock()
     {

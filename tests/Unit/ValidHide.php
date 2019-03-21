@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidHide extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
     public function hidePost()
     {
@@ -24,15 +25,9 @@ class ValidHide extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+
+        $token = $loginResponse->json('token');
+
         //to hide the post
         $response = $this->json(
             'POST',
@@ -43,9 +38,15 @@ class ValidHide extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('hiddens', ['postID' => 't3_4' , 'userID' => $userID]);
+        $this->assertDatabaseHas('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
     }
 
+/**
+     *
+     * @test
+     *
+     * @return void
+     */
 
     public function unhidePost()
     {
@@ -57,15 +58,9 @@ class ValidHide extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        
+        $token = $loginResponse->json('token');
+
         //to unhide the post
         $response = $this->json(
             'POST',
@@ -76,6 +71,6 @@ class ValidHide extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('hiddens', ['postID' => 't3_4' , 'userID' => $userID]);
+        $this->assertDatabaseMissing('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
     }
 }

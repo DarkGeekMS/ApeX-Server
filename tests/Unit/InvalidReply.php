@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidReply extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
     public function noPost()
     {
         $loginResponse = $this->json(
@@ -23,7 +24,7 @@ class InvalidReply extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/comment',
@@ -35,6 +36,13 @@ class InvalidReply extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+
     public function noComment()
     {
         $loginResponse = $this->json(
@@ -45,7 +53,7 @@ class InvalidReply extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/comment',
@@ -57,6 +65,12 @@ class InvalidReply extends TestCase
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     public function noUser()
     {
         $loginResponse = $this->json(
@@ -67,7 +81,8 @@ class InvalidReply extends TestCase
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
             '/api/comment',
@@ -76,6 +91,6 @@ class InvalidReply extends TestCase
             'name' => 't1_4'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }

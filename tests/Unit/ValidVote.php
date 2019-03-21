@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidVote extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+     /**
+      *
+      * @test
+      *
+      * @return void
+      */
 
     //new vote in a post
     public function newPost()
@@ -25,15 +26,7 @@ class ValidVote extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -44,9 +37,15 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => $userID , 'dir' => 1]);
+        //$this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => 't2_1' , 'dir' => 1]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //reverse the vote direction for a post
     public function oppositeDirPost()
     {
@@ -58,15 +57,7 @@ class ValidVote extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -77,9 +68,15 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => $userID , 'dir' => -1 ]);
+        //$this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => 't2_1' , 'dir' => -1 ]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //remove one's vote on a post
     public function sameDirPost()
     {
@@ -87,19 +84,11 @@ class ValidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
+            'username' => 'Monda Talaat',
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -110,9 +99,15 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('votes', ['postID' => 't3_5' , 'userID' => $userID]);
+        $this->assertDatabaseMissing('votes', ['postID' => 't3_5' , 'userID' => 't2_1']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //new vote on a comment
     public function newComment()
     {
@@ -124,15 +119,7 @@ class ValidVote extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -143,9 +130,15 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => $userID , 'dir' => 1]);
+        //$this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => 1]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //reverse the vote direction for a comment
     public function oppositeDirComment()
     {
@@ -157,15 +150,7 @@ class ValidVote extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -176,9 +161,15 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => $userID , 'dir' => -1]);
+        //$this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => -1]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //remove one's vote on a comment
     public function sameDirComment()
     {
@@ -190,15 +181,7 @@ class ValidVote extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -209,6 +192,6 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('comment_votes', ['comID' => 't1_5' , 'userID' => $userID ]);
+        $this->assertDatabaseMissing('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' ]);
     }
 }

@@ -39,33 +39,32 @@ class User extends Controller
             return $meResponse;
         }
         $blockerID = $meResponse->getData()->user->id;
-        
+
         $validator = validator(
-            $request->only('blockedID'), ['blockedID' => 'required|string']
+            $request->only('blockedID'),
+            ['blockedID' => 'required|string']
         );
         if ($validator->fails()) {
-            return response($validator->errors(), 400);
+            return  response()->json($validator->errors(), 400);
         }
         $blockedID = $request->blockedID;
         \App\User::findOrFail($blockedID);  //raises an error if user is not found
 
         if (block::where(compact('blockerID', 'blockedID'))->exists()) {
-            return response(
-                ['error' => 'The user is already blocked for the current user'], 400
-            );
+            return response()->json(['error' => 'The user is already blocked for the current user'], 400);
         }
 
         if ($blockedID === $blockerID) {
-            return response(['error' => "The user can't block himself"], 400);
+            return response()->json(['error' => "The user can't block himself"], 400);
         }
 
-        try{
+        try {
             block::insert(compact('blockerID', 'blockedID'));
-        }catch(\Exception $e){
-            return response(['error' => 'server-side error'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'server-side error'], 500);
         }
 
-        return response(['result' => 'The user has been blocked successfully'], 200);
+        return response()->json(['result' => 'The user has been blocked successfully'], 200);
     }
 
     /**

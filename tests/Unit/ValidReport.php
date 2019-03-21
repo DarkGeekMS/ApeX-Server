@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidReport extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
      //moderator in apexcom not include the reported post
     public function reportPost()
     {
@@ -24,15 +25,7 @@ class ValidReport extends TestCase
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -43,9 +36,15 @@ class ValidReport extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('report_posts', ['postID' => 't3_5' , 'userID' => $userID]);
+        $this->assertDatabaseHas('report_posts', ['postID' => 't3_5' , 'userID' => 't2_1']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //ordinary user report a comment
     public function reportComment()
     {
@@ -53,19 +52,11 @@ class ValidReport extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'Anyone',
-            'password' => 'anyone'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
-        $user = $this ->json(
-            'POST'.
-            '/api/me',
-            [
-              'token' => $token
-            ]
-        );
-        $userID = $user->json()["id"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
@@ -76,6 +67,6 @@ class ValidReport extends TestCase
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('report_comments', ['comID' => 't1_4' , 'userID' => $userID]);
+        $this->assertDatabaseHas('report_comments', ['comID' => 't1_5' , 'userID' => 't2_1']);
     }
 }
