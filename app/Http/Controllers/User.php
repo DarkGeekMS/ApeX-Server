@@ -19,7 +19,7 @@ class User extends Controller
      * block
      * Block a user, so he can't send private messages or see the blocked user posts or comments.
      * Success Cases :
-     * 1) return status code 200 to ensure that the user is blocked successfully.
+     * 1) return status code 200 and json contains 'the user has been blocked successfully'.
      * failure Cases:
      * 1) No Access Right token is not authorized.
      * 2) Blocked user id is not found (status code 404)
@@ -38,7 +38,7 @@ class User extends Controller
             //there is token_error or user_not found_error
             return $meResponse;
         }
-        $blockerID = $meResponse->getData()->user['id'];
+        $blockerID = $meResponse->getData()->user->id;
         
         $validator = validator(
             $request->only('blockedID'), ['blockedID' => 'required|string']
@@ -65,7 +65,7 @@ class User extends Controller
             return response(['error' => 'server-side error'], 500);
         }
 
-        return response(null, 200);
+        return response(['result' => 'The user has been blocked successfully'], 200);
     }
 
     /**

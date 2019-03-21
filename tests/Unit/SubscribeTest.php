@@ -6,14 +6,17 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use App\apexCom;
-use App\apexBlock;
-use App\subscriber;
+use apexCom;
+use apexBlock;
+use subscriber;
 
-class AboutTest extends TestCase
+class SubscribeTest extends TestCase
 {
 
+    use RefreshDatabase;
 
+
+    
    
     /**
      * Apexcom not found.
@@ -36,21 +39,17 @@ class AboutTest extends TestCase
             'username' => $username
             ]
         );
-        $sign_up->assertStatus(200);
 
-        // hit the route with an invalid id of an apexcom to get its subscribers
+        // hit the route with an invalid id of an apexcom to subscribe
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
-                'token' => $sign_up->json('token'),
-                'ApexCommID' => '12354'
+            'POST', '/api/subscribe', [
+                'token' => $sign_up->token,
+                'ApexCom_ID' => '411636'
             ]
         );
-        // an error that the apexcom is not found
-        //$response->assertStatus(404);
 
-        // delete user added to database
-        $userid = $sign_up->json('user')->id;
-        apexCom::where('id', $userid)->delete();
+        // an error that the apexcom is not found
+        $response->assertStatus(404);
     }
     /**
      * User Blocked from apexcom.
@@ -74,33 +73,25 @@ class AboutTest extends TestCase
             ]
         );
 
-        $sign_up->assertStatus(200);
-
         // get any apexcom and block the signed in user from
-        $apex_id = apexCom::all()->first()->id;
+        $apex_id = apexCom::first()['id'];
         apexBlock::create(
             [
-                'blockedID' => $sign_up->json('user')->id,
+                'blockedID' => $sign_up->user['id'],
                 'ApexID' => $apex_id
             ]
         );
 
         // hit the route with the blocked user
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
-                'token' => $sign_up->json('token'),
-                'ApexCommID' => $apex_id
+            'POST', '/api/subscribe', [
+                'token' => $sign_up->token,
+                'ApexCom_ID' => $apex_id
             ]
         );
 
         // an error that the user is blocked from the apexcom
-        //$response->assertStatus(400);
-
-        // delete user added to database and blocked from apexbolck table
-        $userid = $sign_up->json('user')->id;
-        
-        apexBlock::where('blockedID', $userid)->delete();
-        apexCom::where('id', $userid)->delete();
+        $response->assertStatus(400);
     }
     /**
      * User gets the subscribers of an apexcom.
@@ -124,22 +115,16 @@ class AboutTest extends TestCase
             ]
         );
 
-        $sign_up->assertStatus(200);
-        
-        //get any apex com and hit the route with it to get its subscribers
-        $apex_id = apexCom::all()->first()->id;
+        //get any apex com and hit the route with it to subscribe
+        $apex_id = apexCom::first()['id'];
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
-                'token' => $sign_up->json('token'),
-                'ApexCommID' => $apex_id
+            'POST', '/api/subscribe', [
+                'token' => $sign_up->token,
+                'ApexCom_ID' => $apex_id
             ]
         );
 
-        // a list of subscriber users should be returned.
-        //$response->assertStatus(200);
-
-        // delete user added to database
-        $userid = $sign_up->json('user')->id;
-        apexCom::where('id', $userid)->delete();
+        // .
+        $response->assertStatus(200);
     }
 }

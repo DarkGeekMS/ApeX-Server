@@ -11,6 +11,5 @@ class commentVotes extends Seeder
      */
     public function run()
     {
-        factory(App\commentVote::class, 10)->create();
     }
 }

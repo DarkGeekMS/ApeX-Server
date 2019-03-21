@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\subscriber;
 use App\apexCom as apexComModel;
@@ -11,6 +12,7 @@ use App\User;
 use App\moderator;
 use App\post;
 use App\Http\Controllers\Account;
+use Carbon\Carbon;
 
 /**
  * @group ApexCom
@@ -180,7 +182,7 @@ class ApexCom extends Controller
         if ($unsubscribe) {
             subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
-            return true;
+            return response()->json([true], 200);
         }
 
         // if not previously subscribed then subscribe and store it in the database.
@@ -192,7 +194,7 @@ class ApexCom extends Controller
         );
 
         // return true to ensure the success of subscription.
-        return true;
+        return response()->json([true], 200);
     }
 
 
@@ -206,15 +208,74 @@ class ApexCom extends Controller
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
      *
-     * @bodyParam ApexCom_name string required The name of the community.
+     * @bodyParam name string required The name of the community.
      * @bodyParam description string required The description of the community.
      * @bodyParam rules string required The rules of the community.
-     * @bodyParam img_name string The attached image to the community.
+     * @bodyParam avatar string The icon image to the community.
+     * @bodyParam banner string The header image to the community.
      * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function siteAdmin()
+    public function siteAdmin(Request $request)
     {
-        return;
+        $account = new Account();
+
+        // getting the user_id and user_type related to the token in the request and validate.
+        $User = $account->me($request)->getData()->user;
+
+        $user_id = $User->id;
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return a message error if not existing
+        if (!$exists) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
+
+        // checking the type of the user if not an admin no access rights
+        $user_type = $User->type;
+        if ($user_type != 3) {
+            return response()->json(['error' => 'No Access Rights to create or edit an ApexCom'], 400);
+        }
+
+        // validate data of the request.
+        $validated = Validator::make(
+            $request->all(), [
+                'name' => 'required|min:3|max:100',
+                'description' => 'required|min:3|max:800',
+                'rules' => 'required|min:3|max:100',
+                'avatar' => 'image',
+                'banner' => 'image'
+            ]
+        );
+        //Returning the validation errors in case of invalid requestdata
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 400);
+        }
+
+        // check if apexcom exists update its information if not then create a new apexcom
+        // and return true
+
+        $exists = apexComModel::where('name', $request['name'])->count();
+
+        if (!$exists) {
+            // making the id of the new apexcom and creating it
+            $count = apexComModel::all()->count();
+            $id = 't5_'.($count+1);
+            $v = $request->all();
+            $v['id'] = $id;
+            apexComModel::create($v);
+
+            // return true to ensure creation of new apexcom
+            return response()->json([true], 200);
+        }
+
+        // update the apexcom with the validated request
+        $exists = apexComModel::where('name', $request['name'])->first();
+        $validated = $request->all();
+        $exists->update($validated);
+        // return true to ensure editing of an existing apexcom
+        return response()->json([true], 200);
     }
 }

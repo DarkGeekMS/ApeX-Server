@@ -20,6 +20,5 @@ class moderators extends Seeder
             'apexID' => 't5_2',
             'userID' => 't2_3'
         ]);
-        factory(App\moderator::class, 10)->create();
     }
 }

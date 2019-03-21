@@ -17,6 +17,5 @@ class messages extends Seeder
             'sender' => 't2_1',
             'receiver' => 't2_4'
         ]);
-        factory(App\message::class, 10)->create();
     }
 }
