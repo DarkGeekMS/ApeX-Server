@@ -20,8 +20,8 @@ class ValidLock extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'King',
+            'password' => 'queen12'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -30,11 +30,37 @@ class ValidLock extends TestCase
             '/api/lock_post',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
     }
+
+    //admin unlock post
+    public function adminUnlock()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'King',
+            'password' => 'queen12'
+            ]
+        );
+        $token = $loginResponse->json()["token"];
+        $response = $this->json(
+            'POST',
+            '/api/lock_post',
+            [
+            'token' => $token,
+            'name' => 't3_4'
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
+    }
+
 
     //post owner lock the post
     public function ownerLock()
@@ -43,8 +69,8 @@ class ValidLock extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'mX',
+            'password' => 'killa$&12'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -53,12 +79,37 @@ class ValidLock extends TestCase
             '/api/lock_post',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
     }
-    
+
+    //post owner unlock the post
+    public function ownerUnlock()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'mX',
+            'password' => 'killa$&12'
+            ]
+        );
+        $token = $loginResponse->json()["token"];
+        $response = $this->json(
+            'POST',
+            '/api/lock_post',
+            [
+            'token' => $token,
+            'name' => 't3_4'
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
+    }
+
     //moderator in the Apexcom where the post in lock the post
     public function moderatorLock()
     {
@@ -66,8 +117,8 @@ class ValidLock extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -76,9 +127,34 @@ class ValidLock extends TestCase
             '/api/lock_post',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
+    }
+
+    //moderator in the Apexcom where the post in unlock the post
+    public function moderatorUnlock()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json()["token"];
+        $response = $this->json(
+            'POST',
+            '/api/lock_post',
+            [
+            'token' => $token,
+            'name' => 't3_4'
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
     }
 }

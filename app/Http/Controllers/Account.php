@@ -77,7 +77,7 @@ class Account extends Controller
             ]
         );
         //selecting the last user inserted to generate the new user id
-        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
+        $lastUser = DB::table('users')->orderBy('id', 'desc')->first();
         $id = "t2_1"; // Default id if there aren't any existing users
         if ($lastUser) {
             $id = $lastUser->id;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\subscriber;
 use App\apexCom as apexComModel;
@@ -181,7 +182,7 @@ class ApexCom extends Controller
         if ($unsubscribe) {
             subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
-            return true;
+            return response()->json([true], 200);
         }
 
         // if not previously subscribed then subscribe and store it in the database.
@@ -193,7 +194,7 @@ class ApexCom extends Controller
         );
 
         // return true to ensure the success of subscription.
-        return true;
+        return response()->json([true], 200);
     }
 
 
@@ -239,30 +240,42 @@ class ApexCom extends Controller
         }
 
         // validate data of the request.
-        $validated = $request->validate(
-            [
-                'name' => ['required', 'min:3', 'max:100'],
-                'description' => ['required', 'min:3', 'max:800'],
-                'rules' => ['required', 'min:3', 'max:100'],
-                'avatar' => ['image'],
-                'banner' => ['image']
+        $validated = Validator::make(
+            $request->all(), [
+                'name' => 'required|min:3|max:100',
+                'description' => 'required|min:3|max:800',
+                'rules' => 'required|min:3|max:100',
+                'avatar' => 'image',
+                'banner' => 'image'
             ]
         );
+        //Returning the validation errors in case of invalid requestdata
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 400);
+        }
 
         // check if apexcom exists update its information if not then create a new apexcom
         // and return true
 
-        $exists = apexComModel::where('name', $request['ApexCom_name'])->first();
+        $exists = apexComModel::where('name', $request['name'])->count();
 
-        if (is_null($exists)) {
-            $mytime = Carbon\Carbon::now()->toDateTimeString();
-            $id = 't5_'.$mytime;
-            //$validated = 
-            apexComModel::create($validated);
-            return true;
+        if (!$exists) {
+            // making the id of the new apexcom and creating it
+            $count = apexComModel::all()->count();
+            $id = 't5_'.($count+1);
+            $v = $request->all();
+            $v['id'] = $id;
+            apexComModel::create($v);
+
+            // return true to ensure creation of new apexcom
+            return response()->json([true], 200);
         }
 
+        // update the apexcom with the validated request
+        $exists = apexComModel::where('name', $request['name'])->first();
+        $validated = $request->all();
         $exists->update($validated);
-        return true;
+        // return true to ensure editing of an existing apexcom
+        return response()->json([true], 200);
     }
 }

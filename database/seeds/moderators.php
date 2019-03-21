@@ -18,8 +18,7 @@ class moderators extends Seeder
 
         DB::table('moderators')->insert([
             'apexID' => 't5_2',
-            'userID' => 't2_4'
+            'userID' => 't2_3'
         ]);
-        factory(App\moderator::class, 10)->create();
     }
 }

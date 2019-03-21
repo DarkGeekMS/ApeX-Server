@@ -15,14 +15,14 @@ class InvalidHide extends TestCase
      */
 
     //no user
-    public function testExample()
+    public function noUser()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'tc'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -32,7 +32,7 @@ class InvalidHide extends TestCase
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_5'
             ]
         );
 
@@ -45,8 +45,8 @@ class InvalidHide extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -56,7 +56,7 @@ class InvalidHide extends TestCase
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_01'
             ]
         );
 

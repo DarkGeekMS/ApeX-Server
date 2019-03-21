@@ -36,21 +36,17 @@ class Administration extends Controller
         $id=$user->id;
 
         $apexid= $request['Apex_ID'];
-        $apexcom=DB::table('apexcoms')->where('id','=', $apexid)->get();
-       if($type==3){                                                     //to check for admin
-            if(count($apexcom)){                                                //to check that the apexcom exists
-                DB::table('apexcoms')->where('id','=',$apexid)->delete();
-            }
-            else{
+        $apexcom=DB::table('apexcoms')->where('id', '=', $apexid)->get();
+        if ($type==3) {                                                     //to check for admin
+            if (count($apexcom)) {                                                //to check that the apexcom exists
+                DB::table('apexcoms')->where('id', '=', $apexid)->delete();
+            } else {
                 return response()->json(['error' => 'ApexCom doesnot exist'], 500);
             }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Unauthorized access'], 400);
-
         }
-        return response()->json(['value'=>true],300);
-
+         return response()->json(['value'=>true], 200);
     }
 
 
@@ -131,7 +127,7 @@ class Administration extends Controller
 
         $userid= $request['UserID'];
         $apexid=$request['ApexComID'];
-        
+
         $apex=DB::table('apexcoms')->where('id','=', $apexid)->get();
         if($type==3){                                                             //to check for admin
             if(count($apex)){                                                            //to check that the user exists

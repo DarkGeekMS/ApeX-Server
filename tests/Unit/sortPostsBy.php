@@ -11,8 +11,9 @@ class sortPostsBy extends TestCase
 {
     /**
      * Test sorting the posts by valid sortingParam.
+     *
      * asummes that there are some recordes in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -25,7 +26,9 @@ class sortPostsBy extends TestCase
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
-                'GET', '/api/sort_posts', [
+                'GET',
+                '/api/sort_posts',
+                [
                     'apexComID' => $apexComID,
                     'sortingParam' => $sortingParam
                 ]
@@ -36,7 +39,6 @@ class sortPostsBy extends TestCase
                 $this->_checkPosts($apexComID, $posts, $sortedColumn)
             );
         }
-        
     }
 
     /**
@@ -69,11 +71,11 @@ class sortPostsBy extends TestCase
     
     /**
      * Just a helper fuction to test that the posts are sorted correctly
-     * 
+     *
      * @param string $apexComID    the apexComID that contains the posts
      * @param array  $posts        the posts itself
      * @param string $sortingParam the param that the posts are sorted by in the database
-     * 
+     *
      * @return bool
      */
     private function _checkPosts($apexComID, $posts, $sortingParam)
@@ -83,7 +85,7 @@ class sortPostsBy extends TestCase
             if ($apexComID !== null && $posts[$i]['apex_id'] !== $apexComID) {
                 return false;
             };
-            
+
             if ($posts[$i][$sortingParam] < $posts[$i+1][$sortingParam]) {
                 return false;
             }
@@ -93,7 +95,7 @@ class sortPostsBy extends TestCase
 
     /**
      * Test invalid apexComID.
-     * 
+     *
      * @test
      *
      * @return void
@@ -101,7 +103,9 @@ class sortPostsBy extends TestCase
     public function invalidApexComID()
     {
         $response = $this->json(
-            'GET', '/api/sort_posts', [
+            'GET',
+            '/api/sort_posts',
+            [
             'apexComID' => '-1',
             'sortingParam' => 'votes'
             ]
@@ -112,8 +116,8 @@ class sortPostsBy extends TestCase
     /**
      * Test invalid sortingParam.
      * it will use the default parameter 'date'
+     *
      * asummes that there are some recordes in the database
-     * 
      * @test
      *
      * @return void
@@ -122,7 +126,9 @@ class sortPostsBy extends TestCase
     {
         $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
-            'GET', '/api/sort_posts', [
+            'GET',
+            '/api/sort_posts',
+            [
             'apexComID' => $apexComID,
             'sortingParam' => 'something'
             ]
@@ -137,8 +143,9 @@ class sortPostsBy extends TestCase
     /**
      * Test no given sortingParam.
      * it will use the default parameter 'date'
+     *
      * asummes that there are some recordes in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -147,7 +154,9 @@ class sortPostsBy extends TestCase
     {
         $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
-            'GET', '/api/sort_posts', [
+            'GET',
+            '/api/sort_posts',
+            [
             'apexComID' => $apexComID,
             ]
         );

@@ -19,14 +19,18 @@ class InvalidLogin1 extends TestCase
         $email = Str::random(15)."@gmail.com";
         $username = Str::random(15);
         $firstSignup = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'email' => $email,
             'password' => '1234567',
             'username' => $username
             ]
         );
         $response = $this->json(
-            'POST', '/api/Sign_in', [
+            'POST',
+            '/api/Sign_in',
+            [
             'username' => $username,
             'password' => '12345678'
             ]

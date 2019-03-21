@@ -33,7 +33,8 @@ class Users extends Seeder
             'fullname' => 'Any Hooman',
             'email' => 'AHom@gmail.com',
             'username' => 'Anyone',
-            'password' => '$2y$10$MH4kKI.qEnCj0MZeEr9abOgQdD.MHtBhRm6PoxWOAsCE9BxaI7Loi'
+            'password' => '$2y$10$MH4kKI.qEnCj0MZeEr9abOgQdD.MHtBhRm6PoxWOAsCE9BxaI7Loi',
+            'type' => 2
         ]);
 
         DB::table('users')->insert([

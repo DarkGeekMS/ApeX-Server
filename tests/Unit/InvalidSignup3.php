@@ -19,14 +19,18 @@ class InvalidSignup3 extends TestCase
         $email = Str::random(15)."@gmail.com";
         $username = Str::random(15);
         $firstSignup = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'email' => $email,
             'password' => '1234567',
             'username' => $username
             ]
         );
         $duplicateSignup = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'email' => $email,
             'password' => '1234567',
             'username' => $username
