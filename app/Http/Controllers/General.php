@@ -70,14 +70,14 @@ class General extends Controller
      * 2) The given parameter is out of the specified values, in this case it uses the default values.
      * 3) Return response code 500 if there is a server-side error
      *
-     * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default in null.
+     * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null.
      * @bodyParam sortingParam string The sorting parameter, takes a value of ['votes', 'date', 'comments'], Default is 'date'.
      */
 
     public function sortPostsBy(Request $request)
     {
         $validator = validator(
-            $request->all(), ['apexComID' => 'string', 'sortingParam' => 'string']
+            $request->all(), ['apexComID' => 'string|nullable', 'sortingParam' => 'string']
         );
 
         if ($validator->fails()) {
