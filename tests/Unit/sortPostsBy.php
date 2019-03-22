@@ -44,7 +44,7 @@ class sortPostsBy extends TestCase
     /**
      * Test sorting the posts with no apexComID (it uses the default (null)).
      * asummes that there are some recordes in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -56,7 +56,9 @@ class sortPostsBy extends TestCase
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
-                'GET', '/api/sort_posts', [
+                'GET',
+                '/api/sort_posts',
+                [
                     'sortingParam' => $sortingParam
                 ]
             );
@@ -66,9 +68,8 @@ class sortPostsBy extends TestCase
                 $this->_checkPosts(null, $posts, $sortedColumn)
             );
         }
-        
     }
-    
+
     /**
      * Just a helper fuction to test that the posts are sorted correctly
      *
@@ -80,8 +81,7 @@ class sortPostsBy extends TestCase
      */
     private function _checkPosts($apexComID, $posts, $sortingParam)
     {
-        for ($i=0; $i < count($posts)-1; $i++) { 
-            
+        for ($i=0; $i < count($posts)-1; $i++) {
             if ($apexComID !== null && $posts[$i]['apex_id'] !== $apexComID) {
                 return false;
             };
