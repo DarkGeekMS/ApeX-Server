@@ -95,8 +95,8 @@ class General extends Controller
             apexCom::findOrFail($apexComID); //raises an error if it's not found
             $posts = $posts->where('apex_id', $apexComID);
         }
-        $votesTable = vote::select('postID', DB::raw('SUM(dir) as votes'))->groupBy('postID');
-        $commentsTable = comment::select('root', DB::raw('count(*) as comments_num'))->groupBy('root');
+        $votesTable = vote::select('postID', DB::raw('CAST(SUM(dir) AS int) AS votes'))->groupBy('postID');
+        $commentsTable = comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
 
         $posts = $posts->leftJoinSub(
             $votesTable, 'votes_table', function ($join) {
@@ -110,7 +110,11 @@ class General extends Controller
             }
         );
 
-        $posts = $posts->select('posts.*', 'votes', 'comments_num');
+        $posts = $posts->select(
+            'posts.*',
+            DB::raw('COALESCE(votes, 0) as votes'),
+            DB::raw('COALESCE(comments_num, 0) as comments_num')
+        );
 
         try {
             if ($sortingParam === 'date') {
