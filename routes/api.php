@@ -69,10 +69,8 @@ Route::get('/moreComments', 'CommentandLinks@moreChildren');
 // general
 
 
-Route::get('/search', 'General@guestSearch');
-Route::post('/search', 'General@userSearch');
-Route::get('/sort_posts', 'General@guestSortPostsBy');
-Route::post('/sort_posts', 'General@userSortPostsBy');
+Route::get('/search', 'General@search');
+Route::get('/sort_posts', 'General@sortPostsBy');
 Route::get('/Apex_names', 'General@apexNames');
 Route::get('/get_subscribers', 'General@getSubscribers');
 

@@ -63,7 +63,7 @@ class Account extends Controller
      *    "The username has already been taken."
      * ]
      * }
-     */
+    */
     public function signUp(Request $request)
     {
         //validating the input data to be correct
@@ -73,14 +73,14 @@ class Account extends Controller
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'username' => 'required|string|max:50|unique:users',
-            'avatar' => 'image'
+            //'avatar' => 'image'
             ]
         );
 
         $count = DB::table('users')->count();
 
-        $id = "t2_".($count+1000);   //to be changed
-
+        $id = "t2_".($count+1000);
+        
         //Returning the validation errors in case of validation failure
         if ($validator->fails()) {
             //converting the errors to json and returning them with 400 status code
@@ -92,7 +92,7 @@ class Account extends Controller
         /*removing password_confirmation from the request data as we don't need it
         in the database
         */
-        //unset($requestData["password_confirmation"]);
+        unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password

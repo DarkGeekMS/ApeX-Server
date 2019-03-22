@@ -16,6 +16,17 @@ class MeValid extends TestCase
      */
     public function testExample()
     {
+  /*      $email = "test@gmail.com";
+        $username = 'mondaa';
+        $firstSignup = $this->json(
+            'POST',
+            '/api/sign_up',
+            [
+            'email' => $email,
+            'password' => 'monda21',
+            'username' => $username
+            ]
+        );*/
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',

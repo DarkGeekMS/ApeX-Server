@@ -34,13 +34,6 @@ class User extends Controller
 
     public function block(Request $request)
     {
-        $validator = validator(
-            $request->only('blockedID', 'token'),
-            ['blockedID' => 'required|string', 'token' => 'required']
-        );
-        if ($validator->fails()) {
-            return  response()->json($validator->errors(), 400);
-        }
         $account = new Account();
         $meResponse = $account->me($request);
         if (!array_key_exists('user', $meResponse->getData())) {
@@ -49,6 +42,13 @@ class User extends Controller
         }
         $blockerID = $meResponse->getData()->user->id;
 
+        $validator = validator(
+            $request->only('blockedID'),
+            ['blockedID' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return  response()->json($validator->errors(), 400);
+        }
         $blockedID = $request->blockedID;
         \App\User::findOrFail($blockedID);  //raises an error if user is not found
 
