@@ -11,7 +11,7 @@ use App\apexBlock;
 use App\subscriber;
 use \App\User;
 
-class AboutTest extends TestCase
+class GetSubscribersTest extends TestCase
 {
 
 
@@ -40,11 +40,11 @@ class AboutTest extends TestCase
         $this->assertDatabaseHas('users', compact('id'));
 
         $token = $signUp->json('token');
-        // hit the route with an invalid id of an apexcom to get its about info
+        // hit the route with an invalid id of an apexcom to get its subscribers
         $response = $this->json(
-            'GET', '/api/about', [
+            'GET', '/api/get_subscribers', [
                 'token' => $token,
-                'ApexCom_ID' => '12354'
+                'ApexCommID' => '12354'
             ]
         );
         // an error that the apexcom is not found
@@ -94,9 +94,9 @@ class AboutTest extends TestCase
 
         // hit the route with the blocked user
         $response = $this->json(
-            'GET', '/api/about', [
+            'GET', '/api/get_subscribers', [
                 'token' => $signUp->json('token'),
-                'ApexCom_ID' => $apex_id
+                'ApexCommID' => $apex_id
             ]
         );
 
@@ -115,7 +115,7 @@ class AboutTest extends TestCase
         $this->assertDatabaseMissing('users', compact('id'));
     }
     /**
-     * User gets the about information of an apexcom.
+     * User gets the subscribers of an apexcom.
      * 
      * @test
      *
@@ -137,16 +137,16 @@ class AboutTest extends TestCase
         $id = $signUp->json('user')['id'];
         $this->assertDatabaseHas('users', compact('id'));
         
-        //get any apex com and hit the route with it to get its about info
+        //get any apex com and hit the route with it to get its subscribers
         $apex_id = apexCom::all()->first()->id;
         $response = $this->json(
-            'GET', '/api/about', [
+            'GET', '/api/get_subscribers', [
                 'token' => $signUp->json('token'),
-                'ApexCom_ID' => $apex_id
+                'ApexCommID' => $apex_id
             ]
         );
 
-        // a list of information about apexcom should be returned.
+        // a list of subscribers in apexcom should be returned.
         $response->assertStatus(200);
 
         // delete user added to database

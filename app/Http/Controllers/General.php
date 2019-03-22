@@ -179,7 +179,7 @@ class General extends Controller
 
         // return an error message if the id (fullname) of the apexcom was not found.
         if (!$exists) {
-            return response()->json(['error' => 'ApexComm is not found.'], 404);
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
         }
 
         // check if the validated user was blocked from the apexcom.

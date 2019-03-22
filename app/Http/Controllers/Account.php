@@ -77,12 +77,12 @@ class Account extends Controller
             ]
         );
         //selecting the last user inserted to generate the new user id
-        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
+        $lastUser = DB::table('users')->count();
         $id = "t2_1"; // Default id if there aren't any existing users
         if ($lastUser) {
-            $id = $lastUser->id;
-            $newIdx = (int)explode("_", $id)[1]; // Getting the id number
-            $id = "t2_".($newIdx+1); //constructing the new id with t2_i format
+            $id = $lastUser;
+            //$newIdx = (int)explode("_", $id)[1]; // Getting the id number
+            $id = "t2_".($id+1); //constructing the new id with t2_i format
         }
         //Returning the validation errors in case of validation failure
         if ($validator->fails()) {
