@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidVote extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+     /**
+      *
+      * @test
+      *
+      * @return void
+      */
 
     //new vote in a post
     public function newPost()
@@ -21,45 +22,30 @@ class ValidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_6',
+            'dir' => 1
             ]
         );
         $response->assertStatus(200);
+        //$this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => 't2_1' , 'dir' => 1]);
     }
 
-    //remove one's vote on a post
-    public function sameDirPost()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/Sign_in',
-            [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
-            ]
-        );
-        $token = $loginResponse->json()["token"];
-        $response = $this->json(
-            'POST',
-            '/api/vote',
-            [
-            'token' => $token,
-            'name' => 't3_1'
-            ]
-        );
-        $response->assertStatus(200);
-    }
-
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //reverse the vote direction for a post
     public function oppositeDirPost()
     {
@@ -67,22 +53,61 @@ class ValidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_6',
+            'dir' => -1
             ]
         );
         $response->assertStatus(200);
+        //$this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => 't2_1' , 'dir' => -1 ]);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //remove one's vote on a post
+    public function sameDirPost()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/vote',
+            [
+            'token' => $token,
+            'name' => 't3_6',
+            'dir' => -1
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('votes', ['postID' => 't3_5' , 'userID' => 't2_1']);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //new vote on a comment
     public function newComment()
     {
@@ -90,45 +115,30 @@ class ValidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't1_1'
+            'name' => 't1_5',
+            'dir' => 1
             ]
         );
         $response->assertStatus(200);
+        //$this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => 1]);
     }
 
-    //remove one's vote on a comment
-    public function sameDirComment()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/Sign_in',
-            [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
-            ]
-        );
-        $token = $loginResponse->json()["token"];
-        $response = $this->json(
-            'POST',
-            '/api/vote',
-            [
-            'token' => $token,
-            'name' => 't1_1'
-            ]
-        );
-        $response->assertStatus(200);
-    }
-
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //reverse the vote direction for a comment
     public function oppositeDirComment()
     {
@@ -136,19 +146,52 @@ class ValidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't1_1'
+            'name' => 't1_5',
+            'dir' => -1
             ]
         );
         $response->assertStatus(200);
+        //$this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => -1]);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //remove one's vote on a comment
+    public function sameDirComment()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/vote',
+            [
+            'token' => $token,
+            'name' => 't1_5',
+            'dir' => -1
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' ]);
     }
 }

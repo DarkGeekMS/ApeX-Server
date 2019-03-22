@@ -12,13 +12,15 @@ class search extends TestCase
      * Test Search request with valid query.
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function validQuery()
     {
         $response = $this->json(
-            'GET', 'api/search', [
+            'GET',
+            'api/search',
+            [
             'query' => 'lorem'
             ]
         );
@@ -29,13 +31,15 @@ class search extends TestCase
      * Test Search request with invalid query.
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function invalidQuery()
     {
         $response = $this->json(
-            'GET', 'api/search', [
+            'GET',
+            'api/search',
+            [
             'query' => 'l'
             ]
         );
@@ -46,13 +50,14 @@ class search extends TestCase
      * Test Search request with no query.
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function noQuery()
     {
         $response = $this->json(
-            'GET', 'api/search'
+            'GET',
+            'api/search'
         );
         $response->assertStatus(400);
     }

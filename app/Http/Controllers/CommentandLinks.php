@@ -10,7 +10,7 @@ use App\vote;
 use App\User;
 use App\moderator;
 use App\reportPost;
-use App\reporComment;
+use App\reportComment;
 use App\saveComment;
 use App\savePost;
 use App\message;
@@ -38,8 +38,8 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the comment to be submitted ( comment , reply , message).
      * @bodyParam content string required The body of the comment.
-     * @bodyParam parent_ID string required The fullname of the thing to be replied to.
-     * @bodyParam AuthID JWT required Verifying user ID.
+     * @bodyParam parent string required The fullname of the thing to be replied to.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
     public function add(Request $request)
@@ -54,16 +54,15 @@ class CommentandLinks extends Controller
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
 
-        if (!$user) {
-            return response()->json(['error' => 'invalid user'], 404);
+        if (!$request['content']) {
+            return response()->json(['error' => 'Comment content not found'], 404);
         }
-
         $parent = $request['parent'];
 
         if ($parent[1]==1) {              //add reply to comment ( or another reply)
             $comment = comment::find($parent);
             if (!$comment) {
-                return response()->json(['error' => 'invalid reply '], 404);
+                return response()->json(['error' => 'no_comment_reply '], 404);
             }
             //check mention existance
             $count = DB::table('comments')->count();
@@ -71,7 +70,7 @@ class CommentandLinks extends Controller
             DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$comment['root'],
             'parent' => $comment['id'] , 'id' =>$id, 'content' => $request['content']]);
 
-            return response()->json([true], 200);
+            return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
             $post = post::find($parent);
 
@@ -83,7 +82,7 @@ class CommentandLinks extends Controller
             $id = "t1_".($count+1);
             DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$parent,
             'id' =>$id, 'content' => $request['content']]);
-            return response()->json([true], 200);
+            return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
             $message = message::find($parent);
             if (!$message) {
@@ -101,9 +100,9 @@ class CommentandLinks extends Controller
             DB::table('messages')->insert(['sender'=> $user['id'], 'receiver' =>$userF,
             'id' =>$id, 'content' => $request['content'], 'subject' => $message['subject']]);
 
-            return response()->json([true], 200);
+            return response()->json(['id' => $id], 200);
         }
-        return response()->json(['error' => 'invalid Action'], 404);
+        return response()->json(['error' => 'invalid Action'], 400);
     }
 
 
@@ -133,10 +132,6 @@ class CommentandLinks extends Controller
         }
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
-
-        if (!$user) {
-            return response()->json(['error' => 'invalid user'], 404);
-        }
 
         $name = $request['name'];
 
@@ -170,7 +165,7 @@ class CommentandLinks extends Controller
             $comment = comment::find($name);
 
             if (!$comment) {
-                return response()->json(['error' => 'comment not exists'], 300);
+                return response()->json(['error' => 'comment not exists'], 404);
             }
             if ($user['type'] ==3) {
                 $comment->delete();
@@ -198,7 +193,7 @@ class CommentandLinks extends Controller
 
             return response()->json(['error' => 'invalid user'], 404);
         }
-        return response()->json(['error' => 'invalid Action'], 404);
+        return response()->json(['error' => 'invalid Action'], 400);
     }
 
 
@@ -253,9 +248,6 @@ class CommentandLinks extends Controller
         //get the user by the user id
         $user = User::find($userID);
 
-        if (!$user) {
-            return response()->json(['user_not_found'], 404);
-        }
         //get the post to be locked (if allowed)
         $post = post::find($request['name']);
         //check valid post
@@ -316,9 +308,6 @@ class CommentandLinks extends Controller
         $userID = $account->me($request)->getData()->user->id;
         //get the user by the user id
         $user = User::find($userID);
-        if (!$userID) {
-            return response()->json(['error' => 'invalid user'], 404);
-        }
         //get the post to be hidden (if allowed)
         $post = Post::find($request['name']);
         //check valid post
@@ -397,12 +386,12 @@ class CommentandLinks extends Controller
         //get the user by the user id
         $user = User::find($userID);
 
-        if (!$user) {
-            return response()->json(['error' => 'invalid user'], 404);
-        }
         //admin can't report any post or comment (he can take any action againest the post)
         if ($user['type'] ==3) {
             return response()->json(['error' => 'invalid Action'], 404);
+        }
+        if (!$request['content']) {
+            return response()->json(['error' => 'Comment content not found'], 404);
         }
         //check reporting post or comment (post id start with t3_ , comment id start with t1_)
         $name = $request['name'];
@@ -469,7 +458,7 @@ class CommentandLinks extends Controller
             $report = DB::table('report_comments')->where('userID', $user['id'])->where('comID', $comment['id'])->get();
             //if the report was new create one.
             if (!count($report)) {
-                reporComment::create([
+                reportComment::create([
                 'comID' => $comment['id'],
                 'userID' => $user['id'],
                 'content' => $request['content']
@@ -512,11 +501,6 @@ class CommentandLinks extends Controller
         }
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
-
-        if (!$user) {
-            return response()->json(['error' => 'user_not_found'], 404);
-        }
-
         $name = $request['name'];
 
         if ($name[1]==3) {
@@ -557,7 +541,7 @@ class CommentandLinks extends Controller
             $comment = comment::find($name);
 
             if (!$comment) {
-                return response()->json(['error' => 'comment not exists'], 300);
+                return response()->json(['error' => 'comment not exists'], 404);
             }
 
             $exists = DB::table('comment_votes')->where('comID', $request['name'])
@@ -578,6 +562,7 @@ class CommentandLinks extends Controller
 
             if ($dir == $request['dir']) {
                 DB::table('comment_votes')->where('userID', $user['id'])->where('comID', $request['name'])->delete();
+                //$exists->delete();
                 $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
                 return response()->json([$NoVotes], 200);
             } else {
@@ -621,45 +606,35 @@ class CommentandLinks extends Controller
         $postid=$request['ID'];
         $post=DB::table('posts')->where('id', '=', $postid)->get();
 
-        if (count($comment)) {                                                            //to check that the comment exists
-
-            $commentsaved=DB::table('savecomments')->where([                             //to check if the comment is saved
+        if (count($comment)) {                                            //to check that the comment exists
+            $commentsaved=DB::table('savecomments')->where([                   //to check if the comment is saved
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->get();
 
-            if(count($commentsaved)){
+            if (count($commentsaved)) {
                 DB::table('savecomments')->where([
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->delete();
+            } else {
+                DB::table('savecomments')-> insert(['comID' => $commentid, 'userID' =>$id]);
             }
-            else{
-                DB::table('savecomments')->insert(
-                ['comID' => $commentid, 'userID' =>$id]
-            );
-            }
-        }
-        elseif (count($post)) {                                                         //to check that the post exists
-
+        } elseif (count($post)) {                                                      //to check that the post exists
             $postsaved=DB::table('saveposts')->where([                                  //to check if the post is saved
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->get();
 
-            if(count($postsaved)){
+            if (count($postsaved)) {
                 DB::table('saveposts')->where([
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->delete();
+            } else {
+                DB::table('saveposts')->insert(['postID' => $postid, 'userID' =>$id]);
             }
-            else{
-                DB::table('saveposts')->insert(
-                ['postID' => $postid, 'userID' =>$id]
-            );
-             }
-        }
-        else {
+        } else {
             return response()->json(['error' => 'post or comment doesnot exist'], 500);
         }
         return response()->json(['value'=>true], 200);

@@ -19,24 +19,30 @@ class ValidLogout extends TestCase
         $email = Str::random(15)."@gmail.com";
         $username = Str::random(15);
         $firstSignup = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'email' => $email,
             'password' => '1234567',
             'username' => $username
             ]
         );
         $loginResponse = $this->json(
-            'POST', '/api/Sign_in', [
+            'POST',
+            '/api/Sign_in',
+            [
             'username' => $username,
             'password' => '1234567'
             ]
         );
         $token = $loginResponse->json()["token"];
         $logoutResponse = $this->json(
-            'POST', '/api/sign_out', [
+            'POST',
+            '/api/sign_out',
+            [
             'token' => $token
             ]
         );
-        $logoutResponse->assertStatus(200)->assertJson(["token" => null]);    
+        $logoutResponse->assertStatus(200)->assertJson(["token" => null]);
     }
 }

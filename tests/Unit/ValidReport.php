@@ -8,52 +8,65 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidReport extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
+     //moderator in apexcom not include the reported post
     public function reportPost()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_5',
+            'content' => 'report user'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseHas('report_posts', ['postID' => 't3_5' , 'userID' => 't2_1']);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //ordinary user report a comment
     public function reportComment()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/report',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_5',
+            'content' => 'report user'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseHas('report_comments', ['comID' => 't1_5' , 'userID' => 't2_1']);
     }
 }

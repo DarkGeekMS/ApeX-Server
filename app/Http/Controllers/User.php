@@ -18,13 +18,15 @@ class User extends Controller
     /**
      * block
      * Block a user, so he can't send private messages or see the blocked user posts or comments.
+     * if the user is already blocked, the request will unblock him
      * Success Cases :
-     * 1) return status code 200 and json contains 'the user has been blocked successfully'.
+     * 1) return status code 200 and json contains
+     *  'the user has been blocked successfully' if the user was not blocked
+     *  or 'the user has been unblocked seccessfully' if the user was blocked already.
      * failure Cases:
      * 1) No Access Right token is not authorized.
      * 2) Blocked user id is not found (status code 404)
-     * 3) The user is already blocked for the current user (status code 400).
-     * 4) The user is blocking himself
+     * 3) The user is blocking himself (status code 400)
      *
      * @bodyParam blockedID string required the id of the user to be blocked.
      * @bodyParam token JWT required Used to verify the user.
@@ -39,33 +41,37 @@ class User extends Controller
             return $meResponse;
         }
         $blockerID = $meResponse->getData()->user->id;
-        
+
         $validator = validator(
-            $request->only('blockedID'), ['blockedID' => 'required|string']
+            $request->only('blockedID'),
+            ['blockedID' => 'required|string']
         );
         if ($validator->fails()) {
-            return response($validator->errors(), 400);
+            return  response()->json($validator->errors(), 400);
         }
         $blockedID = $request->blockedID;
         \App\User::findOrFail($blockedID);  //raises an error if user is not found
 
         if (block::where(compact('blockerID', 'blockedID'))->exists()) {
-            return response(
-                ['error' => 'The user is already blocked for the current user'], 400
-            );
+            try {
+                block::where(compact('blockerID', 'blockedID'))->delete();
+            } catch (\Exception $e) {
+                return response(['error' => 'server-side error'], 500);
+            }
+            return response(['result' => 'The user has been unblocked successfully'], 200);
         }
 
         if ($blockedID === $blockerID) {
-            return response(['error' => "The user can't block himself"], 400);
+            return response()->json(['error' => "The user can't block himself"], 400);
         }
 
-        try{
+        try {
             block::insert(compact('blockerID', 'blockedID'));
-        }catch(\Exception $e){
-            return response(['error' => 'server-side error'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'server-side error'], 500);
         }
 
-        return response(['result' => 'The user has been blocked successfully'], 200);
+        return response()->json(['result' => 'The user has been blocked successfully'], 200);
     }
 
     /**

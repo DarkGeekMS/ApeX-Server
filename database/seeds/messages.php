@@ -14,9 +14,8 @@ class messages extends Seeder
         DB::table('messages')->insert([
             'id' => 't4_1',
             'content' => 'Hello there',
-            'sender' => 't2_2',
-            'receiver' => 't2_3'
+            'sender' => 't2_1',
+            'receiver' => 't2_4'
         ]);
-        factory(App\message::class, 10)->create();
     }
 }

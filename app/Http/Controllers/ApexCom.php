@@ -83,14 +83,18 @@ class ApexCom extends Controller
         $name = $apexCom->name;
 
         $description = $apexCom->description;
-        
+
         $rules = $apexCom->rules;
 
-        return response()->json( 
+        return response()->json(
             compact(
-                'contributers_count', 'moderators', 'subscribers_count', 'name',
-                'description', 'rules' 
-            ) 
+                'contributers_count',
+                'moderators',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
+            )
         );
     }
 
@@ -172,7 +176,7 @@ class ApexCom extends Controller
         if ($blocked != 0) {
             return response()->json(['error' => 'You are blocked from this Apexcom'], 400);
         }
-        
+
         // get if the user was previously subscribing the apexcom.
         $unsubscribe = subscriber::where(
             [['apexID', '=',$apex_id],['userID', '=',$user_id] ]
@@ -241,7 +245,8 @@ class ApexCom extends Controller
 
         // validate data of the request.
         $validated = Validator::make(
-            $request->all(), [
+            $request->all(),
+            [
                 'name' => 'required|min:3|max:100',
                 'description' => 'required|min:3|max:800',
                 'rules' => 'required|min:3|max:100',

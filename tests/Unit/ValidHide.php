@@ -8,68 +8,69 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValidHide extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-     
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
+
     public function hidePost()
     {
-
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $token = $loginResponse->json('token');
+
         //to hide the post
         $response = $this->json(
             'POST',
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseHas('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
     }
+
+/**
+     *
+     * @test
+     *
+     * @return void
+     */
 
     public function unhidePost()
     {
-
-        $SignUpResponse = $this->json(
-            'POST',
-            '/api/sign_up',
-            [
-            'fullname' => 'monda talaat',
-            'email' => "mondatlaat21@gmail.com",
-            'password' => '1561998',
-            'username' => 'MondaTalaat'
-            ]
-        );
-
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        
+        $token = $loginResponse->json('token');
+
         //to unhide the post
         $response = $this->json(
             'POST',
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_4'
             ]
         );
         $response->assertStatus(200);
+        $this->assertDatabaseMissing('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
     }
 }

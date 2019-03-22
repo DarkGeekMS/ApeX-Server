@@ -12,13 +12,14 @@ class apexNames extends TestCase
      * Test apexNames function
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function getNames()
     {
         $response = $this->json(
-            'GET', '/api/Apex_names'
+            'GET',
+            '/api/Apex_names'
         );
         $response->assertStatus(200);
     }

@@ -8,45 +8,51 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidHide extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
     //no user
-    public function testExample()
+    public function noUser()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'tc'
             ]
         );
-        $token = $loginResponse->json()["token"];
-
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_5'
             ]
         );
 
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     public function noPost()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -56,7 +62,7 @@ class InvalidHide extends TestCase
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_01'
             ]
         );
 

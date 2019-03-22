@@ -8,35 +8,42 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidLock extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
 
-    //not owner,admin or moderator in the apeXcom where the post in
-    public function testExample()
+    //not moderator in the apeXcom where the post in
+    public function notModerator()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_5'
             ]
         );
-        $response->assertStatus(400);
+        $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no post
     public function noPost()
     {
@@ -44,8 +51,8 @@ class InvalidLock extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -54,12 +61,18 @@ class InvalidLock extends TestCase
             '/api/lock_post',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_01'
             ]
         );
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no user
     public function noUser()
     {
@@ -67,19 +80,19 @@ class InvalidLock extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
+            'username' => 'Monda Talaat',
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/lock_post',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => 't3_6'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }

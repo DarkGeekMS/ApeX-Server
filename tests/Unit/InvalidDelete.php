@@ -9,11 +9,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class InvalidDelete extends TestCase
 {
     /**
-     * A basic unit test example.
+     *
+     * @test
      *
      * @return void
      */
-
     //no post
     public function noPost()
     {
@@ -21,44 +21,58 @@ class InvalidDelete extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
-            'POST',
-            '/api/DelComment',
+            'DELETE',
+            '/api/delete',
             [
             'token' => $token,
-            'name' => '12345678'
-            ]
-        );
-        $response->assertStatus(404);
-    }
-    //no user
-    public function noUser()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/Sign_in',
-            [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
-            ]
-        );
-        $token = $loginResponse->json()["token"];
-        $response = $this->json(
-            'POST',
-            '/api/DelComment',
-            [
-            'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_06'
             ]
         );
         $response->assertStatus(404);
     }
 
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //no comment or reply
+    public function noComment()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json()["token"];
+        $response = $this->json(
+            'DELETE',
+            '/api/delete',
+            [
+            'token' => $token,
+            'name' => 't1_01'
+            ]
+        );
+        $response->assertStatus(404);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //not post owner , admin or moderator in the apexcom where the post in
     public function invalidUser()
     {
@@ -66,19 +80,48 @@ class InvalidDelete extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Anyone',
+            'password' => '451447'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
-            'POST',
-            '/api/DelComment',
+            'DELETE',
+            '/api/delete',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_5'
             ]
         );
         $response->assertStatus(400);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //not post owner , admin or moderator in the apexcom where the post in
+    public function notModerator()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'DELETE',
+            '/api/delete',
+            [
+            'token' => $token,
+            'name' => 't3_6'
+            ]
+        );
+        $response->assertStatus(404);
     }
 }

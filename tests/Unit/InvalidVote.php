@@ -8,11 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidVote extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
      //no post
     public function invalidPost()
     {
@@ -20,22 +21,29 @@ class InvalidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't4_1'
+            'name' => 't3_01',
+            'dir' => 1
             ]
         );
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no comment
     public function invalidComment()
     {
@@ -43,8 +51,8 @@ class InvalidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -53,12 +61,19 @@ class InvalidVote extends TestCase
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't1_1'
+            'name' => 't1_01',
+            'dir' => 1
             ]
         );
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     //no user
     public function invalidUser()
     {
@@ -66,11 +81,12 @@ class InvalidVote extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
+            'username' => 'Monda Talaat',
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
             '/api/vote',
@@ -79,6 +95,6 @@ class InvalidVote extends TestCase
             'name' => 't1_1'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }

@@ -8,32 +8,40 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvalidReply extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
+  /**
+   *
+   * @test
+   *
+   * @return void
+   */
     public function noPost()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't3_01'
             ]
         );
         $response->assertStatus(404);
     }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
 
     public function noComment()
     {
@@ -41,22 +49,28 @@ class InvalidReply extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'MondaTalaat',
-            'password' => '1561998'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_01'
             ]
         );
         $response->assertStatus(404);
     }
 
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
     public function noUser()
     {
         $loginResponse = $this->json(
@@ -67,15 +81,16 @@ class InvalidReply extends TestCase
             'password' => '1561998'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
             '/api/comment',
             [
             'token' => $token,
-            'name' => '12345678'
+            'name' => 't1_4'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }
