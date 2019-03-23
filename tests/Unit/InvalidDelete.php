@@ -73,8 +73,8 @@ class InvalidDelete extends TestCase
      *
      * @return void
      */
-    //not post owner , admin or moderator in the apexcom where the post in
-    public function invalidUser()
+    //not valid user
+    public function noUser()
     {
         $loginResponse = $this->json(
             'POST',
@@ -103,7 +103,7 @@ class InvalidDelete extends TestCase
      * @return void
      */
     //not post owner , admin or moderator in the apexcom where the post in
-    public function notModerator()
+    public function notAllowed()
     {
         $loginResponse = $this->json(
             'POST',
@@ -122,6 +122,6 @@ class InvalidDelete extends TestCase
             'name' => 't3_6'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 }

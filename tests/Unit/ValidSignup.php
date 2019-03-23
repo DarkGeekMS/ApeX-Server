@@ -20,9 +20,9 @@ class ValidSignup extends TestCase
             'POST',
             '/api/sign_up',
             [
-            'email' => "DarkGeek@gmail.com",
+            'email' => "bebo@gmail.com",
             'password' => '1721998',
-            'username' => 'shawky',
+            'username' => 'rehab hamdy',
             ]
         );
         $response->assertStatus(200);
@@ -30,7 +30,7 @@ class ValidSignup extends TestCase
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'shawky',
+            'username' => 'rehab hamdy',
             'password' => '1721998'
             ]
         );

@@ -37,7 +37,7 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        //$this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => 't2_1' , 'dir' => 1]);
+        $this->assertDatabaseHas('votes', ['postID' => 't3_6' , 'userID' => 't2_1' , 'dir' => 1]);
     }
 
     /**
@@ -68,7 +68,7 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        //$this->assertDatabaseHas('votes', ['postID' => 't3_5' , 'userID' => 't2_1' , 'dir' => -1 ]);
+        $this->assertDatabaseHas('votes', ['postID' => 't3_6' , 'userID' => 't2_1' , 'dir' => -1 ]);
     }
 
     /**
@@ -130,7 +130,7 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        //$this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => 1]);
+        $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => 1]);
     }
 
     /**
@@ -161,7 +161,7 @@ class ValidVote extends TestCase
             ]
         );
         $response->assertStatus(200);
-        //$this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => -1]);
+        $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => -1]);
     }
 
     /**

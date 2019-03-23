@@ -17,43 +17,51 @@ class InvalidSave extends TestCase
     public function noPostOrComnent()
     {
         $loginResponse = $this->json(
-            'POST', '/api/Sign_in', [
-            'username' => 'sebak',
-            'password' => '123456'         
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json("token");
         //to unsave a saved post
         $saveResponse = $this->json(
-            'POST', '/api/save', [
+            'POST',
+            '/api/save',
+            [
             'token' => $token,
             'ID' => '99'              //fake id
             ]
         );
-        $saveResponse->assertStatus(500);
+        $saveResponse->assertStatus(404);
     }
- /**
-   *
-   * @test
-   *
-   * @return void
-   */
-  public function noUser()
-  {
-    $loginResponse = $this->json(
-        'POST', '/api/Sign_in', [
-        'username' => 'sebak',
-        'password' => '123'         //wrong password
-        ]
-    );
-    $token = $loginResponse->json("token");
+    /**
+    *
+    * @test
+    *
+    * @return void
+    */
+    public function noUser()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'sebak',
+            'password' => '123'         //wrong password
+            ]
+        );
+        $token = $loginResponse->json("token");
     //to unsave a saved post
-    $saveResponse = $this->json(
-        'POST', '/api/save', [
-        'token' => $token,
-        'ID' => 't3_1'              //id of an existing post 
-        ]
-    );
-    $saveResponse->assertStatus(400);
-  }
+        $saveResponse = $this->json(
+            'POST',
+            '/api/save',
+            [
+              'token' => $token,
+              'ID' => 't3_1'              //id of an existing post
+            ]
+        );
+          $saveResponse->assertStatus(400);
+    }
 }

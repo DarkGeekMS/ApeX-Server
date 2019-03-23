@@ -25,12 +25,14 @@ class InvalidReply extends TestCase
             ]
         );
         $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(200);
         $response = $this->json(
             'POST',
             '/api/comment',
             [
             'token' => $token,
-            'name' => 't3_01'
+            'parent' => 't3_001',
+            'content' => ' reply to message '
             ]
         );
         $response->assertStatus(404);
@@ -54,12 +56,75 @@ class InvalidReply extends TestCase
             ]
         );
         $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(200);
         $response = $this->json(
             'POST',
             '/api/comment',
             [
             'token' => $token,
-            'name' => 't1_01'
+            'parent' => 't1_01',
+            'content' => ' reply to message '
+            ]
+        );
+        $response->assertStatus(404);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+
+    public function noMessage()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(200);
+        $response = $this->json(
+            'POST',
+            '/api/comment',
+            [
+            'token' => $token,
+            'parent' => 't4_01',
+            'content' => ' reply to message '
+            ]
+        );
+        $response->assertStatus(404);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+
+    public function noContent()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(200);
+        $response = $this->json(
+            'POST',
+            '/api/comment',
+            [
+            'token' => $token,
+            'parent' => 't1_10'
             ]
         );
         $response->assertStatus(404);
@@ -88,7 +153,8 @@ class InvalidReply extends TestCase
             '/api/comment',
             [
             'token' => $token,
-            'name' => 't1_4'
+            'parent' => 't1_4',
+            'content' => ' reply to message '
             ]
         );
         $response->assertStatus(400);

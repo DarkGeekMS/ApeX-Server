@@ -15,42 +15,48 @@ class SiteAdminTest extends TestCase
     use WithFaker;
     /**
      * Test with a normal user that can not edit or create an apexcom or without sending a token.
-     * 
+     *
      * @test
      *
      * @return void
      */
     public function noAccessRightsforNormalUsers()
     {
-        
+
         // hit the route with out token
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
             ]
         );
         // a token error will apear.
         $response->assertStatus(400);
-        
+
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
         $password = $this->faker->password;
-        
+
         $signUp = $this->json(
-            'POST', '/api/sign_up', compact('email', 'username', 'password')
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
-        
+
         $token = $signUp->json('token');
-        
+
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
         $this->assertDatabaseHas('users', compact('id'));
 
         // hit the route with a normal user
-        $name = 'sports'; 
+        $name = 'sports';
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
                 'token' => $token,
                 'name' => $name,
                 'description' => 'concerning about sports',
@@ -72,7 +78,7 @@ class SiteAdminTest extends TestCase
     }
     /**
      * An admin is creating an apexcom with invalid or insufficient information.
-     * 
+     *
      * @test
      *
      * @return void
@@ -83,25 +89,29 @@ class SiteAdminTest extends TestCase
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
         $password = $this->faker->password;
-        
+
         $signUp = $this->json(
-            'POST', '/api/sign_up', compact('email', 'username', 'password')
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
         $this->assertDatabaseHas('users', compact('id'));
-        
+
         $token = $signUp->json('token');
 
         //changing normal user to admin.
         User::where('id', $id)->update(['type' => 3]);
 
         // hit the route with the admin with non complete information several times
-        $name = 'sports'; 
+        $name = 'sports';
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
                 'token' => $token,
                 'name' => $name,
                 'rules' => 'you can post'
@@ -114,26 +124,30 @@ class SiteAdminTest extends TestCase
         //check that there is no apexcom added to database
         $this->assertDatabaseMissing('apex_coms', compact('name'));
 
-        
+
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
                 'token' => $token,
                 'name' => $name,
                 'rules' => 'you can post',
                 'avatar' => 'sports.php'
                 ]
         );
-            
+
         // an error that the avatar parameter should be image type.
-            
+
         $response->assertStatus(400);
 
         //check that there is no apexcom added to database
         $this->assertDatabaseMissing('apex_coms', compact('name'));
 
-        $name = 'sp';    
+        $name = 'sp';
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
                 'token' => $token,
                 'name' => $name,
                 'description' => 'concerning about different sports',
@@ -147,7 +161,7 @@ class SiteAdminTest extends TestCase
         //check that there is no apexcom added to database
         $this->assertDatabaseMissing('apex_coms', compact('name'));
 
-        // delete user added to database 
+        // delete user added to database
 
         User::where('id', $id)->delete();
 
@@ -156,7 +170,7 @@ class SiteAdminTest extends TestCase
     }
     /**
      * Admin succeeds to edit or create an apexcom.
-     * 
+     *
      * @test
      *
      * @return void
@@ -167,9 +181,11 @@ class SiteAdminTest extends TestCase
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
         $password = $this->faker->password;
-        
+
         $signUp = $this->json(
-            'POST', '/api/sign_up', compact('email', 'username', 'password')
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
 
@@ -183,9 +199,11 @@ class SiteAdminTest extends TestCase
         User::where('id', $id)->update(['type' => 3]);
 
         // hit the route with the admin with complete information
-        $name = 'sports'; 
+        $name = 'sports';
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
                 'token' => $token,
                 'name' => $name,
                 'description' => 'concerning about multiple sports',
@@ -195,14 +213,16 @@ class SiteAdminTest extends TestCase
 
         // an apexcom with name sports should be created.
         $response->assertStatus(200);
-        
+
         //check that there is an apexcom added to database
         $this->assertDatabaseHas('apex_coms', compact('name'));
 
         // edit the rules of the apexcom
         $rules = 'you can not post';
         $response = $this->json(
-            'POST', '/api/site_admin', [
+            'POST',
+            '/api/site_admin',
+            [
                 'token' => $token,
                 'name' => $name,
                 'description' => 'concerning about multiple sports',
@@ -212,7 +232,7 @@ class SiteAdminTest extends TestCase
 
         // an apexcom with name sports should be created.
         $response->assertStatus(200);
-        
+
         //check that there is an apexcom added to database
         $this->assertDatabaseHas('apex_coms', compact('name', 'rules'));
 

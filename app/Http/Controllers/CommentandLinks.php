@@ -26,10 +26,9 @@ use App\Http\Controllers\Account;
 
 class CommentandLinks extends Controller
 {
-
     /**
      * add
-     * submit a new comment or reply to a comment on a post.
+     * submit a new comment or reply to a comment on a post or reply to any message.
      * Success Cases :
      * 1) return true to ensure that the comment , reply is added successfully.
      * failure Cases:
@@ -39,12 +38,6 @@ class CommentandLinks extends Controller
      * @bodyParam content string required The body of the comment.
      * @bodyParam parent string required The fullname of the thing to be replied to.
      * @bodyParam token JWT required Verifying user ID.
-     *  "posts":{
-     *   "id": "t1_15"
-     *  }
-     *  "messages":{
-     *   "id": "t4_14"
-     *  }
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -93,12 +86,20 @@ class CommentandLinks extends Controller
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
             //check mention existance
-            //create the comment id by getting the total count of the comments and increment it by 1
-            $count = DB::table('comments')->count();
-            $id = "t1_".($count+1);
+            //create the comment id by getting the last comment id and increment it by 1
+            $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
+            $id = $lastcom->id;
+            //return response()->json(['id' => $id], 200);
+            $newIdx = (int)explode("_", $id)[1];
+            $id = "t1_".($newIdx +1);
             //add this record in the database
-            DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$comment['root'],
-            'parent' => $comment['id'] , 'id' =>$id, 'content' => $request['content']]);
+            comment::create([
+              'commented_by'=> $user['id'],
+              'parent' => $comment['id'],
+              'root' =>$comment['root'],
+              'id' =>$id,
+              'content' => $request['content']
+            ]);
             //return the id of the submitted reply
             return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
@@ -110,11 +111,21 @@ class CommentandLinks extends Controller
             }
             //check if any mention exists
             //create the comment id by getting the total count of comments table and increment it by 1
-            $count = DB::table('comments')->count();
-            $id = "t1_".($count+1);
+            $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
+            $id = "t1_1";
+            if ($lastcom) {
+                $id = $lastcom->id;
+                $newIdx = (int)explode("_", $id)[1];
+                $id = "t1_".($newIdx+1);
+            }
+
             //insert the new record in the database
-            DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$parent,
-            'id' =>$id, 'content' => $request['content']]);
+            comment::create([
+              'commented_by'=> $user['id'],
+              'root' =>$parent,
+              'id' =>$id,
+              'content' => $request['content']
+            ]);
             //return the id of the submitted comment
             return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
@@ -125,18 +136,25 @@ class CommentandLinks extends Controller
                 return response()->json(['error' => ' message not exists '], 404);
             }
             //get the receiver id from the parent message (messages can be done by only 2 users)
-            $userF = 't1_0';
+            $userF = 't2_0';
             if ($message['sender'] == $user['id']) {
                 $userF = $message['receiver'];
             } else {
                 $userF = $message['sender'];
             }
             //create the id of the new message by counting table messages records and increment it by 1
-            $count = DB::table('messages')->count();
-            $id = "t4_".($count+1);
+            $lastcom = DB::table('messages')->orderBy('created_at', 'desc')->first();
+            $id = $lastcom->id;
+            $newIdx = (int)explode("_", $id)[1];
+            $id = "t4_".($newIdx+1);
             //insert the new message record in the message table
-            DB::table('messages')->insert(['sender'=> $user['id'], 'receiver' =>$userF,
-            'id' =>$id, 'content' => $request['content'], 'subject' => $message['subject']]);
+            message::create([
+              'sender'=> $user['id'],
+              'receiver' =>$userF,
+              'id' =>$id,
+              'content' => $request['content'],
+              'subject' => $message['subject']
+            ]);
             //return the id of the created message
             return response()->json(['id' => $id], 200);
         }
@@ -159,12 +177,6 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the post,comment or reply to be deleted.
      * @bodyParam token JWT required Verifying user ID.
-     *  "posts":{
-     *   "deleted": "true"
-     *  }
-     *  "comments":{
-     *   "deleted": "true"
-     *  }
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -306,9 +318,6 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the post to be locked.
      * @bodyParam token JWT required Verifying user ID.
-     *  "posts":{
-     *   "locked": "true"
-     *  }
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -383,9 +392,6 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the post to be hidden.
      * @bodyParam token JWT required Verifying user ID.
-     *  "posts":{
-     *   "hidden": "true"
-     *  }
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -468,12 +474,9 @@ class CommentandLinks extends Controller
      * 2) NoAccessRight token is not authorized.
      *
      * @bodyParam name string required The fullname of the post,comment or message to report.
-     * @bodyParam Reason int The index represent the reason for the report from an associative array.
-     * (will be in frontend and backend as well).
+     * @bodyParam content string The reason for the report from an associative array.
+     * (will be in frontend).
      * @bodyParam token JWT required Verifying user ID.
-     *  "posts":{
-     *   "reported": "true"
-     *  }
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -605,17 +608,11 @@ class CommentandLinks extends Controller
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) fullname of the thing to vote on is not found.
-     * 3) direction of the vote is not integer between -1 , 0 , 1.
+     * 3) direction of the vote is not integer between -1 , 1.
      *
      * @bodyParam name string required The fullname of the post,comment or reply to vote on.
-     * @bodyParam direction int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
-     * @bodyParam ID JWT required Verifying user ID.
-     *  "posts":{
-     *   "votes": "No. of votes"
-     *  }
-     *  "comments":{
-     *   "votes": "No. of votes"
-     *  }
+     * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
+     * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -752,14 +749,15 @@ class CommentandLinks extends Controller
 
     public function save(Request $request)
     {
+       //get the logged in user
         $account=new Account ;
         $user=$account->me($request);
+        //check valid user
         if (!array_key_exists('user', $user->getData())) {
-
             //there is token_error or user_not found_error
             return $user;
         }
-
+        //get the logged in user data
         $user=$user->getData()->user;
         $id= $user->id;
         $validator = validator(
@@ -769,45 +767,50 @@ class CommentandLinks extends Controller
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
-
+        //check if the thing to be saved is post or comment by checking both tables
         $commentid=$request['ID'];
         $comment=DB::table('comments')->where('id', '=', $commentid)->get();
 
 
         $postid=$request['ID'];
         $post=DB::table('posts')->where('id', '=', $postid)->get();
-
+        //if comment
         if (count($comment)) {                                            //to check that the comment exists
             $commentsaved=DB::table('save_comments')->where([                   //to check if the comment is saved
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->get();
-
+                //if the comment was saved delete its record so it will be un-saved
             if (count($commentsaved)) {
                 DB::table('save_comments')->where([
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->delete();
             } else {
+              //otherwise insert it so it's saved
                 DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
             }
+            //if post
         } elseif (count($post)) {                                                      //to check that the post exists
             $postsaved=DB::table('save_posts')->where([                                  //to check if the post is saved
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->get();
-
+                //if the post was saved delete its record so it's un-saved
             if (count($postsaved)) {
                 DB::table('save_posts')->where([
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->delete();
             } else {
+              //otherwise insert it so it's saved
                 DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
             }
         } else {
+          //if no post or comment return error message
             return response()->json(['error' => 'post or comment doesnot exist'], 404);
         }
+        //return true to ensure that the post is saved/unsaved successfully
         return response()->json(['value'=>true], 200);
     }
 }

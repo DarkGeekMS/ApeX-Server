@@ -32,7 +32,8 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't3_5'
+            'name' => 't3_5',
+            'content' => 'report a problem'
             ]
         );
         $response->assertStatus(400);
@@ -61,7 +62,8 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't3_01'
+            'name' => 't3_01',
+            'content' => 'report a problem'
             ]
         );
         $response->assertStatus(404);
@@ -90,7 +92,8 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't1_01'
+            'name' => 't1_01',
+            'content' => 'report a problem'
             ]
         );
         $response->assertStatus(404);
@@ -102,8 +105,8 @@ class InvalidReport extends TestCase
      *
      * @return void
      */
-    //moderator in the apexcom holds the post or comment to be reported
-    public function modUser()
+    //no content
+    public function noContent()
     {
         $loginResponse = $this->json(
             'POST',
@@ -119,7 +122,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't3_4'
+            'name' => 't3_1'
             ]
         );
         $response->assertStatus(404);
@@ -148,10 +151,11 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't3_4'
+            'name' => 't3_4',
+            'content' => 'report a problem'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
     /**
@@ -160,15 +164,15 @@ class InvalidReport extends TestCase
      *
      * @return void
      */
-    //the owner of the post to be reported or hase the reported comment
-    public function owner()
+    //moderator in the apexcom holds the post or comment to be reported
+    public function modUser()
     {
         $loginResponse = $this->json(
             'POST',
             '/api/Sign_in',
             [
-            'username' => 'King',
-            'password' => 'queen12'
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
@@ -177,9 +181,191 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't1_5'
+            'name' => 't3_4',
+            'content' => 'report a problem'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //the owner of the post to be reported
+    public function ownerP()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'kareem',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/report',
+            [
+            'token' => $token,
+            'name' => 't3_7',
+            'content' => 'report a problem'
+            ]
+        );
+        $response->assertStatus(400);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //the owner of the comment to be reported
+    public function ownerC()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'kareem',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/report',
+            [
+            'token' => $token,
+            'name' => 't1_10',
+            'content' => 'report a problem'
+            ]
+        );
+        $response->assertStatus(400);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //the owner of the post has the comment to be reported
+    public function ownerPC()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'kareem',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/report',
+            [
+            'token' => $token,
+            'name' => 't1_8',
+            'content' => 'report a problem'
+            ]
+        );
+        $response->assertStatus(400);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //moderator in the apexCom where the post has this comment
+    public function modC()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/report',
+            [
+            'token' => $token,
+            'name' => 't1_5',
+            'content' => 'report a problem'
+            ]
+        );
+        $response->assertStatus(400);
+    }
+
+// done already before
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+       //moderator in apexcom not include the reported post
+    public function reportPost()
+    {
+          $loginResponse = $this->json(
+              'POST',
+              '/api/Sign_in',
+              [
+              'username' => 'Monda Talaat',
+              'password' => 'monda21'
+              ]
+          );
+          $token = $loginResponse->json('token');
+          $response = $this->json(
+              'POST',
+              '/api/report',
+              [
+              'token' => $token,
+              'name' => 't3_14',
+              'content' => 'report user'
+              ]
+          );
+          $response->assertStatus(400);
+    }
+
+      /**
+       *
+       * @test
+       *
+       * @return void
+       */
+      //ordinary user report a comment
+    public function reportComment()
+    {
+          $loginResponse = $this->json(
+              'POST',
+              '/api/Sign_in',
+              [
+              'username' => 'Monda Talaat',
+              'password' => 'monda21'
+              ]
+          );
+          $token = $loginResponse->json('token');
+          $response = $this->json(
+              'POST',
+              '/api/report',
+              [
+              'token' => $token,
+              'name' => 't1_14',
+              'content' => 'report user'
+              ]
+          );
+          $response->assertStatus(400);
     }
 }

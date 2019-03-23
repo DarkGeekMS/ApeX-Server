@@ -27,6 +27,7 @@ class InvalidHide extends TestCase
             ]
         );
         $token = $loginResponse->json('token');
+        $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
             '/api/Hide',
@@ -56,7 +57,6 @@ class InvalidHide extends TestCase
             ]
         );
         $token = $loginResponse->json()["token"];
-
         $response = $this->json(
             'POST',
             '/api/Hide',
@@ -65,7 +65,6 @@ class InvalidHide extends TestCase
             'name' => 't3_01'
             ]
         );
-
         $response->assertStatus(404);
     }
 }

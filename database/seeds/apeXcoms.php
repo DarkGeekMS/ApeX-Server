@@ -18,6 +18,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:50'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -27,6 +28,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:51'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -36,6 +38,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:52'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -45,6 +48,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:53'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -54,6 +58,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:54'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -63,6 +68,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:55'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -72,6 +78,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:56'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -81,6 +88,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:57'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -90,6 +98,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:58'
         ]);
 
         DB::table('apex_coms')->insert([
@@ -99,6 +108,7 @@ class apeXcoms extends Seeder
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',
             'description' => 'The name says it all.',
+            'created_at' => '2019-03-23 17:20:59'
         ]);
     }
 }
