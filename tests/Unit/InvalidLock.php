@@ -35,7 +35,7 @@ class InvalidLock extends TestCase
             'name' => 't3_5'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
     /**

@@ -36,10 +36,33 @@ class CommentandLinks extends Controller
      * 1) post fullname (ID) is not found.
      * 2) NoAccessRight token is not authorized.
      *
-     * @bodyParam name string required The fullname of the comment to be submitted ( comment , reply , message).
      * @bodyParam content string required The body of the comment.
      * @bodyParam parent string required The fullname of the thing to be replied to.
      * @bodyParam token JWT required Verifying user ID.
+     *  "posts":{
+     *   "id": "t1_15"
+     *  }
+     *  "messages":{
+     *   "id": "t4_14"
+     *  }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  404{
+     * "error" : "comment not exists"
+     * }
+     * @response  404{
+     * "error" : "message not exists"
+     * }
+     * @response  400{
+     * "token_error":"invalid Action"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      */
 
     public function add(Request $request)
@@ -109,7 +132,8 @@ class CommentandLinks extends Controller
 
     /**
      * delete
-     * to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.
+     * to delete a post or comment or reply from any ApexCom by the owner of the thing,
+     * the moderator of this ApexCom or any admin.
      * Success Cases :
      * 1) return true to ensure that the post, comment or reply is deleted successfully.
      * failure Cases:
@@ -119,80 +143,111 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the post,comment or reply to be deleted.
      * @bodyParam token JWT required Verifying user ID.
+     *  "posts":{
+     *   "deleted": "true"
+     *  }
+     *  "comments":{
+     *   "deleted": "true"
+     *  }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  404{
+     * "error" : "comment not exists"
+     * }
+     * @response  400{
+     * "token_error":"invalid user"
+     * }
+     * @response  400{
+     * "token_error":"invalid action"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      */
 
     public function delete(Request $request)
     {
-
+        //get the logged in user id
         $account=new Account ;
         $userID = $account->me($request);
+        //check the user exists
         if (!array_key_exists('user', $userID->getData())) {
                 //there is token_error or user_not found_error
                 return $userID;
         }
         $userID = $account->me($request)->getData()->user->id;
+        //get user data by id
         $user = User::find($userID);
 
         $name = $request['name'];
-
+        //check the thing to be deleted is post or comment
         if ($name[1]==3) {                           //post
+          //get the post
             $post = post::find($name);
-
+            //if post not exists return error message
             if (!$post) {
                 return response()->json(['error' => 'post not exists'], 404);
             }
-
+            //if the user was admin delete the post and return true
             if ($user['type'] ==3) {
                 $post->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
-
+            //if theuser was the post owenr delete the post and return true
             if ($user['id'] == $post['posted_by']) {
                 $post->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
-
+            //check if the user was moderator in the apeXcom holds this post
             $moderator = DB::table('moderators')->where('userID', $user['id'])
             ->where('apexID', $post['apex_id'])->get();
-
+            //if he was moderator delete the post and return true
             if (count($moderator)) {
                 $post->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
-
-            return response()->json(['error' => 'invalid user'], 404);
-        } elseif ($name[1]==1) {                     //comment
+            //if not admin,moderator or post owner return error message invalid action
+            return response()->json(['error' => 'invalid user'], 400);
+        } elseif ($name[1]==1) {                     //if comment
+          //get the comment to be deleted
             $comment = comment::find($name);
-
+            //check the validity of this comment if not exists return error message
             if (!$comment) {
                 return response()->json(['error' => 'comment not exists'], 404);
             }
+            //the user was admin delete the comment and return true
             if ($user['type'] ==3) {
                 $comment->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
-
+            //if the user was the owner of the comment delete it and return true
             if ($user['id'] == $comment['commented_by']) {
                 $comment->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
-
+            //get the post has this comment to check if the user was this post owner
             $post = post::find($comment['root']);
-
+            //if so delete the comment and return true (post owner can delete any comment on his post)
             if ($user['id'] == $post['posted_by']) {
                 $comment->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
+            //check if the user was moderator in the apeXcom holds this comment
             $moderator = DB::table('moderators')->where('userID', $user['id'])
             ->where('apexID', $post['apex_id'])->get();
-
+            //if so delete the comment and return true
             if (count($moderator)) {
                 $post->delete();
-                return response()->json([true], 200);
+                return response()->json(['deleted' => true], 200);
             }
-
-            return response()->json(['error' => 'invalid user'], 404);
+            //if not return error message
+            return response()->json(['error' => 'invalid user'], 400);
         }
+        //if the thing to be deleted wasn't post or comment return error message
         return response()->json(['error' => 'invalid Action'], 400);
     }
 
@@ -224,8 +279,10 @@ class CommentandLinks extends Controller
     /**
      * lock
      * to lock or unlock a post so it can't recieve new comments.
+     * check the user id the post owner or admin in the ApexCom or moderator in the ApexCom holds the post
+     * to be able to lock this post otherwise error message Not Allowed will return.
      * Success Cases :
-     * 1) return true to ensure that the post was locked.
+     * 1) return true to ensure that the post was locked/unlock.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
@@ -233,6 +290,21 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the post to be locked.
      * @bodyParam token JWT required Verifying user ID.
+     *  "posts":{
+     *   "locked": "true"
+     *  }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  400{
+     * "token_error":"Not allowed"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      */
 
     public function lock(Request $request)
@@ -259,14 +331,14 @@ class CommentandLinks extends Controller
             $post->locked = !($post->locked);            //toggle the post lock state
             $post->save();
         //return true to ensure that the post locked/unlocked successfully
-            return response()->json([true], 200);
+            return response()->json(['locked' => true], 200);
         }
         // any user can lock/unlock his own posts
         if ($user['id'] == $post['posted_by']) {
             $post->locked = !($post->locked);
             $post->save();
         //return true to ensure that the post locked/unlocked successfully
-            return response()->json([true], 200);
+            return response()->json(['locked' => true], 200);
         }
         //check if moderator in the ApexCom where this post exists
         $moderator = DB::table('moderators')->where('userID', $user['id'])->where('apexID', $post['apex_id'])->get();
@@ -274,10 +346,10 @@ class CommentandLinks extends Controller
         if (count($moderator)) {
             $post->locked = !($post->locked);
             $post->save();
-            return response()->json([true], 200);
+            return response()->json(['locked' => true], 200);
         }
         //if not admin, Apex moderator or post owner action is not allowed.
-        return response()->json(['error' => 'Not allowed'], 404);
+        return response()->json(['error' => 'Not allowed'], 400);
     }
 
 
@@ -286,6 +358,7 @@ class CommentandLinks extends Controller
     /**
      * hide
      * to hide or UnHide a post from the user view.
+     * check valid user and post and if the post was hidden it removes it from hiddens and vice versa.
      * Success Cases :
      * 1) return true to ensure that the post hidden.
      * failure Cases:
@@ -294,6 +367,18 @@ class CommentandLinks extends Controller
      *
      * @bodyParam name string required The fullname of the post to be hidden.
      * @bodyParam token JWT required Verifying user ID.
+     *  "posts":{
+     *   "hidden": "true"
+     *  }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      */
 
     public function hide(Request $request)
@@ -323,12 +408,12 @@ class CommentandLinks extends Controller
             'userID' => $user['id']
             ]);
             //return true to ensure that the post hidden successfully
-            return response()->json([true], 200);
+            return response()->json(['hidden' => true], 200);
         }
         // if post already hidden remove the relation record so post un-hidden.
         DB::table('hiddens')->where('userID', $user['id'])->where('postID', $post['id'])->delete();
         //return true to ensure that the post un-hidden successfully
-        return response()->json([true], 200);
+        return response()->json(['hidden' => true], 200);
     }
 
 
@@ -370,6 +455,27 @@ class CommentandLinks extends Controller
      * @bodyParam Reason int The index represent the reason for the report from an associative array.
      * (will be in frontend and backend as well).
      * @bodyParam token JWT required Verifying user ID.
+     *  "posts":{
+     *   "reported": "true"
+     *  }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  404{
+     * "error" : "report content not found"
+     * }
+     * @response  404{
+     * "error" : "comment_not_found"
+     * }
+     * @response  400{
+     * "error" : "invalid Action"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      */
 
     public function report(Request $request)
@@ -388,10 +494,10 @@ class CommentandLinks extends Controller
 
         //admin can't report any post or comment (he can take any action againest the post)
         if ($user['type'] ==3) {
-            return response()->json(['error' => 'invalid Action'], 404);
+            return response()->json(['error' => 'invalid Action'], 400);
         }
         if (!$request['content']) {
-            return response()->json(['error' => 'Comment content not found'], 404);
+            return response()->json(['error' => 'report content not found'], 404);
         }
         //check reporting post or comment (post id start with t3_ , comment id start with t1_)
         $name = $request['name'];
@@ -401,18 +507,18 @@ class CommentandLinks extends Controller
             $post = post::find($name);
             //check valid post
             if (!$post) {
-                return response()->json(['error' => 'invalid Action'], 404);
+                return response()->json(['error' => 'post_not_exists'], 404);
             }
             //one can't report any post written by him.
             if ($user['id'] == $post['posted_by']) {
-                 return response()->json(['error' => 'invalid Action'], 404);
+                 return response()->json(['error' => 'invalid Action'], 400);
             }
             //moderators of any ApexComs can't report posts in the apexCom they are moderators in.
             $moderator = DB::table('moderators')->where('userID', $user['id'])
             ->where('apexID', $post['apex_id'])->get();
             //if the user was moderator in the ApexCom include the reported post return.
             if (count($moderator)) {
-                return response()->json(['error' => 'invalid Action'], 404);
+                return response()->json(['error' => 'invalid Action'], 400);
             }
             //one can report any post only once, so check if the report exists.
             $report = DB::table('report_posts')->where('userID', $user['id'])->where('postID', $post['id'])->get();
@@ -424,9 +530,9 @@ class CommentandLinks extends Controller
                 'content' => $request['content']
                 ]);
                 //return true to ensure that the report done successfully
-                return response()->json([true], 200);
+                return response()->json(['reported' => true], 200);
             } else {
-                return response()->json(['error' => 'You already report this post'], 404);
+                return response()->json(['error' => 'You already report this post'], 400);
             }
         //if the report request from comment
         } elseif ($name[1] ==1) {           //comment
@@ -439,20 +545,20 @@ class CommentandLinks extends Controller
             }
             //one can't report his own comments.
             if ($user['id'] == $comment['commented_by']) {
-                 return response()->json(['error' => 'invalid Action'], 404);
+                 return response()->json(['error' => 'invalid Action'], 400);
             }
             //get the post that has this comment
             $post = post::find($comment['root']);
             //one can't report any comment on his post (as he can delete it)
             if ($user['id'] == $post['posted_by']) {
-                 return response()->json(['error' => 'invalid Action'], 404);
+                 return response()->json(['error' => 'invalid Action'], 400);
             }
             //moderators of any ApexComs can't report comment in the apexCom they are moderators in.
             $moderator = DB::table('moderators')->where('userID', $user['id'])
             ->where('apexID', $post['apex_id'])->get();
             //if the user was moderator in the ApexCom include the reported comment return.
             if (count($moderator)) {
-                return response()->json(['error' => 'invalid Action'], 404);
+                return response()->json(['error' => 'invalid Action'], 400);
             }
             //one can report any comment only once, so check if the report exists.
             $report = DB::table('report_comments')->where('userID', $user['id'])->where('comID', $comment['id'])->get();
@@ -464,13 +570,13 @@ class CommentandLinks extends Controller
                 'content' => $request['content']
                 ]);
                 //return true to ensure that the report done successfully
-                return response()->json([true], 200);
+                return response()->json(['reported' => true], 200);
             } else {
-                return response()->json(['error' => 'You already report this comment'], 404);
+                return response()->json(['error' => 'You already report this comment'], 400);
             }
         }
         //only posts and comments ( including replies to comments) can be reported.
-        return response()->json(['error' => 'invalid Action'], 404);
+        return response()->json(['error' => 'invalid Action'], 400);
     }
 
 
@@ -488,92 +594,128 @@ class CommentandLinks extends Controller
      * @bodyParam name string required The fullname of the post,comment or reply to vote on.
      * @bodyParam direction int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
      * @bodyParam ID JWT required Verifying user ID.
+     *  "posts":{
+     *   "votes": "No. of votes"
+     *  }
+     *  "comments":{
+     *   "votes": "No. of votes"
+     *  }
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  400{
+     * "error":"Invalid Action"
+     * }
+     * @response  400{
+     * "token_error":"The token has been blacklisted"
+     * }
      */
 
     public function vote(Request $request)
     {
-
+        //get the logged in user
         $account=new Account ;
         $userID = $account->me($request);
         if (!array_key_exists('user', $userID->getData())) {
                 //there is token_error or user_not found_error
                 return $userID;
         }
+        //get the id of the user to get the user data
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
-        $name = $request['name'];
 
+        //check if the vote direction is invalid
+        if ($request['dir'] != 1 || $request['dir'] != -1) {
+           //return invalid action if the vote direction is not 1 (up-vote) or -1 (down vote)
+            return response()->json(['error' => 'Invalid Action'], 400);
+        }
+        //check the id of the voted thing ( post or comment )
+        $name = $request['name'];
+        //if post
         if ($name[1]==3) {
+           //get this post
             $post = post::find($name);
             if (!$post) {
+              //return error message if the post not found
                 return response()->json(['error' => 'post_not_found'], 404);
             }
-
+            //check if the user voted on this post before or not
             $exists = DB::table('votes')->where('postID', $name)
              ->where('userID', $user['id'])->get();
 
+             //if not we create this record
             if (!count($exists)) {
                 vote::create([
                   'postID' => $request['name'] ,
                   'userID' => $user['id'],
                   'dir' => $request['dir']
                 ]);
-
+                //get the total count of votes on this post and return it
                 $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json([$NoVotes], 200);
+                return response()->json(['votes' => $NoVotes], 200);
             }
-
+            //if the user voted in this post before, get the previous vote direction
             $dir = DB::table('votes')->where('postID', $request['name'])
              ->where('userID', $user['id'])->value('dir');
-
+             //if the user votes in the same direction ( cancel the vote)
             if ($dir == $request['dir']) {
+              //delete the record of this vote and return the total number of votes in this post
                 DB::table('votes')->where('userID', $user['id'])->where('postID', $request['name'])->delete();
                 $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json([$NoVotes], 200);
+                return response()->json(['votes' => $NoVotes], 200);
             } else {
+              //if not we update the vote by its new value and return the total number of votes on this post
                 DB::table('votes')->where('userID', $user['id'])
                 ->where('postID', $request['name'])->update(['dir' => $request['dir']]);
 
                 $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json([$NoVotes], 200);
+                return response()->json(['votes' => $NoVotes], 200);
             }
+            //if comment
         } elseif ($name[1]==1) {
+          //get this comment
             $comment = comment::find($name);
-
+            //check if this comment exists otherwise return error message comment not exists
             if (!$comment) {
                 return response()->json(['error' => 'comment not exists'], 404);
             }
-
+            //check if the user voted on this comment before or not
             $exists = DB::table('comment_votes')->where('comID', $request['name'])
              ->where('userID', $user['id'])->get();
-
+             //if not we create this record
             if (!count($exists)) {
                 commentVote::create([
                     'comID' => $request['name'] ,
                     'userID' => $user['id'],
                     'dir' => $request['dir']
                 ]);
-
+                //get the total count of votes on this post and return it
                 $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json([$NoVotes], 200);
+                return response()->json(['votes' => $NoVotes], 200);
             }
+            //if the user voted in this post before, get the previous vote direction
             $dir = DB::table('comment_votes')->where('comID', $request['name'])
              ->where('userID', $user['id'])->value('dir');
-
+             //if the user votes in the same direction ( cancel the vote)
             if ($dir == $request['dir']) {
+              //delete the record of this vote and return the total number of votes in this post
                 DB::table('comment_votes')->where('userID', $user['id'])->where('comID', $request['name'])->delete();
-                //$exists->delete();
                 $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json([$NoVotes], 200);
+                return response()->json(['votes' => $NoVotes], 200);
             } else {
+              //if not we update the vote by its new value and return the total number of votes on this post
                 DB::table('comment_votes')->where('userID', $user['id'])
                 ->where('comID', $request['name'])->update(['dir' => $request['dir']]);
 
                 $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json([$NoVotes], 200);
+                return response()->json(['votes' => $NoVotes], 200);
             }
         }
-        return response()->json(['error' => 'invalid Action'], 404);
+        //if the name sent was not for post or comment return error message
+        return response()->json(['error' => 'Invalid Action'], 400);
     }
 
 
@@ -596,6 +738,10 @@ class CommentandLinks extends Controller
     {
         $account=new Account ;
         $user=$account->me($request);
+        if (!array_key_exists('user', $user->getData())) {
+                //there is token_error or user_not found_error
+                return $user;
+        }
         $user=$user->getData()->user;
         $id= $user->id;
 
@@ -607,35 +753,35 @@ class CommentandLinks extends Controller
         $post=DB::table('posts')->where('id', '=', $postid)->get();
 
         if (count($comment)) {                                            //to check that the comment exists
-            $commentsaved=DB::table('savecomments')->where([                   //to check if the comment is saved
+            $commentsaved=DB::table('save_comments')->where([                   //to check if the comment is saved
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->get();
 
             if (count($commentsaved)) {
-                DB::table('savecomments')->where([
+                DB::table('save_comments')->where([
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->delete();
             } else {
-                DB::table('savecomments')-> insert(['comID' => $commentid, 'userID' =>$id]);
+                DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
             }
         } elseif (count($post)) {                                                      //to check that the post exists
-            $postsaved=DB::table('saveposts')->where([                                  //to check if the post is saved
+            $postsaved=DB::table('save_posts')->where([                                  //to check if the post is saved
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->get();
 
             if (count($postsaved)) {
-                DB::table('saveposts')->where([
+                DB::table('save_posts')->where([
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->delete();
             } else {
-                DB::table('saveposts')->insert(['postID' => $postid, 'userID' =>$id]);
+                DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
             }
         } else {
-            return response()->json(['error' => 'post or comment doesnot exist'], 500);
+            return response()->json(['error' => 'post or comment doesnot exist'], 404);
         }
         return response()->json(['value'=>true], 200);
     }

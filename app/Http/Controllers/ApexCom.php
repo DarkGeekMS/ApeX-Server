@@ -41,12 +41,15 @@ class ApexCom extends Controller
         $account = new Account();
 
         // getting the user_id related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
         $user_id = $account->me($request)->getData()->user->id;
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return a message error if not existing
+        if (!$exists) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
 
         $apex_id = $request['ApexCom_ID'];
 
@@ -144,12 +147,15 @@ class ApexCom extends Controller
         $account = new Account();
 
         // getting the user_id related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
         $user_id = $account->me($request)->getData()->user->id;
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return a message error if not existing
+        if (!$exists) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
 
         $apex_id = $request['ApexCom_ID'];
 
@@ -219,13 +225,17 @@ class ApexCom extends Controller
         $account = new Account();
 
         // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
         $User = $account->me($request)->getData()->user;
+
         $user_id = $User->id;
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return a message error if not existing
+        if (!$exists) {
+            return response()->json(['error' => 'invalid user'], 404);
+        }
 
         // checking the type of the user if not an admin no access rights
         $user_type = $User->type;
