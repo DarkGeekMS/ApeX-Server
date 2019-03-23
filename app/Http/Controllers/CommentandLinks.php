@@ -755,11 +755,20 @@ class CommentandLinks extends Controller
         $account=new Account ;
         $user=$account->me($request);
         if (!array_key_exists('user', $user->getData())) {
-                //there is token_error or user_not found_error
-                return $user;
+
+            //there is token_error or user_not found_error
+            return $user;
         }
+
         $user=$user->getData()->user;
         $id= $user->id;
+        $validator = validator(
+            $request->all(),
+            ['ID' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return  response()->json($validator->errors(), 400);
+        }
 
         $commentid=$request['ID'];
         $comment=DB::table('comments')->where('id', '=', $commentid)->get();
