@@ -45,6 +45,96 @@ class Users extends Seeder
             'password' => '$2y$10$IYrxpk0//MRpX8lx.bhklu6.tn8FT3lqSF.LwVp5dco.UeUdfzlVS',
             'type' => 3
         ]);
-        factory(App\User::class, 10)->create();
+
+        DB::table('users')->insert([
+            'id' => 't2_5',
+            'fullname' => 'Mohamed Shawky',
+            'email' => 'DarkGeek@gmail.com',
+            'username' => 'shawky',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_6',
+            'fullname' => 'Mohamed Ahmed',
+            'email' => 'double@gmail.com',
+            'username' => 'double',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
+            'type' => 3
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_7',
+            'fullname' => 'mohamed ramzy',
+            'email' => 'ramzy21@gmail.com',
+            'username' => 'ramzy',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
+            'type' => 2
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_8',
+            'fullname' => 'mazen amr',
+            'email' => 'mazen21@gmail.com',
+            'username' => 'mazen',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_9',
+            'fullname' => 'mostafa elshaaer',
+            'email' => 'mostafa21@gmail.com',
+            'username' => 'mostafa',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_10',
+            'fullname' => 'kareem osama',
+            'email' => 'kareem21@gmail.com',
+            'username' => 'kareem',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_11',
+            'fullname' => 'habiba Ali',
+            'email' => 'habiba21@gmail.com',
+            'username' => 'habiba',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
+            'type' => 2
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_12',
+            'fullname' => 'dina mamdoh',
+            'email' => 'dina21@gmail.com',
+            'username' => 'dina',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_13',
+            'fullname' => 'ahmed waleed',
+            'email' => 'ahmed21@gmail.com',
+            'username' => 'waleed',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_14',
+            'fullname' => 'mohamed kheir',
+            'email' => 'mohamed@gmail.com',
+            'username' => 'shaheen',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 't2_15',
+            'fullname' => 'menna mostafa',
+            'email' => 'menna21@gmail.com',
+            'username' => 'menna',
+            'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
+        ]);
     }
 }

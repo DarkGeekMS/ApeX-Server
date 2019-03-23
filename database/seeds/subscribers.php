@@ -11,6 +11,29 @@ class subscribers extends Seeder
      */
     public function run()
     {
-        factory(App\subscriber::class, 10)->create();
+        DB::table('subscribers')->insert([
+          'apexID' => 't5_10',
+          'userID' => 't2_7'
+        ]);
+
+        DB::table('subscribers')->insert([
+          'apexID' => 't5_10',
+          'userID' => 't2_2'
+        ]);
+
+        DB::table('subscribers')->insert([
+          'apexID' => 't5_8',
+          'userID' => 't2_2'
+        ]);
+
+        DB::table('subscribers')->insert([
+          'apexID' => 't5_5',
+          'userID' => 't2_7'
+        ]);
+
+        DB::table('subscribers')->insert([
+          'apexID' => 't5_4',
+          'userID' => 't2_10'
+        ]);
     }
 }
