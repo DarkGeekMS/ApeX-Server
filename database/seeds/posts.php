@@ -53,6 +53,74 @@ class posts extends Seeder
             'title' => 'Anything'
         ]);
 
-        factory(App\post::class, 10)->create();
+        DB::table('posts')->insert([
+            'id' => 't3_7',
+            'posted_by' => 't2_10',
+            'apex_id' => 't5_3',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_8',
+            'posted_by' => 't2_12',
+            'apex_id' => 't5_3',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_9',
+            'posted_by' => 't2_7',
+            'apex_id' => 't5_4',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_10',
+            'posted_by' => 't2_8',
+            'apex_id' => 't5_4',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_11',
+            'posted_by' => 't2_8',
+            'apex_id' => 't5_3',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_12',
+            'posted_by' => 't2_9',
+            'apex_id' => 't5_5',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_13',
+            'posted_by' => 't2_12',
+            'apex_id' => 't5_6',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_14',
+            'posted_by' => 't2_15',
+            'apex_id' => 't5_7',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_15',
+            'posted_by' => 't2_13',
+            'apex_id' => 't5_8',
+            'title' => 'Anything'
+        ]);
+
+        DB::table('posts')->insert([
+            'id' => 't3_16',
+            'posted_by' => 't2_6',
+            'apex_id' => 't5_9',
+            'title' => 'Anything'
+        ]);
     }
 }
