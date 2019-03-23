@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class search extends TestCase
 {
+    use WithFaker;
+
     /**
      * Test Search request with valid query.
      *
@@ -25,6 +27,42 @@ class search extends TestCase
             ]
         );
         $response->assertStatus(200);
+    }
+
+    /**
+     * Tests userSearch
+     * 
+     * @test
+     *
+     * @return void
+     */
+    public function userSearch()
+    {
+        $username = $this->faker->unique()->userName;
+        $email = $this->faker->unique()->safeEmail;
+        $password = $this->faker->password;
+
+        $signUpResponse = $this->json(
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
+        );
+        $signUpResponse->assertStatus(200);
+
+        $token = $signUpResponse->json('token');
+        $userID = $signUpResponse->json('user')['id'];
+
+        $response = $this->json(
+            'POST',
+            'api/search',
+            [
+            'query' => 'lorem',
+            'token' => $token
+            ]
+        );
+        $response->assertStatus(200);
+        
+        \App\User::where('id', $userID)->delete();
     }
 
     /**

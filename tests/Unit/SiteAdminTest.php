@@ -14,7 +14,7 @@ class SiteAdminTest extends TestCase
 
     use WithFaker;
     /**
-     * Test with a normal user that can not edit or create an apexcom.
+     * Test with a normal user that can not edit or create an apexcom or without sending a token.
      * 
      * @test
      *
@@ -22,6 +22,15 @@ class SiteAdminTest extends TestCase
      */
     public function noAccessRightsforNormalUsers()
     {
+        
+        // hit the route with out token
+        $response = $this->json(
+            'POST', '/api/site_admin', [
+            ]
+        );
+        // a token error will apear.
+        $response->assertStatus(400);
+        
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
@@ -37,7 +46,6 @@ class SiteAdminTest extends TestCase
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
         $this->assertDatabaseHas('users', compact('id'));
-
 
         // hit the route with a normal user
         $name = 'sports'; 

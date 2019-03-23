@@ -17,7 +17,7 @@ class AboutTest extends TestCase
 
     use WithFaker;
     /**
-     * Test with an Apexcom not found.
+     * Test with an Apexcom not found, or with out a token.
      * 
      * @test
      *
@@ -25,6 +25,14 @@ class AboutTest extends TestCase
      */
     public function apexComNotFound()
     {
+        // hit the route with out token
+        $response = $this->json(
+            'GET', '/api/about', [
+            ]
+        );
+        // a token error will apear.
+        $response->assertStatus(400);
+        
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
@@ -40,6 +48,8 @@ class AboutTest extends TestCase
         $this->assertDatabaseHas('users', compact('id'));
 
         $token = $signUp->json('token');
+        
+
         // hit the route with an invalid id of an apexcom to get its about info
         $response = $this->json(
             'GET', '/api/about', [

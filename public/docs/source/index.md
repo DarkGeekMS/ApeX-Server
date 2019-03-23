@@ -11,6 +11,7 @@ search: true
 
 toc_footers:
 - <a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a>
+
 ---
 <!-- START_INFO -->
 # Info
@@ -39,7 +40,7 @@ failure Cases:
 curl -X POST "http://localhost/api/sign_up" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"5Ju9y4QEKg3LlaHe","username":"Fip4mCpXeX93yCXI","password":"lPz8HUlOtf9P356K"}'
+    -d '{"email":"4DHZoIuAT8zTitDw","username":"t3ZSntQzRofQFbG5","password":"6m81SjuGEq5SfNxc"}'
 
 ```
 
@@ -53,9 +54,9 @@ let headers = {
 }
 
 let body = {
-    "email": "5Ju9y4QEKg3LlaHe",
-    "username": "Fip4mCpXeX93yCXI",
-    "password": "lPz8HUlOtf9P356K"
+    "email": "4DHZoIuAT8zTitDw",
+    "username": "t3ZSntQzRofQFbG5",
+    "password": "6m81SjuGEq5SfNxc"
 }
 
 fetch(url, {
@@ -126,6 +127,7 @@ Parameter | Type | Status | Description
 
 <!-- END_311b0f388598aca8ed7f8fdf74916333 -->
 
+
 <!-- START_67f683fe8a80401986f3d12a170787b0 -->
 ## login
 Validates user&#039;s credentials and logs him in.
@@ -142,7 +144,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Sign_in" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"HOSQHD2QBGkashSg","password":"iE1FRSo6Ts0z9Gku"}'
+    -d '{"username":"gW7ORwmUUrDFJU2r","password":"koxkVJQqubYLkEhv"}'
 
 ```
 
@@ -156,8 +158,8 @@ let headers = {
 }
 
 let body = {
-    "username": "HOSQHD2QBGkashSg",
-    "password": "iE1FRSo6Ts0z9Gku"
+    "username": "gW7ORwmUUrDFJU2r",
+    "password": "koxkVJQqubYLkEhv"
 }
 
 fetch(url, {
@@ -203,6 +205,7 @@ Parameter | Type | Status | Description
 
 <!-- END_67f683fe8a80401986f3d12a170787b0 -->
 
+
 <!-- START_9c2b68d84a5e58731426b62d8716d169 -->
 ## mailVerify
 Send a verification email to the user with a code in case of forgetting password.
@@ -218,7 +221,7 @@ failure Cases:
 curl -X POST "http://localhost/api/mail_verify" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"jy42VbJKyOa0zCH3"}'
+    -d '{"username":"5wgkR0NrdalOL228"}'
 
 ```
 
@@ -232,7 +235,7 @@ let headers = {
 }
 
 let body = {
-    "username": "jy42VbJKyOa0zCH3"
+    "username": "5wgkR0NrdalOL228"
 }
 
 fetch(url, {
@@ -256,6 +259,7 @@ Parameter | Type | Status | Description
 
 <!-- END_9c2b68d84a5e58731426b62d8716d169 -->
 
+
 <!-- START_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 ## checkCode
 Check whether the user entered the correct reset code sent to his email.
@@ -271,7 +275,7 @@ failure Cases:
 curl -X POST "http://localhost/api/check_code" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":20}'
+    -d '{"code":8}'
 
 ```
 
@@ -285,7 +289,7 @@ let headers = {
 }
 
 let body = {
-    "code": 20
+    "code": 8
 }
 
 fetch(url, {
@@ -309,6 +313,7 @@ Parameter | Type | Status | Description
 
 <!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 
+
 <!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
 ## Logout
 Logs out a user.
@@ -324,7 +329,7 @@ failure Cases:
 curl -X POST "http://localhost/api/sign_out" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"1rfvbiqaLVGaerqw"}'
+    -d '{"token":"sAMmNEAGRisHOPm1"}'
 
 ```
 
@@ -338,7 +343,7 @@ let headers = {
 }
 
 let body = {
-    "token": "1rfvbiqaLVGaerqw"
+    "token": "sAMmNEAGRisHOPm1"
 }
 
 fetch(url, {
@@ -376,6 +381,7 @@ Parameter | Type | Status | Description
 
 <!-- END_61c037b1e23dc1e0f83fb62a8024cf9d -->
 
+
 <!-- START_17ab3166922a15e0dcef5180e5c57447 -->
 ## deleteMsg
 Delete private messages from the recipient&#039;s view of their inbox.
@@ -392,7 +398,7 @@ failure Cases:
 curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"FeVM4MGf2c8Jumi2","token":"DTZAk65xB3osnMpG"}'
+    -d '{"id":"gE7xS2PIcpGzIzbB","token":"V0oOefz2e1XSoLMA"}'
 
 ```
 
@@ -406,8 +412,8 @@ let headers = {
 }
 
 let body = {
-    "id": "FeVM4MGf2c8Jumi2",
-    "token": "DTZAk65xB3osnMpG"
+    "id": "gE7xS2PIcpGzIzbB",
+    "token": "V0oOefz2e1XSoLMA"
 }
 
 fetch(url, {
@@ -432,6 +438,7 @@ Parameter | Type | Status | Description
 
 <!-- END_17ab3166922a15e0dcef5180e5c57447 -->
 
+
 <!-- START_293bfba07d359f07b62946a6702243f5 -->
 ## readMsg
 Read a sent message.
@@ -449,7 +456,7 @@ failure Cases:
 curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"iSUR6U4HjhfgEzSm","token":"bLSL7KCtbo2EslIQ"}'
+    -d '{"ID":"Qgs2ZRSEdJAqyNlc","token":"csDE8jsd1SYmWht1"}'
 
 ```
 
@@ -463,8 +470,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "iSUR6U4HjhfgEzSm",
-    "token": "bLSL7KCtbo2EslIQ"
+    "ID": "Qgs2ZRSEdJAqyNlc",
+    "token": "csDE8jsd1SYmWht1"
 }
 
 fetch(url, {
@@ -489,6 +496,7 @@ Parameter | Type | Status | Description
 
 <!-- END_293bfba07d359f07b62946a6702243f5 -->
 
+
 <!-- START_d131f717df7db546af1657d1e7ce10f6 -->
 ## Me
 Returns the identity of the user logged in.
@@ -504,7 +512,7 @@ failure Cases:
 curl -X POST "http://localhost/api/me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"sMClXysJHkg8rkbu"}'
+    -d '{"token":"3mOpSMNG1H5KyFP0"}'
 
 ```
 
@@ -518,7 +526,7 @@ let headers = {
 }
 
 let body = {
-    "token": "sMClXysJHkg8rkbu"
+    "token": "3mOpSMNG1H5KyFP0"
 }
 
 fetch(url, {
@@ -574,6 +582,7 @@ Parameter | Type | Status | Description
 
 <!-- END_d131f717df7db546af1657d1e7ce10f6 -->
 
+
 <!-- START_7d778b4cd1f31a8abdc1f7156cf2439a -->
 ## updates
 Updates the preferences of the user.
@@ -591,7 +600,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"RGuD7U3VplBt7mUA","change_password":"g6Hj3UQ7NE18kVWL","deactivate_account":"D27KrbNA4CO6jdKO","media_autoplay":false,"pm_notifications":false,"replies_notifications":true,"token":"pdabW8uJ6sBPM7UG"}'
+    -d '{"change_email":"IE8AE4DT4AXsBtKK","change_password":"56Ry58heqciWv9Jh","deactivate_account":"ZgHfi7XybX1T3Ugb","media_autoplay":false,"pm_notifications":false,"replies_notifications":true,"token":"owMn41PuQA2DJ9Gf"}'
 
 ```
 
@@ -605,13 +614,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "RGuD7U3VplBt7mUA",
-    "change_password": "g6Hj3UQ7NE18kVWL",
-    "deactivate_account": "D27KrbNA4CO6jdKO",
+    "change_email": "IE8AE4DT4AXsBtKK",
+    "change_password": "56Ry58heqciWv9Jh",
+    "deactivate_account": "ZgHfi7XybX1T3Ugb",
     "media_autoplay": false,
     "pm_notifications": false,
     "replies_notifications": true,
-    "token": "pdabW8uJ6sBPM7UG"
+    "token": "owMn41PuQA2DJ9Gf"
 }
 
 fetch(url, {
@@ -641,6 +650,7 @@ Parameter | Type | Status | Description
 
 <!-- END_7d778b4cd1f31a8abdc1f7156cf2439a -->
 
+
 <!-- START_7d73dd7c706d7ec669a1276ac0d40162 -->
 ## prefs
 Returns the preferences of the user.
@@ -656,7 +666,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"NaoReSLd6H5fbM4u"}'
+    -d '{"token":"EIsBuuinZrQePHNu"}'
 
 ```
 
@@ -670,7 +680,7 @@ let headers = {
 }
 
 let body = {
-    "token": "NaoReSLd6H5fbM4u"
+    "token": "EIsBuuinZrQePHNu"
 }
 
 fetch(url, {
@@ -699,6 +709,7 @@ Parameter | Type | Status | Description
 
 <!-- END_7d73dd7c706d7ec669a1276ac0d40162 -->
 
+
 <!-- START_4f5bd90551adf77b8dfc04a29b6a85ea -->
 ## profileInfo
 Displaying the profile info of the user.
@@ -715,7 +726,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"4TinbL94QVn1eUXj"}'
+    -d '{"token":"1J1nvGtAM9cGNgnY"}'
 
 ```
 
@@ -729,7 +740,7 @@ let headers = {
 }
 
 let body = {
-    "token": "4TinbL94QVn1eUXj"
+    "token": "1J1nvGtAM9cGNgnY"
 }
 
 fetch(url, {
@@ -758,6 +769,7 @@ Parameter | Type | Status | Description
 
 <!-- END_4f5bd90551adf77b8dfc04a29b6a85ea -->
 
+
 <!-- START_5f6a60fdc5acad163e3c29c7bbc137ed -->
 ## karma
 Returns the karma of the user.
@@ -773,7 +785,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"hF4FTejNgZzsBDWU"}'
+    -d '{"token":"NfNXBYbPlgnsRwlU"}'
 
 ```
 
@@ -787,7 +799,7 @@ let headers = {
 }
 
 let body = {
-    "token": "hF4FTejNgZzsBDWU"
+    "token": "NfNXBYbPlgnsRwlU"
 }
 
 fetch(url, {
@@ -816,6 +828,7 @@ Parameter | Type | Status | Description
 
 <!-- END_5f6a60fdc5acad163e3c29c7bbc137ed -->
 
+
 <!-- START_c61e9c2b3fdeea56ee207c8db3d88546 -->
 ## messages
 Returns the inbox messages of the user.
@@ -831,7 +844,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":20,"token":"NJ1VVBwtuDastja5"}'
+    -d '{"max":4,"token":"J5IB5uyGzevPOPwh"}'
 
 ```
 
@@ -845,8 +858,8 @@ let headers = {
 }
 
 let body = {
-    "max": 20,
-    "token": "NJ1VVBwtuDastja5"
+    "max": 4,
+    "token": "J5IB5uyGzevPOPwh"
 }
 
 fetch(url, {
@@ -876,10 +889,11 @@ Parameter | Type | Status | Description
 
 <!-- END_c61e9c2b3fdeea56ee207c8db3d88546 -->
 
+
 #Adminstration
 
 To manage the controls of admins and moderators
-<!-- START_be6a8ecb81dc276f7253051c44df54d6 -->
+<!-- START_3fcde72848e7849d8989cf01b3685b96 -->
 ## deleteApexCom
 Deleting the ApexCom by the admin.
 
@@ -892,10 +906,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/api/del_ac" \
+curl -X DELETE "http://localhost/api/del_ac" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"YXnufTmpt7cC9Cqo","token":"rKPQ7PjhMrnMqK7T"}'
+    -d '{"Apex_ID":"VslH9R9jBDH3osbv","token":"tmRcm05XHQiiSt72"}'
 
 ```
 
@@ -909,12 +923,12 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "YXnufTmpt7cC9Cqo",
-    "token": "rKPQ7PjhMrnMqK7T"
+    "Apex_ID": "VslH9R9jBDH3osbv",
+    "token": "tmRcm05XHQiiSt72"
 }
 
 fetch(url, {
-    method: "POST",
+    method: "DELETE",
     headers: headers,
     body: body
 })
@@ -924,7 +938,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST api/del_ac`
+`DELETE api/del_ac`
 
 #### Body Parameters
 
@@ -933,9 +947,10 @@ Parameter | Type | Status | Description
     Apex_ID | string |  required  | The ID of the ApexCom to be deleted.
     token | JWT |  required  | Used to verify the admin ID.
 
-<!-- END_be6a8ecb81dc276f7253051c44df54d6 -->
+<!-- END_3fcde72848e7849d8989cf01b3685b96 -->
 
-<!-- START_ae6be58ef92cf112f862b268c39aaa22 -->
+
+<!-- START_e296e67bb691dee7c255f187ef41231e -->
 ## deleteUser
 Delete a user from the application by the admin or self-delete (Account deactivation).
 
@@ -948,10 +963,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/api/del_user" \
+curl -X DELETE "http://localhost/api/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"FbdE8Gqz9lxAm38l","token":"Qr07hK8WbmZXrhFY"}'
+    -d '{"UserID":"4SnysIpzziaXhTIb","token":"QDeMbLteHqOSw5Hr"}'
 
 ```
 
@@ -965,12 +980,12 @@ let headers = {
 }
 
 let body = {
-    "UserID": "FbdE8Gqz9lxAm38l",
-    "token": "Qr07hK8WbmZXrhFY"
+    "UserID": "4SnysIpzziaXhTIb",
+    "token": "QDeMbLteHqOSw5Hr"
 }
 
 fetch(url, {
-    method: "POST",
+    method: "DELETE",
     headers: headers,
     body: body
 })
@@ -980,7 +995,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST api/del_user`
+`DELETE api/del_user`
 
 #### Body Parameters
 
@@ -989,7 +1004,8 @@ Parameter | Type | Status | Description
     UserID | string |  required  | The ID of the user to be deleted.
     token | JWT |  required  | Used to verify the admin or the same user ID.
 
-<!-- END_ae6be58ef92cf112f862b268c39aaa22 -->
+<!-- END_e296e67bb691dee7c255f187ef41231e -->
+
 
 <!-- START_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
 ## addModerator
@@ -1007,7 +1023,7 @@ failure Cases:
 curl -X POST "http://localhost/api/add_mod" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"xt0W5rgI2cd5B70C","token":"BELEtj43DssNUrhQ","UserID":"b3PONSB6GYnGJCfA"}'
+    -d '{"ApexComID":"S40UfMfn5oO2DWnb","token":"l3Cc3v0AKYCnLldc","UserID":"RB9EWW3EqOYYyKuB"}'
 
 ```
 
@@ -1021,9 +1037,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "xt0W5rgI2cd5B70C",
-    "token": "BELEtj43DssNUrhQ",
-    "UserID": "b3PONSB6GYnGJCfA"
+    "ApexComID": "S40UfMfn5oO2DWnb",
+    "token": "l3Cc3v0AKYCnLldc",
+    "UserID": "RB9EWW3EqOYYyKuB"
 }
 
 fetch(url, {
@@ -1049,6 +1065,7 @@ Parameter | Type | Status | Description
 
 <!-- END_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
 
+
 #ApexCom
 
 Controls the ApexCom info , posts and admin.
@@ -1068,7 +1085,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"OfZ7PjwNIfXO6R0H","token":"MNPpKzBciqEemnqr"}'
+    -d '{"ApexCom_id":"QekzGFojBC3jrt3Q","token":"e6Y6auCAecVnVxWl"}'
 
 ```
 
@@ -1082,8 +1099,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "OfZ7PjwNIfXO6R0H",
-    "token": "MNPpKzBciqEemnqr"
+    "ApexCom_id": "QekzGFojBC3jrt3Q",
+    "token": "e6Y6auCAecVnVxWl"
 }
 
 fetch(url, {
@@ -1101,12 +1118,12 @@ fetch(url, {
 {
     "message": "Undefined property: stdClass::$user",
     "exception": "ErrorException",
-    "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\ApexCom.php",
-    "line": 42,
+    "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\app\\Http\\Controllers\\ApexCom.php",
+    "line": 44,
     "trace": [
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\ApexCom.php",
-            "line": 42,
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\app\\Http\\Controllers\\ApexCom.php",
+            "line": 44,
             "function": "handleError",
             "class": "Illuminate\\Foundation\\Bootstrap\\HandleExceptions",
             "type": "->"
@@ -1117,313 +1134,334 @@ fetch(url, {
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
             "line": 54,
             "function": "call_user_func_array"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
             "line": 45,
             "function": "callAction",
             "class": "Illuminate\\Routing\\Controller",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
             "line": 219,
             "function": "dispatch",
             "class": "Illuminate\\Routing\\ControllerDispatcher",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
             "line": 176,
             "function": "runController",
             "class": "Illuminate\\Routing\\Route",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 680,
             "function": "run",
             "class": "Illuminate\\Routing\\Route",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 30,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
             "line": 41,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
             "line": 58,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 104,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 682,
             "function": "then",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 657,
             "function": "runRouteWithinStack",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 623,
             "function": "runRoute",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 612,
             "function": "dispatchToRoute",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
             "line": 176,
             "function": "dispatch",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 30,
             "function": "Illuminate\\Foundation\\Http\\{closure}",
             "class": "Illuminate\\Foundation\\Http\\Kernel",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php",
+            "line": 36,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Barryvdh\\Cors\\HandleCors",
+            "type": "->"
+        },
+        {
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
             "line": 57,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Fideloper\\Proxy\\TrustProxies",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
             "line": 21,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
             "line": 21,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
             "line": 27,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
             "line": 62,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 104,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
             "line": 151,
             "function": "then",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
             "line": 116,
             "function": "sendRequestThroughRouter",
             "class": "Illuminate\\Foundation\\Http\\Kernel",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
             "line": 276,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Kernel",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
             "line": 260,
             "function": "callLaravelRoute",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
             "line": 36,
             "function": "makeApiCall",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
             "line": 49,
             "function": "__invoke",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
             "line": 68,
             "function": "resolve",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
             "line": 57,
             "function": "getResponse",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
             "line": 201,
             "function": "processRoute",
             "class": "Mpociot\\ApiDoc\\Tools\\Generator",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
             "line": 59,
             "function": "processRoutes",
             "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
@@ -1435,89 +1473,89 @@ fetch(url, {
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
             "line": 32,
             "function": "call_user_func_array"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
             "line": 90,
             "function": "Illuminate\\Container\\{closure}",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
             "line": 34,
             "function": "callBoundMethod",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
             "line": 580,
             "function": "call",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
             "line": 183,
             "function": "call",
             "class": "Illuminate\\Container\\Container",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Command\\Command.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Command\\Command.php",
             "line": 255,
             "function": "execute",
             "class": "Illuminate\\Console\\Command",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
             "line": 170,
             "function": "run",
             "class": "Symfony\\Component\\Console\\Command\\Command",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
             "line": 908,
             "function": "run",
             "class": "Illuminate\\Console\\Command",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
             "line": 269,
             "function": "doRunCommand",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
             "line": 145,
             "function": "doRun",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
             "line": 90,
             "function": "run",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
             "line": 122,
             "function": "run",
             "class": "Illuminate\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\artisan",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\artisan",
             "line": 37,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Console\\Kernel",
@@ -1539,6 +1577,7 @@ Parameter | Type | Status | Description
 
 <!-- END_931d45747883f17f4898d055e7277e3d -->
 
+
 <!-- START_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 ## posts
 to post text , image or video in any ApexCom.
@@ -1557,7 +1596,7 @@ failure Cases:
 curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"dlxmhcAHfFfLvvS4","body":"X80mjlAPoKFlzMHm","img_name":"HBakVHysfHEzcepn","video_url":"i9WemwHVKrJhtiDB","isLocked":false,"token":"gLRTvOVrUfPS7VfT"}'
+    -d '{"ApexCom_id":"rpwkvCOBdlEU7BfK","body":"U0RVZxzlyxGxEDr0","img_name":"ZUDsVdSzqnXKQOxc","video_url":"K6AQxG11c7I96mzu","isLocked":false,"token":"MCnftF8iLImcJveB"}'
 
 ```
 
@@ -1571,12 +1610,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "dlxmhcAHfFfLvvS4",
-    "body": "X80mjlAPoKFlzMHm",
-    "img_name": "HBakVHysfHEzcepn",
-    "video_url": "i9WemwHVKrJhtiDB",
+    "ApexCom_id": "rpwkvCOBdlEU7BfK",
+    "body": "U0RVZxzlyxGxEDr0",
+    "img_name": "ZUDsVdSzqnXKQOxc",
+    "video_url": "K6AQxG11c7I96mzu",
     "isLocked": false,
-    "token": "gLRTvOVrUfPS7VfT"
+    "token": "MCnftF8iLImcJveB"
 }
 
 fetch(url, {
@@ -1605,6 +1644,7 @@ Parameter | Type | Status | Description
 
 <!-- END_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 
+
 <!-- START_95d2609383a86210e2424765cf8031d1 -->
 ## subscribe
 for a user to subscribe in any ApexCom.
@@ -1621,7 +1661,7 @@ failure Cases:
 curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"GVcnq0nD1aDQoY5f","token":"5gPWAU3K8zgdbvDb"}'
+    -d '{"ApexCom_id":"oTYSAbRRWJnAvLjV","token":"6TN8BcIstUZknIuc"}'
 
 ```
 
@@ -1635,8 +1675,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "GVcnq0nD1aDQoY5f",
-    "token": "5gPWAU3K8zgdbvDb"
+    "ApexCom_id": "oTYSAbRRWJnAvLjV",
+    "token": "6TN8BcIstUZknIuc"
 }
 
 fetch(url, {
@@ -1661,6 +1701,7 @@ Parameter | Type | Status | Description
 
 <!-- END_95d2609383a86210e2424765cf8031d1 -->
 
+
 <!-- START_83008eaf25318b2ebea682cd9cd6b43b -->
 ## siteAdmin
 used by the site admin to create new ApexCom.
@@ -1677,7 +1718,7 @@ failure Cases:
 curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_name":"Sye5SId0f9b2U6Vf","description":"Rk08FNaBUVTxRYdO","rules":"NjhbbCHBVVV2CgZ9","img_name":"Qoc7RIybCZRYpNjp","token":"RJvSqRH01H1vlQYr"}'
+    -d '{"name":"CYQE8SbDN9j16jjl","description":"0T4PAZwCAjWZfgsD","rules":"nxsXJPb3nL44T1bJ","avatar":"tH7G5jimmF6HQhiq","banner":"TiTjVD68zOXlA09n","token":"JEfJUS30TX79DZ4p"}'
 
 ```
 
@@ -1691,11 +1732,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_name": "Sye5SId0f9b2U6Vf",
-    "description": "Rk08FNaBUVTxRYdO",
-    "rules": "NjhbbCHBVVV2CgZ9",
-    "img_name": "Qoc7RIybCZRYpNjp",
-    "token": "RJvSqRH01H1vlQYr"
+    "name": "CYQE8SbDN9j16jjl",
+    "description": "0T4PAZwCAjWZfgsD",
+    "rules": "nxsXJPb3nL44T1bJ",
+    "avatar": "tH7G5jimmF6HQhiq",
+    "banner": "TiTjVD68zOXlA09n",
+    "token": "JEfJUS30TX79DZ4p"
 }
 
 fetch(url, {
@@ -1715,13 +1757,15 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    ApexCom_name | string |  required  | The name of the community.
+    name | string |  required  | The name of the community.
     description | string |  required  | The description of the community.
     rules | string |  required  | The rules of the community.
-    img_name | string |  optional  | The attached image to the community.
+    avatar | string |  optional  | The icon image to the community.
+    banner | string |  optional  | The header image to the community.
     token | JWT |  required  | Verifying user ID.
 
 <!-- END_83008eaf25318b2ebea682cd9cd6b43b -->
+
 
 #Links and comments
 
@@ -1742,7 +1786,7 @@ failure Cases:
 curl -X POST "http://localhost/api/comment" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"QikSn3IEy499dosu","content":"WbGslmIXg3NjmoS5","parent_ID":"P6et9NETl5H5wJt4","AuthID":"Ym2VWuPMKHl6Lzfe"}'
+    -d '{"name":"utMGDYjnETQmorjO","content":"1csYUCApcQhQgf2G","parent":"0xrPpCMQCIwZH4oH","token":"DRl2uHb5DBekIb0e"}'
 
 ```
 
@@ -1756,10 +1800,10 @@ let headers = {
 }
 
 let body = {
-    "name": "QikSn3IEy499dosu",
-    "content": "WbGslmIXg3NjmoS5",
-    "parent_ID": "P6et9NETl5H5wJt4",
-    "AuthID": "Ym2VWuPMKHl6Lzfe"
+    "name": "utMGDYjnETQmorjO",
+    "content": "1csYUCApcQhQgf2G",
+    "parent": "0xrPpCMQCIwZH4oH",
+    "token": "DRl2uHb5DBekIb0e"
 }
 
 fetch(url, {
@@ -1781,12 +1825,13 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     name | string |  required  | The fullname of the comment to be submitted ( comment , reply , message).
     content | string |  required  | The body of the comment.
-    parent_ID | string |  required  | The fullname of the thing to be replied to.
-    AuthID | JWT |  required  | Verifying user ID.
+    parent | string |  required  | The fullname of the thing to be replied to.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_e795fade4d25e2473e7fd22cababfe99 -->
 
-<!-- START_8d3b774b8525ca92a9eadadb8f46897c -->
+
+<!-- START_4f136192702be68001efc45896913292 -->
 ## delete
 to delete a post or comment or reply from any ApexCom by the owner of the thing or the moderator of this ApexCom.
 
@@ -1800,15 +1845,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/api/DelComment" \
+curl -X DELETE "http://localhost/api/delete" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"oIO8KQkMTMBqPJVZ","ID":"4mqw2YJlNQF1h9VU"}'
+    -d '{"name":"4LhDardtSAkhC4c2","token":"3A48gwgCFzmJS7PM"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/DelComment");
+const url = new URL("http://localhost/api/delete");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1817,12 +1862,12 @@ let headers = {
 }
 
 let body = {
-    "name": "oIO8KQkMTMBqPJVZ",
-    "ID": "4mqw2YJlNQF1h9VU"
+    "name": "4LhDardtSAkhC4c2",
+    "token": "3A48gwgCFzmJS7PM"
 }
 
 fetch(url, {
-    method: "POST",
+    method: "DELETE",
     headers: headers,
     body: body
 })
@@ -1832,18 +1877,19 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST api/DelComment`
+`DELETE api/delete`
 
 #### Body Parameters
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     name | string |  required  | The fullname of the post,comment or reply to be deleted.
-    ID | JWT |  required  | Verifying user ID.
+    token | JWT |  required  | Verifying user ID.
 
-<!-- END_8d3b774b8525ca92a9eadadb8f46897c -->
+<!-- END_4f136192702be68001efc45896913292 -->
 
-<!-- START_2a9d0f183252f771e6f2c77616bccd24 -->
+
+<!-- START_42247571823affd457153bd9d4c423d7 -->
 ## editText
 to edit the text of a post , comment or reply by its owner.
 
@@ -1857,10 +1903,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/api/Edit" \
+curl -X PATCH "http://localhost/api/Edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"c81zro48kxW7lMCi","content":"xbNhYVIpWz4q8QPv","ID":"xqxeVoELQa0NZSVU"}'
+    -d '{"name":"BJTK1bFvA1BJZISB","content":"DXCNBlq7y5LRg6RY","ID":"0cTEkakN0cMFMxDe"}'
 
 ```
 
@@ -1874,13 +1920,13 @@ let headers = {
 }
 
 let body = {
-    "name": "c81zro48kxW7lMCi",
-    "content": "xbNhYVIpWz4q8QPv",
-    "ID": "xqxeVoELQa0NZSVU"
+    "name": "BJTK1bFvA1BJZISB",
+    "content": "DXCNBlq7y5LRg6RY",
+    "ID": "0cTEkakN0cMFMxDe"
 }
 
 fetch(url, {
-    method: "POST",
+    method: "PATCH",
     headers: headers,
     body: body
 })
@@ -1890,7 +1936,7 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST api/Edit`
+`PATCH api/Edit`
 
 #### Body Parameters
 
@@ -1900,7 +1946,8 @@ Parameter | Type | Status | Description
     content | string |  required  | The body of the thing to be edited.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_2a9d0f183252f771e6f2c77616bccd24 -->
+<!-- END_42247571823affd457153bd9d4c423d7 -->
+
 
 <!-- START_513d4e19011ae1f92bd8858b5eb059b2 -->
 ## report
@@ -1920,7 +1967,7 @@ failure Cases:
 curl -X POST "http://localhost/api/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"I2MybGiC6KCwWoXm","Reason":2,"ID":"nnUABoF1w6QZeuFO"}'
+    -d '{"name":"nkswzhcrfFdfEONQ","Reason":10,"token":"GzdWTwgvouYOsSNl"}'
 
 ```
 
@@ -1934,9 +1981,9 @@ let headers = {
 }
 
 let body = {
-    "name": "I2MybGiC6KCwWoXm",
-    "Reason": 2,
-    "ID": "nnUABoF1w6QZeuFO"
+    "name": "nkswzhcrfFdfEONQ",
+    "Reason": 10,
+    "token": "GzdWTwgvouYOsSNl"
 }
 
 fetch(url, {
@@ -1958,9 +2005,10 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     name | string |  required  | The fullname of the post,comment or message to report.
     Reason | integer |  optional  | The index represent the reason for the report from an associative array.
-    ID | JWT |  required  | Verifying user ID.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_513d4e19011ae1f92bd8858b5eb059b2 -->
+
 
 <!-- START_1ce8121bc6bb159652da3758695c4f33 -->
 ## vote
@@ -1979,7 +2027,7 @@ failure Cases:
 curl -X POST "http://localhost/api/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"yjIV2agQ0s7dc66L","direction":10,"ID":"TQXlWYK04qf7ZThc"}'
+    -d '{"name":"pp8trd5rve0TfG0K","direction":20,"ID":"a5cPLpTsqusJ7cJ9"}'
 
 ```
 
@@ -1993,9 +2041,9 @@ let headers = {
 }
 
 let body = {
-    "name": "yjIV2agQ0s7dc66L",
-    "direction": 10,
-    "ID": "TQXlWYK04qf7ZThc"
+    "name": "pp8trd5rve0TfG0K",
+    "direction": 20,
+    "ID": "a5cPLpTsqusJ7cJ9"
 }
 
 fetch(url, {
@@ -2007,6 +2055,34 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "user_not_found"
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "post not exists"
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "Invalid Action"
+}
+```
+> Example response (400):
+
+```json
+{
+    "token_error": "The token has been blacklisted"
+}
+```
 
 ### HTTP Request
 `POST api/vote`
@@ -2021,12 +2097,15 @@ Parameter | Type | Status | Description
 
 <!-- END_1ce8121bc6bb159652da3758695c4f33 -->
 
+
 <!-- START_4a071a0a5195e750a36b0b89a51e2235 -->
 ## lock
 to lock or unlock a post so it can&#039;t recieve new comments.
 
+check the user id the post owner or admin in the ApexCom or moderator in the ApexCom holds the post
+to be able to lock this post otherwise error message Not Allowed will return.
 Success Cases :
-1) return true to ensure that the post was locked.
+1) return true to ensure that the post was locked/unlock.
 failure Cases:
 1) NoAccessRight token is not authorized.
 2) post fullname (ID) is not found.
@@ -2038,7 +2117,7 @@ failure Cases:
 curl -X POST "http://localhost/api/lock_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"dxhf8TdL2S2LtsOV","ID":"mR4WL51RIpiaDOuw"}'
+    -d '{"name":"chTXaP5VrKm1BEtD","token":"dYUHstFu4wez5PdC"}'
 
 ```
 
@@ -2052,8 +2131,8 @@ let headers = {
 }
 
 let body = {
-    "name": "dxhf8TdL2S2LtsOV",
-    "ID": "mR4WL51RIpiaDOuw"
+    "name": "chTXaP5VrKm1BEtD",
+    "token": "dYUHstFu4wez5PdC"
 }
 
 fetch(url, {
@@ -2065,6 +2144,34 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "user_not_found"
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "post not exists"
+}
+```
+> Example response (400):
+
+```json
+{
+    "token_error": "Not allowed"
+}
+```
+> Example response (400):
+
+```json
+{
+    "token_error": "The token has been blacklisted"
+}
+```
 
 ### HTTP Request
 `POST api/lock_post`
@@ -2074,14 +2181,16 @@ fetch(url, {
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     name | string |  required  | The fullname of the post to be locked.
-    ID | JWT |  required  | Verifying user ID.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_4a071a0a5195e750a36b0b89a51e2235 -->
+
 
 <!-- START_ebf64eb08a02a3600dbec8e628a60a56 -->
 ## hide
 to hide or UnHide a post from the user view.
 
+check valid user and post and if the post was hidden it removes it from hiddens and vice versa.
 Success Cases :
 1) return true to ensure that the post hidden.
 failure Cases:
@@ -2094,7 +2203,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"rnYDPjoqCGiY9gKh","ID":"O8LfwsnVEkdps8Ry"}'
+    -d '{"name":"Wk4u1uRRT67MptcL","token":"kECDtX4BSdfNIwjK"}'
 
 ```
 
@@ -2108,8 +2217,8 @@ let headers = {
 }
 
 let body = {
-    "name": "rnYDPjoqCGiY9gKh",
-    "ID": "O8LfwsnVEkdps8Ry"
+    "name": "Wk4u1uRRT67MptcL",
+    "token": "kECDtX4BSdfNIwjK"
 }
 
 fetch(url, {
@@ -2121,6 +2230,27 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "user_not_found"
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "post not exists"
+}
+```
+> Example response (400):
+
+```json
+{
+    "token_error": "The token has been blacklisted"
+}
+```
 
 ### HTTP Request
 `POST api/Hide`
@@ -2130,9 +2260,10 @@ fetch(url, {
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     name | string |  required  | The fullname of the post to be hidden.
-    ID | JWT |  required  | Verifying user ID.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_ebf64eb08a02a3600dbec8e628a60a56 -->
+
 
 <!-- START_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 ## save
@@ -2150,7 +2281,7 @@ failure Cases:
 curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"xbWJaE6Etj95Dpko","token":"4XtBBqPvDaLwEgPu"}'
+    -d '{"ID":"gtrru3tfuPGNth36","token":"ROg3EcYcJ80xOVNi"}'
 
 ```
 
@@ -2164,8 +2295,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "xbWJaE6Etj95Dpko",
-    "token": "4XtBBqPvDaLwEgPu"
+    "ID": "gtrru3tfuPGNth36",
+    "token": "ROg3EcYcJ80xOVNi"
 }
 
 fetch(url, {
@@ -2190,6 +2321,7 @@ Parameter | Type | Status | Description
 
 <!-- END_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 
+
 <!-- START_42544bc9403ef51f80610dbe397862b5 -->
 ## moreChildren
 to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
@@ -2206,7 +2338,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"pdhirteFOoRKRDlf","ID":"pqk1i8BC3D1OQXdA"}'
+    -d '{"parent":"g29lsaVnVFsDweya","ID":"NDU9RnrfEwC7XEru"}'
 
 ```
 
@@ -2220,8 +2352,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "pdhirteFOoRKRDlf",
-    "ID": "pqk1i8BC3D1OQXdA"
+    "parent": "g29lsaVnVFsDweya",
+    "ID": "NDU9RnrfEwC7XEru"
 }
 
 fetch(url, {
@@ -2251,6 +2383,7 @@ Parameter | Type | Status | Description
 
 <!-- END_42544bc9403ef51f80610dbe397862b5 -->
 
+
 #Moderation
 
 Controls the Moderators actions.
@@ -2270,7 +2403,7 @@ failure Cases:
 curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"1tI2JSYMO5Zv74vS","user_id":"43HVDfZVPeErxlpk","_token":"yaSTpGiQgVwVLcVb"}'
+    -d '{"ApexCom_id":"3dmorVgCHwRGqJob","user_id":"X2mLiDOmayYu3Bqt","_token":"LUzY4jVOgHjCox6x"}'
 
 ```
 
@@ -2284,9 +2417,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "1tI2JSYMO5Zv74vS",
-    "user_id": "43HVDfZVPeErxlpk",
-    "_token": "yaSTpGiQgVwVLcVb"
+    "ApexCom_id": "3dmorVgCHwRGqJob",
+    "user_id": "X2mLiDOmayYu3Bqt",
+    "_token": "LUzY4jVOgHjCox6x"
 }
 
 fetch(url, {
@@ -2312,6 +2445,7 @@ Parameter | Type | Status | Description
 
 <!-- END_bfe5eadf66f0e0ddc26472dc0275da31 -->
 
+
 <!-- START_85b1e06ff0cc2a00de486d21459568f9 -->
 ## ignoreReport
 to delete the ignored report from  ApexCom&#039;s reports.
@@ -2328,7 +2462,7 @@ failure Cases:
 curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"AADZhtIqvGMPIln2","_token":"FVOflMNk2g4mPMK7"}'
+    -d '{"report_id":"utn65HvwTaJT1LGL","_token":"vIFULj1QwIQ95wiC"}'
 
 ```
 
@@ -2342,8 +2476,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "AADZhtIqvGMPIln2",
-    "_token": "FVOflMNk2g4mPMK7"
+    "report_id": "utn65HvwTaJT1LGL",
+    "_token": "vIFULj1QwIQ95wiC"
 }
 
 fetch(url, {
@@ -2368,6 +2502,7 @@ Parameter | Type | Status | Description
 
 <!-- END_85b1e06ff0cc2a00de486d21459568f9 -->
 
+
 <!-- START_9e88c060d07f4e8b1dd6948de555c21c -->
 ## reviewReports
 view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
@@ -2383,7 +2518,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"4hjqXOJHEyhlJoNT","_token":"wvcxYX39wkEWfgNm"}'
+    -d '{"ApexCom_id":"ztxxmTOyx1DOqKVs","_token":"NUnWoabqtoj2jK8A"}'
 
 ```
 
@@ -2397,8 +2532,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "4hjqXOJHEyhlJoNT",
-    "_token": "wvcxYX39wkEWfgNm"
+    "ApexCom_id": "ztxxmTOyx1DOqKVs",
+    "_token": "NUnWoabqtoj2jK8A"
 }
 
 fetch(url, {
@@ -2428,6 +2563,7 @@ Parameter | Type | Status | Description
 
 <!-- END_9e88c060d07f4e8b1dd6948de555c21c -->
 
+
 #User
 
 Control the user interaction with other users
@@ -2435,11 +2571,15 @@ Control the user interaction with other users
 ## block
 Block a user, so he can&#039;t send private messages or see the blocked user posts or comments.
 
+if the user is already blocked, the request will unblock him
 Success Cases :
-1) return true to ensure that the user is blocked successfully.
+1) return status code 200 and json contains
+ 'the user has been blocked successfully' if the user was not blocked
+ or 'the user has been unblocked seccessfully' if the user was blocked already.
 failure Cases:
-1) blockeduser id is not found or already blocked for the current user.
-2) NoAccessRight token is not authorized.
+1) No Access Right token is not authorized.
+2) Blocked user id is not found (status code 404)
+3) The user is blocking himself (status code 400)
 
 > Example request:
 
@@ -2447,7 +2587,7 @@ failure Cases:
 curl -X POST "http://localhost/api/block_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"N6MN5IMn1VMSbboq","token":"t863qxsWtHFjYxtV"}'
+    -d '{"blockedID":"7p2QMs1qu4H43v89","token":"SD6Ou3IozH1GCZaZ"}'
 
 ```
 
@@ -2461,8 +2601,8 @@ let headers = {
 }
 
 let body = {
-    "id": "N6MN5IMn1VMSbboq",
-    "token": "t863qxsWtHFjYxtV"
+    "blockedID": "7p2QMs1qu4H43v89",
+    "token": "SD6Ou3IozH1GCZaZ"
 }
 
 fetch(url, {
@@ -2482,10 +2622,11 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    id | string |  required  | the id of the user to be blocked.
+    blockedID | string |  required  | the id of the user to be blocked.
     token | JWT |  required  | Used to verify the user.
 
 <!-- END_5603f5edd050cc1888d2fe64500d5499 -->
+
 
 <!-- START_77449fa4952e985b77eff4023c7451dd -->
 ## compose
@@ -2503,7 +2644,7 @@ failure Cases:
 curl -X POST "http://localhost/api/compose" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"to":"gleATMVOShYvM4pG","subject":"fJAs5hf2M2JYqVKz","mes":"bI4Yx9uZ73ts2u5r","token":"HTOIrj0k84WAwFdA"}'
+    -d '{"to":"nDXyM3TQ0nz8bsN1","subject":"MTRspiIqJB426rTL","mes":"SXKhc6X6AohlbMCO","token":"aHDzSE4W5JlJaxet"}'
 
 ```
 
@@ -2517,10 +2658,10 @@ let headers = {
 }
 
 let body = {
-    "to": "gleATMVOShYvM4pG",
-    "subject": "fJAs5hf2M2JYqVKz",
-    "mes": "bI4Yx9uZ73ts2u5r",
-    "token": "HTOIrj0k84WAwFdA"
+    "to": "nDXyM3TQ0nz8bsN1",
+    "subject": "MTRspiIqJB426rTL",
+    "mes": "SXKhc6X6AohlbMCO",
+    "token": "aHDzSE4W5JlJaxet"
 }
 
 fetch(url, {
@@ -2547,6 +2688,7 @@ Parameter | Type | Status | Description
 
 <!-- END_77449fa4952e985b77eff4023c7451dd -->
 
+
 <!-- START_642cf7a37db701458812f02d6082db55 -->
 ## userDataByAccountID
 Return user public data to be seen by another user.
@@ -2563,7 +2705,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"b7zhKa1ORcz8zVuE","token":"dNdPTPNW2ZvorqXM"}'
+    -d '{"id":"t1ie2QPWrpkqBZJL","token":"c06Fae0TFow2yjng"}'
 
 ```
 
@@ -2577,8 +2719,8 @@ let headers = {
 }
 
 let body = {
-    "id": "b7zhKa1ORcz8zVuE",
-    "token": "dNdPTPNW2ZvorqXM"
+    "id": "t1ie2QPWrpkqBZJL",
+    "token": "c06Fae0TFow2yjng"
 }
 
 fetch(url, {
@@ -2608,6 +2750,7 @@ Parameter | Type | Status | Description
 
 <!-- END_642cf7a37db701458812f02d6082db55 -->
 
+
 #general
 <!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
 ## search
@@ -2625,7 +2768,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/search" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"query":"mdcxbhZpf1PgNxn4"}'
+    -d '{"query":"ngr8ZUzr6G2IoLut"}'
 
 ```
 
@@ -2639,7 +2782,7 @@ let headers = {
 }
 
 let body = {
-    "query": "mdcxbhZpf1PgNxn4"
+    "query": "ngr8ZUzr6G2IoLut"
 }
 
 fetch(url, {
@@ -2672,13 +2815,16 @@ Parameter | Type | Status | Description
 
 <!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
 
+
 <!-- START_09bdc60a87430aec21b4b32b21773baa -->
 ## sortPostsBy
-Returns a list of posts in a given ApexComm sorted either by the votes or by the date when they were created
-or by the comments count.
-
+Returns a list of posts in a given ApexComm
+sorted either by the votes or by the date when they were created
+or by the comments count. When apexComID is not specified or equals null,
+it returns all the posts in all apexComs
 Success Cases :
 1) Return the result successfully.
+
 failure Cases:
 1) ApexCom fullname (ID) is not found.
 2) The given parameter is out of the specified values, in this case it uses the default values.
@@ -2690,7 +2836,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/sort_posts" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"apexComID":"fao94ON9O4lhmXO7","sortingParam":"2Dzf4NxhZxMP9fLX"}'
+    -d '{"apexComID":"xUvOJJp3bHdn7Sod","sortingParam":"ytxS07cs3TCFtanc"}'
 
 ```
 
@@ -2704,8 +2850,8 @@ let headers = {
 }
 
 let body = {
-    "apexComID": "fao94ON9O4lhmXO7",
-    "sortingParam": "2Dzf4NxhZxMP9fLX"
+    "apexComID": "xUvOJJp3bHdn7Sod",
+    "sortingParam": "ytxS07cs3TCFtanc"
 }
 
 fetch(url, {
@@ -2717,13 +2863,237 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (400):
+> Example response (200):
 
 ```json
 {
-    "apexComID": [
-        "The apex com i d field is required."
-    ]
+    "posts": [
+        {
+            "id": "t3_10",
+            "posted_by": "t2_31",
+            "apex_id": "t5_10",
+            "title": "g3d6p4FB4r",
+            "img": null,
+            "videolink": null,
+            "content": "Ut voluptas sit quam rerum harum voluptas molestias. Ipsum labore saepe laboriosam qui adipisci ut qui consequuntur. Enim earum iusto omnis aperiam animi. Qui id recusandae eveniet rerum atque.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": null
+        },
+        {
+            "id": "t3_11",
+            "posted_by": "t2_33",
+            "apex_id": "t5_6",
+            "title": "tFbnsueNWi",
+            "img": null,
+            "videolink": null,
+            "content": "Eos illum officia soluta debitis repudiandae alias. Aut itaque illum eius aut adipisci tempora. Odio sed aut dignissimos accusantium odio qui aperiam.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": null
+        },
+        {
+            "id": "t3_12",
+            "posted_by": "t2_35",
+            "apex_id": "t5_1",
+            "title": "Yrz6Dgjed0",
+            "img": null,
+            "videolink": null,
+            "content": "Rerum nobis molestiae iusto. Omnis sapiente earum consequatur vero officiis. Minima corporis dolores aliquam sed dolore.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": null
+        },
+        {
+            "id": "t3_13",
+            "posted_by": "t2_37",
+            "apex_id": "t5_5",
+            "title": "r4XD7MUKHx",
+            "img": null,
+            "videolink": null,
+            "content": "Sequi provident excepturi qui rerum incidunt excepturi. Maxime voluptatem aut consequatur modi error. Architecto laboriosam eius soluta error dolores natus eum.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_14",
+            "posted_by": "t2_39",
+            "apex_id": "t5_5",
+            "title": "9IInFhqvbP",
+            "img": null,
+            "videolink": null,
+            "content": "Commodi et sequi impedit numquam unde ducimus ut maiores. Quia quasi et non aspernatur. Praesentium eum ratione ullam praesentium aliquid. Dolorem ut debitis maxime perspiciatis.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": 2
+        },
+        {
+            "id": "t3_15",
+            "posted_by": "t2_41",
+            "apex_id": "t5_8",
+            "title": "VNlqymnO0o",
+            "img": null,
+            "videolink": null,
+            "content": "Et esse sed sit sit qui qui non. Eos quasi nam et eos consequuntur blanditiis atque. Dicta quam eum nemo enim explicabo quam molestiae. Corrupti doloremque nisi architecto nisi.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": 2
+        },
+        {
+            "id": "t3_16",
+            "posted_by": "t2_43",
+            "apex_id": "t5_8",
+            "title": "TybrARnl24",
+            "img": null,
+            "videolink": null,
+            "content": "Et quia quaerat aut est dolores et excepturi. Blanditiis saepe temporibus et aperiam.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": null
+        },
+        {
+            "id": "t3_8",
+            "posted_by": "t2_27",
+            "apex_id": "t5_2",
+            "title": "Y5pDb15Txp",
+            "img": null,
+            "videolink": null,
+            "content": "Est qui non dolores earum. At eum impedit distinctio aut vero. Ut optio nisi id expedita est sed. Deserunt recusandae dolor doloremque quod pariatur.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_9",
+            "posted_by": "t2_29",
+            "apex_id": "t5_11",
+            "title": "NabJ0xgm5U",
+            "img": null,
+            "videolink": null,
+            "content": "Mollitia animi sit et totam. Corrupti consectetur at deleniti deserunt. Molestias dolore officiis velit.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:58",
+            "updated_at": "2019-03-22 08:23:58",
+            "votes": null,
+            "comments_num": null
+        },
+        {
+            "id": "t3_7",
+            "posted_by": "t2_25",
+            "apex_id": "t5_3",
+            "title": "edYtX5E5oa",
+            "img": null,
+            "videolink": null,
+            "content": "Nemo eos iste dolores eos placeat. Aut quia ut quidem occaecati nulla et. Ab voluptas placeat omnis laboriosam mollitia ut ut.",
+            "locked": 0,
+            "created_at": "2019-03-22 08:23:57",
+            "updated_at": "2019-03-22 08:23:57",
+            "votes": null,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_1",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": null,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_2",
+            "posted_by": "t2_1",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": null,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_3",
+            "posted_by": "t2_4",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": null,
+            "comments_num": 2
+        },
+        {
+            "id": "t3_4",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": null,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_5",
+            "posted_by": "t2_2",
+            "apex_id": "t5_2",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": null,
+            "comments_num": 2
+        },
+        {
+            "id": "t3_6",
+            "posted_by": "t2_4",
+            "apex_id": "t5_2",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": null,
+            "comments_num": 1
+        }
+    ],
+    "sortingParam": "date"
 }
 ```
 
@@ -2734,10 +3104,11 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    apexComID | string |  required  | The ID of the ApexComm that contains the posts.
+    apexComID | string |  optional  | The ID of the ApexComm that contains the posts, default in null.
     sortingParam | string |  optional  | The sorting parameter, takes a value of ['votes', 'date', 'comments'], Default is 'date'.
 
 <!-- END_09bdc60a87430aec21b4b32b21773baa -->
+
 
 <!-- START_b402718e2399a5ffc349d38706b47a9f -->
 ## apexNames
@@ -2776,54 +3147,56 @@ fetch(url, {
 
 ```json
 [
-    {
-        "id": "t5_668143",
-        "name": "0COYmclyX0"
-    },
-    {
-        "id": "t5_310020",
-        "name": "AJMYJpP4QZ"
-    },
-    {
-        "id": "t5_774867",
-        "name": "CShwbNJSbX"
-    },
-    {
-        "id": "t5_100000",
-        "name": "Elder Scrolls"
-    },
-    {
-        "id": "t5_308699",
-        "name": "J54M6qoxFY"
-    },
-    {
-        "id": "t5_931688",
-        "name": "MzOJNcJdzb"
-    },
-    {
-        "id": "t5_100001",
-        "name": "New dawn"
-    },
-    {
-        "id": "t5_519782",
-        "name": "PGkkAoyfmT"
-    },
-    {
-        "id": "t5_102313",
-        "name": "uETKi32V9J"
-    },
-    {
-        "id": "t5_242032",
-        "name": "VVpS08SHCM"
-    },
-    {
-        "id": "t5_969149",
-        "name": "xqPJ5rAGNK"
-    },
-    {
-        "id": "t5_796942",
-        "name": "yQmxTL7fkm"
-    }
+    [
+        {
+            "id": "t5_6",
+            "name": "4n1doZfNO8"
+        },
+        {
+            "id": "t5_3",
+            "name": "BwEA4d5kFI"
+        },
+        {
+            "id": "t5_9",
+            "name": "CGynZzcmaW"
+        },
+        {
+            "id": "t5_12",
+            "name": "D1A3PuoUN3"
+        },
+        {
+            "id": "t5_10",
+            "name": "EbTfHcvAGk"
+        },
+        {
+            "id": "t5_1",
+            "name": "Elder Scrolls"
+        },
+        {
+            "id": "t5_8",
+            "name": "L73iWwyyMF"
+        },
+        {
+            "id": "t5_2",
+            "name": "New dawn"
+        },
+        {
+            "id": "t5_4",
+            "name": "oc0ZbMzrkE"
+        },
+        {
+            "id": "t5_7",
+            "name": "qhJYMiBZij"
+        },
+        {
+            "id": "t5_5",
+            "name": "XUExMvERJN"
+        },
+        {
+            "id": "t5_11",
+            "name": "ZZ6mI3pVNv"
+        }
+    ]
 ]
 ```
 
@@ -2832,6 +3205,7 @@ fetch(url, {
 
 
 <!-- END_b402718e2399a5ffc349d38706b47a9f -->
+
 
 <!-- START_75042856f5cd6cbf0efd54f67a2e85e8 -->
 ## getSubscribers
@@ -2849,7 +3223,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"ralETQpWnKWHanRt","_token":"7qNPsOyGBf6DqF7V"}'
+    -d '{"ApexCommID":"L7viPifiFt1JvTwp","_token":"2GC4Qvp9Bj5odvEl"}'
 
 ```
 
@@ -2863,8 +3237,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "ralETQpWnKWHanRt",
-    "_token": "7qNPsOyGBf6DqF7V"
+    "ApexCommID": "L7viPifiFt1JvTwp",
+    "_token": "2GC4Qvp9Bj5odvEl"
 }
 
 fetch(url, {
@@ -2882,12 +3256,12 @@ fetch(url, {
 {
     "message": "Undefined property: stdClass::$user",
     "exception": "ErrorException",
-    "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\General.php",
-    "line": 164,
+    "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\app\\Http\\Controllers\\General.php",
+    "line": 168,
     "trace": [
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\app\\Http\\Controllers\\General.php",
-            "line": 164,
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\app\\Http\\Controllers\\General.php",
+            "line": 168,
             "function": "handleError",
             "class": "Illuminate\\Foundation\\Bootstrap\\HandleExceptions",
             "type": "->"
@@ -2898,313 +3272,334 @@ fetch(url, {
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
             "line": 54,
             "function": "call_user_func_array"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
             "line": 45,
             "function": "callAction",
             "class": "Illuminate\\Routing\\Controller",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
             "line": 219,
             "function": "dispatch",
             "class": "Illuminate\\Routing\\ControllerDispatcher",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
             "line": 176,
             "function": "runController",
             "class": "Illuminate\\Routing\\Route",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 680,
             "function": "run",
             "class": "Illuminate\\Routing\\Route",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 30,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
             "line": 41,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
             "line": 58,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 104,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 682,
             "function": "then",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 657,
             "function": "runRouteWithinStack",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 623,
             "function": "runRoute",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
             "line": 612,
             "function": "dispatchToRoute",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
             "line": 176,
             "function": "dispatch",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 30,
             "function": "Illuminate\\Foundation\\Http\\{closure}",
             "class": "Illuminate\\Foundation\\Http\\Kernel",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php",
+            "line": 36,
+            "function": "Illuminate\\Routing\\{closure}",
+            "class": "Illuminate\\Routing\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 163,
+            "function": "handle",
+            "class": "Barryvdh\\Cors\\HandleCors",
+            "type": "->"
+        },
+        {
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "line": 53,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\fideloper\\proxy\\src\\TrustProxies.php",
             "line": 57,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Fideloper\\Proxy\\TrustProxies",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
             "line": 21,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
             "line": 21,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
             "line": 27,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php",
             "line": 62,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 163,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php",
             "line": 53,
             "function": "Illuminate\\Pipeline\\{closure}",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
             "line": 104,
             "function": "Illuminate\\Routing\\{closure}",
             "class": "Illuminate\\Routing\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
             "line": 151,
             "function": "then",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
             "line": 116,
             "function": "sendRequestThroughRouter",
             "class": "Illuminate\\Foundation\\Http\\Kernel",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
             "line": 276,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Http\\Kernel",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
             "line": 260,
             "function": "callLaravelRoute",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseStrategies\\ResponseCallStrategy.php",
             "line": 36,
             "function": "makeApiCall",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
             "line": 49,
             "function": "__invoke",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\ResponseResolver.php",
             "line": 68,
             "function": "resolve",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Tools\\Generator.php",
             "line": 57,
             "function": "getResponse",
             "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
             "line": 201,
             "function": "processRoute",
             "class": "Mpociot\\ApiDoc\\Tools\\Generator",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\mpociot\\laravel-apidoc-generator\\src\\Commands\\GenerateDocumentation.php",
             "line": 59,
             "function": "processRoutes",
             "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
@@ -3216,89 +3611,89 @@ fetch(url, {
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
             "line": 32,
             "function": "call_user_func_array"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
             "line": 90,
             "function": "Illuminate\\Container\\{closure}",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
             "line": 34,
             "function": "callBoundMethod",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
             "line": 580,
             "function": "call",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
             "line": 183,
             "function": "call",
             "class": "Illuminate\\Container\\Container",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Command\\Command.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Command\\Command.php",
             "line": 255,
             "function": "execute",
             "class": "Illuminate\\Console\\Command",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
             "line": 170,
             "function": "run",
             "class": "Symfony\\Component\\Console\\Command\\Command",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
             "line": 908,
             "function": "run",
             "class": "Illuminate\\Console\\Command",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
             "line": 269,
             "function": "doRunCommand",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\symfony\\console\\Application.php",
             "line": 145,
             "function": "doRun",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
             "line": 90,
             "function": "run",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
             "line": 122,
             "function": "run",
             "class": "Illuminate\\Console\\Application",
             "type": "->"
         },
         {
-            "file": "D:\\DarkGeek Stuff\\BuiltBy Stuff\\College Stuff\\Projects\\Software Engineering\\Apex Server\\ApeX-Server\\artisan",
+            "file": "D:\\Second_Term\\SoftwareEngineering\\ApeX-Server\\artisan",
             "line": 37,
             "function": "handle",
             "class": "Illuminate\\Foundation\\Console\\Kernel",
@@ -3319,5 +3714,7 @@ Parameter | Type | Status | Description
     _token | string |  required  | Verifying user ID.
 
 <!-- END_75042856f5cd6cbf0efd54f67a2e85e8 -->
+
+
 
 
