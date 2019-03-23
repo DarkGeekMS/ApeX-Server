@@ -20,18 +20,23 @@ class General extends Controller
 {
 
     /**
-     * guestSearch
-     * Returns a json contains posts, ApexComs and users that matches the given query.
-     * Use this request only if the user is guest and not authorized
-     * Success Cases :
-     * 1) Return the result successfully.
-     * failure Cases:
-     * 1) No matches found.
-     * 2) Return response code 500 if there is a server-side error
-     *
-     * @bodyParam query string required The query to be searched for (at least 3 characters).
+     * Guest Search
+     * Returns a json contains posts, apexComs and users that match the given query.
+     * Use this request only if the user is a guest and not authorized
+     * 
+     * ###Success Cases :
+     * 1. The `query` is valid, return the results successfullly (status code 200)
+     * 
+     * ###Failure Cases:
+     * 1. The `query` is invalid, return message about the error (status code 400)
+     * 2. There is server-side error (status code 500)
+     * 
+     * @responseFile responses\validSearch.json
+     * @responseFile 400 responses\invalidQuery.json
+     * @responseFile 400 responses\missingQueryParam.json
+     * 
+     * @queryParam query required The query to be searched for (at least 3 characters). Example: lorem
      */
-
     public function guestSearch(Request $request)
     {
         $validator = validator(
@@ -92,54 +97,73 @@ class General extends Controller
     }
 
     /**
-     * userSearch
-     * Returns a json contains posts, ApexComs and users that matches the given query.
-     * Use this request only if the user is logged in and authorized
-     * it behaves like guestSearch except that it does't return the posts of blocked user
-     * either if the current user have blocked users or if he himself is blocked from some users
-     * Success Cases :
-     * 1) Return the result successfully.
-     * failure Cases:
-     * 1) No Access Right token is not authorized.
-     * 2) Return response code 500 if there is a server-side error
-     *
-     * @bodyParam query string required The query to be searched for (at least 3 characters).
-     * @bodyParam token JWT required Used to verify the user
+     * User Search
+     * Just like [Guest Search](#guest-search) except that 
+     * it does't return the posts between blocked users.
+     * Use this request only if the user is logged in and authorized.
+     * 
+     * ###Success Cases :
+     * 1. The `query` is valid, return the results successfullly (status code 200)
+     * 
+     * ###Failure Cases:
+     * 1. The `query` is invalid, return message about the error (status code 400)
+     * 2. The `token` is invalid, return a message about the error (status code 400)
+     * 3. There is server-side error (status code 500)
+     * 
+     * @authenticated
+     * 
+     * @responseFile responses\validSearch.json
+     * @responseFile 400 responses\missingQueryParam.json
+     * @responseFile 400 responses\invalidQuery.json
+     * @responseFile 400 responses\missingToken.json
+     * @responseFile 400 responses\invalidToken.json
+     * @responseFile 400 responses\invalidToken2.json
+     * 
+     * @bodyParam query string required The query to be searched for (at least 3 characters). Example: lorem
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
 
     public function userSearch(Request $request)
     {
 
-        $validator = validator(
-            $request->all(),
-            ['query' => 'required|string|min:3', 'token' => 'required']
-        );
+        $validator = validator($request->only('token'), ['token' => 'required']);
+
         if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
 
-        $result = collect($this->guestSearch($request));
-        return $this->_removeBlockedPosts($result, $request['token']);
+        $result = $this->guestSearch($request);
+        if (!array_key_exists('posts', $result)) {
+            return $result;
+        }
+        return $this->_removeBlockedPosts(collect($result), $request['token']);
         
     }
 
 
     /**
-     * guestSortPostsBy
-     * Returns a list of posts in a given ApexComm
+     * Guest Sort Posts
+     * Returns a list of posts in a given ApexCom
      * sorted either by the votes or by the date when they were created
-     * or by the comments count. When apexComID is not specified or equals null,
-     * it returns all the posts in all apexComs
-     * Use this request only if the user is guest and not authorized
-     * Success Cases :
-     * 1) Return the result successfully.
-     * failure Cases:
-     * 1) ApexCom fullname (ID) is not found.
-     * 2) The sortingParam is out of the specified values, in this case it uses the default value.
-     * 3) Return response code 500 if there is a server-side error
+     * or by the number of comments. 
+     * - When `apexComID` is missing or equals null,
+     *     it returns all the posts in all apexComs.
+     * - When `sortingParam` is missing or equals null, it uses the default value
+     * 
+     * Use this request only if the user is a guest and not authorized
+     * 
+     * ###Success Cases :
+     * 1. Return the result successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. ApexCom is not found (status code 404).
+     * 2. There is a server-side error (status code 500).
      *
-     * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null.
-     * @bodyParam sortingParam string The sorting parameter, takes a value of ['votes', 'date', 'comments'], Default is 'date'.
+     * @responseFile responses\validSort.json
+     * @responseFile 404 responses\apexComNotFound.json
+     * 
+     * @queryParam apexComID The ID of the ApexComm that contains the posts, default is null. Example: t5_1
+     * @queryParam sortingParam The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      */
 
     public function guestSortPostsBy(Request $request)
@@ -163,8 +187,11 @@ class General extends Controller
         $posts = post::query();
 
         if ($apexComID !== null) {
-            apexCom::findOrFail($apexComID); //raises an error if it's not found
-            $posts = $posts->where('apex_id', $apexComID);
+            if (apexCom::where('id', $apexComID)->exists()) {
+                $posts = $posts->where('apex_id', $apexComID);
+            } else {
+                return response(['error' => 'ApexCom is not found.'], 404);
+            }
         }
         $votesTable = vote::select('postID', DB::raw('CAST(SUM(dir) AS int) AS votes'))->groupBy('postID');
         $commentsTable = comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
@@ -202,50 +229,57 @@ class General extends Controller
     }
 
     /**
-     * userSortPostsBy
-     * Behaves like guestSortPostsBy except that it does't return the posts of blocked user
-     * either if the current user have blocked users or if he himself is blocked from some users
-     * Use this request only if the user is logged in and authorized
-     * Success Cases :
-     * 1) Return the result successfully.
-     * failure Cases:
-     * 1) ApexCom fullname (ID) is not found.
-     * 2) The sortingParam is out of the specified values, in this case it uses the default value.
-     * 3) Return response code 500 if there is a server-side error
+     * User Sort Posts
+     * Just like [Guest Sort Posts](#guest-sort-posts), except that 
+     * it does't return the posts between blocked users.
+     * Use this request only if the user is logged in and authorized.
+     * 
+     * ###Success Cases :
+     * 1. Return the result successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. ApexCom is not found (status code 404).
+     * 2. The `token` is invalid, return a message about the error (status code 400)
+     * 3. There is a server-side error (status code 500).
      *
-     * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null.
-     * @bodyParam sortingParam string The sorting parameter, takes a value of ['votes', 'date', 'comments'], Default is 'date'.
-     * @bodyParam token JWT required Used to verify the user.
+     * @authenticated
+     * 
+     * @responseFile responses\validSort.json
+     * @responseFile 404 responses\apexComNotFound.json
+     * @responseFile 400 responses\missingToken.json
+     * @responseFile 400 responses\invalidToken.json
+     * @responseFile 400 responses\invalidToken2.json
+     * 
+     * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
+     * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
-
     public function userSortPostsBy(Request $request)
     {
 
-        $validator = validator(
-            $request->all(), [
-                'apexComID' => 'string|nullable',
-                'sortingParam' => 'string|nullable',
-                'token' => 'required'
-            ]
-        );
+        $validator = validator($request->only('token'), ['token' => 'required']);
+
         if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
 
-        $result = collect($this->guestSortPostsBy($request));
-        
-        return $this->_removeBlockedPosts($result, $request['token']);
+        $result = $this->guestSortPostsBy($request);
+        if (!array_key_exists('posts', $result)) {
+            return $result;
+        }
+        return $this->_removeBlockedPosts(collect($result), $request['token']);
     }
 
     /**
-     * apexNames
-     * Returns a list of the names and ids of all of the existing ApexComms.
-     * Success Cases :
-     * 1) Return the result successfully.
-     * failure Cases:
-     * 1) Return response code 500 if there is a server-side error.
+     * Apex Names
+     * Returns a list of the names and ids of all of the existing ApexComs.
+     * 
+     * ###Success Cases :
+     * 1. Return the result successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. There is server-side error (status code 500).
      */
-
     public function apexNames()
     {
         try {
