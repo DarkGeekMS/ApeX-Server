@@ -89,9 +89,9 @@ class CommentandLinks extends Controller
             //create the comment id by getting the last comment id and increment it by 1
             $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
             $id = $lastcom->id;
-            //return response()->json(['id' => $id], 200);
+            $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
             $newIdx = (int)explode("_", $id)[1];
-            $id = "t1_".($newIdx +1);
+            $id = "t1_".($newIdx + $count);
             //add this record in the database
             comment::create([
               'commented_by'=> $user['id'],
@@ -114,9 +114,10 @@ class CommentandLinks extends Controller
             $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
             $id = "t1_1";
             if ($lastcom) {
+                $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
                 $id = $lastcom->id;
                 $newIdx = (int)explode("_", $id)[1];
-                $id = "t1_".($newIdx+1);
+                $id = "t1_".($newIdx+$count);
             }
 
             //insert the new record in the database
@@ -144,9 +145,10 @@ class CommentandLinks extends Controller
             }
             //create the id of the new message by counting table messages records and increment it by 1
             $lastcom = DB::table('messages')->orderBy('created_at', 'desc')->first();
+            $count = DB::table('messages') ->where('created_at', $lastcom->created_at)->count();
             $id = $lastcom->id;
             $newIdx = (int)explode("_", $id)[1];
-            $id = "t4_".($newIdx+1);
+            $id = "t4_".($newIdx+$count);
             //insert the new message record in the message table
             message::create([
               'sender'=> $user['id'],

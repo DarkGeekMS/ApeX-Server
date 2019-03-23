@@ -80,9 +80,10 @@ class Account extends Controller
         $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
         $id = "t2_1";
         if ($lastUser) {
+            $count = DB::table('users') ->where('created_at', $lastUser->created_at)->count();
             $id = $lastUser->id;
             $newIdx = (int)explode("_", $id)[1];
-            $id = "t2_".($newIdx+1);
+            $id = "t2_".($newIdx+$count);
         }
 
         //Returning the validation errors in case of validation failure

@@ -23,18 +23,18 @@ class General extends Controller
      * Guest Search
      * Returns a json contains posts, apexComs and users that match the given query.
      * Use this request only if the user is a guest and not authorized
-     * 
+     *
      * ###Success Cases :
      * 1. The `query` is valid, return the results successfullly (status code 200)
-     * 
+     *
      * ###Failure Cases:
      * 1. The `query` is invalid, return message about the error (status code 400)
      * 2. There is server-side error (status code 500)
-     * 
+     *
      * @responseFile responses\validSearch.json
      * @responseFile 400 responses\invalidQuery.json
      * @responseFile 400 responses\missingQueryParam.json
-     * 
+     *
      * @queryParam query required The query to be searched for (at least 3 characters). Example: lorem
      */
     public function guestSearch(Request $request)
@@ -85,11 +85,11 @@ class General extends Controller
             $blockList = $blockList->concat(
                 block::where('blockedID', $userID)->pluck('blockerID')
             );
-            
-            //remove the posts that have been posted by a user in the blocklist 
+
+            //remove the posts that have been posted by a user in the blocklist
             //and flatten the new collection so that it doesn't contain new keys
             $result['posts'] = $result['posts']->whereNotIn('posted_by', $blockList)->flatten();
-    
+
             return $result;
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
@@ -98,27 +98,27 @@ class General extends Controller
 
     /**
      * User Search
-     * Just like [Guest Search](#guest-search) except that 
+     * Just like [Guest Search](#guest-search) except that
      * it does't return the posts between blocked users.
      * Use this request only if the user is logged in and authorized.
-     * 
+     *
      * ###Success Cases :
      * 1. The `query` is valid, return the results successfullly (status code 200)
-     * 
+     *
      * ###Failure Cases:
      * 1. The `query` is invalid, return message about the error (status code 400)
      * 2. The `token` is invalid, return a message about the error (status code 400)
      * 3. There is server-side error (status code 500)
-     * 
+     *
      * @authenticated
-     * 
+     *
      * @responseFile responses\validSearch.json
      * @responseFile 400 responses\missingQueryParam.json
      * @responseFile 400 responses\invalidQuery.json
      * @responseFile 400 responses\missingToken.json
      * @responseFile 400 responses\invalidToken.json
      * @responseFile 400 responses\invalidToken2.json
-     * 
+     *
      * @bodyParam query string required The query to be searched for (at least 3 characters). Example: lorem
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
@@ -137,7 +137,6 @@ class General extends Controller
             return $result;
         }
         return $this->_removeBlockedPosts(collect($result), $request['token']);
-        
     }
 
 
@@ -145,23 +144,23 @@ class General extends Controller
      * Guest Sort Posts
      * Returns a list of posts in a given ApexCom
      * sorted either by the votes or by the date when they were created
-     * or by the number of comments. 
+     * or by the number of comments.
      * - When `apexComID` is missing or equals null,
      *     it returns all the posts in all apexComs.
      * - When `sortingParam` is missing or equals null, it uses the default value
-     * 
+     *
      * Use this request only if the user is a guest and not authorized
-     * 
+     *
      * ###Success Cases :
      * 1. Return the result successfully (status code 200).
-     * 
+     *
      * ###Failure Cases:
      * 1. ApexCom is not found (status code 404).
      * 2. There is a server-side error (status code 500).
      *
      * @responseFile responses\validSort.json
      * @responseFile 404 responses\apexComNotFound.json
-     * 
+     *
      * @queryParam apexComID The ID of the ApexComm that contains the posts, default is null. Example: t5_1
      * @queryParam sortingParam The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      */
@@ -230,26 +229,26 @@ class General extends Controller
 
     /**
      * User Sort Posts
-     * Just like [Guest Sort Posts](#guest-sort-posts), except that 
+     * Just like [Guest Sort Posts](#guest-sort-posts), except that
      * it does't return the posts between blocked users.
      * Use this request only if the user is logged in and authorized.
-     * 
+     *
      * ###Success Cases :
      * 1. Return the result successfully (status code 200).
-     * 
+     *
      * ###Failure Cases:
      * 1. ApexCom is not found (status code 404).
      * 2. The `token` is invalid, return a message about the error (status code 400)
      * 3. There is a server-side error (status code 500).
      *
      * @authenticated
-     * 
+     *
      * @responseFile responses\validSort.json
      * @responseFile 404 responses\apexComNotFound.json
      * @responseFile 400 responses\missingToken.json
      * @responseFile 400 responses\invalidToken.json
      * @responseFile 400 responses\invalidToken2.json
-     * 
+     *
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
@@ -273,10 +272,10 @@ class General extends Controller
     /**
      * Apex Names
      * Returns a list of the names and ids of all of the existing ApexComs.
-     * 
+     *
      * ###Success Cases :
      * 1. Return the result successfully (status code 200).
-     * 
+     *
      * ###Failure Cases:
      * 1. There is server-side error (status code 500).
      */
