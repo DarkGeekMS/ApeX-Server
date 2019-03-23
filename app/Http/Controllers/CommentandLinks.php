@@ -596,8 +596,20 @@ class CommentandLinks extends Controller
     {
         $account=new Account ;
         $user=$account->me($request);
+        if (!array_key_exists('user', $user->getData())) {
+            //there is token_error or user_not found_error
+            return $user;
+        }
+
         $user=$user->getData()->user;
         $id= $user->id;
+        $validator = validator(
+            $request->all(),
+            ['ID' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return  response()->json($validator->errors(), 400);
+        }
 
         $commentid=$request['ID'];
         $comment=DB::table('comments')->where('id', '=', $commentid)->get();
@@ -607,32 +619,32 @@ class CommentandLinks extends Controller
         $post=DB::table('posts')->where('id', '=', $postid)->get();
 
         if (count($comment)) {                                            //to check that the comment exists
-            $commentsaved=DB::table('savecomments')->where([                   //to check if the comment is saved
+            $commentsaved=DB::table('save_comments')->where([                   //to check if the comment is saved
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->get();
 
             if (count($commentsaved)) {
-                DB::table('savecomments')->where([
+                DB::table('save_comments')->where([
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->delete();
             } else {
-                DB::table('savecomments')-> insert(['comID' => $commentid, 'userID' =>$id]);
+                DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
             }
         } elseif (count($post)) {                                                      //to check that the post exists
-            $postsaved=DB::table('saveposts')->where([                                  //to check if the post is saved
+            $postsaved=DB::table('save_posts')->where([                                  //to check if the post is saved
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->get();
 
             if (count($postsaved)) {
-                DB::table('saveposts')->where([
+                DB::table('save_posts')->where([
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->delete();
             } else {
-                DB::table('saveposts')->insert(['postID' => $postid, 'userID' =>$id]);
+                DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
             }
         } else {
             return response()->json(['error' => 'post or comment doesnot exist'], 500);

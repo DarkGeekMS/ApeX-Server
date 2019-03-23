@@ -43,7 +43,7 @@ class MeValid extends TestCase
             'token' => $token
             ]
         );
-        $meResponse->assertStatus(200);
+        $meResponse->json('token');
         $response1 = $this->json(
             'POST',
             '/api/sign_out',
@@ -51,6 +51,6 @@ class MeValid extends TestCase
             'token' => $token
             ]
         );
-        $response1->assertStatus(200);
+        $response1->assertStatus(200)->assertDontSee("token_error");
     }
 }
