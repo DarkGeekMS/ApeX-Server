@@ -192,7 +192,7 @@ class General extends Controller
                 return response(['error' => 'ApexCom is not found.'], 404);
             }
         }
-        $votesTable = vote::select('postID', DB::raw('CAST(SUM(dir) AS int) AS votes'))->groupBy('postID');
+        $votesTable = vote::select('postID', DB::raw('CONVERT(SUM(dir), int) AS votes'))->groupBy('postID');
         $commentsTable = comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
 
         $posts = $posts->leftJoinSub(
