@@ -82,7 +82,9 @@ class search extends TestCase
         $posts = post::all();
         for ($i=0; $i < count($posts)/2; $i++) {
             $postWriterID = $posts[$i]['posted_by'];
-            block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
+            if (!block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
+                block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
+            }
         }
 
         $response = $this->json(
@@ -102,8 +104,9 @@ class search extends TestCase
         $posts = post::all();
         for ($i=0; $i < count($posts)/2; $i++) {
             $postWriterID = $posts[$i]['posted_by'];
-            block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])
-            ->delete();
+            if (block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
+                block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
+            }
         }
 
         \App\User::where('id', $userID)->delete();
