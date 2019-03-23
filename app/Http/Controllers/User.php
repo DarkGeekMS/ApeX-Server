@@ -16,20 +16,34 @@ class User extends Controller
 
 
     /**
-     * block
-     * Block a user, so he can't send private messages or see the blocked user posts or comments.
-     * if the user is already blocked, the request will unblock him
-     * Success Cases :
-     * 1) return status code 200 and json contains
-     *  'the user has been blocked successfully' if the user was not blocked
-     *  or 'the user has been unblocked seccessfully' if the user was blocked already.
-     * failure Cases:
-     * 1) No Access Right token is not authorized.
-     * 2) Blocked user id is not found (status code 404)
-     * 3) The user is blocking himself (status code 400)
+     * Block
+     * User block another user, so they can't send private messages to each other
+     *  or see their each other posts or comments.
+     * If the user is already blocked, the request will unblock him
+     * 
+     * ###Success Cases :
+     * 1. Return json contains 'the user has been blocked successfully',
+     *        if the user was not blocked (status code 200)
+     * 2. Return json contains 'the user has been unblocked seccessfully',
+     *        if the user was blocked already (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. The `token` is invalid, return a message about the error (stauts code 400).
+     * 2. Blocked user is not found (status code 404)
+     * 3. The user is blocking himself (status code 400)
      *
-     * @bodyParam blockedID string required the id of the user to be blocked.
-     * @bodyParam token JWT required Used to verify the user.
+     * @authenticated
+     * 
+     * @response 200 {"result":"The user has been blocked successfully"}
+     * @response 200 {"result":"The user has been unblocked successfully"}
+     * @response 400 {"token":["The token field is required."]}
+     * @response 400 {"token_error":"Wrong number of segments"}
+     * @response 400 {"token_error":"Token Signature could not be verified."}
+     * @response 404 {"error":"Blocked user is not found"}
+     * @response 400 {"error":"The user can't block himself"}
+     * 
+     * @bodyParam blockedID string required the id of the user to be blocked. Example: t2_1
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
 
     public function block(Request $request)
@@ -50,7 +64,9 @@ class User extends Controller
         $blockerID = $meResponse->getData()->user->id;
 
         $blockedID = $request->blockedID;
-        \App\User::findOrFail($blockedID);  //raises an error if user is not found
+        if (!\App\User::where('id', $blockedID)->exists()) {
+            return response(['error' => 'Blocked user is not found'], 404);
+        }
 
         if (block::where(compact('blockerID', 'blockedID'))->exists()) {
             try {

@@ -259,7 +259,9 @@ class ApexCom extends Controller
 
         if (!$exists) {
             // making the id of the new apexcom and creating it
-            $count = apexComModel::all()->count();
+            $count = apexComModel::selectRaw(
+                '(cast( SUBSTR(id,4) as int)) as intid'
+            )->get()->max('intid');
             $id = 't5_'.($count+1);
             $v = $request->all();
             $v['id'] = $id;
