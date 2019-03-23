@@ -57,7 +57,7 @@ class search extends TestCase
 
     /**
      * Tests userSearch
-     * 
+     *
      * @test
      *
      * @return void

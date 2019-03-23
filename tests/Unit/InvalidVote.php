@@ -45,7 +45,7 @@ class InvalidVote extends TestCase
      * @return void
      */
     //no comment
-    public function invalidComment()
+    public function noComment()
     {
         $loginResponse = $this->json(
             'POST',
@@ -92,7 +92,38 @@ class InvalidVote extends TestCase
             '/api/vote',
             [
             'token' => $token,
-            'name' => 't1_1'
+            'name' => 't1_4',
+            'dir' => 1
+            ]
+        );
+        $response->assertStatus(400);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //no user
+    public function invalidDir()
+    {
+        $loginResponse = $this->json(
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
+            ]
+        );
+        $token = $loginResponse->json('token');
+        $response = $this->json(
+            'POST',
+            '/api/vote',
+            [
+            'token' => $token,
+            'name' => 't1_4',
+            'dir' => 2
             ]
         );
         $response->assertStatus(400);

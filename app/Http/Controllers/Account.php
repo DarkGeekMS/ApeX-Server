@@ -77,9 +77,13 @@ class Account extends Controller
             ]
         );
 
-        $count = DB::table('users')->count();
-
-        $id = "t2_".($count+1000);   //to be changed
+        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
+        $id = "t2_1";
+        if ($lastUser) {
+            $id = $lastUser->id;
+            $newIdx = (int)explode("_", $id)[1];
+            $id = "t2_".($newIdx+1);
+        }
 
         //Returning the validation errors in case of validation failure
         if ($validator->fails()) {
