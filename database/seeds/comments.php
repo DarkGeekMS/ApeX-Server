@@ -11,40 +11,138 @@ class comments extends Seeder
      */
     public function run()
     {
-        DB::table('comments')->insert([
+        DB::table('comments')->insert(
+            [
             'id' => 't1_1',
             'commented_by' => 't2_1',
             'content' => 'Hey there',
             'root' => 't3_1'
-        ]);
+            ]
+        );
 
-        DB::table('comments')->insert([
+        DB::table('comments')->insert(
+            [
             'id' => 't1_2',
             'commented_by' => 't2_3',
-            'content' => 'Hey there',
+            'content' => 'hii there',
             'root' => 't3_2'
-        ]);
+            ]
+        );
 
-        DB::table('comments')->insert([
+        DB::table('comments')->insert(
+            [
             'id' => 't1_3',
             'commented_by' => 't2_2',
-            'content' => 'Hey there',
-            'root' => 't3_3'
-        ]);
+            'content' => 'good bye there',
+            'root' => 't3_3']
+        );
 
-        DB::table('comments')->insert([
+        DB::table('comments')->insert(
+            [
             'id' => 't1_4',
             'commented_by' => 't2_2',
-            'content' => 'Hey there',
+            'content' => 'good morning there',
             'root' => 't3_4'
-        ]);
+            ]
+        );
 
-        DB::table('comments')->insert([
+        DB::table('comments')->insert(
+            [
             'id' => 't1_5',
             'commented_by' => 't2_4',
-            'content' => 'Hey there',
+            'content' => 'Hello there',
             'root' => 't3_5'
-        ]);
-        factory(App\comment::class, 10)->create();
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_6',
+            'commented_by' => 't2_10',
+            'content' => 'Hey there',
+            'root' => 't3_10'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_7',
+            'commented_by' => 't2_11',
+            'content' => 'Hey there',
+            'root' => 't3_11'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_8',
+            'commented_by' => 't2_8',
+            'content' => 'Hey there',
+            'root' => 't3_7'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_9',
+            'commented_by' => 't2_15',
+            'content' => 'Hey there',
+            'root' => 't3_9'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_10',
+            'commented_by' => 't2_13',
+            'content' => 'Hey there',
+            'root' => 't3_7'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_11',
+            'commented_by' => 't2_11',
+            'content' => 'Hey there',
+            'root' => 't3_9'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_12',
+            'commented_by' => 't2_13',
+            'content' => 'Hey there',
+            'root' => 't3_14'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_13',
+            'commented_by' => 't2_8',
+            'content' => 'Hey there',
+            'root' => 't3_8'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_14',
+            'commented_by' => 't2_14',
+            'content' => 'Hey there',
+            'root' => 't3_9'
+            ]
+        );
+
+        DB::table('comments')->insert(
+            [
+            'id' => 't1_15',
+            'commented_by' => 't2_15',
+            'content' => 'Hey there',
+            'root' => 't3_8'
+            ]
+        );
     }
 }

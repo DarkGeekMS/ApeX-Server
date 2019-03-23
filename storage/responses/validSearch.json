@@ -1,0 +1,41 @@
+{
+    "posts": [
+        {
+            "id": "t3_10",
+            "posted_by": "t2_31",
+            "apex_id": "t5_10",
+            "title": "5yackoudW8",
+            "img": null,
+            "videolink": null,
+            "content": "Architecto nesciunt deleniti ut. Commodi doloremque blanditiis est odio sit quia. Eos sit et sunt in repellat omnis.",
+            "locked": 0,
+            "created_at": "2019-03-22 16:58:26",
+            "updated_at": "2019-03-22 16:58:26"
+        },
+        {
+            "id": "t3_12",
+            "posted_by": "t2_35",
+            "apex_id": "t5_9",
+            "title": "qYxfPEUHif",
+            "img": null,
+            "videolink": null,
+            "content": "Assumenda iusto sed quae hic ex non rerum. Officia voluptatem minus perferendis distinctio sint qui. Dolorem ut aliquid id illum qui placeat sit.",
+            "locked": 0,
+            "created_at": "2019-03-22 16:58:26",
+            "updated_at": "2019-03-22 16:58:26"
+        }
+    ],
+    "apexComs": [
+        {
+            "id": "t5_7",
+            "name": "e4GiNXiUN6",
+            "avatar": "public\\img\\apx.png",
+            "banner": "public\\img\\banner.jpg",
+            "rules": "Reprehenderit qui vero eum. Qui et quos est autem culpa perferendis. Vero omnis ea culpa doloremque dolorem.",
+            "description": "Maxime quos sit omnis dolore error reprehenderit et. Harum rerum nisi magni. Qui rerum voluptatem dolorem perspiciatis ut et.",
+            "created_at": "2019-03-22 16:58:24",
+            "updated_at": "2019-03-22 16:58:24"
+        }
+    ],
+    "users": []
+}

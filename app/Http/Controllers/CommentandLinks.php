@@ -26,7 +26,7 @@ use App\Http\Controllers\Account;
 
 class CommentandLinks extends Controller
 {
-    //private $account=new Account ;
+
     /**
      * add
      * submit a new comment or reply to a comment on a post.
@@ -67,64 +67,80 @@ class CommentandLinks extends Controller
 
     public function add(Request $request)
     {
-
+      //get the logged in user
         $account=new Account ;
         $userID = $account->me($request);
+        //check valid user
         if (!array_key_exists('user', $userID->getData())) {
                 //there is token_error or user_not found_error
                 return $userID;
         }
+        //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
-
+        //check if there is no content to be submitted return error message
         if (!$request['content']) {
             return response()->json(['error' => 'Comment content not found'], 404);
         }
+        //get the post,comment or message to be replied
         $parent = $request['parent'];
-
+        //if the parent was comment means the submitted is a reply
         if ($parent[1]==1) {              //add reply to comment ( or another reply)
+          //get the parent comment and check valid one
             $comment = comment::find($parent);
+            //if not vali return error message
             if (!$comment) {
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
             //check mention existance
+            //create the comment id by getting the total count of the comments and increment it by 1
             $count = DB::table('comments')->count();
             $id = "t1_".($count+1);
+            //add this record in the database
             DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$comment['root'],
             'parent' => $comment['id'] , 'id' =>$id, 'content' => $request['content']]);
-
+            //return the id of the submitted reply
             return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
+          //get the post to be commented
             $post = post::find($parent);
-
+            //check valid post if not return error message
             if (!$post) {
                 return response()->json(['error' => 'post not exists '], 404);
             }
             //check if any mention exists
+            //create the comment id by getting the total count of comments table and increment it by 1
             $count = DB::table('comments')->count();
             $id = "t1_".($count+1);
+            //insert the new record in the database
             DB::table('comments')->insert(['commented_by'=> $user['id'], 'root' =>$parent,
             'id' =>$id, 'content' => $request['content']]);
+            //return the id of the submitted comment
             return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
+          //get the message to have a reply
             $message = message::find($parent);
+            //check valid message if not return error message
             if (!$message) {
                 return response()->json(['error' => ' message not exists '], 404);
             }
+            //get the receiver id from the parent message (messages can be done by only 2 users)
             $userF = 't1_0';
             if ($message['sender'] == $user['id']) {
                 $userF = $message['receiver'];
             } else {
                 $userF = $message['sender'];
             }
+            //create the id of the new message by counting table messages records and increment it by 1
             $count = DB::table('messages')->count();
             $id = "t4_".($count+1);
-
+            //insert the new message record in the message table
             DB::table('messages')->insert(['sender'=> $user['id'], 'receiver' =>$userF,
             'id' =>$id, 'content' => $request['content'], 'subject' => $message['subject']]);
-
+            //return the id of the created message
             return response()->json(['id' => $id], 200);
         }
+        //return error message if the request called for anything except post ,comment or message
         return response()->json(['error' => 'invalid Action'], 400);
     }
 
@@ -241,7 +257,7 @@ class CommentandLinks extends Controller
             ->where('apexID', $post['apex_id'])->get();
             //if so delete the comment and return true
             if (count($moderator)) {
-                $post->delete();
+                $comment->delete();
                 return response()->json(['deleted' => true], 200);
             }
             //if not return error message
@@ -628,7 +644,7 @@ class CommentandLinks extends Controller
         $user = User::find($userID);
 
         //check if the vote direction is invalid
-        if ($request['dir'] != 1 || $request['dir'] != -1) {
+        if ($request['dir'] != 1 && $request['dir'] != -1) {
            //return invalid action if the vote direction is not 1 (up-vote) or -1 (down vote)
             return response()->json(['error' => 'Invalid Action'], 400);
         }
@@ -739,11 +755,20 @@ class CommentandLinks extends Controller
         $account=new Account ;
         $user=$account->me($request);
         if (!array_key_exists('user', $user->getData())) {
-                //there is token_error or user_not found_error
-                return $user;
+
+            //there is token_error or user_not found_error
+            return $user;
         }
+
         $user=$user->getData()->user;
         $id= $user->id;
+        $validator = validator(
+            $request->all(),
+            ['ID' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return  response()->json($validator->errors(), 400);
+        }
 
         $commentid=$request['ID'];
         $comment=DB::table('comments')->where('id', '=', $commentid)->get();
