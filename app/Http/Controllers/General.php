@@ -274,16 +274,14 @@ class General extends Controller
     {
         $account = new Account();
 
-        // getting the user_id related to the token in the request and validate.
-        $user_id = $account->me($request)->getData()->user->id;
-
-        // checking if the user exists.
-        $exists = User::where('id', $user_id)->count();
-
-        // return a message error if not existing
-        if (!$exists) {
-            return response()->json(['error' => 'invalid user'], 404);
+        // getting the user_id and user_type related to the token in the request and validate.
+        $user_id = $account->me($request);
+        if (!array_key_exists('user', $user_id->getData())) {
+                //there is token_error or user_not found_error
+                return $user_id;
         }
+        $User = $account->me($request)->getData()->user;
+        $user_id = $User->id;
 
         $apex_id = $request['ApexCommID'];
 
