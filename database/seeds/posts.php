@@ -78,7 +78,7 @@ class posts extends Seeder
         DB::table('posts')->insert([
             'id' => 't3_9',
             'posted_by' => 't2_7',
-            'apex_id' => 't5_4',
+            'apex_id' => 't5_1',
             'title' => 'Anything',
             'created_at' => '2019-03-23 17:20:38'
         ]);
@@ -110,7 +110,7 @@ class posts extends Seeder
         DB::table('posts')->insert([
             'id' => 't3_13',
             'posted_by' => 't2_12',
-            'apex_id' => 't5_6',
+            'apex_id' => 't5_1',
             'title' => 'Anything',
             'created_at' => '2019-03-23 17:20:42'
         ]);

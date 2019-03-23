@@ -53,7 +53,7 @@ class apeXcoms extends Seeder
 
         DB::table('apex_coms')->insert([
             'id' => 't5_5',
-            'name' => 'sports',
+            'name' => 'sports area',
             'avatar' => 'public\img\apx.png',
             'banner' => 'public\img\banner.jpg',
             'rules' => 'NO RULES',

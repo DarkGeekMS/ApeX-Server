@@ -60,7 +60,7 @@ class SiteAdminTest extends TestCase
                 'token' => $token,
                 'name' => $name,
                 'description' => 'concerning about sports',
-                'rules' => 'you can post'
+                'rules' => 'you can do anything you want'
             ]
         );
 
@@ -114,7 +114,7 @@ class SiteAdminTest extends TestCase
             [
                 'token' => $token,
                 'name' => $name,
-                'rules' => 'you can post'
+                'rules' => 'you can post or comment'
             ]
         );
 
@@ -207,7 +207,7 @@ class SiteAdminTest extends TestCase
                 'token' => $token,
                 'name' => $name,
                 'description' => 'concerning about multiple sports',
-                'rules' => 'you can post'
+                'rules' => 'you can post or have fun :D'
             ]
         );
 
