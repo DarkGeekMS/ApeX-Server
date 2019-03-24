@@ -9,6 +9,7 @@ prepare() {
     php7 artisan migrate -v
     composer dump-autoload
     php7 artisan DB:seed
+    php7 artisan jwt:secret
 }
 
 runTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
