@@ -11,6 +11,5 @@ class blocks extends Seeder
      */
     public function run()
     {
-        factory(App\block::class, 10)->create();
     }
 }

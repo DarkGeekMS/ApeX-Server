@@ -22,12 +22,14 @@ class MeInvalid2 extends TestCase
         $dummyUser = new User;
         $dummyUser->fullname = "Adel shakal";
         $dummyUser->email = "na7o@gmail.com";
-        $dummyUser->password = Hash::make("mohamedmahros");
+        $dummyUser->password = Hash::make("hantykanty");
         $dummyUser->avatar = "default";
 
         $token = JWTAuth::fromUser($dummyUser);
         $meResponse = $this->json(
-            'POST', '/api/me', [
+            'POST',
+            '/api/me',
+            [
             'token' => $token
             ]
         );

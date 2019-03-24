@@ -21,7 +21,6 @@ services:
 
 cache:
   directories:
-    # we cache the SDK so we don't have to download it again on subsequent builds
     - $HOME/google-cloud-sdk
 
 env:
@@ -29,18 +28,11 @@ env:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1 
 
 before_script:
-  # remove xdebug to speed up testing
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini # remove xdebug to speed up testing
   - cp .env.example .env
-  - docker version
-  - docker-compose up --build -d 
-  - docker-compose exec app php --version
-  - docker-compose exec app composer --version
-  - docker-compose exec database mysql --version
-  - docker-compose exec app /bin/bash -c scripts/afterclone.sh
-  - docker-compose exec -d app php7 artisan serve --host=0.0.0.0 --port=80
+  - docker build . -t app-image --build-arg PREPARE='true' --build-arg TEST='true'
 script:
-  - docker-compose exec app ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests
+  - docker-compose up --exit-code-from app
 
 # TODO: uncomment when cloud is available
 # before_deploy:

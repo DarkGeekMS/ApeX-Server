@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 
 class MeValid extends TestCase
 {
@@ -16,17 +17,29 @@ class MeValid extends TestCase
     public function testExample()
     {
         $loginResponse = $this->json(
-            'POST', '/api/Sign_in', [
-            'username' => 'Mohamed1',
-            'password' => '1234567'
+            'POST',
+            '/api/Sign_in',
+            [
+            'username' => 'Monda Talaat',
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+        $token = $loginResponse->json('token');
         $meResponse = $this->json(
-            'POST', '/api/me', [
+            'POST',
+            '/api/me',
+            [
             'token' => $token
             ]
         );
-        $meResponse->assertStatus(200)->assertDontSee("token_error");
+        $meResponse->json('token');
+        $response1 = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
+        $response1->assertStatus(200)->assertDontSee("token_error");
     }
 }

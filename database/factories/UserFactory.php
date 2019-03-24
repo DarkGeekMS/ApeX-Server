@@ -16,12 +16,13 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    static $i = 1;
     return [
-        'id' => 't2_'.str_random(6),
+        'id' => 't2_'.(string)(count(DB::table('users')->pluck('id')->all()) + $i++),
         'fullname'=>$faker->name,
         'email' => $faker->unique()->safeEmail,
         'username'=>$faker->userName,
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        'password' => '$2y$10$Bn8ou70RVD03.XejoQ4fWeqn.JR6KOX3GO84Di/qvJnUKK190ATVG',
         'avatar'=>'public\img\def.jpg',
         'karma'=>1,
         'notification'=>true,

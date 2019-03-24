@@ -37,8 +37,8 @@ Route::get('/messages', 'Account@inbox');
 
 // administration
 
-Route::post('/del_ac', 'Administration@deleteApexCom');
-Route::post('/del_user', 'Administration@deleteUser');
+Route::delete('/del_ac', 'Administration@deleteApexCom');
+Route::delete('/del_user', 'Administration@deleteUser');
 Route::post('/add_mod', 'Administration@addModerator');
 
 
@@ -55,8 +55,8 @@ Route::post('/site_admin', 'ApexCom@siteAdmin');
 // links and comments
 
 Route::post('/comment', 'CommentandLinks@add');
-Route::post('/DelComment', 'CommentandLinks@delete');
-Route::post('/Edit', 'CommentandLinks@editText');
+Route::delete('/delete', 'CommentandLinks@delete');
+Route::patch('/Edit', 'CommentandLinks@editText');
 Route::post('/report', 'CommentandLinks@report');
 Route::post('/vote', 'CommentandLinks@vote');
 Route::post('/lock_post', 'CommentandLinks@lock');
@@ -69,8 +69,10 @@ Route::get('/moreComments', 'CommentandLinks@moreChildren');
 // general
 
 
-Route::get('/search', 'General@search');
-Route::get('/sort_posts', 'General@sortPostsBy');
+Route::get('/search', 'General@guestSearch');
+Route::post('/search', 'General@userSearch');
+Route::get('/sort_posts', 'General@guestSortPostsBy');
+Route::post('/sort_posts', 'General@userSortPostsBy');
 Route::get('/Apex_names', 'General@apexNames');
 Route::get('/get_subscribers', 'General@getSubscribers');
 

@@ -11,6 +11,10 @@ class reportPosts extends Seeder
      */
     public function run()
     {
-        factory(App\reportPost::class, 10)->create();
+        DB::table('report_posts')->insert([
+        'postID' => 't3_14',
+        'userID' => 't2_1',
+        'content' => 'Anything'
+        ]);
     }
 }
