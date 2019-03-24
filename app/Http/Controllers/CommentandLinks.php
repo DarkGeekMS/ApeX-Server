@@ -35,9 +35,9 @@ class CommentandLinks extends Controller
      * 1) post fullname (ID) is not found.
      * 2) NoAccessRight token is not authorized.
      *
-     * @bodyParam content string required The body of the comment.
-     * @bodyParam parent string required The fullname of the thing to be replied to.
-     * @bodyParam token JWT required Verifying user ID.
+     * @queryParam content string required The body of the comment.
+     * @queryParam parent string required The fullname of the thing to be replied to.
+     * @queryParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -177,8 +177,8 @@ class CommentandLinks extends Controller
      * 2) NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.
      * 3) post , comment or reply fullname (ID) is not found.
      *
-     * @bodyParam name string required The fullname of the post,comment or reply to be deleted.
-     * @bodyParam token JWT required Verifying user ID.
+     * @queryParam name string required The fullname of the post,comment or reply to be deleted.
+     * @queryParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -318,8 +318,8 @@ class CommentandLinks extends Controller
      * 2) post fullname (ID) is not found.
      * 3) NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.
      *
-     * @bodyParam name string required The fullname of the post to be locked.
-     * @bodyParam token JWT required Verifying user ID.
+     * @queryParam name string required The fullname of the post to be locked.
+     * @queryParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -392,8 +392,8 @@ class CommentandLinks extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
      *
-     * @bodyParam name string required The fullname of the post to be hidden.
-     * @bodyParam token JWT required Verifying user ID.
+     * @queryParam name string required The fullname of the post to be hidden.
+     * @queryParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -451,9 +451,9 @@ class CommentandLinks extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
      *
-     * @bodyParam parent string required The fullname of the posts whose comments are being fetched
+     * @queryParam parent string required The fullname of the posts whose comments are being fetched
      * ( post , comment or message ).
-     * @bodyParam ID JWT required Verifying user ID.
+     * @queryParam ID JWT required Verifying user ID.
      */
 
 
@@ -475,9 +475,11 @@ class CommentandLinks extends Controller
      * 1) send reason (index) out of the associative array range.
      * 2) NoAccessRight token is not authorized.
      *
-     * @bodyParam name string required The fullname of the post,comment or message to report.
+     * @queryParam name string required The fullname of the post,comment or message to report.
      * @bodyParam content string The reason for the report from an associative array.
      * (will be in frontend).
+     * @queryParam token JWT required Verifying user ID.
+
      * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
@@ -612,9 +614,9 @@ class CommentandLinks extends Controller
      * 2) fullname of the thing to vote on is not found.
      * 3) direction of the vote is not integer between -1 , 1.
      *
-     * @bodyParam name string required The fullname of the post,comment or reply to vote on.
+     * @queryParam name string required The fullname of the post,comment or reply to vote on.
      * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
-     * @bodyParam token JWT required Verifying user ID.
+     * @queryParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -746,7 +748,7 @@ class CommentandLinks extends Controller
      * 2) post fullname (ID) is not found.
      *
      * @bodyParam ID string required The ID of the comment or post.
-     * @bodyParam token JWT required Used to verify the user.
+     * @queryParam token JWT required Used to verify the user.
      */
 
     public function save(Request $request)
