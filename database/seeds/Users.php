@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-
 class Users extends Seeder
 {
     /**
@@ -20,7 +19,7 @@ class Users extends Seeder
           'username' => 'Monda Talaat',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
           'type' => 2,
-          'created_at' => '2019-03-23 17:20:51'
+          'created_at' => '2019-03-23 17:20:31'
         ]);
 
         DB::table('users')->insert([
@@ -29,7 +28,7 @@ class Users extends Seeder
           'email' => 'max@gmail.com',
           'username' => 'mX',
           'password' => '$2y$10$Bn8ou70RVD03.XejoQ4fWeqn.JR6KOX3GO84Di/qvJnUKK190ATVG',
-          'created_at' => '2019-03-23 17:20:51'
+          'created_at' => '2019-03-23 17:20:32'
         ]);
 
         DB::table('users')->insert([
@@ -39,17 +38,7 @@ class Users extends Seeder
           'username' => 'Anyone',
           'password' => '$2y$10$MH4kKI.qEnCj0MZeEr9abOgQdD.MHtBhRm6PoxWOAsCE9BxaI7Loi',
           'type' => 2,
-          'created_at' => '2019-03-23 17:20:51'
-        ]);
-
-        DB::table('users')->insert([
-          'id' => 't2_3',
-          'fullname' => 'Any Hooman',
-          'email' => 'AHom@gmail.com',
-          'username' => 'Anyone',
-          'password' => '$2y$10$MH4kKI.qEnCj0MZeEr9abOgQdD.MHtBhRm6PoxWOAsCE9BxaI7Loi',
-          'type' => 2,
-          'created_at' => '2019-03-23 17:20:51'
+          'created_at' => '2019-03-23 17:20:33'
         ]);
 
         DB::table('users')->insert([
@@ -59,7 +48,7 @@ class Users extends Seeder
           'username' => 'King',
           'password' => '$2y$10$IYrxpk0//MRpX8lx.bhklu6.tn8FT3lqSF.LwVp5dco.UeUdfzlVS',
           'type' => 3,
-          'created_at' => '2019-03-23 17:20:51'
+          'created_at' => '2019-03-23 17:20:34'
         ]);
 
         DB::table('users')->insert([
@@ -68,7 +57,7 @@ class Users extends Seeder
           'email' => 'DarkGeek@gmail.com',
           'username' => 'shawky',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:52'
+          'created_at' => '2019-03-23 17:20:35'
         ]);
 
         DB::table('users')->insert([
@@ -78,7 +67,7 @@ class Users extends Seeder
           'username' => 'double',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
           'type' => 3,
-          'created_at' => '2019-03-23 17:20:53'
+          'created_at' => '2019-03-23 17:20:36'
         ]);
 
         DB::table('users')->insert([
@@ -88,7 +77,7 @@ class Users extends Seeder
           'username' => 'ramzy',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
           'type' => 2,
-          'created_at' => '2019-03-23 17:20:54'
+          'created_at' => '2019-03-23 17:20:37'
         ]);
 
         DB::table('users')->insert([
@@ -97,16 +86,7 @@ class Users extends Seeder
           'email' => 'mazen21@gmail.com',
           'username' => 'mazen',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:55'
-        ]);
-
-        DB::table('users')->insert([
-          'id' => 't2_8',
-          'fullname' => 'mazen amr',
-          'email' => 'mazen21@gmail.com',
-          'username' => 'mazen',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:55'
+          'created_at' => '2019-03-23 17:20:38'
         ]);
 
         DB::table('users')->insert([
@@ -115,7 +95,7 @@ class Users extends Seeder
           'email' => 'mostafa21@gmail.com',
           'username' => 'mostafa',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:56'
+          'created_at' => '2019-03-23 17:20:39'
         ]);
 
         DB::table('users')->insert([
@@ -124,7 +104,7 @@ class Users extends Seeder
           'email' => 'kareem21@gmail.com',
           'username' => 'kareem',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:57'
+          'created_at' => '2019-03-23 17:20:40'
         ]);
 
         DB::table('users')->insert([
@@ -134,7 +114,7 @@ class Users extends Seeder
           'username' => 'habiba',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
           'type' => 2,
-          'created_at' => '2019-03-23 17:20:58'
+          'created_at' => '2019-03-23 17:20:41'
         ]);
 
         DB::table('users')->insert([
@@ -143,7 +123,7 @@ class Users extends Seeder
           'email' => 'dina21@gmail.com',
           'username' => 'dina',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:59'
+          'created_at' => '2019-03-23 17:20:42'
         ]);
 
         DB::table('users')->insert([
@@ -152,7 +132,7 @@ class Users extends Seeder
           'email' => 'ahmed21@gmail.com',
           'username' => 'waleed',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:60'
+          'created_at' => '2019-03-23 17:20:43'
         ]);
 
         DB::table('users')->insert([
@@ -161,7 +141,7 @@ class Users extends Seeder
           'email' => 'mohamed@gmail.com',
           'username' => 'shaheen',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:61'
+          'created_at' => '2019-03-23 17:20:44'
         ]);
 
         DB::table('users')->insert([
@@ -170,7 +150,7 @@ class Users extends Seeder
           'email' => 'menna21@gmail.com',
           'username' => 'menna',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:62'
+          'created_at' => '2019-03-23 17:20:45'
         ]);
     }
 }
