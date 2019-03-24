@@ -298,6 +298,27 @@ class General extends Controller
      * failure Cases:
      * 1) Return empty list if there are no subscribers.
      * 2) ApexComm Fullname (ID) is not found.
+     * 
+     * @response 400 {"token_error":"The token could not be parsed from the request"}
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 400 {"error":"You are blocked from this Apexcom"} 
+     * @response 200 {
+     * "subscribers": [
+     *   {
+     *       "id": "t2_1017",
+     *       "fullname": null,
+     *       "email": "ms16@gmail.com",
+     *       "username": "ms16",
+     *       "avatar": "storage/avatars/users/default.png",
+     *       "karma": 1,
+     *       "notification": 1,
+     *       "type": 3,
+     *       "created_at": "2019-03-23 21:34:24",
+     *       "updated_at": "2019-03-23 21:34:24",
+     *       "userID": "t2_1017"
+     *   }
+     *  ]
+     * }
      *
      * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
      * @bodyParam _token string required Verifying user ID.
