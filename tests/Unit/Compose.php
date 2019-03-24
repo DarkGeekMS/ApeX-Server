@@ -129,91 +129,24 @@ class Compose extends TestCase
 
 
     /**
-     * Test missing subject field
+     * Test missing requird fields
      * 
      * @test
      * 
      * @return void
      */
-    public function noSubject() 
+    public function noParams() 
     {
         $params = $this->_createParams();
 
-        $response = $this->json(
-            'POST', '/api/compose', $params->except('sender', 'subject')->toArray()
-        );
-
-        $response->assertStatus(400)
-            ->assertSee("subject");
-
-        //remove the created users
-        User::where('id', $params['receiver'])
-            ->orWhere('id', $params['sender'])->delete();
-    }
-
-    /**
-     * Test missing receiver field
-     * 
-     * @test
-     * 
-     * @return void
-     */
-    public function noReceiver() 
-    {
-        $params = $this->_createParams();
-
-        $response = $this->json(
-            'POST', '/api/compose', $params->except('sender', 'receiver')->toArray()
-        );
-
-        $response->assertStatus(400)
-            ->assertSee("receiver");
-
-        //remove the created users
-        User::where('id', $params['receiver'])
-            ->orWhere('id', $params['sender'])->delete();
-    }
-
-    /**
-     * Test missing content field
-     * 
-     * @test
-     * 
-     * @return void
-     */
-    public function noContent() 
-    {
-        $params = $this->_createParams();
-
-        $response = $this->json(
-            'POST', '/api/compose', $params->except('sender', 'content')->toArray()
-        );
-
-        $response->assertStatus(400)
-            ->assertSee('content');
-
-        //remove the created users
-        User::where('id', $params['receiver'])
-            ->orWhere('id', $params['sender'])->delete();
-    }
-
-    /**
-     * Test missing token field
-     * 
-     * @test
-     * 
-     * @return void
-     */
-    public function noToken() 
-    {
-        $params = $this->_createParams();
-
-        $response = $this->json(
-            'POST', '/api/compose', $params->except('sender', 'token')->toArray()
-        );
-
-        $response->assertStatus(400)
-            ->assertSee('token');
+        $missing = ['subject', 'content', 'receiver', 'token'];
+        foreach ($missing as $misParam ) {
+            $response = $this->json(
+                'POST', '/api/compose', $params->except('sender', $misParam)->toArray()
+            );
+    
+            $response->assertStatus(400)->assertSee($misParam);
+        }
 
         //remove the created users
         User::where('id', $params['receiver'])
