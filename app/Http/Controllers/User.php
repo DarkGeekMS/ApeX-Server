@@ -100,7 +100,7 @@ class User extends Controller
      * 1. The parameters are valid, return the id of the composed message 
      *    (status code 200)
      * 
-     * Failure Cases:
+     * ###Failure Cases:
      * 1. Messaged-user id is not found (status code 404).
      * 2. Invalid token, return a message about the error (status code 400).
      * 3. The users are blocked from each other (status code 400)
