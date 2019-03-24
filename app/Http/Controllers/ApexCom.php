@@ -31,8 +31,13 @@ class ApexCom extends Controller
      * failure Cases:
      * 1) NoAccessRight the token does not support to view the about information.
      * 2) ApexCom fullname (ApexCom_id) is not found.
+     * 
+     * @response 400 {"token_error":"The token could not be parsed from the request"}
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 400 {"error":"You are blocked from this Apexcom"}
+     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"} 
      *
-     * @bodyParam ApexCom_id string required The fullname of the community.
+     * @bodyParam ApexCom_ID string required The fullname of the community.
      * @bodyParam token JWT required Verifying user ID.
      */
 
@@ -117,9 +122,38 @@ class ApexCom extends Controller
      * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function submitPost()
+    public function submitPost(Request $request)
     {
-        return;
+        $account = new Account();
+
+        // getting the user_id and user_type related to the token in the request and validate.
+        $user_id = $account->me($request);
+        if (!array_key_exists('user', $user_id->getData())) {
+                //there is token_error or user_not found_error
+                return $user_id;
+        }
+        $User = $account->me($request)->getData()->user;
+        $user_id = $User->id;
+
+        $apex_id = $request['ApexCom_id'];
+
+        // checking if the apexCom exists.
+        $exists = apexComModel::where('id', $apex_id)->count();
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
+        }
+
+        // check if the validated user was blocked from the apexcom.
+        $blocked = apexBlock::where(
+            [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
+        )->count();
+
+        // return an error for if the user was blocked from the apexcom.
+        if ($blocked != 0) {
+            return response()->json(['error' => 'You are blocked from this Apexcom'], 400);
+        }
     }
 
 
@@ -134,6 +168,11 @@ class ApexCom extends Controller
      * failure Cases:
      * 1) NoAccessRight the token does not support to subscribe this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
+     * 
+     * @response 400 {"token_error":"The token could not be parsed from the request"}
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 400 {"error":"You are blocked from this Apexcom"}
+     * @response 200 [true] 
      *
      * @bodyParam ApexCom_id string required The fullname of the community required to be subscribed.
      * @bodyParam token JWT required Verifying user ID.
@@ -207,6 +246,17 @@ class ApexCom extends Controller
      * failure Cases:
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
+     *  
+     * @response 400 {"token_error":"The token could not be parsed from the request"}
+     * @response 400 {"error":"No Access Rights to create or edit an ApexCom"}
+     * @response 400 {"name":["The name field is required."]}
+     * @response 400 {"name":["The description field is required."]}
+     * @response 400 {"name":["The rules field is required."]}
+     * @response 400 {"name":["The name must be at least 3 characters."]}
+     * @response 400 {"name":["The description must be at least 3 characters."]}
+     * @response 400 {"name":["The rules must be at least 3 characters."]}
+     * @response 400 {"avatar":["The avatar must be an image."]}
+     * @response 200 [true]
      *
      * @bodyParam name string required The name of the community.
      * @bodyParam description string required The description of the community.
