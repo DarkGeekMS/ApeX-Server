@@ -11,6 +11,7 @@ search: true
 
 toc_footers:
 - <a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a>
+
 ---
 <!-- START_INFO -->
 # Info
@@ -39,7 +40,7 @@ failure Cases:
 curl -X POST "http://localhost/api/sign_up" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"iIMiymHfvjtRKuwL","username":"KtNIKE254tEZ5KwY","password":"XU3A7oATcyyvSJiy"}'
+    -d '{"email":"BVAdCHRlXAUDxV9r","username":"AG536hG0GV29dgTx","password":"P5niVu6o9DBP54pt"}'
 
 ```
 
@@ -53,9 +54,9 @@ let headers = {
 }
 
 let body = {
-    "email": "iIMiymHfvjtRKuwL",
-    "username": "KtNIKE254tEZ5KwY",
-    "password": "XU3A7oATcyyvSJiy"
+    "email": "BVAdCHRlXAUDxV9r",
+    "username": "AG536hG0GV29dgTx",
+    "password": "P5niVu6o9DBP54pt"
 }
 
 fetch(url, {
@@ -143,7 +144,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Sign_in" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"evrUH719CrIF955u","password":"lYX57ygSkA8LGWUZ"}'
+    -d '{"username":"H9cEykjfSVg0Sp4i","password":"rtKT3V0BzWY6GHWY"}'
 
 ```
 
@@ -157,8 +158,8 @@ let headers = {
 }
 
 let body = {
-    "username": "evrUH719CrIF955u",
-    "password": "lYX57ygSkA8LGWUZ"
+    "username": "H9cEykjfSVg0Sp4i",
+    "password": "rtKT3V0BzWY6GHWY"
 }
 
 fetch(url, {
@@ -220,7 +221,7 @@ failure Cases:
 curl -X POST "http://localhost/api/mail_verify" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"C2eppcqJ0jKSwhDe"}'
+    -d '{"username":"qqKrVwCG3l11Bc1e"}'
 
 ```
 
@@ -234,7 +235,7 @@ let headers = {
 }
 
 let body = {
-    "username": "C2eppcqJ0jKSwhDe"
+    "username": "qqKrVwCG3l11Bc1e"
 }
 
 fetch(url, {
@@ -279,7 +280,7 @@ failure Cases:
 curl -X POST "http://localhost/api/check_code" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":16}'
+    -d '{"code":14}'
 
 ```
 
@@ -293,7 +294,7 @@ let headers = {
 }
 
 let body = {
-    "code": 16
+    "code": 14
 }
 
 fetch(url, {
@@ -338,7 +339,7 @@ failure Cases:
 curl -X POST "http://localhost/api/sign_out" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"RVwk1PaSFKLU762V"}'
+    -d '{"token":"xDC797HqAbhhSO6I"}'
 
 ```
 
@@ -352,7 +353,7 @@ let headers = {
 }
 
 let body = {
-    "token": "RVwk1PaSFKLU762V"
+    "token": "xDC797HqAbhhSO6I"
 }
 
 fetch(url, {
@@ -407,7 +408,7 @@ failure Cases:
 curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"Hc8hZ49v3hPhS5ec","token":"T79vbc8mb5W2ik8d"}'
+    -d '{"id":"Iy6RzlKFrpRRcupF","token":"DgJTDJCMNChE4uHY"}'
 
 ```
 
@@ -421,8 +422,8 @@ let headers = {
 }
 
 let body = {
-    "id": "Hc8hZ49v3hPhS5ec",
-    "token": "T79vbc8mb5W2ik8d"
+    "id": "Iy6RzlKFrpRRcupF",
+    "token": "DgJTDJCMNChE4uHY"
 }
 
 fetch(url, {
@@ -470,7 +471,7 @@ failure Cases:
 curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"OKaw9h5fv0QzoZBU","token":"b6cBr0RWEzrNOFGy"}'
+    -d '{"ID":"nkbDEAQgKAJxQnx4","token":"cqcTIYxgjeEh4fWp"}'
 
 ```
 
@@ -484,8 +485,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "OKaw9h5fv0QzoZBU",
-    "token": "b6cBr0RWEzrNOFGy"
+    "ID": "nkbDEAQgKAJxQnx4",
+    "token": "cqcTIYxgjeEh4fWp"
 }
 
 fetch(url, {
@@ -531,7 +532,7 @@ failure Cases:
 curl -X POST "http://localhost/api/me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"AmigifoDui1ihroE"}'
+    -d '{"token":"Xyr3FCDy762oBzCn"}'
 
 ```
 
@@ -545,7 +546,7 @@ let headers = {
 }
 
 let body = {
-    "token": "AmigifoDui1ihroE"
+    "token": "Xyr3FCDy762oBzCn"
 }
 
 fetch(url, {
@@ -619,7 +620,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"3QT7fegwZNAgB5Ei","change_password":"kgpGHcB1HeiCtez0","deactivate_account":"4FjyPs0QKzSXCXaP","media_autoplay":false,"pm_notifications":false,"replies_notifications":true,"token":"FNyzaNA3q3ICt6WV"}'
+    -d '{"change_email":"0VyYtc1q6E9H2wvg","change_password":"KoJdQeuhPXZO73yv","deactivate_account":"lxVvdvJNXb7iCKxe","media_autoplay":true,"pm_notifications":false,"replies_notifications":true,"token":"PpCHXJakoNQxNhaX"}'
 
 ```
 
@@ -633,13 +634,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "3QT7fegwZNAgB5Ei",
-    "change_password": "kgpGHcB1HeiCtez0",
-    "deactivate_account": "4FjyPs0QKzSXCXaP",
-    "media_autoplay": false,
+    "change_email": "0VyYtc1q6E9H2wvg",
+    "change_password": "KoJdQeuhPXZO73yv",
+    "deactivate_account": "lxVvdvJNXb7iCKxe",
+    "media_autoplay": true,
     "pm_notifications": false,
     "replies_notifications": true,
-    "token": "FNyzaNA3q3ICt6WV"
+    "token": "PpCHXJakoNQxNhaX"
 }
 
 fetch(url, {
@@ -690,7 +691,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"n496ULvRxssQE5v8"}'
+    -d '{"token":"6euMTbY532vKkoT4"}'
 
 ```
 
@@ -704,7 +705,7 @@ let headers = {
 }
 
 let body = {
-    "token": "n496ULvRxssQE5v8"
+    "token": "6euMTbY532vKkoT4"
 }
 
 fetch(url, {
@@ -750,7 +751,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"VtGXxBMduztQ8gou"}'
+    -d '{"token":"RR9f8kyYZu4UWr7v"}'
 
 ```
 
@@ -764,7 +765,7 @@ let headers = {
 }
 
 let body = {
-    "token": "VtGXxBMduztQ8gou"
+    "token": "RR9f8kyYZu4UWr7v"
 }
 
 fetch(url, {
@@ -809,7 +810,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"I42Crprpjud8xHI0"}'
+    -d '{"token":"H1GIYs26CHFfTZbY"}'
 
 ```
 
@@ -823,7 +824,7 @@ let headers = {
 }
 
 let body = {
-    "token": "I42Crprpjud8xHI0"
+    "token": "H1GIYs26CHFfTZbY"
 }
 
 fetch(url, {
@@ -868,7 +869,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":8,"token":"B12HSecmG1WzGmEZ"}'
+    -d '{"max":12,"token":"Xs9nXTJbCwFtyTPp"}'
 
 ```
 
@@ -882,8 +883,8 @@ let headers = {
 }
 
 let body = {
-    "max": 8,
-    "token": "B12HSecmG1WzGmEZ"
+    "max": 12,
+    "token": "Xs9nXTJbCwFtyTPp"
 }
 
 fetch(url, {
@@ -933,7 +934,7 @@ failure Cases:
 curl -X DELETE "http://localhost/api/del_ac" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"jIV2A5umCgreLSEd","token":"CXLel6FahSH2WFyK"}'
+    -d '{"Apex_ID":"azn6UAdVzont51Wr","token":"r2dJURyAzvs3ngWS"}'
 
 ```
 
@@ -947,8 +948,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "jIV2A5umCgreLSEd",
-    "token": "CXLel6FahSH2WFyK"
+    "Apex_ID": "azn6UAdVzont51Wr",
+    "token": "r2dJURyAzvs3ngWS"
 }
 
 fetch(url, {
@@ -997,7 +998,7 @@ failure Cases:
 curl -X DELETE "http://localhost/api/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"3AFOUbXSq1wI8nr2","token":"zaYTElbtPTJG0w8n"}'
+    -d '{"UserID":"zE6w7kQYaSNqMc36","token":"loR3aABQ5MmwFdCJ"}'
 
 ```
 
@@ -1011,8 +1012,8 @@ let headers = {
 }
 
 let body = {
-    "UserID": "3AFOUbXSq1wI8nr2",
-    "token": "zaYTElbtPTJG0w8n"
+    "UserID": "zE6w7kQYaSNqMc36",
+    "token": "loR3aABQ5MmwFdCJ"
 }
 
 fetch(url, {
@@ -1061,7 +1062,7 @@ failure Cases:
 curl -X POST "http://localhost/api/add_mod" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"TcBJ0IBq8qjxi34X","token":"Uwtb3EY83AZfxSKE","UserID":"OGtS1L48axuTkOl1"}'
+    -d '{"ApexComID":"oaV1uxC7U8zDDaKF","token":"aXUR5Ufsd4ZzGRh3","UserID":"THCU5Txd4kq4Xluu"}'
 
 ```
 
@@ -1075,9 +1076,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "TcBJ0IBq8qjxi34X",
-    "token": "Uwtb3EY83AZfxSKE",
-    "UserID": "OGtS1L48axuTkOl1"
+    "ApexComID": "oaV1uxC7U8zDDaKF",
+    "token": "aXUR5Ufsd4ZzGRh3",
+    "UserID": "THCU5Txd4kq4Xluu"
 }
 
 fetch(url, {
@@ -1130,7 +1131,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"LdqB6BeT6Qxelsax","token":"hp0e0dSvtw5KKs6S"}'
+    -d '{"ApexCom_id":"cXBfTurqr7FUVlg8","token":"SASMp2XMCifkTOFf"}'
 
 ```
 
@@ -1144,8 +1145,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "LdqB6BeT6Qxelsax",
-    "token": "hp0e0dSvtw5KKs6S"
+    "ApexCom_id": "cXBfTurqr7FUVlg8",
+    "token": "SASMp2XMCifkTOFf"
 }
 
 fetch(url, {
@@ -1196,7 +1197,7 @@ failure Cases:
 curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"U4BWADWuCtG0oQVB","body":"3nfjOhvDsWarkS06","img_name":"djJybFbehu6ctpfe","video_url":"dudJMzo95f5irnaK","isLocked":true,"token":"msxRBBok6OBqwPkH"}'
+    -d '{"ApexCom_id":"WYNPleSbZIO1t80h","body":"cqXKOv9Gd23mnop1","img_name":"thsKPJeopk0Dr27u","video_url":"yvqgXfgAfXRcB9QP","isLocked":false,"token":"sSHfuLbbTclI3AWC"}'
 
 ```
 
@@ -1210,12 +1211,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "U4BWADWuCtG0oQVB",
-    "body": "3nfjOhvDsWarkS06",
-    "img_name": "djJybFbehu6ctpfe",
-    "video_url": "dudJMzo95f5irnaK",
-    "isLocked": true,
-    "token": "msxRBBok6OBqwPkH"
+    "ApexCom_id": "WYNPleSbZIO1t80h",
+    "body": "cqXKOv9Gd23mnop1",
+    "img_name": "thsKPJeopk0Dr27u",
+    "video_url": "yvqgXfgAfXRcB9QP",
+    "isLocked": false,
+    "token": "sSHfuLbbTclI3AWC"
 }
 
 fetch(url, {
@@ -1266,7 +1267,7 @@ failure Cases:
 curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"FRjRwLYA6doAGNMP","token":"FvwIDcz7BLME3UeY"}'
+    -d '{"ApexCom_id":"8CirBdmwFuq0x8tx","token":"qXCOxAqFeBU35vPr"}'
 
 ```
 
@@ -1280,8 +1281,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "FRjRwLYA6doAGNMP",
-    "token": "FvwIDcz7BLME3UeY"
+    "ApexCom_id": "8CirBdmwFuq0x8tx",
+    "token": "qXCOxAqFeBU35vPr"
 }
 
 fetch(url, {
@@ -1330,7 +1331,7 @@ failure Cases:
 curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"yYKsXIXsMaDuCFOI","description":"iEpBt7m7aK4BVOti","rules":"PUYuYHauQ2tKuILE","avatar":"UNHil1mQL4yhVB3Z","banner":"mB2xRuFRPFXmCBq3","token":"9g5BruWqjeZKY3Nf"}'
+    -d '{"name":"RKFYgh9QFiDyQX6Q","description":"1l8QErD48PLPBo0T","rules":"Krpw8hAMjI54qTm6","avatar":"WASHM5Igw2Xyy5fg","banner":"JYUWR6L5uToyx4j4","token":"HO2zvZdkbMPCVjV9"}'
 
 ```
 
@@ -1344,12 +1345,12 @@ let headers = {
 }
 
 let body = {
-    "name": "yYKsXIXsMaDuCFOI",
-    "description": "iEpBt7m7aK4BVOti",
-    "rules": "PUYuYHauQ2tKuILE",
-    "avatar": "UNHil1mQL4yhVB3Z",
-    "banner": "mB2xRuFRPFXmCBq3",
-    "token": "9g5BruWqjeZKY3Nf"
+    "name": "RKFYgh9QFiDyQX6Q",
+    "description": "1l8QErD48PLPBo0T",
+    "rules": "Krpw8hAMjI54qTm6",
+    "avatar": "WASHM5Igw2Xyy5fg",
+    "banner": "JYUWR6L5uToyx4j4",
+    "token": "HO2zvZdkbMPCVjV9"
 }
 
 fetch(url, {
@@ -1391,7 +1392,7 @@ Parameter | Type | Status | Description
 controls the comments , replies and private messages for each user
 <!-- START_e795fade4d25e2473e7fd22cababfe99 -->
 ## add
-submit a new comment or reply to a comment on a post.
+submit a new comment or reply to a comment on a post or reply to any message.
 
 Success Cases :
 1) return true to ensure that the comment , reply is added successfully.
@@ -1403,31 +1404,28 @@ failure Cases:
 
 ```bash
 curl -X POST "http://localhost/api/comment" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"content":"iLH8kPfiYIW7bvQH","parent":"gugrbR0a0UTAbIx7","token":"noPUI9dgRF5nk5Im"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/comment");
 
+    let params = {
+            "content": "ELm199ApNqryOjjI",
+            "parent": "S6p7EVqTuqWJIV6d",
+            "token": "lUCPRwj18J6eSr0b",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "content": "iLH8kPfiYIW7bvQH",
-    "parent": "gugrbR0a0UTAbIx7",
-    "token": "noPUI9dgRF5nk5Im"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -1479,13 +1477,13 @@ fetch(url, {
 ### HTTP Request
 `POST api/comment`
 
-#### Body Parameters
+#### Query Parameters
 
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    content | string |  required  | The body of the comment.
-    parent | string |  required  | The fullname of the thing to be replied to.
-    token | JWT |  required  | Verifying user ID.
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    content |  optional  | string required The body of the comment.
+    parent |  optional  | string required The fullname of the thing to be replied to.
+    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_e795fade4d25e2473e7fd22cababfe99 -->
 
@@ -1506,30 +1504,27 @@ failure Cases:
 
 ```bash
 curl -X DELETE "http://localhost/api/delete" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"name":"u286mPZhUy8QgqlT","token":"yxzA2l7hK1pStSzk"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/delete");
 
+    let params = {
+            "name": "4Fd1lOfEfJ89F78s",
+            "token": "noIzdw6MkpVbwGdp",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "name": "u286mPZhUy8QgqlT",
-    "token": "yxzA2l7hK1pStSzk"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "DELETE",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -1581,12 +1576,12 @@ fetch(url, {
 ### HTTP Request
 `DELETE api/delete`
 
-#### Body Parameters
+#### Query Parameters
 
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    name | string |  required  | The fullname of the post,comment or reply to be deleted.
-    token | JWT |  required  | Verifying user ID.
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    name |  optional  | string required The fullname of the post,comment or reply to be deleted.
+    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_4f136192702be68001efc45896913292 -->
 
@@ -1608,7 +1603,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/Edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"Pu38PcBOXiJB28DF","content":"zsLqLrQDBz66gdr3","ID":"OQWvSmp3jrZutSPj"}'
+    -d '{"name":"guJJXle17UEtG5CE","content":"5rSfRu6MpZIXgS5E","ID":"IZ9CD8v5eG3jhXeA"}'
 
 ```
 
@@ -1622,9 +1617,9 @@ let headers = {
 }
 
 let body = {
-    "name": "Pu38PcBOXiJB28DF",
-    "content": "zsLqLrQDBz66gdr3",
-    "ID": "OQWvSmp3jrZutSPj"
+    "name": "guJJXle17UEtG5CE",
+    "content": "5rSfRu6MpZIXgS5E",
+    "ID": "IZ9CD8v5eG3jhXeA"
 }
 
 fetch(url, {
@@ -1674,12 +1669,18 @@ failure Cases:
 curl -X POST "http://localhost/api/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"CfIl3lw5W4TbVUYZ","Reason":20,"token":"Ak2pcaI1sBEMukuR"}'
+    -d '{"content":"tXzHMtnpAeCH8xKQ","token":"sP32FKHoOEoSzYcg"}'
 
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/report");
+
+    let params = {
+            "name": "zYL8XkojeYYfrngt",
+            "token": "Kd9F0b4RjiP0AwYv",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1688,9 +1689,8 @@ let headers = {
 }
 
 let body = {
-    "name": "CfIl3lw5W4TbVUYZ",
-    "Reason": 20,
-    "token": "Ak2pcaI1sBEMukuR"
+    "content": "tXzHMtnpAeCH8xKQ",
+    "token": "sP32FKHoOEoSzYcg"
 }
 
 fetch(url, {
@@ -1752,9 +1752,14 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    name | string |  required  | The fullname of the post,comment or message to report.
-    Reason | integer |  optional  | The index represent the reason for the report from an associative array.
+    content | string |  optional  | The reason for the report from an associative array.
     token | JWT |  required  | Verifying user ID.
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    name |  optional  | string required The fullname of the post,comment or message to report.
+    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_513d4e19011ae1f92bd8858b5eb059b2 -->
 
@@ -1768,7 +1773,7 @@ Success Cases :
 failure Cases:
 1) NoAccessRight token is not authorized.
 2) fullname of the thing to vote on is not found.
-3) direction of the vote is not integer between -1 , 0 , 1.
+3) direction of the vote is not integer between -1 , 1.
 
 > Example request:
 
@@ -1776,12 +1781,18 @@ failure Cases:
 curl -X POST "http://localhost/api/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"MOoTg3TA8tVa3NDE","direction":16,"ID":"qf9BdDc4lMfnpPQw"}'
+    -d '{"dir":1}'
 
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/vote");
+
+    let params = {
+            "name": "DpXbSGTsFN2GlenH",
+            "token": "SvL40gfAMyDT7W0b",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1790,9 +1801,7 @@ let headers = {
 }
 
 let body = {
-    "name": "MOoTg3TA8tVa3NDE",
-    "direction": 16,
-    "ID": "qf9BdDc4lMfnpPQw"
+    "dir": 1
 }
 
 fetch(url, {
@@ -1840,9 +1849,13 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    name | string |  required  | The fullname of the post,comment or reply to vote on.
-    direction | integer |  required  | The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
-    ID | JWT |  required  | Verifying user ID.
+    dir | integer |  required  | The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    name |  optional  | string required The fullname of the post,comment or reply to vote on.
+    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_1ce8121bc6bb159652da3758695c4f33 -->
 
@@ -1864,30 +1877,27 @@ failure Cases:
 
 ```bash
 curl -X POST "http://localhost/api/lock_post" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"name":"7PNcCo5jfwe1GzRz","token":"lhBwVWXl36dfzrmn"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/lock_post");
 
+    let params = {
+            "name": "umU1rpuQzGazr3NH",
+            "token": "JaMI1WI6XzrbNwcn",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "name": "7PNcCo5jfwe1GzRz",
-    "token": "lhBwVWXl36dfzrmn"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -1925,12 +1935,12 @@ fetch(url, {
 ### HTTP Request
 `POST api/lock_post`
 
-#### Body Parameters
+#### Query Parameters
 
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    name | string |  required  | The fullname of the post to be locked.
-    token | JWT |  required  | Verifying user ID.
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    name |  optional  | string required The fullname of the post to be locked.
+    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_4a071a0a5195e750a36b0b89a51e2235 -->
 
@@ -1950,30 +1960,27 @@ failure Cases:
 
 ```bash
 curl -X POST "http://localhost/api/Hide" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"name":"oIjrabDO1jS7bmr7","token":"vc3vRETbF1H6rUc7"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/Hide");
 
+    let params = {
+            "name": "aKlYeHptjYMyM0dg",
+            "token": "4xxCvtWJytwitehX",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "name": "oIjrabDO1jS7bmr7",
-    "token": "vc3vRETbF1H6rUc7"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -2004,12 +2011,12 @@ fetch(url, {
 ### HTTP Request
 `POST api/Hide`
 
-#### Body Parameters
+#### Query Parameters
 
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    name | string |  required  | The fullname of the post to be hidden.
-    token | JWT |  required  | Verifying user ID.
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    name |  optional  | string required The fullname of the post to be hidden.
+    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_ebf64eb08a02a3600dbec8e628a60a56 -->
 
@@ -2030,12 +2037,17 @@ failure Cases:
 curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"d4rnDLxy5DkOCcXe","token":"tJBJeyv0ZU4A5F2r"}'
+    -d '{"ID":"GqLMlwlo8gJCk37B"}'
 
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/save");
+
+    let params = {
+            "token": "xwSKjE9tuXm6jMcs",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2044,8 +2056,7 @@ let headers = {
 }
 
 let body = {
-    "ID": "d4rnDLxy5DkOCcXe",
-    "token": "tJBJeyv0ZU4A5F2r"
+    "ID": "GqLMlwlo8gJCk37B"
 }
 
 fetch(url, {
@@ -2061,7 +2072,7 @@ fetch(url, {
 
 ```json
 {
-    "token_error": "The token could not be parsed from the request"
+    "token_error": "Wrong number of segments"
 }
 ```
 
@@ -2073,7 +2084,11 @@ fetch(url, {
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     ID | string |  required  | The ID of the comment or post.
-    token | JWT |  required  | Used to verify the user.
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    token |  optional  | JWT required Used to verify the user.
 
 <!-- END_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 
@@ -2092,30 +2107,27 @@ failure Cases:
 
 ```bash
 curl -X GET -G "http://localhost/api/moreComments" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"parent":"QQud12N9zp4DO9Tb","ID":"oM0lPKhGvak03vGl"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/moreComments");
 
+    let params = {
+            "parent": "MUAOOCvQ94mADbFw",
+            "ID": "crzH5GWZfhqSW6Ml",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "parent": "QQud12N9zp4DO9Tb",
-    "ID": "oM0lPKhGvak03vGl"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "GET",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -2130,12 +2142,12 @@ null
 ### HTTP Request
 `GET api/moreComments`
 
-#### Body Parameters
+#### Query Parameters
 
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    parent | string |  required  | The fullname of the posts whose comments are being fetched
-    ID | JWT |  required  | Verifying user ID.
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    parent |  optional  | string required The fullname of the posts whose comments are being fetched
+    ID |  optional  | JWT required Verifying user ID.
 
 <!-- END_42544bc9403ef51f80610dbe397862b5 -->
 
@@ -2159,7 +2171,7 @@ failure Cases:
 curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"sSu1xOgtvsKZzAEf","user_id":"oP9rglGueo4jqecM","_token":"s8A75nA8bBDNRGNR"}'
+    -d '{"ApexCom_id":"sc0c5PlZnNchwKw4","user_id":"0Bja29QIkCFFR19e","_token":"uMeF9dTo6cBDclMC"}'
 
 ```
 
@@ -2173,9 +2185,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "sSu1xOgtvsKZzAEf",
-    "user_id": "oP9rglGueo4jqecM",
-    "_token": "s8A75nA8bBDNRGNR"
+    "ApexCom_id": "sc0c5PlZnNchwKw4",
+    "user_id": "0Bja29QIkCFFR19e",
+    "_token": "uMeF9dTo6cBDclMC"
 }
 
 fetch(url, {
@@ -2223,7 +2235,7 @@ failure Cases:
 curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"zQIQfdUlUczLvAWs","_token":"EeZsgDpBxJLSw7yr"}'
+    -d '{"report_id":"SgMZtGnONCaARNmo","_token":"0Hj6CLlSp16RtNM6"}'
 
 ```
 
@@ -2237,8 +2249,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "zQIQfdUlUczLvAWs",
-    "_token": "EeZsgDpBxJLSw7yr"
+    "report_id": "SgMZtGnONCaARNmo",
+    "_token": "0Hj6CLlSp16RtNM6"
 }
 
 fetch(url, {
@@ -2284,7 +2296,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"6c7tRYfIimHJxbmU","_token":"WJvvzSGuwdRX9SpH"}'
+    -d '{"ApexCom_id":"C8ScAfnqVMSpFtdT","_token":"zTN5fTEq8jSKKYBB"}'
 
 ```
 
@@ -2298,8 +2310,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "6c7tRYfIimHJxbmU",
-    "_token": "WJvvzSGuwdRX9SpH"
+    "ApexCom_id": "C8ScAfnqVMSpFtdT",
+    "_token": "zTN5fTEq8jSKKYBB"
 }
 
 fetch(url, {
@@ -2466,7 +2478,7 @@ failure Cases:
 curl -X POST "http://localhost/api/compose" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"to":"s350kPk3n4QT8B5M","subject":"mjSzeKxOLsDXtaX8","mes":"lEVX3g5QHRDkwFlI","token":"tX4sq199TKKBHaiJ"}'
+    -d '{"to":"pyrSN70t22eHp5GL","subject":"0oHAw2Mapc2biL3F","mes":"cycZPSrOAuJVRhsc","token":"DeL1GvIwRz0ABnpA"}'
 
 ```
 
@@ -2480,10 +2492,10 @@ let headers = {
 }
 
 let body = {
-    "to": "s350kPk3n4QT8B5M",
-    "subject": "mjSzeKxOLsDXtaX8",
-    "mes": "lEVX3g5QHRDkwFlI",
-    "token": "tX4sq199TKKBHaiJ"
+    "to": "pyrSN70t22eHp5GL",
+    "subject": "0oHAw2Mapc2biL3F",
+    "mes": "cycZPSrOAuJVRhsc",
+    "token": "DeL1GvIwRz0ABnpA"
 }
 
 fetch(url, {
@@ -2532,7 +2544,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"zSpjP7yIccbavkHJ","token":"DLrCztOE3FiMV1iG"}'
+    -d '{"id":"SvFaz8qTRHTXl4yE","token":"VtqwaZ1rID3esicd"}'
 
 ```
 
@@ -2546,8 +2558,8 @@ let headers = {
 }
 
 let body = {
-    "id": "zSpjP7yIccbavkHJ",
-    "token": "DLrCztOE3FiMV1iG"
+    "id": "SvFaz8qTRHTXl4yE",
+    "token": "VtqwaZ1rID3esicd"
 }
 
 fetch(url, {
@@ -3181,36 +3193,32 @@ fetch(url, {
 [
     [
         {
-            "id": "t5_11",
-            "name": "6Rt6lYWsxq"
-        },
-        {
-            "id": "t5_6",
-            "name": "ceLaDIwAgP"
-        },
-        {
-            "id": "t5_3",
-            "name": "dGKAH8fPSb"
-        },
-        {
-            "id": "t5_7",
-            "name": "e4GiNXiUN6"
+            "id": "t5_10",
+            "name": "comics"
         },
         {
             "id": "t5_1",
             "name": "Elder Scrolls"
         },
         {
-            "id": "t5_12",
-            "name": "GlPvQalYj9"
+            "id": "t5_4",
+            "name": "foods"
         },
         {
-            "id": "t5_10",
-            "name": "IKozrX4efP"
+            "id": "t5_3",
+            "name": "gaming area"
         },
         {
             "id": "t5_9",
-            "name": "JJFQxcWH6k"
+            "name": "health care"
+        },
+        {
+            "id": "t5_7",
+            "name": "memes"
+        },
+        {
+            "id": "t5_8",
+            "name": "movies"
         },
         {
             "id": "t5_2",
@@ -3218,15 +3226,11 @@ fetch(url, {
         },
         {
             "id": "t5_5",
-            "name": "vinKcNuacp"
+            "name": "sports area"
         },
         {
-            "id": "t5_4",
-            "name": "xz6az1xstq"
-        },
-        {
-            "id": "t5_8",
-            "name": "zKr4nwv2Rf"
+            "id": "t5_6",
+            "name": "technology"
         }
     ]
 ]
@@ -3255,7 +3259,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"QT3aUPemxkLT4SCs","_token":"MaJcrZ52xmUlwRce"}'
+    -d '{"ApexCommID":"PHHG9ZsIs1FeFdXR","_token":"TFFMFlqv1NLnEtVB"}'
 
 ```
 
@@ -3269,8 +3273,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "QT3aUPemxkLT4SCs",
-    "_token": "MaJcrZ52xmUlwRce"
+    "ApexCommID": "PHHG9ZsIs1FeFdXR",
+    "_token": "TFFMFlqv1NLnEtVB"
 }
 
 fetch(url, {
