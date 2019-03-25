@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Code;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
+use App\Mail\ForgetPassword;
+use Illuminate\Support\Str;
+
 
 /**
  * @group Account
@@ -162,16 +166,44 @@ class Account extends Controller
      * mailVerify
      * Send a verification email to the user with a code in case of forgetting password.
      * Success Cases :
-     * 1) return true to ensure that the email has been sent.
+     * 1) return success or failure message to indicate whether the email is sent or not.
      * failure Cases:
      * 1) username is not found.
-     *
+     * 
+     * @response{
+     * "msg":"Email sent successfully"
+     * }
+     * @response  400 {
+     * "msg":"Username is not found"
+     * }
+     * @response  400 {
+     * "msg":"Error sending the email"
+     * }
      * @bodyParam username string required The user's username.
      */
 
-    public function mailVerify()
+    public function mailVerify(Request $request)
     {
-        return;
+        $username = $request->input("username");
+        $user = User::where("username", $username)->first();
+        if ($user) {
+            try {
+                $codeText = Str::random(15);
+                \Mail::to($user)->send(new ForgetPassword($codeText));
+            }
+            catch(\Swift_TransportException $e){
+                return response()->json(['msg' => 'Error sending the email'], 400);
+            }
+            Code::where('id', $user->id)->delete();
+            $code = new Code;
+            $code->id = $user->id;
+            $code->code = $codeText;
+            $code->save();
+            return response()->json(['msg' => 'Email sent successfully'], 200);
+
+        } else {
+            return response()->json(['msg' => 'Username is not found'], 400);
+        }
     }
 
 
@@ -181,11 +213,18 @@ class Account extends Controller
      * checkCode
      * Check whether the user entered the correct reset code sent to his email.
      * Success Cases :
-     * 1) return true to verify the code if it matches (the user is then redirected to the change password page).
-     * failure Cases:
+     * 1) return success msg to indicate whether the code is valid or not
+     * Failure Cases :
      * 1) Code is invalid.
      *
+     * @response{
+     * "authorized":true
+     * }
+     * @response  400{
+     * "authorized":false
+     * }
      * @bodyParam code int required The entered code.
+     * @bodyParam username string required The user's username.
      */
 
     public function checkCode()
