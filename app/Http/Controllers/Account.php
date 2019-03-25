@@ -184,6 +184,19 @@ class Account extends Controller
 
     public function mailVerify(Request $request)
     {
+        //Validating the input parameters of the request
+        $validator = Validator::make(
+            $request->all(),
+            [
+            'username' => 'required|string'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator->fails()) {
+            //converting the errors to json and returning them with 400 status code
+            return response()->json($validator->errors(), 400);
+        }
         //Getting the username from the request
         $username = $request->input("username");
         //Selecting the user from the database
@@ -234,9 +247,42 @@ class Account extends Controller
      * @bodyParam username string required The user's username.
      */
 
-    public function checkCode()
+    public function checkCode(Request $request)
     {
-        return;
+        //Validating the input parameters of the request
+        $validator = Validator::make(
+            $request->all(),
+            [
+            'username' => 'required|string',
+            'code' => 'required|string'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator->fails()) {
+            //converting the errors to json and returning them with 400 status code
+            return response()->json($validator->errors(), 400);
+        }
+
+        $codeText = $request->input('code'); //Getting the code from request
+        $username = $request->input('username'); // Getting the username
+        $user = User::where('username', $username)->first(); //Getting user from DB
+        //Checking if the user exists
+        if ($user) {
+            //selecting the corresponding code
+            $code = Code::where('id', $user->id)
+                ->where('code', $codeText)->first();
+            if ($code) {
+                //Returning the response indicating that the code is correct
+                return response()->json(['authorized' => true], 200);
+            } else {
+                //Returning the response indicating that the code is not correct
+                return response()->json(['authorized' => false], 400);
+            }
+        } else {
+            //Returning the response indicating that the user is not found
+            return response()->json(['authorized' => false], 400);
+        }
     }
 
 
