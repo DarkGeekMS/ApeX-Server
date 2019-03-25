@@ -184,24 +184,31 @@ class Account extends Controller
 
     public function mailVerify(Request $request)
     {
+        //Getting the username from the request
         $username = $request->input("username");
+        //Selecting the user from the database
         $user = User::where("username", $username)->first();
-        if ($user) {
+        if ($user) { // Checking if the user exists
             try {
-                $codeText = Str::random(15);
+                $codeText = Str::random(15); // Generating random code
+                //Sending the email with random code
                 \Mail::to($user)->send(new ForgetPassword($codeText));
             }
             catch(\Swift_TransportException $e){
+                /*Returning json response with status code 400
+                 indicating an error in sending*/
                 return response()->json(['msg' => 'Error sending the email'], 400);
             }
-            Code::where('id', $user->id)->delete();
-            $code = new Code;
+            Code::where('id', $user->id)->delete(); //Deleting previous codes
+            $code = new Code; //creating new code
             $code->id = $user->id;
             $code->code = $codeText;
-            $code->save();
+            $code->save(); //storing it into the database
+            //Returning the success response with status 200
             return response()->json(['msg' => 'Email sent successfully'], 200);
 
         } else {
+            //Return response with code 400 indicating that user is not found
             return response()->json(['msg' => 'Username is not found'], 400);
         }
     }
