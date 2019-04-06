@@ -31,7 +31,7 @@ class ValidReply extends TestCase
         }
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -49,6 +49,13 @@ class ValidReply extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('comments', ['id' => $id]);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -71,7 +78,7 @@ class ValidReply extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
               'username' => 'Monda Talaat',
               'password' => 'monda21'
@@ -89,6 +96,13 @@ class ValidReply extends TestCase
           );
             $response->assertStatus(200);
             $this->assertDatabaseHas('comments', ['id' => $id]);
+            $logoutResponse = $this->json(
+                'POST',
+                '/api/sign_out',
+                [
+                'token' => $token
+                ]
+            );
     }
 
     /**
@@ -110,7 +124,7 @@ class ValidReply extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -128,5 +142,12 @@ class ValidReply extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('messages', ['id' => $id]);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 }

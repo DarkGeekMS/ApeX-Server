@@ -22,6 +22,6 @@ class InvalidMail extends TestCase
             'username' => 'MohamedRamzy5',
             ]
         );
-        $response->assertStatus(400)->assertSee('Username is not found');        
+        $response->assertStatus(400)->assertSee('Username is not found');
     }
 }

@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
-use App\vote;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
-use App\subscriber;
-use App\apexCom;
-use App\apexBlock;
-use App\User;
-use App\Http\Controllers\Account;
-use App\post;
-use App\comment;
-use App\block;
-use Illuminate\Support\Collection;
+use App\Models\Subscriber;
+use App\Models\ApexCom;
+use App\Models\ApexBlock;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Block;
+use App\Models\Vote;
 
-class General extends Controller
+class GeneralController extends Controller
 {
 
+    public function guestGetSubscribers(Request $request)
+    {
+    }
     /**
      * Guest Search
      * Returns a json contains posts, apexComs and users that match the given query.
@@ -50,11 +53,11 @@ class General extends Controller
 
         $query = $request->input('query');
         try {
-            $apexComs = apexCom::where('name', 'like', '%'.$query.'%')
+            $apexComs = ApexCom::where('name', 'like', '%'.$query.'%')
                 ->orWhere('description', 'like', '%'.$query.'%')->get();
             $users = User::where('fullname', 'like', '%'.$query.'%')
                 ->orWhere('username', 'like', '%'.$query.'%')->get();
-            $posts = post::where('title', 'like', '%'.$query.'%')
+            $posts = Post::where('title', 'like', '%'.$query.'%')
                 ->orWhere('content', 'like', '%'.$query.'%')->get();
             return compact('posts', 'apexComs', 'users');
         } catch (\Exception $e) {
@@ -72,18 +75,18 @@ class General extends Controller
      */
     private function _removeBlockedPosts(Collection $result, $token)
     {
-        $account = new Account();
+        $account = new AccountController();
         $meResponse = $account->me(new Request(['token' => $token]));
         if (!array_key_exists('user', $meResponse->getData())) {
-            //there is token_error or user_not found_error
+         //there is token_error or user_not found_error
             return $meResponse;
         }
         $userID = $meResponse->getData()->user->id;
 
         try {
-            $blockList = block::where('blockerID', $userID)->pluck('blockedID');
+            $blockList = Block::where('blockerID', $userID)->pluck('blockedID');
             $blockList = $blockList->concat(
-                block::where('blockedID', $userID)->pluck('blockerID')
+                Block::where('blockedID', $userID)->pluck('blockerID')
             );
 
             //remove the posts that have been posted by a user in the blocklist
@@ -168,7 +171,8 @@ class General extends Controller
     public function guestSortPostsBy(Request $request)
     {
         $validator = validator(
-            $request->all(), [
+            $request->all(),
+            [
                 'apexComID' => 'string|nullable',
                 'sortingParam' => 'string|nullable'
             ]
@@ -183,26 +187,30 @@ class General extends Controller
             $sortingParam = 'date';
         }
         $apexComID = $request->input('apexComID', null);
-        $posts = post::query();
+        $posts = Post::query();
 
         if ($apexComID !== null) {
-            if (apexCom::where('id', $apexComID)->exists()) {
+            if (ApexCom::where('id', $apexComID)->exists()) {
                 $posts = $posts->where('apex_id', $apexComID);
             } else {
                 return response(['error' => 'ApexCom is not found.'], 404);
             }
         }
-        $votesTable = vote::select('postID', DB::raw('CONVERT(SUM(dir), int) AS votes'))->groupBy('postID');
-        $commentsTable = comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
+        $votesTable = Vote::select('postID', DB::raw('CONVERT(SUM(dir), int) AS votes'))->groupBy('postID');
+        $commentsTable = Comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
 
         $posts = $posts->leftJoinSub(
-            $votesTable, 'votes_table', function ($join) {
+            $votesTable,
+            'votes_table',
+            function ($join) {
                 $join->on('posts.id', '=', 'votes_table.postID');
             }
         );
 
         $posts = $posts->leftJoinSub(
-            $commentsTable, 'comments_table', function ($join) {
+            $commentsTable,
+            'comments_table',
+            function ($join) {
                 $join->on('posts.id', '=', 'comments_table.root');
             }
         );
@@ -222,7 +230,7 @@ class General extends Controller
                 $posts = $posts->orderBy('comments_num', 'desc')->get();
             }
             return compact('posts', 'sortingParam');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
     }
@@ -282,7 +290,7 @@ class General extends Controller
     public function apexNames()
     {
         try {
-            $Anames = apexCom::select('id', 'name')->get();
+            $Anames = ApexCom::select('id', 'name')->get();
             return response()->json([$Anames], 200);
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
@@ -298,10 +306,10 @@ class General extends Controller
      * failure Cases:
      * 1) Return empty list if there are no subscribers.
      * 2) ApexComm Fullname (ID) is not found.
-     * 
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
-     * @response 400 {"error":"You are blocked from this Apexcom"} 
+     * @response 400 {"error":"You are blocked from this Apexcom"}
      * @response 200 {
      * "subscribers": [
      *   {
@@ -340,7 +348,7 @@ class General extends Controller
         $apex_id = $request['ApexCommID'];
 
         // checking if the apexCom exists.
-        $exists = apexCom::where('id', $apex_id)->count();
+        $exists = ApexCom::where('id', $apex_id)->count();
 
         // return an error message if the id (fullname) of the apexcom was not found.
         if (!$exists) {
@@ -348,7 +356,7 @@ class General extends Controller
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id]])->count();
+        $blocked = ApexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id]])->count();
 
         // return an error for if the user was blocked from the apexcom.
         if ($blocked != 0) {
@@ -356,7 +364,7 @@ class General extends Controller
         }
 
         // get the subscribers' for the apexcom user IDs.
-        $subscribers_id = subscriber::select('userID')->where('apexID', '=', $apex_id);
+        $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
         $subscribers = User::joinSub(
             $subscribers_id,
             'apex_subscribers',

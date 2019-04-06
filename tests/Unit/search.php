@@ -5,8 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\block;
-use App\post;
+use App\Models\Block;
+use App\Models\Post;
 
 class search extends TestCase
 {
@@ -24,7 +24,7 @@ class search extends TestCase
     {
         foreach ($posts as $post) {
             $postWriterID = $post['posted_by'];
-            if (block::query()->where(
+            if (Block::query()->where(
                 ['blockerID' => $userID, 'blockedID' => $postWriterID]
             )->orWhere(
                 ['blockerID' => $postWriterID, 'blockedID' => $userID]
@@ -79,11 +79,11 @@ class search extends TestCase
         $userID = $signUpResponse->json('user')['id'];
 
         //block some users before search
-        $posts = post::all();
+        $posts = Post::all();
         for ($i=0; $i < count($posts)/2; $i++) {
             $postWriterID = $posts[$i]['posted_by'];
-            if (!block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
+            if (!Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
+                Block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
             }
         }
 
@@ -101,15 +101,15 @@ class search extends TestCase
         $this->assertTrue($this->_checkBlockedPosts($userID, $posts));
 
         //unblock blocked users
-        $posts = post::all();
+        $posts = Post::all();
         for ($i=0; $i < count($posts)/2; $i++) {
             $postWriterID = $posts[$i]['posted_by'];
-            if (block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
+            if (Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
+                Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
             }
         }
 
-        \App\User::where('id', $userID)->delete();
+        \App\Models\User::where('id', $userID)->delete();
     }
 
     /**

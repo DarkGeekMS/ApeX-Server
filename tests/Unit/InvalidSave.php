@@ -18,7 +18,7 @@ class InvalidSave extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -35,6 +35,13 @@ class InvalidSave extends TestCase
             ]
         );
         $saveResponse->assertStatus(404);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
     /**
     *
@@ -46,7 +53,7 @@ class InvalidSave extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'sebak',
             'password' => '123'         //wrong password
@@ -63,5 +70,12 @@ class InvalidSave extends TestCase
             ]
         );
           $saveResponse->assertStatus(400);
+          $logoutResponse = $this->json(
+              'POST',
+              '/api/sign_out',
+              [
+              'token' => $token
+              ]
+          );
     }
 }

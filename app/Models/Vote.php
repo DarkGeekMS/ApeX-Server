@@ -1,14 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class apexBlock extends Model
+class Vote extends Model
 {
     protected $fillable = [
-      'ApexID',
-      'blockedID',
+      'postID',
+      'userID',
+      'dir',
     ];
     public $incrementing = false;
 }

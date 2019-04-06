@@ -22,7 +22,7 @@ class ValidDelete extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/Sign_in',
+             '/api/sign_in',
              [
              'username' => 'mX',
              'password' => 'killa$&12'
@@ -39,6 +39,13 @@ class ValidDelete extends TestCase
          );
          $response->assertStatus(200);
          $this->assertDatabaseMissing('comments', ['id' => 't1_1']);
+         $logoutResponse = $this->json(
+             'POST',
+             '/api/sign_out',
+             [
+             'token' => $token
+             ]
+         );
     }
 
     /**
@@ -54,7 +61,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'mX',
             'password' => 'killa$&12'
@@ -71,6 +78,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('posts', ['id' => 't3_1']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -86,7 +100,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Anyone',
             'password' => 'anyone'
@@ -103,6 +117,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => 't1_2']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -116,7 +137,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -133,6 +154,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('posts', ['id' => 't3_2']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -146,7 +174,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -163,6 +191,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => 't1_3']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -177,7 +212,7 @@ class ValidDelete extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -194,6 +229,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => 't1_4']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -208,7 +250,7 @@ class ValidDelete extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -225,5 +267,12 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('posts', ['id' => 't3_3']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 }

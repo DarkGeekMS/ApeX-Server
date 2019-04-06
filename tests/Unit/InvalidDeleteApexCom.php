@@ -19,20 +19,27 @@ class InvalidDeleteApexCom extends TestCase
   {
     //login by an admin
     $loginResponse = $this->json(
-        'POST', '/api/Sign_in', [
+        'POST', '/api/sign_in', [
         'username' => 'king',
         'password' => 'queen12'
         ]
     );
     $token = $loginResponse->json("token");
-    
+
     $delResponse = $this->json(
-        'DELETE', '/api/del_ac', [
+        'DELETE', '/api/del_account', [
         'token' => $token,
         'Apex_ID' => 't3_1000'               //wrong Apex_ID
         ]
     );
     $delResponse->assertStatus(500)->assertSee("ApexCom doesnot exist");
+    $logoutResponse = $this->json(
+        'POST',
+        '/api/sign_out',
+        [
+        'token' => $token
+        ]
+    );
   }
  /**
    * User deletes an apexcom (not admin)
@@ -50,9 +57,9 @@ class InvalidDeleteApexCom extends TestCase
         ]
     );
     $loginResponse = $this->json(
-        'POST', '/api/Sign_in', [
+        'POST', '/api/sign_in', [
         'username' => 'sebak',
-        'password' => '123456'        
+        'password' => '123456'
         ]
     );
     $token = $loginResponse->json("token");
@@ -64,12 +71,19 @@ class InvalidDeleteApexCom extends TestCase
      DB::table('apex_coms')-> insert(['id' => $id, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
     //to unsave a saved post
     $delResponse = $this->json(
-        'DELETE', '/api/del_ac', [
+        'DELETE', '/api/del_account', [
         'token' => $token,
-        'Apex_ID' => $id               
+        'Apex_ID' => $id
         ]
     );
     $delResponse->assertStatus(300)->assertSee("Unauthorized access");
     DB::table('apex_coms')->where('id', '=', $id)->delete();
+    $logoutResponse = $this->json(
+        'POST',
+        '/api/sign_out',
+        [
+        'token' => $token
+        ]
+    );
   }
 }

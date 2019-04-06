@@ -2,9 +2,9 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\block::class, function (Faker $faker) {
+$factory->define(App\Models\Block::class, function (Faker $faker) {
     return [
-        'blockerID' => factory(App\User::class)->create(),
-        'blockedID' => factory(App\User::class)->create()
+        'blockerID' => factory(App\Models\User::class)->create(),
+        'blockedID' => factory(App\Models\User::class)->create()
     ];
 });

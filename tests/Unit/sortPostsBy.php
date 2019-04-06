@@ -5,9 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\apexCom;
-use App\block;
-use App\post;
+use App\Models\ApexCom;
+use App\Models\Block;
+use App\Models\Post;
 
 class sortPostsBy extends TestCase
 {
@@ -48,7 +48,7 @@ class sortPostsBy extends TestCase
     {
         foreach ($posts as $post) {
             $postWriterID = $post['posted_by'];
-            if (block::query()->where(
+            if (Block::query()->where(
                 ['blockerID' => $userID, 'blockedID' => $postWriterID]
             )->orWhere(
                 ['blockerID' => $postWriterID, 'blockedID' => $userID]
@@ -71,7 +71,7 @@ class sortPostsBy extends TestCase
      */
     public function validSort()
     {
-        $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
+        $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $sortingParams = [
             'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
         ];
@@ -116,11 +116,11 @@ class sortPostsBy extends TestCase
         $userID = $signUpResponse->json('user')['id'];
 
         //block some users before sorting
-        $posts = post::all();
+        $posts = Post::all();
         for ($i=0; $i < count($posts)/2; $i++) {
             $postWriterID = $posts[$i]['posted_by'];
-            if (!block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
+            if (!Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
+                Block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
             }
         }
 
@@ -144,17 +144,17 @@ class sortPostsBy extends TestCase
                 $this->_checkPosts(null, $posts, $sortedColumn)
             );
         }
-        
+
         //unblock blocked users
-        $posts = post::all();
+        $posts = Post::all();
         for ($i=0; $i < count($posts)/2; $i++) {
             $postWriterID = $posts[$i]['posted_by'];
-            if (block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
+            if (Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
+                Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
             }
         }
 
-        \App\User::where('id', $userID)->delete();
+        \App\Models\User::where('id', $userID)->delete();
     }
 
     /**
@@ -246,7 +246,7 @@ class sortPostsBy extends TestCase
      */
     public function noSortingParam()
     {
-        $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
+        $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
             'GET',
             '/api/sort_posts',

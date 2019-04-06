@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
  * Controls the Moderators actions.
  */
 
-class Moderation extends Controller
+class ModerationController extends Controller
 {
 
     /**

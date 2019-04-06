@@ -24,9 +24,9 @@ class InvalidDeleteUser extends TestCase
         ]
     );
     $loginResponse = $this->json(
-        'POST', '/api/Sign_in', [
+        'POST', '/api/sign_in', [
         'username' => 'sebak',
-        'password' => '123456'        
+        'password' => '123456'
         ]
     );
     $token = $loginResponse->json("token");
@@ -38,6 +38,13 @@ class InvalidDeleteUser extends TestCase
         ]
     );
     $delResponse->assertStatus(500)->assertSee("User doesnot exist");
+    $logoutResponse = $this->json(
+        'POST',
+        '/api/sign_out',
+        [
+        'token' => $token
+        ]
+    );
   }
    /**
    * User deletes another user
@@ -49,9 +56,9 @@ class InvalidDeleteUser extends TestCase
   {
     //user that tries to perfom the deletion
     $loginResponse = $this->json(
-        'POST', '/api/Sign_in', [
+        'POST', '/api/sign_in', [
         'username' => 'sebak',
-        'password' => '123456'         
+        'password' => '123456'
         ]
     );
     $token = $loginResponse->json("token");
@@ -64,7 +71,7 @@ class InvalidDeleteUser extends TestCase
         ]
     );
     $userLoginResponse = $this->json(
-        'POST', '/api/Sign_in', [
+        'POST', '/api/sign_in', [
         'username' => 'mahmoud',
         'password' => '22011998'
         ]
@@ -80,10 +87,10 @@ class InvalidDeleteUser extends TestCase
     $delResponse = $this->json(
         'DELETE', '/api/del_user', [
         'token' => $token,
-        'UserID' => $id              
+        'UserID' => $id
         ]
     );
     $delResponse->assertStatus(300)->assertSee("UnAuthorized Deletion");
   }
-   
+
 }

@@ -1,17 +1,21 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class comment extends Model
+class Message extends Model
 {
     protected $fillable = [
       'id',
-      'commented_by',
       'content',
-      'root',
+      'subject',
       'parent',
+      'sender',
+      'receiver',
+      'received',
+      'delSend',
+      'delReceive'
     ];
     public $incrementing = false;
 }

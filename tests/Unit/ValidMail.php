@@ -22,6 +22,6 @@ class ValidMail extends TestCase
             'username' => 'MohamedRamzy',
             ]
         );
-        $response->assertStatus(200)->assertSee('Email sent successfully');    
+        $response->assertStatus(200)->assertSee('Email sent successfully');
     }
 }

@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use App\subscriber;
-use App\apexCom as apexComModel;
-use App\apexBlock;
-use App\User;
-use App\moderator;
-use App\post;
-use App\Http\Controllers\Account;
+use App\Http\Controllers\AccountController;
 use Carbon\Carbon;
+use App\Models\ApexCom as apexComModel;
+use App\Models\Subscriber;
+use App\Models\ApexBlock;
+use App\Models\User;
+use App\Models\Moderator;
+use App\Models\Post;
 
 /**
  * @group ApexCom
@@ -20,9 +20,14 @@ use Carbon\Carbon;
  * Controls the ApexCom info , posts and admin.
  */
 
-class ApexCom extends Controller
+class ApexComController extends Controller
 {
 
+
+    public function guestAbout(Request $request)
+    {
+    }
+    
     /**
      * about
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
@@ -31,11 +36,11 @@ class ApexCom extends Controller
      * failure Cases:
      * 1) NoAccessRight the token does not support to view the about information.
      * 2) ApexCom fullname (ApexCom_id) is not found.
-     * 
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
-     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"} 
+     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
      *
      * @bodyParam ApexCom_ID string required The fullname of the community.
      * @bodyParam token JWT required Verifying user ID.
@@ -43,14 +48,7 @@ class ApexCom extends Controller
 
     public function about(Request $request)
     {
-        $account = new Account();
-
-        // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
+        $account = new AccountController();
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 
@@ -65,7 +63,7 @@ class ApexCom extends Controller
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
+        $blocked = ApexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id] ])->count();
 
         // return an error for if the user was blocked from the apexcom.
         if ($blocked != 0) {
@@ -77,11 +75,11 @@ class ApexCom extends Controller
         $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
             ->select('posted_by')->distinct('posted_by')->get()->count();
 
-        $moderators = moderator::where('apexID', $apex_id)->get('userID');
+        $moderators = Moderator::where('apexID', $apex_id)->get('userID');
 
-        $subscribers_count = subscriber::where('apexID', $apex_id)->count();
+        $subscribers_count = Subscriber::where('apexID', $apex_id)->count();
 
-        $apexCom = apexComModel::find($apex_id);
+        $apexCom = ApexComModel::find($apex_id);
 
         $name = $apexCom->name;
 
@@ -124,14 +122,7 @@ class ApexCom extends Controller
 
     public function submitPost(Request $request)
     {
-        $account = new Account();
-
-        // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
+        $account = new AccountController();
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 
@@ -146,7 +137,7 @@ class ApexCom extends Controller
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where(
+        $blocked = ApexBlock::where(
             [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
         )->count();
 
@@ -168,11 +159,11 @@ class ApexCom extends Controller
      * failure Cases:
      * 1) NoAccessRight the token does not support to subscribe this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
-     * 
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
-     * @response 200 [true] 
+     * @response 200 [true]
      *
      * @bodyParam ApexCom_id string required The fullname of the community required to be subscribed.
      * @bodyParam token JWT required Verifying user ID.
@@ -181,14 +172,7 @@ class ApexCom extends Controller
 
     public function subscribe(Request $request)
     {
-        $account = new Account();
-
-        // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
+        $account = new AccountController();
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 
@@ -203,7 +187,7 @@ class ApexCom extends Controller
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where(
+        $blocked = ApexBlock::where(
             [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
         )->count();
 
@@ -213,19 +197,19 @@ class ApexCom extends Controller
         }
 
         // get if the user was previously subscribing the apexcom.
-        $unsubscribe = subscriber::where(
+        $unsubscribe = Subscriber::where(
             [['apexID', '=',$apex_id],['userID', '=',$user_id] ]
         )->count();
 
         // unsubscribe if previously subscribed and return true to ensure the success of unsubscribe.
         if ($unsubscribe) {
-            subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
+            Subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
             return response()->json([true], 200);
         }
 
         // if not previously subscribed then subscribe and store it in the database.
-        subscriber::create(
+        Subscriber::create(
             [
                 'apexID' => $apex_id ,
                 'userID' => $user_id
@@ -246,7 +230,7 @@ class ApexCom extends Controller
      * failure Cases:
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
-     *  
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 400 {"error":"No Access Rights to create or edit an ApexCom"}
      * @response 400 {"name":["The name field is required."]}
@@ -268,15 +252,7 @@ class ApexCom extends Controller
 
     public function siteAdmin(Request $request)
     {
-        $account = new Account();
-
-        // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
-
+        $account = new AccountController();
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 

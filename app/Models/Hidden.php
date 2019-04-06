@@ -1,15 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class reportComment extends Model
+class Hidden extends Model
 {
     protected $fillable = [
-      'comID',
+      'postID',
       'userID',
-      'content',
     ];
     public $incrementing = false;
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Http\Controllers\Account;
+use App\Http\Controllers\AccountController;
 
 /**
  * @group Adminstration
@@ -12,7 +12,7 @@ use App\Http\Controllers\Account;
  * To manage the controls of admins and moderators
  */
 
-class Administration extends Controller
+class AdministrationController extends Controller
 {
 
     /**
@@ -30,13 +30,8 @@ class Administration extends Controller
 
     public function deleteApexCom(Request $request)
     {
-        $account=new Account ;
-        $user=$account->me($request);
-        if (!array_key_exists('user', $user->getData())) {
-            //there is token_error or user_not found_error
-            return $user;
-        }
-        $user=$user->getData()->user;
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
 
@@ -83,13 +78,8 @@ class Administration extends Controller
 
     public function deleteUser(Request $request)
     {
-        $account=new Account ;
-        $user=$account->me($request);
-        if (!array_key_exists('user', $user->getData())) {
-            //there is token_error or user_not found_error
-            return $user;
-        }
-        $user=$user->getData()->user;
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
 
@@ -145,13 +135,8 @@ class Administration extends Controller
 
     public function addModerator(Request $request)
     {
-        $account=new Account ;
-        $user=$account->me($request);
-        if (!array_key_exists('user', $user->getData())) {
-            //there is token_error or user_not found_error
-            return $user;
-        }
-        $user=$user->getData()->user;
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
 

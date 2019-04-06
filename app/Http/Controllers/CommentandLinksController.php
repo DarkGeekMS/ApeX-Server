@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\comment;
-use App\commentVote;
-use App\vote;
-use App\User;
-use App\moderator;
-use App\reportPost;
-use App\reportComment;
-use App\saveComment;
-use App\savePost;
-use App\message;
-use App\hidden;
-use App\post;
-use App\Http\Controllers\Account;
+use App\Models\Comment;
+use App\Models\CommentVote;
+use App\Models\Vote;
+use App\Models\User;
+use App\Models\Moderator;
+use App\Models\ReportPost;
+use App\Models\ReportComment;
+use App\Models\SaveComment;
+use App\Models\SavePost;
+use App\Models\Message;
+use App\Models\Hidden;
+use App\Models\Post;
 
 /**
  * @group Links and comments
@@ -24,7 +24,7 @@ use App\Http\Controllers\Account;
  * controls the comments , replies and private messages for each user
  */
 
-class CommentandLinks extends Controller
+class CommentandLinksController extends Controller
 {
     /**
      * add
@@ -35,9 +35,9 @@ class CommentandLinks extends Controller
      * 1) post fullname (ID) is not found.
      * 2) NoAccessRight token is not authorized.
      *
-     * @queryParam content string required The body of the comment.
-     * @queryParam parent string required The fullname of the thing to be replied to.
-     * @queryParam token JWT required Verifying user ID.
+     * @bodyParam content string required The body of the comment.
+     * @bodyParam parent string required The fullname of the thing to be replied to.
+     * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -61,13 +61,7 @@ class CommentandLinks extends Controller
     public function add(Request $request)
     {
       //get the logged in user
-        $account=new Account ;
-        $userID = $account->me($request);
-        //check valid user
-        if (!array_key_exists('user', $userID->getData())) {
-                //there is token_error or user_not found_error
-                return $userID;
-        }
+        $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
@@ -80,7 +74,7 @@ class CommentandLinks extends Controller
         //if the parent was comment means the submitted is a reply
         if ($parent[1]==1) {              //add reply to comment ( or another reply)
           //get the parent comment and check valid one
-            $comment = comment::find($parent);
+            $comment = Comment::find($parent);
             //if not vali return error message
             if (!$comment) {
                 return response()->json(['error' => 'no_comment_reply '], 404);
@@ -93,7 +87,7 @@ class CommentandLinks extends Controller
             $newIdx = (int)explode("_", $id)[1];
             $id = "t1_".($newIdx + $count);
             //add this record in the database
-            comment::create([
+            Comment::create([
               'commented_by'=> $user['id'],
               'parent' => $comment['id'],
               'root' =>$comment['root'],
@@ -104,7 +98,7 @@ class CommentandLinks extends Controller
             return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
           //get the post to be commented
-            $post = post::find($parent);
+            $post = Post::find($parent);
             //check valid post if not return error message
             if (!$post) {
                 return response()->json(['error' => 'post not exists '], 404);
@@ -121,7 +115,7 @@ class CommentandLinks extends Controller
             }
 
             //insert the new record in the database
-            comment::create([
+            Comment::create([
               'commented_by'=> $user['id'],
               'root' =>$parent,
               'id' =>$id,
@@ -131,7 +125,7 @@ class CommentandLinks extends Controller
             return response()->json(['id' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
           //get the message to have a reply
-            $message = message::find($parent);
+            $message = Message::find($parent);
             //check valid message if not return error message
             if (!$message) {
                 return response()->json(['error' => ' message not exists '], 404);
@@ -150,7 +144,7 @@ class CommentandLinks extends Controller
             $newIdx = (int)explode("_", $id)[1];
             $id = "t4_".($newIdx+$count);
             //insert the new message record in the message table
-            message::create([
+            Message::create([
               'sender'=> $user['id'],
               'receiver' =>$userF,
               'id' =>$id,
@@ -177,8 +171,8 @@ class CommentandLinks extends Controller
      * 2) NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.
      * 3) post , comment or reply fullname (ID) is not found.
      *
-     * @queryParam name string required The fullname of the post,comment or reply to be deleted.
-     * @queryParam token JWT required Verifying user ID.
+     * @bodyParam name string required The fullname of the post,comment or reply to be deleted.
+     * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -202,13 +196,7 @@ class CommentandLinks extends Controller
     public function delete(Request $request)
     {
         //get the logged in user id
-        $account=new Account ;
-        $userID = $account->me($request);
-        //check the user exists
-        if (!array_key_exists('user', $userID->getData())) {
-                //there is token_error or user_not found_error
-                return $userID;
-        }
+        $account=new AccountController;
         $userID = $account->me($request)->getData()->user->id;
         //get user data by id
         $user = User::find($userID);
@@ -217,7 +205,7 @@ class CommentandLinks extends Controller
         //check the thing to be deleted is post or comment
         if ($name[1]==3) {                           //post
           //get the post
-            $post = post::find($name);
+            $post = Post::find($name);
             //if post not exists return error message
             if (!$post) {
                 return response()->json(['error' => 'post not exists'], 404);
@@ -244,7 +232,7 @@ class CommentandLinks extends Controller
             return response()->json(['error' => 'invalid user'], 400);
         } elseif ($name[1]==1) {                     //if comment
           //get the comment to be deleted
-            $comment = comment::find($name);
+            $comment = Comment::find($name);
             //check the validity of this comment if not exists return error message
             if (!$comment) {
                 return response()->json(['error' => 'comment not exists'], 404);
@@ -260,7 +248,7 @@ class CommentandLinks extends Controller
                 return response()->json(['deleted' => true], 200);
             }
             //get the post has this comment to check if the user was this post owner
-            $post = post::find($comment['root']);
+            $post = Post::find($comment['root']);
             //if so delete the comment and return true (post owner can delete any comment on his post)
             if ($user['id'] == $post['posted_by']) {
                 $comment->delete();
@@ -318,8 +306,8 @@ class CommentandLinks extends Controller
      * 2) post fullname (ID) is not found.
      * 3) NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.
      *
-     * @queryParam name string required The fullname of the post to be locked.
-     * @queryParam token JWT required Verifying user ID.
+     * @bodyParam name string required The fullname of the post to be locked.
+     * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -337,18 +325,13 @@ class CommentandLinks extends Controller
     public function lock(Request $request)
     {
         //get the user id using the token
-        $account=new Account ;
-        $userID = $account->me($request);
-        if (!array_key_exists('user', $userID->getData())) {
-                //there is token_error or user_not found_error
-                return $userID;
-        }
+        $account=new AccountController;
         $userID = $account->me($request)->getData()->user->id;
         //get the user by the user id
         $user = User::find($userID);
 
         //get the post to be locked (if allowed)
-        $post = post::find($request['name']);
+        $post = Post::find($request['name']);
         //check valid post
         if (!$post) {
             return response()->json(['error' => 'post not exists'], 404);
@@ -392,8 +375,8 @@ class CommentandLinks extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
      *
-     * @queryParam name string required The fullname of the post to be hidden.
-     * @queryParam token JWT required Verifying user ID.
+     * @bodyParam name string required The fullname of the post to be hidden.
+     * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -408,12 +391,7 @@ class CommentandLinks extends Controller
     public function hide(Request $request)
     {
         //get the user id using the token
-        $account=new Account ;
-        $userID = $account->me($request);
-        if (!array_key_exists('user', $userID->getData())) {
-                //there is token_error or user_not found_error
-                return $userID;
-        }
+        $account=new AccountController;
         $userID = $account->me($request)->getData()->user->id;
         //get the user by the user id
         $user = User::find($userID);
@@ -427,7 +405,7 @@ class CommentandLinks extends Controller
         $hide = DB::table('hiddens')->where('userID', $user['id'])->where('postID', $post['id'])->get();
         //if post not hidden, add it to the hidden posts of this user.
         if (!count($hide)) {
-            hidden::create([
+            Hidden::create([
             'postID' => $post['id'],
             'userID' => $user['id']
             ]);
@@ -451,9 +429,9 @@ class CommentandLinks extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
      *
-     * @queryParam parent string required The fullname of the posts whose comments are being fetched
+     * @bodyParam parent string required The fullname of the posts whose comments are being fetched
      * ( post , comment or message ).
-     * @queryParam ID JWT required Verifying user ID.
+     * @bodyParam ID JWT required Verifying user ID.
      */
 
 
@@ -462,7 +440,25 @@ class CommentandLinks extends Controller
         return;
     }
 
+    /**
+     * moreChildren
+     * to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
+     * Success Cases :
+     * 1) return thr retrieved comments or replies (10 reply at a time ).
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+     *
+     * @bodyParam parent string required The fullname of the posts whose comments are being fetched
+     * ( post , comment or message ).
+     * @bodyParam ID JWT required Verifying user ID.
+     */
 
+
+    public function guestMoreChildren()
+    {
+        return;
+    }
 
     /**
      * report
@@ -475,12 +471,11 @@ class CommentandLinks extends Controller
      * 1) send reason (index) out of the associative array range.
      * 2) NoAccessRight token is not authorized.
      *
-     * @queryParam name string required The fullname of the post,comment or message to report.
+     * @bodyParam name string required The fullname of the post,comment or message to report.
      * @bodyParam content string The reason for the report from an associative array.
      * (will be in frontend).
-     * @queryParam token JWT required Verifying user ID.
-
      * @bodyParam token JWT required Verifying user ID.
+
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -504,14 +499,8 @@ class CommentandLinks extends Controller
     public function report(Request $request)
     {
         //get the user id using the token
-        $account=new Account ;
-        $userID = $account->me($request);
-        if (!array_key_exists('user', $userID->getData())) {
-                //there is token_error or user_not found_error
-                return $userID;
-        }
+        $account=new AccountController;
         $userID = $account->me($request)->getData()->user->id;
-
         //get the user by the user id
         $user = User::find($userID);
 
@@ -527,7 +516,7 @@ class CommentandLinks extends Controller
         //if the report request from post
         if ($name[1]==3) {                   //post
           //get the post to be reported
-            $post = post::find($name);
+            $post = Post::find($name);
             //check valid post
             if (!$post) {
                 return response()->json(['error' => 'post_not_exists'], 404);
@@ -547,7 +536,7 @@ class CommentandLinks extends Controller
             $report = DB::table('report_posts')->where('userID', $user['id'])->where('postID', $post['id'])->get();
             //if the report was new create one.
             if (!count($report)) {
-                reportPost::create([
+                ReportPost::create([
                 'postID' => $post['id'],
                 'userID' => $user['id'],
                 'content' => $request['content']
@@ -560,7 +549,7 @@ class CommentandLinks extends Controller
         //if the report request from comment
         } elseif ($name[1] ==1) {           //comment
           //get the comment to be reported
-            $comment = comment::find($name);
+            $comment = Comment::find($name);
 
             //check valid comment
             if (!$comment) {
@@ -571,7 +560,7 @@ class CommentandLinks extends Controller
                  return response()->json(['error' => 'invalid Action'], 400);
             }
             //get the post that has this comment
-            $post = post::find($comment['root']);
+            $post = Post::find($comment['root']);
             //one can't report any comment on his post (as he can delete it)
             if ($user['id'] == $post['posted_by']) {
                  return response()->json(['error' => 'invalid Action'], 400);
@@ -587,7 +576,7 @@ class CommentandLinks extends Controller
             $report = DB::table('report_comments')->where('userID', $user['id'])->where('comID', $comment['id'])->get();
             //if the report was new create one.
             if (!count($report)) {
-                reportComment::create([
+                ReportComment::create([
                 'comID' => $comment['id'],
                 'userID' => $user['id'],
                 'content' => $request['content']
@@ -614,9 +603,9 @@ class CommentandLinks extends Controller
      * 2) fullname of the thing to vote on is not found.
      * 3) direction of the vote is not integer between -1 , 1.
      *
-     * @queryParam name string required The fullname of the post,comment or reply to vote on.
+     * @bodyParam name string required The fullname of the post,comment or reply to vote on.
      * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
-     * @queryParam token JWT required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
      * }
@@ -634,12 +623,7 @@ class CommentandLinks extends Controller
     public function vote(Request $request)
     {
         //get the logged in user
-        $account=new Account ;
-        $userID = $account->me($request);
-        if (!array_key_exists('user', $userID->getData())) {
-                //there is token_error or user_not found_error
-                return $userID;
-        }
+        $account=new AccountController;
         //get the id of the user to get the user data
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
@@ -654,7 +638,7 @@ class CommentandLinks extends Controller
         //if post
         if ($name[1]==3) {
            //get this post
-            $post = post::find($name);
+            $post = Post::find($name);
             if (!$post) {
               //return error message if the post not found
                 return response()->json(['error' => 'post_not_found'], 404);
@@ -665,7 +649,7 @@ class CommentandLinks extends Controller
 
              //if not we create this record
             if (!count($exists)) {
-                vote::create([
+                Vote::create([
                   'postID' => $request['name'] ,
                   'userID' => $user['id'],
                   'dir' => $request['dir']
@@ -694,7 +678,7 @@ class CommentandLinks extends Controller
             //if comment
         } elseif ($name[1]==1) {
           //get this comment
-            $comment = comment::find($name);
+            $comment = Comment::find($name);
             //check if this comment exists otherwise return error message comment not exists
             if (!$comment) {
                 return response()->json(['error' => 'comment not exists'], 404);
@@ -704,7 +688,7 @@ class CommentandLinks extends Controller
              ->where('userID', $user['id'])->get();
              //if not we create this record
             if (!count($exists)) {
-                commentVote::create([
+                CommentVote::create([
                     'comID' => $request['name'] ,
                     'userID' => $user['id'],
                     'dir' => $request['dir']
@@ -748,21 +732,14 @@ class CommentandLinks extends Controller
      * 2) post fullname (ID) is not found.
      *
      * @bodyParam ID string required The ID of the comment or post.
-     * @queryParam token JWT required Used to verify the user.
+     * @bodyParam token JWT required Used to verify the user.
      */
 
     public function save(Request $request)
     {
        //get the logged in user
-        $account=new Account ;
-        $user=$account->me($request);
-        //check valid user
-        if (!array_key_exists('user', $user->getData())) {
-            //there is token_error or user_not found_error
-            return $user;
-        }
-        //get the logged in user data
-        $user=$user->getData()->user;
+        $account=new AccountController;
+        $user = $account->me($request)->getData()->user;
         $id= $user->id;
         $validator = validator(
             $request->all(),

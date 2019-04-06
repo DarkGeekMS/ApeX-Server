@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use DB;
 
 class ValidSignup extends TestCase
 {
@@ -22,15 +23,15 @@ class ValidSignup extends TestCase
             [
             'email' => "bebo@gmail.com",
             'password' => '1721998',
-            'username' => 'rehab hamdy',
+            'username' => 'rehab_hamdy',
             ]
         );
         $response->assertStatus(200);
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
-            'username' => 'rehab hamdy',
+            'username' => 'rehab_hamdy',
             'password' => '1721998'
             ]
         );

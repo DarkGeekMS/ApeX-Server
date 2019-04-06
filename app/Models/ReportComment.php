@@ -1,14 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class block extends Model
+class ReportComment extends Model
 {
     protected $fillable = [
-      'blockerID',
-      'blockedID',
+      'comID',
+      'userID',
+      'content',
     ];
     public $incrementing = false;
 }

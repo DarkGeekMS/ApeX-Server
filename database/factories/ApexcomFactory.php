@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\apexCom::class, function (Faker $faker) {
+$factory->define(App\Models\ApexCom::class, function (Faker $faker) {
     static $i = 1;
     return [
       'id' => 't5_'.(string)(count(DB::table('apex_coms')->pluck('id')->all()) + $i++),

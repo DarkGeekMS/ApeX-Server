@@ -106,17 +106,17 @@ return [
                  * Configure the settings for the API call here,
                  */
                 'response_calls' => [
-                    /*
-                     * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
-                     * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
-                     */
+                   /*
+                    * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
+                    * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
+                    */
                     'methods' => ['*'],
 
-                    /*
-                     * For URLs which have parameters (/users/{user}, /orders/{id?}),
-                     * specify what values the parameters should be replaced with.
-                     * Note that you must specify the full parameter, including curly brackets and question marks if any.
-                     */
+                   /*
+                    * For URLs which have parameters (/users/{user}, /orders/{id?}),
+                    * specify what values the parameters should be replaced with.
+                    * Note that you must specify the full parameter, including curly brackets and question marks if any.
+                   */
                     'bindings' => [
                         // '{user}' => 1
                     ],

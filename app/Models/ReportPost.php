@@ -1,15 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class vote extends Model
+class ReportPost extends Model
 {
     protected $fillable = [
       'postID',
       'userID',
-      'dir',
+      'content',
     ];
     public $incrementing = false;
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class saveComment extends Model
+class Block extends Model
 {
     protected $fillable = [
-      'comID',
-      'userID',
+      'blockerID',
+      'blockedID',
     ];
     public $incrementing = false;
 }

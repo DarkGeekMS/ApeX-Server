@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Code;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use App\Mail\ForgetPassword;
 use JWTAuth;
 use Tymon\JWTAuth\Http\Parser\Parser;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
-use App\Mail\ForgetPassword;
-use Illuminate\Support\Str;
-
+use App\Models\User;
+use App\Models\Code;
 
 /**
  * @group Account
@@ -23,7 +22,7 @@ use Illuminate\Support\Str;
  * Controls the authentication, info and messages of any user account.
  */
 
-class Account extends Controller
+class AccountController extends Controller
 {
 
     /**
@@ -169,7 +168,7 @@ class Account extends Controller
      * 1) return success or failure message to indicate whether the email is sent or not.
      * failure Cases:
      * 1) username is not found.
-     * 
+     *
      * @response{
      * "msg":"Email sent successfully"
      * }
@@ -206,8 +205,7 @@ class Account extends Controller
                 $codeText = Str::random(15); // Generating random code
                 //Sending the email with random code
                 \Mail::to($user)->send(new ForgetPassword($codeText));
-            }
-            catch(\Swift_TransportException $e){
+            } catch (\Swift_TransportException $e) {
                 /*Returning json response with status code 400
                  indicating an error in sending*/
                 return response()->json(['msg' => 'Error sending the email'], 400);
@@ -219,7 +217,6 @@ class Account extends Controller
             $code->save(); //storing it into the database
             //Returning the success response with status 200
             return response()->json(['msg' => 'Email sent successfully'], 200);
-
         } else {
             //Return response with code 400 indicating that user is not found
             return response()->json(['msg' => 'Username is not found'], 400);

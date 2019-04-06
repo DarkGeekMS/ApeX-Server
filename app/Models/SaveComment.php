@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class subscriber extends Model
+class SaveComment extends Model
 {
     protected $fillable = [
-      'apexID',
+      'comID',
       'userID',
     ];
     public $incrementing = false;

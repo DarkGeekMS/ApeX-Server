@@ -1,20 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class post extends Model
+class Comment extends Model
 {
     protected $fillable = [
       'id',
-      'posted_by',
-      'apex_id',
-      'title',
-      'img',
-      'videolink',
+      'commented_by',
       'content',
-      'locked',
+      'root',
+      'parent',
     ];
     public $incrementing = false;
 }
