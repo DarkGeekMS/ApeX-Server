@@ -1,23 +1,16 @@
 #!/bin/bash
-set -eux
+set -ex
 
-prepare() {
-    composer install -o
-
-    php7 artisan key:generate
-
+if [[ "$MIGRATE" == 'true' ]]; then 
     php7 artisan migrate -v
     composer dump-autoload
     php7 artisan DB:seed
-}
+fi
 
 runTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
-
 serve() { php7 artisan serve --host=0.0.0.0 --port=80; }
 
-[[ ! -z "$PREPARE" ]] && { prepare; }
-
-if [[ ! -z "$TEST" ]]; then
+if [[ "$TEST" == 'true' ]]; then
     serve &
     sleep 3
     runTests
