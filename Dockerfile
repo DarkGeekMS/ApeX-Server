@@ -15,8 +15,7 @@ RUN apk add \
     php-mysqli \
     php-mysqlnd \
     php-simplexml \
-    composer \
-    dos2unix
+    composer
 
 COPY . /app
 WORKDIR /app
@@ -28,8 +27,6 @@ ENV PREPARE=${PREPARE}
 # pass `--build-arg TEST=true` on building to run tests
 ARG TEST
 ENV TEST=${TEST}
-
-RUN dos2unix scripts/run.sh
 
 EXPOSE 80
 ENTRYPOINT [ "/bin/bash", "/app/scripts/run.sh" ]
