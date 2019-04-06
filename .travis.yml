@@ -30,7 +30,7 @@ env:
 before_script:
   - phpenv config-rm xdebug.ini # remove xdebug to speed up testing
   - cp .env.example .env
-  - docker build . -t app-image --build-arg PREPARE='true' --build-arg TEST='true'
+  - docker build . -t app-image --build-arg MIGRATE='true' --build-arg TEST='true'
 script:
   - docker-compose up --exit-code-from app
 
