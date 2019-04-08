@@ -72,6 +72,7 @@ class posts extends Seeder
             'posted_by' => 't2_12',
             'apex_id' => 't5_3',
             'title' => 'Anything',
+            'locked' => true,
             'created_at' => '2019-03-23 17:20:37'
         ]);
 

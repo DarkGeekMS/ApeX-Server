@@ -37,7 +37,7 @@ class InvalidAddMoerator extends TestCase
 
         $addResponse = $this->json(
             'POST',
-            '/api/add_mod',
+            '/api/add_moderator',
             [
               'token' => $token,
               'UserID' => '1000',             //wrong id
@@ -109,7 +109,7 @@ class InvalidAddMoerator extends TestCase
    *
    * @return void
    */
-    public function UnauthorizedAdd()
+    public function unauthorizedAdd()
     {
       //sign in with a non-admin account
         $adminLoginResponse = $this->json(

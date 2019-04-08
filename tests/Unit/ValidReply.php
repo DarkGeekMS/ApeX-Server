@@ -117,7 +117,7 @@ class ValidReply extends TestCase
     public function replyToMessage()
     {
         $lastcom = DB::table('messages')->orderBy('created_at', 'desc')->first();
-        $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
+        $count = DB::table('messages') ->where('created_at', $lastcom->created_at)->count();
         $id = $lastcom->id;
         $newIdx = (int)explode("_", $id)[1];
         $id = "t4_".($newIdx+$count);

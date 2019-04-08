@@ -6,10 +6,10 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use App\apexCom;
-use App\apexBlock;
-use App\subscriber;
-use \App\User;
+use App\Models\ApexCom;
+use App\Models\ApexBlock;
+use App\Models\Subscriber;
+use \App\Models\User;
 
 class AboutTest extends TestCase
 {
@@ -98,8 +98,8 @@ class AboutTest extends TestCase
         $this->assertDatabaseHas('users', compact('id'));
 
         // get any apexcom and block the signed in user from
-        $apex_id = apexCom::all()->first()->id;
-        apexBlock::create(
+        $apex_id = ApexCom::all()->first()->id;
+        ApexBlock::create(
             [
                 'blockedID' => $id,
                 'ApexID' => $apex_id
@@ -125,7 +125,7 @@ class AboutTest extends TestCase
 
         // delete user added to database and blocked from apexblock table
 
-        apexBlock::where('blockedID', $id)->delete();
+        ApexBlock::where('blockedID', $id)->delete();
         User::where('id', $id)->delete();
 
         //check that the blocked user from apexcom is deleted from database
@@ -160,7 +160,7 @@ class AboutTest extends TestCase
         $this->assertDatabaseHas('users', compact('id'));
 
         //get any apex com and hit the route with it to get its about info
-        $apex_id = apexCom::all()->first()->id;
+        $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'GET',
             '/api/about',

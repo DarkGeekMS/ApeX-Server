@@ -5,8 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use \App\User;
-use App\block;
+use \App\Models\User;
+use App\Models\Block;
 
 class blockUser extends TestCase
 {

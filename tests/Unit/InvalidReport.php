@@ -364,7 +364,7 @@ class InvalidReport extends TestCase
             '/api/report',
             [
             'token' => $token,
-            'name' => 't1_11',
+            'name' => 't1_14',
             'content' => 'report a problem'
             ]
         );

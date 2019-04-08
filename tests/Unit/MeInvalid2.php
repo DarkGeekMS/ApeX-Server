@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 
-
 class MeInvalid2 extends TestCase
 {
     /**

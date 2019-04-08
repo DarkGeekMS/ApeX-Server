@@ -19,7 +19,7 @@ class JwtMiddleware extends BaseMiddleware
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
-            return response()->json(['error' => 'Not authorized']);
+            return response()->json(['error' => 'Not authorized'], 400);
         }
         return $next($request);
     }

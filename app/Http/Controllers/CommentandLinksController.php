@@ -79,6 +79,10 @@ class CommentandLinksController extends Controller
             if (!$comment) {
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
+            $post = Post::find($comment['root']);
+            if ($post['locked']) {
+                return response()->json(['error' => 'you can not add any reply on ths post'], 400);
+            }
             //check mention existance
             //create the comment id by getting the last comment id and increment it by 1
             $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
@@ -102,6 +106,9 @@ class CommentandLinksController extends Controller
             //check valid post if not return error message
             if (!$post) {
                 return response()->json(['error' => 'post not exists '], 404);
+            }
+            if ($post['locked']) {
+                return response()->json(['error' => 'you can not comment on this post'], 400);
             }
             //check if any mention exists
             //create the comment id by getting the total count of comments table and increment it by 1
