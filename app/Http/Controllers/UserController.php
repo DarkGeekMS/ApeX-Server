@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Block;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Post;
+use Illuminate\Http\Response;
 
 /**
  * @group User
@@ -101,7 +103,7 @@ class UserController extends Controller
      * 1. Messaged-user id is not found (status code 404).
      * 2. Invalid token, return a message about the error (status code 400).
      * 3. The users are blocked from each other (status code 400)
-     * 2. There is a server-side error (status code 500).
+     * 4. There is a server-side error (status code 500).
      *
      * @authenticated
      *
@@ -169,38 +171,109 @@ class UserController extends Controller
     }
 
     /**
-     * userData
-     * Return user public data to be seen by another user.
-     * Success Cases :
-     * 1) return the data of the user successfully.
-     * failure Cases:
-     * 1) username is not found.
-     * 2) NoAccessRight token is not authorized.
+     * Guest Get User Data
+     * Return user data to be seen by another user.
+     * User data includes: username, fullname, karma,
+     *  profile picture (URL) and personal posts
+     * 
+     * Use this request only if the user is a guest and not authorized
+     * 
+     * ###Success Cases :
+     * 1.The parameters are valid, return the data of the user successfully
+     *  (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. User is not found (status code 404).
+     * 2. There is a server-side error (status code 500).
      *
-     * @bodyParam id string required The id of an existing user.
-     * @bodyParam token JWT required Used to verify the user.
+     * @responseFile 200 responses\validUserData.json
+     * @responseFile 404 responses\userNotFound.json
+     * @responseFile 400 responses\missingUsername.json
+     * 
+     * @queryParam username required The username of an existing user. Example: King
      */
 
-    public function userData()
+    public function guestUserData(Request $request)
     {
-        return;
+        $validator = validator(
+            $request->only('username'),
+            ['username' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $username = $request['username'];
+
+        try {
+            if (!User::where(compact('username'))->exists()) {
+                return response()->json(['error' => 'User is not found'], 404);
+            }
+    
+            $userData = User::where(compact('username'));
+    
+            $posts = Post::where('posted_by', $userData->first()['id'])->get();
+    
+            $userData = $userData->select('username', 'fullname', 'karma', 'avatar')->first();
+        } catch (\Exception $e) {
+            return response()->json(['error'=>'server-side error'], 500);
+        }
+
+        return response()->json(compact('userData', 'posts'));
     }
 
     /**
-     * guestUserData
-     * Return user public data to be seen by another user.
-     * Success Cases :
-     * 1) return the data of the user successfully.
-     * failure Cases:
-     * 1) username is not found.
-     * 2) NoAccessRight token is not authorized.
+     * User Get User Data
+     * Just like [Guest Get User Data](#guest-get-user-data), except that
+     * it does't return user data between blocked users.
+     * Use this request only if the user is logged in and authorized.
+     * 
+     * ###Success Cases :
+     * 1. Return the data of the user successfully.
+     * 
+     * ###Failure Cases:
+     * 1. User is not found (status code 400).
+     * 2. The `token` is invalid, return a message about the error (status code 400).
+     * 3. The users are blocked from each other (status code 400)
+     * 4. There is a server-side error (status code 500).
      *
-     * @bodyParam id string required The id of an existing user.
-     * @bodyParam token JWT required Used to verify the user.
+     * @authenticated
+     * 
+     * @responseFile 200 responses\validUserData.json
+     * @responseFile 404 responses\userNotFound.json
+     * @responseFile 400 responses\missingUsername.json
+     * @responseFile 400 responses\blockedUserData.json
+     * 
+     * @bodyParam username string required The username of an existing user. Example: King
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMzg0ODYyLCJuYmYiOjE1NTMzODQ4NjIsImp0aSI6Ikg0bU5yR1k0eGpHQkd4eXUiLCJzdWIiOiJ0Ml8yMSIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.OJU25mPYGRiPkBuZCrCxCleaRXLklvHMyMJWX9ijR9I
      */
 
-    public function guestUserData()
+    public function userData(Request $request)
     {
-        return;
+        $result = $this->guestUserData($request);
+        if ($result->status() !== 200) {
+            return $result;
+        }
+        
+        $account = new AccountController();
+        $id1 = $account->me($request)->getData()->user->id;
+        
+        try {
+            $id2 = User::where('username', $request['username'])->first()['id'];
+    
+            if (Block::where(['blockerID'=> $id1, 'blockedID' => $id2])
+                ->orWhere(['blockerID' => $id2, 'blockedID'=> $id1])->exists()
+            ) {
+                return response()->json(
+                    ['error' => "blocked users can't view the data of each other"],
+                    400
+                );
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error'=>'server-side error'], 500);
+        }
+
+        return $result;
     }
+
 }
