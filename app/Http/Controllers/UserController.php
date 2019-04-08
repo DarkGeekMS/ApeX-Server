@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Block;
 use App\Models\Message;
+use App\Models\User;
 
 /**
  * @group User
@@ -38,9 +39,7 @@ class UserController extends Controller
      *
      * @response 200 {"result":"The user has been blocked successfully"}
      * @response 200 {"result":"The user has been unblocked successfully"}
-     * @response 400 {"token":["The token field is required."]}
-     * @response 400 {"token_error":"Wrong number of segments"}
-     * @response 400 {"token_error":"Token Signature could not be verified."}
+     * @response 400 {"error":"Not authorized"}
      * @response 404 {"error":"Blocked user is not found"}
      * @response 400 {"error":"The user can't block himself"}
      *
@@ -51,22 +50,20 @@ class UserController extends Controller
     public function block(Request $request)
     {
         $validator = validator(
-            $request->only('blockedID', 'token'),
-            ['blockedID' => 'required|string', 'token' => 'required']
+            $request->only('blockedID'),
+            ['blockedID' => 'required|string']
         );
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
-        $account = new Account();
+        $account = new AccountController();
         $meResponse = $account->me($request);
-        if (!array_key_exists('user', $meResponse->getData())) {
-            //there is token_error or user_not found_error
-            return $meResponse;
-        }
+        
         $blockerID = $meResponse->getData()->user->id;
 
         $blockedID = $request->blockedID;
-        if (!\App\User::where('id', $blockedID)->exists()) {
+        
+        if (!User::where('id', $blockedID)->exists()) {
             return response(['error' => 'Blocked user is not found'], 404);
         }
 
@@ -114,9 +111,7 @@ class UserController extends Controller
      * @response 400 {"subject":["The subject field is required."]}
      * @response 400 {"reciever":["The receiver field is required."]}
      * @response 400 {"content":["The content field is required."]}
-     * @response 400 {"token":["The token field is required."]}
-     * @response 400 {"token_error":"Wrong number of segments"}
-     * @response 400 {"token_error":"Token Signature could not be verified."}
+     * @response 400 {"error":"Not authorized"}
      *
      * @bodyParam receiver string required The id of the user to be messaged. Example: t2_1
      * @bodyParam subject string required The subject of the message. Example: Hello
@@ -131,24 +126,21 @@ class UserController extends Controller
             [
                 'receiver' => 'required|string',
                 'subject' => 'required|string',
-                'content' => 'required',
-                'token' => 'required'
+                'content' => 'required'
             ]
         );
         if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
 
-        if (!\App\User::query()->where('id', $request->receiver)->exists()) {
+        if (!User::query()->where('id', $request->receiver)->exists()) {
             return response(['error' => 'Receiver id is not found'], 404);
         }
         $receiver = $request->receiver;
 
         $account = new AccountController();
         $meResponse = $account->me($request);
-        if (!array_key_exists('user', $meResponse->getData())) {
-            return $meResponse;  //The token is invalid
-        }
+        
         $sender = $meResponse->getData()->user->id;
 
         //check that users are not blocked from each other

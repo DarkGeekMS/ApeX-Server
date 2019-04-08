@@ -145,7 +145,7 @@ class Compose extends TestCase
     {
         $params = $this->_createParams();
 
-        $missing = ['subject', 'content', 'receiver', 'token'];
+        $missing = ['subject', 'content', 'receiver'];
         foreach ($missing as $misParam) {
             $response = $this->json(
                 'POST',
@@ -180,7 +180,7 @@ class Compose extends TestCase
         );
 
         $response->assertStatus(400)
-            ->assertSee('token');
+            ->assertSee('Not authorized');
 
         //remove the created users
         User::where('id', $params['receiver'])

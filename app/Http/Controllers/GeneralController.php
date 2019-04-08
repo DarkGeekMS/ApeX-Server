@@ -76,11 +76,8 @@ class GeneralController extends Controller
     private function _removeBlockedPosts(Collection $result, $token)
     {
         $account = new AccountController();
-        $meResponse = $account->me(new Request(['token' => $token]));
-        if (!array_key_exists('user', $meResponse->getData())) {
-         //there is token_error or user_not found_error
-            return $meResponse;
-        }
+        $meResponse = $account->me(new Request(compact('token')));
+
         $userID = $meResponse->getData()->user->id;
 
         try {
@@ -118,9 +115,7 @@ class GeneralController extends Controller
      * @responseFile responses\validSearch.json
      * @responseFile 400 responses\missingQueryParam.json
      * @responseFile 400 responses\invalidQuery.json
-     * @responseFile 400 responses\missingToken.json
-     * @responseFile 400 responses\invalidToken.json
-     * @responseFile 400 responses\invalidToken2.json
+     * @responseFile 400 responses\notAuthorized.json
      *
      * @bodyParam query string required The query to be searched for (at least 3 characters). Example: lorem
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
@@ -128,13 +123,6 @@ class GeneralController extends Controller
 
     public function userSearch(Request $request)
     {
-
-        $validator = validator($request->only('token'), ['token' => 'required']);
-
-        if ($validator->fails()) {
-            return response($validator->errors(), 400);
-        }
-
         $result = $this->guestSearch($request);
         if (!array_key_exists('posts', $result)) {
             return $result;
@@ -253,9 +241,7 @@ class GeneralController extends Controller
      *
      * @responseFile responses\validSort.json
      * @responseFile 404 responses\apexComNotFound.json
-     * @responseFile 400 responses\missingToken.json
-     * @responseFile 400 responses\invalidToken.json
-     * @responseFile 400 responses\invalidToken2.json
+     * @responseFile 400 responses\notAuthorized.json
      *
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
@@ -263,12 +249,6 @@ class GeneralController extends Controller
      */
     public function userSortPostsBy(Request $request)
     {
-
-        $validator = validator($request->only('token'), ['token' => 'required']);
-
-        if ($validator->fails()) {
-            return response($validator->errors(), 400);
-        }
 
         $result = $this->guestSortPostsBy($request);
         if (!array_key_exists('posts', $result)) {
