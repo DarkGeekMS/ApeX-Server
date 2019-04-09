@@ -24,374 +24,6 @@ Welcome to the generated API reference.
 #Account
 
 Controls the authentication, info and messages of any user account.
-<!-- START_311b0f388598aca8ed7f8fdf74916333 -->
-## SignUp
-Registers new user into the website.
-
-Success Cases :
-1) return user data and JWT token to ensure that the user created successfully.
-failure Cases:
-1) username already exits.
-2) email already exists.
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost/api/sign_up" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"email":"ldEfeVXlLWeBdtqP","username":"fmjWOCct80fnHDmD","password":"iu3Dv0VtH8y48ybp"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/api/sign_up");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "email": "ldEfeVXlLWeBdtqP",
-    "username": "fmjWOCct80fnHDmD",
-    "password": "iu3Dv0VtH8y48ybp"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-{
-    "user": {
-        "email": "hello@gmail.com",
-        "username": "MohamedRamzy1234",
-        "id": "t2_13",
-        "avatar": "storage\/avatars\/users\/default.png",
-        "updated_at": "2019-03-19 18:30:05",
-        "created_at": "2019-03-19 18:30:05"
-    },
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwv"
-}
-```
-> Example response (400):
-
-```json
-{
-    "email": [
-        "The email has already been taken."
-    ],
-    "username": [
-        "The username has already been taken."
-    ]
-}
-```
-> Example response (400):
-
-```json
-{
-    "email": [
-        "The email has already been taken."
-    ]
-}
-```
-> Example response (400):
-
-```json
-{
-    "username": [
-        "The username has already been taken."
-    ]
-}
-```
-
-### HTTP Request
-`POST api/sign_up`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    email | string |  required  | The email of the user.
-    username | string |  required  | The choosen username.
-    password | string |  required  | The choosen password.
-
-<!-- END_311b0f388598aca8ed7f8fdf74916333 -->
-
-
-<!-- START_67f683fe8a80401986f3d12a170787b0 -->
-## login
-Validates user&#039;s credentials and logs him in.
-
-Success Cases :
-1) return JWT token to ensure that the user loggedin successfully.
-failure Cases:
-1) username is not found.
-2) invalid password.
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost/api/Sign_in" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"username":"MuU9fEJ1q1wXcB5Q","password":"bdHko9nt3rp3XvAG"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/api/Sign_in");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "username": "MuU9fEJ1q1wXcB5Q",
-    "password": "bdHko9nt3rp3XvAG"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-{
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9X2luIiwiaWF0IjoxNTUzMD"
-}
-```
-> Example response (400):
-
-```json
-{
-    "error": "invalid_credentials"
-}
-```
-> Example response (400):
-
-```json
-{
-    "error": "could_not_create_token"
-}
-```
-
-### HTTP Request
-`POST api/Sign_in`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    username | string |  required  | The user's username.
-    password | string |  required  | The user's password.
-
-<!-- END_67f683fe8a80401986f3d12a170787b0 -->
-
-
-<!-- START_9c2b68d84a5e58731426b62d8716d169 -->
-## mailVerify
-Send a verification email to the user with a code in case of forgetting password.
-
-Success Cases :
-1) return true to ensure that the email has been sent.
-failure Cases:
-1) username is not found.
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost/api/mail_verify" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"username":"zTyWr57u48AwHH5W"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/api/mail_verify");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "username": "zTyWr57u48AwHH5W"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-null
-```
-
-### HTTP Request
-`POST api/mail_verify`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    username | string |  required  | The user's username.
-
-<!-- END_9c2b68d84a5e58731426b62d8716d169 -->
-
-
-<!-- START_4b5bbd8dc31ae3073c29c9b679f448b5 -->
-## checkCode
-Check whether the user entered the correct reset code sent to his email.
-
-Success Cases :
-1) return true to verify the code if it matches (the user is then redirected to the change password page).
-failure Cases:
-1) Code is invalid.
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost/api/check_code" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"code":4}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/api/check_code");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "code": 4
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-null
-```
-
-### HTTP Request
-`POST api/check_code`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    code | integer |  required  | The entered code.
-
-<!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
-
-
-<!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
-## Logout
-Logs out a user.
-
-Success Cases :
-1) return token equals to null to ensure that the user is logout successfully.
-failure Cases:
-1) Token invalid
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost/api/sign_out" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"token":"8EOW9hEVD9iTh7lZ"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/api/sign_out");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "token": "8EOW9hEVD9iTh7lZ"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-{
-    "token": null
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "wrong number of segments"
-}
-```
-
-### HTTP Request
-`POST api/sign_out`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    token | JWT |  required  | Used to verify the user.
-
-<!-- END_61c037b1e23dc1e0f83fb62a8024cf9d -->
-
-
 <!-- START_17ab3166922a15e0dcef5180e5c57447 -->
 ## deleteMsg
 Delete private messages from the recipient&#039;s view of their inbox.
@@ -408,7 +40,7 @@ failure Cases:
 curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"uJRcQ6uXynxR2ID3","token":"xMKBmsNX3aVrFj9C"}'
+    -d '{"id":"J0u0LaKCVqGh46Xi","token":"5JAMjwEE7885q1JK"}'
 
 ```
 
@@ -422,8 +54,8 @@ let headers = {
 }
 
 let body = {
-    "id": "uJRcQ6uXynxR2ID3",
-    "token": "xMKBmsNX3aVrFj9C"
+    "id": "J0u0LaKCVqGh46Xi",
+    "token": "5JAMjwEE7885q1JK"
 }
 
 fetch(url, {
@@ -435,10 +67,12 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
@@ -471,7 +105,7 @@ failure Cases:
 curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"GGNqZqO61adkF58X","token":"0gLkDCpWMJIQT5VM"}'
+    -d '{"ID":"RGIN92sFoKmpi8GT","token":"5x3DjYSjQK5NtXmb"}'
 
 ```
 
@@ -485,8 +119,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "GGNqZqO61adkF58X",
-    "token": "0gLkDCpWMJIQT5VM"
+    "ID": "RGIN92sFoKmpi8GT",
+    "token": "5x3DjYSjQK5NtXmb"
 }
 
 fetch(url, {
@@ -498,10 +132,12 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
@@ -532,7 +168,7 @@ failure Cases:
 curl -X POST "http://localhost/api/me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"lz98KdlO8sLtR7Wi"}'
+    -d '{"token":"VCfOeLDriTF4Ji3m"}'
 
 ```
 
@@ -546,7 +182,7 @@ let headers = {
 }
 
 let body = {
-    "token": "lz98KdlO8sLtR7Wi"
+    "token": "VCfOeLDriTF4Ji3m"
 }
 
 fetch(url, {
@@ -620,7 +256,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"VRSiVSw8BUpPGJ68","change_password":"lwlJkvUfxlu602Uv","deactivate_account":"0W3dLTCPA8U988bL","media_autoplay":true,"pm_notifications":false,"replies_notifications":false,"token":"yZ7YceuLorwVAn6Y"}'
+    -d '{"change_email":"KxXOdt88Wf2ZzFKf","change_password":"vGpIbDO7B7EYN7Bj","deactivate_account":"lksTHie98vRxqkd7","media_autoplay":true,"pm_notifications":false,"replies_notifications":true,"token":"KKFvhIWE7xtfR95g"}'
 
 ```
 
@@ -634,13 +270,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "VRSiVSw8BUpPGJ68",
-    "change_password": "lwlJkvUfxlu602Uv",
-    "deactivate_account": "0W3dLTCPA8U988bL",
+    "change_email": "KxXOdt88Wf2ZzFKf",
+    "change_password": "vGpIbDO7B7EYN7Bj",
+    "deactivate_account": "lksTHie98vRxqkd7",
     "media_autoplay": true,
     "pm_notifications": false,
-    "replies_notifications": false,
-    "token": "yZ7YceuLorwVAn6Y"
+    "replies_notifications": true,
+    "token": "KKFvhIWE7xtfR95g"
 }
 
 fetch(url, {
@@ -652,10 +288,12 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
@@ -676,7 +314,7 @@ Parameter | Type | Status | Description
 <!-- END_7d778b4cd1f31a8abdc1f7156cf2439a -->
 
 
-<!-- START_7d73dd7c706d7ec669a1276ac0d40162 -->
+<!-- START_d9dd108ffd7d5fcce74f2072aeaea32e -->
 ## prefs
 Returns the preferences of the user.
 
@@ -688,10 +326,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/prefs" \
+curl -X POST "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"J1c0kdLV4JBaRLy1"}'
+    -d '{"token":"SuTKo6DTMyyGlZnJ"}'
 
 ```
 
@@ -705,11 +343,11 @@ let headers = {
 }
 
 let body = {
-    "token": "J1c0kdLV4JBaRLy1"
+    "token": "SuTKo6DTMyyGlZnJ"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -717,14 +355,16 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
-`GET api/prefs`
+`POST api/prefs`
 
 #### Body Parameters
 
@@ -732,10 +372,10 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_7d73dd7c706d7ec669a1276ac0d40162 -->
+<!-- END_d9dd108ffd7d5fcce74f2072aeaea32e -->
 
 
-<!-- START_4f5bd90551adf77b8dfc04a29b6a85ea -->
+<!-- START_09839bea62c266b3f7446dc71dd248c4 -->
 ## profileInfo
 Displaying the profile info of the user.
 
@@ -748,10 +388,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/info" \
+curl -X POST "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"OJfvATERCkcyjmEo"}'
+    -d '{"token":"Mf5TmrMiikUcogjS"}'
 
 ```
 
@@ -765,11 +405,11 @@ let headers = {
 }
 
 let body = {
-    "token": "OJfvATERCkcyjmEo"
+    "token": "Mf5TmrMiikUcogjS"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -777,14 +417,16 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
-`GET api/info`
+`POST api/info`
 
 #### Body Parameters
 
@@ -792,10 +434,10 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_4f5bd90551adf77b8dfc04a29b6a85ea -->
+<!-- END_09839bea62c266b3f7446dc71dd248c4 -->
 
 
-<!-- START_5f6a60fdc5acad163e3c29c7bbc137ed -->
+<!-- START_c2d21a2d9f4da12e2df2a5662f36d63c -->
 ## karma
 Returns the karma of the user.
 
@@ -807,10 +449,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/karma" \
+curl -X POST "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"1dbuG4sLHzPu1Kan"}'
+    -d '{"token":"dBqPPwUtFb1WnlEF"}'
 
 ```
 
@@ -824,11 +466,11 @@ let headers = {
 }
 
 let body = {
-    "token": "1dbuG4sLHzPu1Kan"
+    "token": "dBqPPwUtFb1WnlEF"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -836,14 +478,16 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
-`GET api/karma`
+`POST api/karma`
 
 #### Body Parameters
 
@@ -851,10 +495,10 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_5f6a60fdc5acad163e3c29c7bbc137ed -->
+<!-- END_c2d21a2d9f4da12e2df2a5662f36d63c -->
 
 
-<!-- START_c61e9c2b3fdeea56ee207c8db3d88546 -->
+<!-- START_6be4333f0293eadb670cdacf4092f237 -->
 ## messages
 Returns the inbox messages of the user.
 
@@ -866,15 +510,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/messages" \
+curl -X POST "http://localhost/api/inbox_messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":9,"token":"ZxRBDZpxEb2zP8Sj"}'
+    -d '{"max":15,"token":"cnoApEM5ME0G3xNa"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/messages");
+const url = new URL("http://localhost/api/inbox_messages");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -883,12 +527,74 @@ let headers = {
 }
 
 let body = {
-    "max": 9,
-    "token": "ZxRBDZpxEb2zP8Sj"
+    "max": 15,
+    "token": "cnoApEM5ME0G3xNa"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (400):
+
+```json
+{
+    "error": "Not authorized"
+}
+```
+
+### HTTP Request
+`POST api/inbox_messages`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    max | integer |  optional  | the maximum number of messages to be returned.
+    token | JWT |  required  | Used to verify the user.
+
+<!-- END_6be4333f0293eadb670cdacf4092f237 -->
+
+
+<!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
+## Logout
+Logs out a user.
+
+Success Cases :
+1) return token equals to null to ensure that the user is logout successfully.
+failure Cases:
+1) Token invalid
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/sign_out" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"token":"Ar0bvgUgO8765yvn"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/sign_out");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "token": "Ar0bvgUgO8765yvn"
+}
+
+fetch(url, {
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -899,26 +605,361 @@ fetch(url, {
 > Example response (200):
 
 ```json
-null
+{
+    "token": null
+}
+```
+> Example response (400):
+
+```json
+{
+    "token_error": "wrong number of segments"
+}
 ```
 
 ### HTTP Request
-`GET api/messages`
+`POST api/sign_out`
 
 #### Body Parameters
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    max | integer |  optional  | the maximum number of messages to be returned.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_c61e9c2b3fdeea56ee207c8db3d88546 -->
+<!-- END_61c037b1e23dc1e0f83fb62a8024cf9d -->
+
+
+<!-- START_311b0f388598aca8ed7f8fdf74916333 -->
+## SignUp
+Registers new user into the website.
+
+Success Cases :
+1) return user data and JWT token to ensure that the user created successfully.
+failure Cases:
+1) username already exits.
+2) email already exists.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/sign_up" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"email":"XMY3GXyrAU2TS83d","username":"Es8rTu3peMdG9tjd","password":"Aj4jgxMLgDhzbkCK"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/sign_up");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "email": "XMY3GXyrAU2TS83d",
+    "username": "Es8rTu3peMdG9tjd",
+    "password": "Aj4jgxMLgDhzbkCK"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "user": {
+        "email": "hello@gmail.com",
+        "username": "MohamedRamzy1234",
+        "id": "t2_13",
+        "avatar": "storage\/avatars\/users\/default.png",
+        "updated_at": "2019-03-19 18:30:05",
+        "created_at": "2019-03-19 18:30:05"
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwv"
+}
+```
+> Example response (400):
+
+```json
+{
+    "email": [
+        "The email has already been taken."
+    ],
+    "username": [
+        "The username has already been taken."
+    ]
+}
+```
+> Example response (400):
+
+```json
+{
+    "email": [
+        "The email has already been taken."
+    ]
+}
+```
+> Example response (400):
+
+```json
+{
+    "username": [
+        "The username has already been taken."
+    ]
+}
+```
+
+### HTTP Request
+`POST api/sign_up`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    email | string |  required  | The email of the user.
+    username | string |  required  | The choosen username.
+    password | string |  required  | The choosen password.
+
+<!-- END_311b0f388598aca8ed7f8fdf74916333 -->
+
+
+<!-- START_ae15188c9c0642b2c58e5b4bb8beb57d -->
+## login
+Validates user&#039;s credentials and logs him in.
+
+Success Cases :
+1) return JWT token to ensure that the user loggedin successfully.
+failure Cases:
+1) username is not found.
+2) invalid password.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/sign_in" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"username":"LcEWHDxaPdvdDb85","password":"yxVBjt9z6fxCkXHe"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/sign_in");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "username": "LcEWHDxaPdvdDb85",
+    "password": "yxVBjt9z6fxCkXHe"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9X2luIiwiaWF0IjoxNTUzMD"
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "invalid_credentials"
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "could_not_create_token"
+}
+```
+
+### HTTP Request
+`POST api/sign_in`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    username | string |  required  | The user's username.
+    password | string |  required  | The user's password.
+
+<!-- END_ae15188c9c0642b2c58e5b4bb8beb57d -->
+
+
+<!-- START_9c2b68d84a5e58731426b62d8716d169 -->
+## mailVerify
+Send a verification email to the user with a code in case of forgetting password.
+
+Success Cases :
+1) return success or failure message to indicate whether the email is sent or not.
+failure Cases:
+1) username is not found.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/mail_verify" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"username":"P6DxvTrw8LhFqKFa"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/mail_verify");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "username": "P6DxvTrw8LhFqKFa"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "msg": "Email sent successfully"
+}
+```
+> Example response (400):
+
+```json
+{
+    "msg": "Username is not found"
+}
+```
+> Example response (400):
+
+```json
+{
+    "msg": "Error sending the email"
+}
+```
+
+### HTTP Request
+`POST api/mail_verify`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    username | string |  required  | The user's username.
+
+<!-- END_9c2b68d84a5e58731426b62d8716d169 -->
+
+
+<!-- START_4b5bbd8dc31ae3073c29c9b679f448b5 -->
+## checkCode
+Check whether the user entered the correct reset code sent to his email.
+
+Success Cases :
+1) return success msg to indicate whether the code is valid or not
+Failure Cases :
+1) Code is invalid.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/check_code" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"code":2,"username":"R4CLGszuqzEgvAHB"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/check_code");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "code": 2,
+    "username": "R4CLGszuqzEgvAHB"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "authorized": true
+}
+```
+> Example response (400):
+
+```json
+{
+    "authorized": false
+}
+```
+
+### HTTP Request
+`POST api/check_code`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    code | integer |  required  | The entered code.
+    username | string |  required  | The user's username.
+
+<!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 
 
 #Adminstration
 
 To manage the controls of admins and moderators
-<!-- START_3fcde72848e7849d8989cf01b3685b96 -->
+<!-- START_2da9e0236ffb9162cb62c0fc316dcf91 -->
 ## deleteApexCom
 Deleting the ApexCom by the admin.
 
@@ -931,15 +972,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X DELETE "http://localhost/api/del_ac" \
+curl -X DELETE "http://localhost/api/del_account" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"nPvv8jDTtjapczbu","token":"d5lia1g2RtNiRmAD"}'
+    -d '{"Apex_ID":"oUJkBPUx53QIjZMI","token":"M6G3vC4NI9Wtpk9F"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/del_ac");
+const url = new URL("http://localhost/api/del_account");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -948,8 +989,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "nPvv8jDTtjapczbu",
-    "token": "d5lia1g2RtNiRmAD"
+    "Apex_ID": "oUJkBPUx53QIjZMI",
+    "token": "M6G3vC4NI9Wtpk9F"
 }
 
 fetch(url, {
@@ -965,12 +1006,12 @@ fetch(url, {
 
 ```json
 {
-    "token_error": "The token could not be parsed from the request"
+    "error": "Not authorized"
 }
 ```
 
 ### HTTP Request
-`DELETE api/del_ac`
+`DELETE api/del_account`
 
 #### Body Parameters
 
@@ -979,7 +1020,7 @@ Parameter | Type | Status | Description
     Apex_ID | string |  required  | The ID of the ApexCom to be deleted.
     token | JWT |  required  | Used to verify the admin ID.
 
-<!-- END_3fcde72848e7849d8989cf01b3685b96 -->
+<!-- END_2da9e0236ffb9162cb62c0fc316dcf91 -->
 
 
 <!-- START_e296e67bb691dee7c255f187ef41231e -->
@@ -998,7 +1039,7 @@ failure Cases:
 curl -X DELETE "http://localhost/api/del_user" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"A67Q2ssovzkw36aU","token":"7c9M9rzxZTyWb3nz"}'
+    -d '{"UserID":"XucRei5C94Eo6Ou9","token":"nze1oepX2ZCIY2Da"}'
 
 ```
 
@@ -1012,8 +1053,8 @@ let headers = {
 }
 
 let body = {
-    "UserID": "A67Q2ssovzkw36aU",
-    "token": "7c9M9rzxZTyWb3nz"
+    "UserID": "XucRei5C94Eo6Ou9",
+    "token": "nze1oepX2ZCIY2Da"
 }
 
 fetch(url, {
@@ -1029,7 +1070,7 @@ fetch(url, {
 
 ```json
 {
-    "token_error": "The token could not be parsed from the request"
+    "error": "Not authorized"
 }
 ```
 
@@ -1046,7 +1087,7 @@ Parameter | Type | Status | Description
 <!-- END_e296e67bb691dee7c255f187ef41231e -->
 
 
-<!-- START_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
+<!-- START_fd85770e108112a824ea9fd5c16c7dfc -->
 ## addModerator
 Adding (or Deleting) a moderator to ApexCom.
 
@@ -1059,15 +1100,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/api/add_mod" \
+curl -X POST "http://localhost/api/add_moderator" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"Bas5AqqzTGz3h7xL","token":"3DJQnOgIJtY7vmzT","UserID":"0zCj48qWvcQIUTgb"}'
+    -d '{"ApexComID":"r4PuxhiEGf3NH6pV","token":"Vc8D25LjOnz3tBga","UserID":"sKbmKLMrb16T0tlR"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/add_mod");
+const url = new URL("http://localhost/api/add_moderator");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1076,9 +1117,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "Bas5AqqzTGz3h7xL",
-    "token": "3DJQnOgIJtY7vmzT",
-    "UserID": "0zCj48qWvcQIUTgb"
+    "ApexComID": "r4PuxhiEGf3NH6pV",
+    "token": "Vc8D25LjOnz3tBga",
+    "UserID": "sKbmKLMrb16T0tlR"
 }
 
 fetch(url, {
@@ -1094,12 +1135,12 @@ fetch(url, {
 
 ```json
 {
-    "token_error": "The token could not be parsed from the request"
+    "error": "Not authorized"
 }
 ```
 
 ### HTTP Request
-`POST api/add_mod`
+`POST api/add_moderator`
 
 #### Body Parameters
 
@@ -1109,13 +1150,13 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the Admin ID.
     UserID | string |  required  | The user ID to be added as a moderator.
 
-<!-- END_3072ddc0a02e0bfd3ae74e0e57d93f77 -->
+<!-- END_fd85770e108112a824ea9fd5c16c7dfc -->
 
 
 #ApexCom
 
 Controls the ApexCom info , posts and admin.
-<!-- START_931d45747883f17f4898d055e7277e3d -->
+<!-- START_1f26a7d3b191a04ab9c1bc160deb8481 -->
 ## about
 to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
 
@@ -1128,10 +1169,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/about" \
+curl -X POST "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"vV3GlFxjnOv1UhHW","token":"PZguE97CpruHJiZW"}'
+    -d '{"ApexCom_ID":"ynIcVlqY87ajAHsC","token":"6euIKnscK4BtJRW3"}'
 
 ```
 
@@ -1145,12 +1186,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "vV3GlFxjnOv1UhHW",
-    "token": "PZguE97CpruHJiZW"
+    "ApexCom_ID": "ynIcVlqY87ajAHsC",
+    "token": "6euIKnscK4BtJRW3"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -1197,7 +1238,7 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`GET api/about`
+`POST api/about`
 
 #### Body Parameters
 
@@ -1206,7 +1247,7 @@ Parameter | Type | Status | Description
     ApexCom_ID | string |  required  | The fullname of the community.
     token | JWT |  required  | Verifying user ID.
 
-<!-- END_931d45747883f17f4898d055e7277e3d -->
+<!-- END_1f26a7d3b191a04ab9c1bc160deb8481 -->
 
 
 <!-- START_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
@@ -1227,7 +1268,7 @@ failure Cases:
 curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"ZMZvPSPHDa1jS95y","body":"L1iUw3cIu1oyesKq","img_name":"ul4LtJedCoxhZlyW","video_url":"gC8ZOmabzdV4mtM5","isLocked":false,"token":"U0pxIWlR3bBbOaUt"}'
+    -d '{"ApexCom_id":"WX3RlNN6c9iqBRNx","body":"vOBBu3whZ41QLmzS","img_name":"usxl5ZUMpMDRBU1r","video_url":"dDAH3cRmX6tWZTIx","isLocked":true,"token":"6wYLt2epvyNGfGaN"}'
 
 ```
 
@@ -1241,12 +1282,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "ZMZvPSPHDa1jS95y",
-    "body": "L1iUw3cIu1oyesKq",
-    "img_name": "ul4LtJedCoxhZlyW",
-    "video_url": "gC8ZOmabzdV4mtM5",
-    "isLocked": false,
-    "token": "U0pxIWlR3bBbOaUt"
+    "ApexCom_id": "WX3RlNN6c9iqBRNx",
+    "body": "vOBBu3whZ41QLmzS",
+    "img_name": "usxl5ZUMpMDRBU1r",
+    "video_url": "dDAH3cRmX6tWZTIx",
+    "isLocked": true,
+    "token": "6wYLt2epvyNGfGaN"
 }
 
 fetch(url, {
@@ -1262,7 +1303,7 @@ fetch(url, {
 
 ```json
 {
-    "token_error": "The token could not be parsed from the request"
+    "error": "Not authorized"
 }
 ```
 
@@ -1299,7 +1340,7 @@ failure Cases:
 curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"crPAKsqHVFHsVdGP","token":"NQYwenvssIOepPBX"}'
+    -d '{"ApexCom_id":"bLtBZITSzD8123SM","token":"7yGm7v3WzqlAEqzD"}'
 
 ```
 
@@ -1313,8 +1354,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "crPAKsqHVFHsVdGP",
-    "token": "NQYwenvssIOepPBX"
+    "ApexCom_id": "bLtBZITSzD8123SM",
+    "token": "7yGm7v3WzqlAEqzD"
 }
 
 fetch(url, {
@@ -1384,7 +1425,7 @@ failure Cases:
 curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"y7UVMVHsp5Xaav0X","description":"SlUQVtzvdssTVrMt","rules":"ap73JBbGQRmrpQKU","avatar":"oOkdwfpejDEh6GI0","banner":"QI7Gk2iSYRM4YRJH","token":"MwQBNyfoiKDceCh0"}'
+    -d '{"name":"zURpiT9vDl0mMjJW","description":"VrDhH6wkIPCzXmKE","rules":"nmvWyyCx0IPVnew5","avatar":"TxL3BYydQHvSA4zN","banner":"kTB3ArMsav11Q42m","token":"zSETxEmKBtTNypu1"}'
 
 ```
 
@@ -1398,12 +1439,12 @@ let headers = {
 }
 
 let body = {
-    "name": "y7UVMVHsp5Xaav0X",
-    "description": "SlUQVtzvdssTVrMt",
-    "rules": "ap73JBbGQRmrpQKU",
-    "avatar": "oOkdwfpejDEh6GI0",
-    "banner": "QI7Gk2iSYRM4YRJH",
-    "token": "MwQBNyfoiKDceCh0"
+    "name": "zURpiT9vDl0mMjJW",
+    "description": "VrDhH6wkIPCzXmKE",
+    "rules": "nmvWyyCx0IPVnew5",
+    "avatar": "TxL3BYydQHvSA4zN",
+    "banner": "kTB3ArMsav11Q42m",
+    "token": "zSETxEmKBtTNypu1"
 }
 
 fetch(url, {
@@ -1495,7 +1536,9 @@ fetch(url, {
 > Example response (200):
 
 ```json
-[]
+[
+    true
+]
 ```
 
 ### HTTP Request
@@ -1515,6 +1558,45 @@ Parameter | Type | Status | Description
 <!-- END_83008eaf25318b2ebea682cd9cd6b43b -->
 
 
+<!-- START_931d45747883f17f4898d055e7277e3d -->
+## api/about
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost/api/about" \
+    -H "Api-Version: 0.1.0"
+```
+
+```javascript
+const url = new URL("http://localhost/api/about");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+null
+```
+
+### HTTP Request
+`GET api/about`
+
+
+<!-- END_931d45747883f17f4898d055e7277e3d -->
+
+
 #Links and comments
 
 controls the comments , replies and private messages for each user
@@ -1532,28 +1614,31 @@ failure Cases:
 
 ```bash
 curl -X POST "http://localhost/api/comment" \
-    -H "Api-Version: 0.1.0"
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"content":"F0bjsVcNGhsGrgc2","parent":"kQ7zZG4FHpRWDMw2","token":"KT7p6YX0xDyHMxkP"}'
+
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/comment");
 
-    let params = {
-            "content": "sJj23bJA2VP5fd8t",
-            "parent": "gUr2Xgl88vDEDasM",
-            "token": "0ZwxPVmojqGFLHUZ",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
 let headers = {
     "Api-Version": "0.1.0",
-    "Accept": "application/json",
     "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "content": "F0bjsVcNGhsGrgc2",
+    "parent": "kQ7zZG4FHpRWDMw2",
+    "token": "KT7p6YX0xDyHMxkP"
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
+    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -1605,13 +1690,13 @@ fetch(url, {
 ### HTTP Request
 `POST api/comment`
 
-#### Query Parameters
+#### Body Parameters
 
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    content |  optional  | string required The body of the comment.
-    parent |  optional  | string required The fullname of the thing to be replied to.
-    token |  optional  | JWT required Verifying user ID.
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    content | string |  required  | The body of the comment.
+    parent | string |  required  | The fullname of the thing to be replied to.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_e795fade4d25e2473e7fd22cababfe99 -->
 
@@ -1632,27 +1717,30 @@ failure Cases:
 
 ```bash
 curl -X DELETE "http://localhost/api/delete" \
-    -H "Api-Version: 0.1.0"
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"KP3kCsSmrks4KfMT","token":"zsoKzvhrHOc9t3ZA"}'
+
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/delete");
 
-    let params = {
-            "name": "4CPdn0XZJhaaxpUW",
-            "token": "Xvlxm40RiMLornxk",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
 let headers = {
     "Api-Version": "0.1.0",
-    "Accept": "application/json",
     "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "KP3kCsSmrks4KfMT",
+    "token": "zsoKzvhrHOc9t3ZA"
 }
 
 fetch(url, {
     method: "DELETE",
     headers: headers,
+    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -1704,17 +1792,17 @@ fetch(url, {
 ### HTTP Request
 `DELETE api/delete`
 
-#### Query Parameters
+#### Body Parameters
 
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    name |  optional  | string required The fullname of the post,comment or reply to be deleted.
-    token |  optional  | JWT required Verifying user ID.
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    name | string |  required  | The fullname of the post,comment or reply to be deleted.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_4f136192702be68001efc45896913292 -->
 
 
-<!-- START_42247571823affd457153bd9d4c423d7 -->
+<!-- START_2dedef5a7a52cb3e96b8c08067a1b1d5 -->
 ## editText
 to edit the text of a post , comment or reply by its owner.
 
@@ -1728,15 +1816,15 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X PATCH "http://localhost/api/Edit" \
+curl -X PATCH "http://localhost/api/edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"QilzSTgxb80hqob7","content":"sHS6KVDmF8yuQNxN","ID":"vsY93dP8gDASXhas"}'
+    -d '{"name":"OWO7ai5adf7WJILl","content":"8Dfrv1WUyZepP9D0","ID":"HnT7tiqlUiRCRUJW"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/Edit");
+const url = new URL("http://localhost/api/edit");
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1745,9 +1833,9 @@ let headers = {
 }
 
 let body = {
-    "name": "QilzSTgxb80hqob7",
-    "content": "sHS6KVDmF8yuQNxN",
-    "ID": "vsY93dP8gDASXhas"
+    "name": "OWO7ai5adf7WJILl",
+    "content": "8Dfrv1WUyZepP9D0",
+    "ID": "HnT7tiqlUiRCRUJW"
 }
 
 fetch(url, {
@@ -1759,14 +1847,16 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
-`PATCH api/Edit`
+`PATCH api/edit`
 
 #### Body Parameters
 
@@ -1776,7 +1866,7 @@ Parameter | Type | Status | Description
     content | string |  required  | The body of the thing to be edited.
     ID | JWT |  required  | Verifying user ID.
 
-<!-- END_42247571823affd457153bd9d4c423d7 -->
+<!-- END_2dedef5a7a52cb3e96b8c08067a1b1d5 -->
 
 
 <!-- START_513d4e19011ae1f92bd8858b5eb059b2 -->
@@ -1797,18 +1887,12 @@ failure Cases:
 curl -X POST "http://localhost/api/report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"content":"TL91rBifCNpj5IbV","token":"v4F1WsLsmfFTHOg7"}'
+    -d '{"name":"SCL0Rzye6mEhZeTx","content":"FJzdpuUwJSHozlHu","token":"MZWXGn1AQyy7nAkz"}'
 
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/report");
-
-    let params = {
-            "name": "n0vaAvdVtKll2RjH",
-            "token": "61mAhqjA5IhB2EL8",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1817,8 +1901,9 @@ let headers = {
 }
 
 let body = {
-    "content": "TL91rBifCNpj5IbV",
-    "token": "v4F1WsLsmfFTHOg7"
+    "name": "SCL0Rzye6mEhZeTx",
+    "content": "FJzdpuUwJSHozlHu",
+    "token": "MZWXGn1AQyy7nAkz"
 }
 
 fetch(url, {
@@ -1880,14 +1965,9 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
+    name | string |  required  | The fullname of the post,comment or message to report.
     content | string |  optional  | The reason for the report from an associative array.
     token | JWT |  required  | Verifying user ID.
-#### Query Parameters
-
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    name |  optional  | string required The fullname of the post,comment or message to report.
-    token |  optional  | JWT required Verifying user ID.
 
 <!-- END_513d4e19011ae1f92bd8858b5eb059b2 -->
 
@@ -1909,18 +1989,12 @@ failure Cases:
 curl -X POST "http://localhost/api/vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"dir":18}'
+    -d '{"name":"ZUlogKqBUvyfG6L5","dir":10,"token":"7v4Q3gd5PWe41mpq"}'
 
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/vote");
-
-    let params = {
-            "name": "K8fyfNkgA74VWZc7",
-            "token": "yFno8ObXmVC2Rx9p",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -1929,7 +2003,9 @@ let headers = {
 }
 
 let body = {
-    "dir": 18
+    "name": "ZUlogKqBUvyfG6L5",
+    "dir": 10,
+    "token": "7v4Q3gd5PWe41mpq"
 }
 
 fetch(url, {
@@ -1977,13 +2053,9 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
+    name | string |  required  | The fullname of the post,comment or reply to vote on.
     dir | integer |  required  | The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
-#### Query Parameters
-
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    name |  optional  | string required The fullname of the post,comment or reply to vote on.
-    token |  optional  | JWT required Verifying user ID.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_1ce8121bc6bb159652da3758695c4f33 -->
 
@@ -2005,27 +2077,30 @@ failure Cases:
 
 ```bash
 curl -X POST "http://localhost/api/lock_post" \
-    -H "Api-Version: 0.1.0"
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"gK3IEPn9X0MCuYVM","token":"8yIwTya8k3T6egod"}'
+
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/lock_post");
 
-    let params = {
-            "name": "985RlCMweMw3wd9v",
-            "token": "KIAowXfTyWxjiCNK",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
 let headers = {
     "Api-Version": "0.1.0",
-    "Accept": "application/json",
     "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "gK3IEPn9X0MCuYVM",
+    "token": "8yIwTya8k3T6egod"
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
+    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -2063,12 +2138,12 @@ fetch(url, {
 ### HTTP Request
 `POST api/lock_post`
 
-#### Query Parameters
+#### Body Parameters
 
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    name |  optional  | string required The fullname of the post to be locked.
-    token |  optional  | JWT required Verifying user ID.
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    name | string |  required  | The fullname of the post to be locked.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_4a071a0a5195e750a36b0b89a51e2235 -->
 
@@ -2088,27 +2163,30 @@ failure Cases:
 
 ```bash
 curl -X POST "http://localhost/api/Hide" \
-    -H "Api-Version: 0.1.0"
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"ztHKqzLXK0Mcf2s0","token":"aXOhjsHO6e1etVV2"}'
+
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/Hide");
 
-    let params = {
-            "name": "y6DuZX0oofXFg8M6",
-            "token": "xdnEAlw7tsAykfwr",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
 let headers = {
     "Api-Version": "0.1.0",
-    "Accept": "application/json",
     "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "name": "ztHKqzLXK0Mcf2s0",
+    "token": "aXOhjsHO6e1etVV2"
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
+    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -2139,12 +2217,12 @@ fetch(url, {
 ### HTTP Request
 `POST api/Hide`
 
-#### Query Parameters
+#### Body Parameters
 
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    name |  optional  | string required The fullname of the post to be hidden.
-    token |  optional  | JWT required Verifying user ID.
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    name | string |  required  | The fullname of the post to be hidden.
+    token | JWT |  required  | Verifying user ID.
 
 <!-- END_ebf64eb08a02a3600dbec8e628a60a56 -->
 
@@ -2165,17 +2243,12 @@ failure Cases:
 curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"Npmp1W4Z3dvR4qjV"}'
+    -d '{"ID":"mKdHteYW7nlX61JC","token":"nPwfQuZwiZE7MX1G"}'
 
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/save");
-
-    let params = {
-            "token": "bsIHourkYkM6aagK",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Api-Version": "0.1.0",
@@ -2184,7 +2257,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "Npmp1W4Z3dvR4qjV"
+    "ID": "mKdHteYW7nlX61JC",
+    "token": "nPwfQuZwiZE7MX1G"
 }
 
 fetch(url, {
@@ -2200,7 +2274,7 @@ fetch(url, {
 
 ```json
 {
-    "token_error": "Wrong number of segments"
+    "error": "Not authorized"
 }
 ```
 
@@ -2212,13 +2286,73 @@ fetch(url, {
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     ID | string |  required  | The ID of the comment or post.
-#### Query Parameters
-
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    token |  optional  | JWT required Used to verify the user.
+    token | JWT |  required  | Used to verify the user.
 
 <!-- END_097a5f7f0c0183fb32d32b0e9bba6b31 -->
+
+
+<!-- START_43ad8fbdbde00499a1f5e68c9d48283a -->
+## moreChildren
+to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
+
+Success Cases :
+1) return thr retrieved comments or replies (10 reply at a time ).
+failure Cases:
+1) NoAccessRight token is not authorized.
+2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/moreComments" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"parent":"n0Jst1qmI9TmRvHX","ID":"qsMfVB9NvDSJdvuO"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/moreComments");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "parent": "n0Jst1qmI9TmRvHX",
+    "ID": "qsMfVB9NvDSJdvuO"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (400):
+
+```json
+{
+    "error": "Not authorized"
+}
+```
+
+### HTTP Request
+`POST api/moreComments`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    parent | string |  required  | The fullname of the posts whose comments are being fetched
+    ID | JWT |  required  | Verifying user ID.
+
+<!-- END_43ad8fbdbde00499a1f5e68c9d48283a -->
 
 
 <!-- START_42544bc9403ef51f80610dbe397862b5 -->
@@ -2235,27 +2369,30 @@ failure Cases:
 
 ```bash
 curl -X GET -G "http://localhost/api/moreComments" \
-    -H "Api-Version: 0.1.0"
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"parent":"K7mRIstuaciB4sBp","ID":"kuIbenDPBZXCDnHi"}'
+
 ```
 
 ```javascript
 const url = new URL("http://localhost/api/moreComments");
 
-    let params = {
-            "parent": "fUp5pYTAqOl8PLfA",
-            "ID": "t2G6LYLI7vn3WcJE",
-        };
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
 let headers = {
     "Api-Version": "0.1.0",
-    "Accept": "application/json",
     "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "parent": "K7mRIstuaciB4sBp",
+    "ID": "kuIbenDPBZXCDnHi"
 }
 
 fetch(url, {
     method: "GET",
     headers: headers,
+    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -2270,12 +2407,12 @@ null
 ### HTTP Request
 `GET api/moreComments`
 
-#### Query Parameters
+#### Body Parameters
 
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    parent |  optional  | string required The fullname of the posts whose comments are being fetched
-    ID |  optional  | JWT required Verifying user ID.
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    parent | string |  required  | The fullname of the posts whose comments are being fetched
+    ID | JWT |  required  | Verifying user ID.
 
 <!-- END_42544bc9403ef51f80610dbe397862b5 -->
 
@@ -2299,7 +2436,7 @@ failure Cases:
 curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"hXZAkPug2SyThDP0","user_id":"4Zo5bmzsD25pyE7H","_token":"PDGdH6Au1N6S9OGW"}'
+    -d '{"ApexCom_id":"gAQSoraRjKYs3rzi","user_id":"Him8YklNHKnLMujg","_token":"xbuMTHFOxFieC3lp"}'
 
 ```
 
@@ -2313,9 +2450,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "hXZAkPug2SyThDP0",
-    "user_id": "4Zo5bmzsD25pyE7H",
-    "_token": "PDGdH6Au1N6S9OGW"
+    "ApexCom_id": "gAQSoraRjKYs3rzi",
+    "user_id": "Him8YklNHKnLMujg",
+    "_token": "xbuMTHFOxFieC3lp"
 }
 
 fetch(url, {
@@ -2327,10 +2464,12 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
@@ -2363,7 +2502,7 @@ failure Cases:
 curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"HykuKzjIqFGrq0cu","_token":"968EiQSMs7NCH32m"}'
+    -d '{"report_id":"uvb7Ycfjbbs9tpTJ","_token":"PVtBNP3qLvy97eMc"}'
 
 ```
 
@@ -2377,8 +2516,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "HykuKzjIqFGrq0cu",
-    "_token": "968EiQSMs7NCH32m"
+    "report_id": "uvb7Ycfjbbs9tpTJ",
+    "_token": "PVtBNP3qLvy97eMc"
 }
 
 fetch(url, {
@@ -2390,10 +2529,12 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
@@ -2409,7 +2550,7 @@ Parameter | Type | Status | Description
 <!-- END_85b1e06ff0cc2a00de486d21459568f9 -->
 
 
-<!-- START_9e88c060d07f4e8b1dd6948de555c21c -->
+<!-- START_6a8a2ddc981aad24b0a9445fed663ae5 -->
 ## reviewReports
 view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
 
@@ -2421,10 +2562,10 @@ failure Cases:
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/review_reports" \
+curl -X POST "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"cIFfHMDrKO48VZRL","_token":"MhavHBjBufgVZhhM"}'
+    -d '{"ApexCom_id":"pVcCUnzcOrKU5tTG","_token":"7oIQH9mMVk6Zbt08"}'
 
 ```
 
@@ -2438,12 +2579,12 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "cIFfHMDrKO48VZRL",
-    "_token": "MhavHBjBufgVZhhM"
+    "ApexCom_id": "pVcCUnzcOrKU5tTG",
+    "_token": "7oIQH9mMVk6Zbt08"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -2451,14 +2592,16 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (200):
+> Example response (400):
 
 ```json
-null
+{
+    "error": "Not authorized"
+}
 ```
 
 ### HTTP Request
-`GET api/review_reports`
+`POST api/review_reports`
 
 #### Body Parameters
 
@@ -2467,7 +2610,7 @@ Parameter | Type | Status | Description
     ApexCom_id | string |  required  | The fullname of the community where the reported comments or posts.
     _token | JWT |  required  | Verifying user ID.
 
-<!-- END_9e88c060d07f4e8b1dd6948de555c21c -->
+<!-- END_6a8a2ddc981aad24b0a9445fed663ae5 -->
 
 
 #User
@@ -2544,23 +2687,7 @@ fetch(url, {
 
 ```json
 {
-    "token": [
-        "The token field is required."
-    ]
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Wrong number of segments"
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Token Signature could not be verified."
+    "error": "Not authorized"
 }
 ```
 > Example response (404):
@@ -2604,7 +2731,7 @@ Send a private message to another user.
 1. Messaged-user id is not found (status code 404).
 2. Invalid token, return a message about the error (status code 400).
 3. The users are blocked from each other (status code 400)
-2. There is a server-side error (status code 500).
+4. There is a server-side error (status code 500).
 
 > Example request:
 
@@ -2695,23 +2822,7 @@ fetch(url, {
 
 ```json
 {
-    "token": [
-        "The token field is required."
-    ]
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Wrong number of segments"
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Token Signature could not be verified."
+    "error": "Not authorized"
 }
 ```
 
@@ -2730,23 +2841,30 @@ Parameter | Type | Status | Description
 <!-- END_77449fa4952e985b77eff4023c7451dd -->
 
 
-<!-- START_642cf7a37db701458812f02d6082db55 -->
-## userDataByAccountID
-Return user public data to be seen by another user.
+<!-- START_afac9f990e2b5e3d484085ba83568706 -->
+## User Get User Data
+Just like [Guest Get User Data](#guest-get-user-data), except that
+it does&#039;t return user data between blocked users.
 
-Success Cases :
-1) return the data of the user successfully.
-failure Cases:
-1) username is not found.
-2) NoAccessRight token is not authorized.
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
+Use this request only if the user is logged in and authorized.
+
+###Success Cases :
+1. Return the data of the user successfully.
+
+###Failure Cases:
+1. User is not found (status code 400).
+2. The `token` is invalid, return a message about the error (status code 400).
+3. The users are blocked from each other (status code 400)
+4. There is a server-side error (status code 500).
 
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/user_data" \
+curl -X POST "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"JFMaQ015lCvUkFBQ","token":"NoCGqe4fjtcEeMUY"}'
+    -d '{"username":"King","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMzg0ODYyLCJuYmYiOjE1NTMzODQ4NjIsImp0aSI6Ikg0bU5yR1k0eGpHQkd4eXUiLCJzdWIiOiJ0Ml8yMSIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.OJU25mPYGRiPkBuZCrCxCleaRXLklvHMyMJWX9ijR9I"}'
 
 ```
 
@@ -2760,12 +2878,12 @@ let headers = {
 }
 
 let body = {
-    "id": "JFMaQ015lCvUkFBQ",
-    "token": "NoCGqe4fjtcEeMUY"
+    "username": "King",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMzg0ODYyLCJuYmYiOjE1NTMzODQ4NjIsImp0aSI6Ikg0bU5yR1k0eGpHQkd4eXUiLCJzdWIiOiJ0Ml8yMSIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.OJU25mPYGRiPkBuZCrCxCleaRXLklvHMyMJWX9ijR9I"
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
     body: body
 })
@@ -2776,48 +2894,107 @@ fetch(url, {
 > Example response (200):
 
 ```json
-null
+{
+    "userData": {
+        "username": "King",
+        "fullname": "Martin Luther King",
+        "karma": 1,
+        "avatar": "publicimgdef.png"
+    },
+    "posts": [
+        {
+            "id": "t3_3",
+            "posted_by": "t2_4",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": "2019-03-23 17:20:32",
+            "updated_at": null
+        },
+        {
+            "id": "t3_6",
+            "posted_by": "t2_4",
+            "apex_id": "t5_2",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": "2019-03-23 17:20:35",
+            "updated_at": null
+        }
+    ]
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "User is not found"
+}
+```
+> Example response (400):
+
+```json
+{
+    "username": [
+        "The username field is required."
+    ]
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "blocked users can't view data of each other"
+}
 ```
 
 ### HTTP Request
-`GET api/user_data`
+`POST api/user_data`
 
 #### Body Parameters
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    id | string |  required  | The id of an existing user.
+    username | string |  required  | The username of an existing user.
     token | JWT |  required  | Used to verify the user.
 
-<!-- END_642cf7a37db701458812f02d6082db55 -->
+<!-- END_afac9f990e2b5e3d484085ba83568706 -->
 
 
-#general
-<!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
-## Guest Search
-Returns a json contains posts, apexComs and users that match the given query.
+<!-- START_642cf7a37db701458812f02d6082db55 -->
+## Guest Get User Data
+Return user data to be seen by another user.
+
+User data includes: username, fullname, karma,
+ profile picture (URL) and personal posts
 
 Use this request only if the user is a guest and not authorized
 
 ###Success Cases :
-1. The `query` is valid, return the results successfullly (status code 200)
+1.The parameters are valid, return the data of the user successfully
+ (status code 200).
 
 ###Failure Cases:
-1. The `query` is invalid, return message about the error (status code 400)
-2. There is server-side error (status code 500)
+1. User is not found (status code 404).
+2. There is a server-side error (status code 500).
 
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/search" \
+curl -X GET -G "http://localhost/api/user_data" \
     -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/search");
+const url = new URL("http://localhost/api/user_data");
 
     let params = {
-            "query": "lorem",
+            "username": "King",
         };
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
@@ -2839,76 +3016,212 @@ fetch(url, {
 
 ```json
 {
+    "userData": {
+        "username": "King",
+        "fullname": "Martin Luther King",
+        "karma": 1,
+        "avatar": "publicimgdef.png"
+    },
     "posts": [
         {
-            "id": "t3_10",
-            "posted_by": "t2_31",
-            "apex_id": "t5_10",
-            "title": "5yackoudW8",
+            "id": "t3_3",
+            "posted_by": "t2_4",
+            "apex_id": "t5_1",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Architecto nesciunt deleniti ut. Commodi doloremque blanditiis est odio sit quia. Eos sit et sunt in repellat omnis.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:32",
+            "updated_at": null
         },
         {
-            "id": "t3_12",
-            "posted_by": "t2_35",
-            "apex_id": "t5_9",
-            "title": "qYxfPEUHif",
+            "id": "t3_6",
+            "posted_by": "t2_4",
+            "apex_id": "t5_2",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Assumenda iusto sed quae hic ex non rerum. Officia voluptatem minus perferendis distinctio sint qui. Dolorem ut aliquid id illum qui placeat sit.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:35",
+            "updated_at": null
         }
-    ],
-    "apexComs": [
-        {
-            "id": "t5_7",
-            "name": "e4GiNXiUN6",
-            "avatar": "public\\img\\apx.png",
-            "banner": "public\\img\\banner.jpg",
-            "rules": "Reprehenderit qui vero eum. Qui et quos est autem culpa perferendis. Vero omnis ea culpa doloremque dolorem.",
-            "description": "Maxime quos sit omnis dolore error reprehenderit et. Harum rerum nisi magni. Qui rerum voluptatem dolorem perspiciatis ut et.",
-            "created_at": "2019-03-22 16:58:24",
-            "updated_at": "2019-03-22 16:58:24"
-        }
-    ],
-    "users": []
-}
-```
-> Example response (400):
-
-```json
-{
-    "query": [
-        "The query must be at least 3 characters."
     ]
 }
 ```
+> Example response (404):
+
+```json
+{
+    "error": "User is not found"
+}
+```
 > Example response (400):
 
 ```json
 {
-    "query": [
-        "The query field is required."
+    "username": [
+        "The username field is required."
     ]
 }
 ```
 
 ### HTTP Request
-`GET api/search`
+`GET api/user_data`
 
 #### Query Parameters
 
 Parameter | Status | Description
 --------- | ------- | ------- | -----------
-    query |  required  | The query to be searched for (at least 3 characters).
+    username |  required  | The username of an existing user.
 
-<!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
+<!-- END_642cf7a37db701458812f02d6082db55 -->
+
+
+#general
+<!-- START_422a9a84e2e26d41816d8167e5e45304 -->
+## User Sort Posts
+Just like [Guest Sort Posts](#guest-sort-posts), except that
+it does&#039;t return the posts between blocked users.
+
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
+Use this request only if the user is logged in and authorized.
+
+###Success Cases :
+1. Return the result successfully (status code 200).
+
+###Failure Cases:
+1. ApexCom is not found (status code 404).
+2. The `token` is invalid, return a message about the error (status code 400)
+3. There is a server-side error (status code 500).
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/sort_posts" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"apexComID":"t5_1","sortingParam":"votes","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/sort_posts");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "apexComID": "t5_1",
+    "sortingParam": "votes",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "posts": [
+        {
+            "id": "t3_4",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": 0,
+            "comments_num": 2
+        },
+        {
+            "id": "t3_1",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": 0,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_2",
+            "posted_by": "t2_1",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": 0,
+            "comments_num": 1
+        },
+        {
+            "id": "t3_3",
+            "posted_by": "t2_4",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": null,
+            "updated_at": null,
+            "votes": 0,
+            "comments_num": 1
+        }
+    ],
+    "sortingParam": "comments"
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "ApexCom is not found."
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "Not authorized"
+}
+```
+
+### HTTP Request
+`POST api/sort_posts`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    apexComID | string |  optional  | The ID of the ApexComm that contains the posts, default is null.
+    sortingParam | string |  optional  | The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`.
+    token | JWT |  required  | Used to verify the user.
+
+<!-- END_422a9a84e2e26d41816d8167e5e45304 -->
 
 
 <!-- START_9792377865465dfd12bebd73e7326925 -->
@@ -3027,23 +3340,7 @@ fetch(url, {
 
 ```json
 {
-    "token": [
-        "The token field is required."
-    ]
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Wrong number of segments"
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Token Signature could not be verified."
+    "error": "Not authorized"
 }
 ```
 
@@ -3058,6 +3355,223 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the user.
 
 <!-- END_9792377865465dfd12bebd73e7326925 -->
+
+
+<!-- START_f97178f40bfc121782991110d19861b1 -->
+## getSubscribers
+Returns a list of the users subscribed to a certain ApexComm.
+
+Success Cases :
+1) Return the result successfully.
+failure Cases:
+1) Return empty list if there are no subscribers.
+2) ApexComm Fullname (ID) is not found.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/get_subscribers" \
+    -H "Api-Version: 0.1.0" \
+    -H "Content-Type: application/json" \
+    -d '{"ApexCommID":"H778WHiXjHIG1M4a","_token":"TxXjFZloR0hec3Pg"}'
+
+```
+
+```javascript
+const url = new URL("http://localhost/api/get_subscribers");
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "ApexCommID": "H778WHiXjHIG1M4a",
+    "_token": "TxXjFZloR0hec3Pg"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (400):
+
+```json
+{
+    "token_error": "The token could not be parsed from the request"
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "ApexCom is not found."
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "You are blocked from this Apexcom"
+}
+```
+> Example response (200):
+
+```json
+{
+    "subscribers": [
+        {
+            "id": "t2_1017",
+            "fullname": null,
+            "email": "ms16@gmail.com",
+            "username": "ms16",
+            "avatar": "storage\/avatars\/users\/default.png",
+            "karma": 1,
+            "notification": 1,
+            "type": 3,
+            "created_at": "2019-03-23 21:34:24",
+            "updated_at": "2019-03-23 21:34:24",
+            "userID": "t2_1017"
+        }
+    ]
+}
+```
+
+### HTTP Request
+`POST api/get_subscribers`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    ApexCommID | string |  required  | The ID of the ApexComm that contains the subscribers.
+    _token | string |  required  | Verifying user ID.
+
+<!-- END_f97178f40bfc121782991110d19861b1 -->
+
+
+<!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
+## Guest Search
+Returns a json contains posts, apexComs and users that match the given query.
+
+Use this request only if the user is a guest and not authorized
+
+###Success Cases :
+1. The `query` is valid, return the results successfullly (status code 200)
+
+###Failure Cases:
+1. The `query` is invalid, return message about the error (status code 400)
+2. There is server-side error (status code 500)
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost/api/search" \
+    -H "Api-Version: 0.1.0"
+```
+
+```javascript
+const url = new URL("http://localhost/api/search");
+
+    let params = {
+            "query": "lorem",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Api-Version": "0.1.0",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "posts": [
+        {
+            "id": "t3_10",
+            "posted_by": "t2_31",
+            "apex_id": "t5_10",
+            "title": "5yackoudW8",
+            "img": null,
+            "videolink": null,
+            "content": "Architecto nesciunt deleniti ut. Commodi doloremque blanditiis est odio sit quia. Eos sit et sunt in repellat omnis.",
+            "locked": 0,
+            "created_at": "2019-03-22 16:58:26",
+            "updated_at": "2019-03-22 16:58:26"
+        },
+        {
+            "id": "t3_12",
+            "posted_by": "t2_35",
+            "apex_id": "t5_9",
+            "title": "qYxfPEUHif",
+            "img": null,
+            "videolink": null,
+            "content": "Assumenda iusto sed quae hic ex non rerum. Officia voluptatem minus perferendis distinctio sint qui. Dolorem ut aliquid id illum qui placeat sit.",
+            "locked": 0,
+            "created_at": "2019-03-22 16:58:26",
+            "updated_at": "2019-03-22 16:58:26"
+        }
+    ],
+    "apexComs": [
+        {
+            "id": "t5_7",
+            "name": "e4GiNXiUN6",
+            "avatar": "public\\img\\apx.png",
+            "banner": "public\\img\\banner.jpg",
+            "rules": "Reprehenderit qui vero eum. Qui et quos est autem culpa perferendis. Vero omnis ea culpa doloremque dolorem.",
+            "description": "Maxime quos sit omnis dolore error reprehenderit et. Harum rerum nisi magni. Qui rerum voluptatem dolorem perspiciatis ut et.",
+            "created_at": "2019-03-22 16:58:24",
+            "updated_at": "2019-03-22 16:58:24"
+        }
+    ],
+    "users": []
+}
+```
+> Example response (400):
+
+```json
+{
+    "query": [
+        "The query must be at least 3 characters."
+    ]
+}
+```
+> Example response (400):
+
+```json
+{
+    "query": [
+        "The query field is required."
+    ]
+}
+```
+
+### HTTP Request
+`GET api/search`
+
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    query |  required  | The query to be searched for (at least 3 characters).
+
+<!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
 
 
 <!-- START_09bdc60a87430aec21b4b32b21773baa -->
@@ -3195,166 +3709,6 @@ Parameter | Status | Description
 <!-- END_09bdc60a87430aec21b4b32b21773baa -->
 
 
-<!-- START_422a9a84e2e26d41816d8167e5e45304 -->
-## User Sort Posts
-Just like [Guest Sort Posts](#guest-sort-posts), except that
-it does&#039;t return the posts between blocked users.
-
-<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Use this request only if the user is logged in and authorized.
-
-###Success Cases :
-1. Return the result successfully (status code 200).
-
-###Failure Cases:
-1. ApexCom is not found (status code 404).
-2. The `token` is invalid, return a message about the error (status code 400)
-3. There is a server-side error (status code 500).
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost/api/sort_posts" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"apexComID":"t5_1","sortingParam":"votes","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo"}'
-
-```
-
-```javascript
-const url = new URL("http://localhost/api/sort_posts");
-
-let headers = {
-    "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-}
-
-let body = {
-    "apexComID": "t5_1",
-    "sortingParam": "votes",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo"
-}
-
-fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-> Example response (200):
-
-```json
-{
-    "posts": [
-        {
-            "id": "t3_4",
-            "posted_by": "t2_2",
-            "apex_id": "t5_1",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": null,
-            "updated_at": null,
-            "votes": 0,
-            "comments_num": 2
-        },
-        {
-            "id": "t3_1",
-            "posted_by": "t2_2",
-            "apex_id": "t5_1",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": null,
-            "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
-        },
-        {
-            "id": "t3_2",
-            "posted_by": "t2_1",
-            "apex_id": "t5_1",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": null,
-            "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
-        },
-        {
-            "id": "t3_3",
-            "posted_by": "t2_4",
-            "apex_id": "t5_1",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": null,
-            "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
-        }
-    ],
-    "sortingParam": "comments"
-}
-```
-> Example response (404):
-
-```json
-{
-    "error": "ApexCom is not found."
-}
-```
-> Example response (400):
-
-```json
-{
-    "token": [
-        "The token field is required."
-    ]
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Wrong number of segments"
-}
-```
-> Example response (400):
-
-```json
-{
-    "token_error": "Token Signature could not be verified."
-}
-```
-
-### HTTP Request
-`POST api/sort_posts`
-
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    apexComID | string |  optional  | The ID of the ApexComm that contains the posts, default is null.
-    sortingParam | string |  optional  | The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`.
-    token | JWT |  required  | Used to verify the user.
-
-<!-- END_422a9a84e2e26d41816d8167e5e45304 -->
-
-
 <!-- START_b402718e2399a5ffc349d38706b47a9f -->
 ## Apex Names
 Returns a list of the names and ids of all of the existing ApexComs.
@@ -3419,20 +3773,16 @@ fetch(url, {
             "name": "memes"
         },
         {
-            "id": "t5_12",
-            "name": "mon"
-        },
-        {
-            "id": "t5_11",
-            "name": "monda"
-        },
-        {
             "id": "t5_8",
             "name": "movies"
         },
         {
             "id": "t5_2",
             "name": "New dawn"
+        },
+        {
+            "id": "t5_5",
+            "name": "sports area"
         },
         {
             "id": "t5_6",
@@ -3450,23 +3800,12 @@ fetch(url, {
 
 
 <!-- START_75042856f5cd6cbf0efd54f67a2e85e8 -->
-## getSubscribers
-Returns a list of the users subscribed to a certain ApexComm.
-
-Success Cases :
-1) Return the result successfully.
-failure Cases:
-1) Return empty list if there are no subscribers.
-2) ApexComm Fullname (ID) is not found.
-
+## api/get_subscribers
 > Example request:
 
 ```bash
 curl -X GET -G "http://localhost/api/get_subscribers" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"QRKNg1dPFm3bfdpF","_token":"hNs6mXw8n8OnTfDt"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
@@ -3474,76 +3813,27 @@ const url = new URL("http://localhost/api/get_subscribers");
 
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "ApexCommID": "QRKNg1dPFm3bfdpF",
-    "_token": "hNs6mXw8n8OnTfDt"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "GET",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
 ```
 
-> Example response (400):
-
-```json
-{
-    "token_error": "The token could not be parsed from the request"
-}
-```
-> Example response (404):
-
-```json
-{
-    "error": "ApexCom is not found."
-}
-```
-> Example response (400):
-
-```json
-{
-    "error": "You are blocked from this Apexcom"
-}
-```
 > Example response (200):
 
 ```json
-{
-    "subscribers": [
-        {
-            "id": "t2_1017",
-            "fullname": null,
-            "email": "ms16@gmail.com",
-            "username": "ms16",
-            "avatar": "storage\/avatars\/users\/default.png",
-            "karma": 1,
-            "notification": 1,
-            "type": 3,
-            "created_at": "2019-03-23 21:34:24",
-            "updated_at": "2019-03-23 21:34:24",
-            "userID": "t2_1017"
-        }
-    ]
-}
+null
 ```
 
 ### HTTP Request
 `GET api/get_subscribers`
 
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    ApexCommID | string |  required  | The ID of the ApexComm that contains the subscribers.
-    _token | string |  required  | Verifying user ID.
 
 <!-- END_75042856f5cd6cbf0efd54f67a2e85e8 -->
 

@@ -111,5 +111,9 @@ class userData extends TestCase
 
         $response->assertStatus(400)
             ->assertSee("blocked users can't view the data of each other");
+
+        //delete the block relation and the created user
+        Block::where(['blockerID' => $user1['id'], 'blockedID' => $user2['id']])->delete();
+        User::where('id', $user1['id']);
     }
 }
