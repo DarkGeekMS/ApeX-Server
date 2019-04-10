@@ -86,7 +86,7 @@ class blockUser extends TestCase
             compact('blockedID')
         );
 
-        $response->assertStatus(400)->assertSee('token');
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         User::where('id', $blockedID)->delete();
     }

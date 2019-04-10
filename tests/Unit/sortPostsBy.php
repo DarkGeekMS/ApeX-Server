@@ -63,7 +63,7 @@ class sortPostsBy extends TestCase
     /**
      * Test sorting the posts by valid sortingParam.
      *
-     * Asummes that there are some recordes in the database
+     * Assumes that there are some recordes in the database
      *
      * @test
      *
@@ -159,7 +159,7 @@ class sortPostsBy extends TestCase
 
     /**
      * Test sorting the posts with no apexComID (it uses the default (null)).
-     * asummes that there are some recordes in the database
+     * Assumes that there are some recordes in the database
      *
      * @test
      *
@@ -211,7 +211,8 @@ class sortPostsBy extends TestCase
      * Test invalid sortingParam.
      * it will use the default parameter 'date'
      *
-     * asummes that there are some recordes in the database
+     * Assumes that there are some recordes in the database
+     * 
      * @test
      *
      * @return void
@@ -238,7 +239,7 @@ class sortPostsBy extends TestCase
      * Test no given sortingParam.
      * it will use the default parameter 'date'
      *
-     * asummes that there are some recordes in the database
+     * Assumes that there are some recordes in the database
      *
      * @test
      *
