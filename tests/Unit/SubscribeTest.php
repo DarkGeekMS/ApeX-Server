@@ -26,12 +26,12 @@ class SubscribeTest extends TestCase
     public function apexComNotFound()
     {
         // hit the route with out token
-    /*    $response = $this->json(
+        $response = $this->json(
             'POST', '/api/subscribe', [
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400);*/
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
@@ -45,7 +45,7 @@ class SubscribeTest extends TestCase
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         $token = $signUp->json('token');
 
@@ -63,7 +63,7 @@ class SubscribeTest extends TestCase
         User::where('id', $id)->delete();
 
         //check that the user deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
     /**
      * User Blocked from apexcom.
@@ -86,7 +86,7 @@ class SubscribeTest extends TestCase
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         // get any apexcom and block the signed in user from
         $apex_id = ApexCom::all()->first()->id;
@@ -121,7 +121,7 @@ class SubscribeTest extends TestCase
         $this->assertDatabaseMissing('apex_blocks', compact('blockedID', 'ApexID'));
 
         // check that the user added in test function is deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
     /**
      * User subscribes and unsubscribes an apexcom.
@@ -145,7 +145,7 @@ class SubscribeTest extends TestCase
 
         //check that the user is added to database
         $userid = $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         //get any apex com and hit the route with it to subscribe
         $apexid = ApexCom::all()->first()->id;
@@ -170,6 +170,7 @@ class SubscribeTest extends TestCase
                 'ApexCom_ID' => $apexid
             ]
         );
+        $response->assertStatus(200);
 
         // check that the user unsubscribed apexcom in database(deleted)
         $this->assertDatabaseMissing('subscribers', compact('userid', 'apexid'));
@@ -178,6 +179,6 @@ class SubscribeTest extends TestCase
         User::where('id', $id)->delete();
 
         //check that the added user is deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
 }

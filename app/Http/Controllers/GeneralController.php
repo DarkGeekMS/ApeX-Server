@@ -19,9 +19,6 @@ use App\Models\Vote;
 class GeneralController extends Controller
 {
 
-    public function guestGetSubscribers(Request $request)
-    {
-    }
     /**
      * Guest Search
      * Returns a json contains posts, apexComs and users that match the given query.
@@ -329,19 +326,15 @@ class GeneralController extends Controller
      * }
      *
      * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
-     * @bodyParam _token string required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
     public function getSubscribers(Request $request)
     {
-        $account = new Account();
+        $account = new AccountController();
 
         // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
+       
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 
@@ -361,6 +354,39 @@ class GeneralController extends Controller
         // return an error for if the user was blocked from the apexcom.
         if ($blocked != 0) {
             return response()->json(['error' => 'You are blocked from this Apexcom'], 400);
+        }
+
+        // get the subscribers' for the apexcom user IDs.
+        $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
+        $subscribers = User::joinSub(
+            $subscribers_id,
+            'apex_subscribers',
+            function ($join) {
+                $join->on('id', '=', 'userID');
+            }
+        )->get();
+
+        // return the subscribers user IDs.
+        return response()->json(compact('subscribers'));
+    }
+
+    /**
+     * guestGetetSubscribers
+     * Returns a list of the users subscribed to a certain ApexComm.
+     * 
+     * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
+     */
+
+    public function guestGetSubscribers(Request $request)
+    {
+        $apex_id = $request['ApexCommID'];
+
+        // checking if the apexCom exists.
+        $exists = ApexCom::where('id', $apex_id)->count();
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
         }
 
         // get the subscribers' for the apexcom user IDs.

@@ -23,9 +23,45 @@ use App\Models\Post;
 class ApexComController extends Controller
 {
 
-
     public function guestAbout(Request $request)
     {
+        $apex_id = $request['ApexCom_ID'];
+
+        // checking if the apexCom exists.
+        $exists = apexComModel::where('id', $apex_id)->count();
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
+        }
+
+        // getting about info (contributers_count,moderators,subscribers_count,name,description,rules)
+
+        $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
+            ->select('posted_by')->distinct('posted_by')->get()->count();
+
+        $moderators = Moderator::where('apexID', $apex_id)->get('userID');
+
+        $subscribers_count = Subscriber::where('apexID', $apex_id)->count();
+
+        $apexCom = ApexComModel::find($apex_id);
+
+        $name = $apexCom->name;
+
+        $description = $apexCom->description;
+
+        $rules = $apexCom->rules;
+
+        return response()->json(
+            compact(
+                'contributers_count',
+                'moderators',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
+            )
+        );
     }
     
     /**
@@ -205,7 +241,7 @@ class ApexComController extends Controller
         if ($unsubscribe) {
             Subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
-            return response()->json([true], 200);
+            return response()->json('Unsubscribed', 200);
         }
 
         // if not previously subscribed then subscribe and store it in the database.
@@ -217,7 +253,7 @@ class ApexComController extends Controller
         );
 
         // return true to ensure the success of subscription.
-        return response()->json([true], 200);
+        return response()->json('Subscribed', 200);
     }
 
 
@@ -294,7 +330,7 @@ class ApexComController extends Controller
             apexComModel::create($v);
 
             // return true to ensure creation of new apexcom
-            return response()->json([true], 200);
+            return response()->json('Created', 200);
         }
 
         // update the apexcom with the validated request
@@ -302,6 +338,6 @@ class ApexComController extends Controller
         $validated = $request->all();
         $exists->update($validated);
         // return true to ensure editing of an existing apexcom
-        return response()->json([true], 200);
+        return response()->json('Updated', 200);
     }
 }
