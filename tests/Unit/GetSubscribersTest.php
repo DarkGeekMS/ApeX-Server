@@ -34,7 +34,7 @@ class GetSubscribersTest extends TestCase
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400)->assertSee('Not authorized');;
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
