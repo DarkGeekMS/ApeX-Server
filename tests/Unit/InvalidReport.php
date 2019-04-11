@@ -146,7 +146,7 @@ class InvalidReport extends TestCase
             'name' => 't3_1'
             ]
         );
-        $response->assertStatus(404);
+        $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
             '/api/sign_out',

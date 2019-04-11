@@ -179,7 +179,7 @@ class InvalidReply extends TestCase
              'parent' => 't1_10'
              ]
          );
-         $response->assertStatus(404);
+         $response->assertStatus(400);
          $logoutResponse = $this->json(
              'POST',
              '/api/sign_out',
