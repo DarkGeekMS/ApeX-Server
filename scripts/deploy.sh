@@ -1,28 +1,14 @@
 #!/bin/bash
 set -euox pipefail
 
-PROJECT_ID=""#TODO
-COMPUTE_ZONE=us-central1-b #TODO
-IMAGE=""#TODO
-
-DEPLOYMENT=""#TODO
-VM_INSTANCE=""#TODO
+PROJECT_ID="lunar-clone-235511"
+COMPUTE_ZONE="us-central1-c"
+VM_INSTANCE="mido3ds@main"
 
 main() {
     gcloud auth activate-service-account $GCD_ACCOUNT_SECRET  --key-file="$GCD_KEYFILE_SECRET"
-    gcloud auth configure-docker
-
-    gcloud config set project $PROJECT_ID
-    gcloud config set compute/zone $COMPUTE_ZONE
-
-    docker build -t gcr.io/${PROJECT_ID}/$IMAGE . -f app.dockerfile
-    docker push gcr.io/${PROJECT_ID}/$IMAGE
-
-    #TODO: kube or simple vm?
-    #TODO: if vm, rollout with shutdown or without?
-    # kubectl set image deployment/$DEPLOYMENT $DEPLOYMENT=gcr.io/${PROJECT_ID}/$IMAGE
-    # gcloud compute ssh $VM_INSTANCE 
-    #   --command="docker pull gcr.io/${PROJECT_ID}/$IMAGE && docker run gcr.io/${PROJECT_ID}/$IMAGE"
+    
+    gcloud compute ssh $VM_INSTANCE --project $PROJECT_ID --zone $COMPUTE_ZONE --command="sudo BRANCH=${BRANCH:master} docker-compose up --build --no-deps -d"
 }
 
 if [[ "$#" == 2 ]]; then
