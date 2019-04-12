@@ -1,20 +1,23 @@
 # for local development and CI
-# before compose,
-#  run `docker build . -t app-image` with proper build args
+# pass MIGRATE=true or TEST=true for migration or testing
 version: '2'
 
 services:
 
   # The Application
   app:
-    image: app-image
+    build:
+      context: .
+      args:
+        MIGRATE: ${MIGRATE}
+        TEST: ${TEST}
     working_dir: /app
     env_file:
       - .env
     volumes:
       - ./:/app
     ports:
-      - "8080:80"
+      - "${PORT}:80"
 
   # The Database
   database:
