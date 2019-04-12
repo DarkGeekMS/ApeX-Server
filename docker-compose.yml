@@ -1,3 +1,6 @@
+# for local development and CI
+# before compose,
+#  run `docker build . -t app-image` with proper build args
 version: '2'
 
 services:
@@ -11,7 +14,7 @@ services:
     volumes:
       - ./:/app
     ports:
-      - "8000:80"
+      - "8080:80"
 
   # The Database
   database:

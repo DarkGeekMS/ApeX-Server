@@ -27,12 +27,7 @@ env:
   global:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1 
 
-before_script:
-  - phpenv config-rm xdebug.ini # remove xdebug to speed up testing
-  - cp .env.example .env
-  - docker build . -t app-image --build-arg MIGRATE='true' --build-arg TEST='true'
-script:
-  - docker-compose up --exit-code-from app
+script: bash scripts/ci.sh
 
 # TODO: uncomment when cloud is available
 # before_deploy:
