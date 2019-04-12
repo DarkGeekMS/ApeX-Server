@@ -23,6 +23,36 @@ use App\Models\Post;
 class ApexComController extends Controller
 {
 
+
+  /**
+   * getApexComs
+   * getapexcom names which user subscribe in.
+   * Success Cases :
+   * 1) return true to ensure that the post or comment updated successfully.
+   * failure Cases:
+   * 1) NoAccessRight token is not authorized.
+
+   *
+   * @bodyParam name string required The fullname of the self-post ,comment or reply to be edited.
+   * @bodyParam content string required The body of the thing to be edited.
+   * @bodyParam ID JWT required Verifying user ID.
+   */
+
+    public function getApexComs(Request $request)
+    {
+        $account=new AccountController;
+        //get the user data
+        $userID = $account->me($request)->getData()->user->id;
+
+        //check if there is no content to be submitted return error message
+        $apexcoms = DB::table('subscribers')->where('userID', $userID)->pluck('apexID');
+
+        $apexs = DB::table('apex_coms')->whereIn('id', $apexcoms)->pluck('name', 'id');
+
+        return response()->json([$apexs], 400);
+    }
+
+
     public function guestAbout(Request $request)
     {
         $apex_id = $request['ApexCom_ID'];
@@ -63,7 +93,7 @@ class ApexComController extends Controller
             )
         );
     }
-    
+
     /**
      * about
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).

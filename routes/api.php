@@ -64,6 +64,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // ApexCom
 
+    Route::post('/get_ApexComs', 'ApexComController@getApexComs');
     Route::post('/about', 'ApexComController@about');
     Route::post('/submit_post', 'ApexComController@submitPost');
     Route::post('/subscribe', 'ApexComController@subscribe');

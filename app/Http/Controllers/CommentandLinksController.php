@@ -66,10 +66,17 @@ class CommentandLinksController extends Controller
         $userID = $account->me($request)->getData()->user->id;
         $user = User::find($userID);
         //check if there is no content to be submitted return error message
-        if (!$request['content']) {
-            return response()->json(['error' => 'Comment content not found'], 404);
+        $validator = validator(
+            $request->all(),
+            [
+              'parent' => 'required|string|min:4',
+              'content' => 'required|string|min:1'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'invalid data'], 400);
         }
-        //get the post,comment or message to be replied
         $parent = $request['parent'];
         //if the parent was comment means the submitted is a reply
         if ($parent[1]==1) {              //add reply to comment ( or another reply)
@@ -99,7 +106,7 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
             //return the id of the submitted reply
-            return response()->json(['id' => $id], 200);
+            return response()->json(['reply' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
           //get the post to be commented
             $post = Post::find($parent);
@@ -129,7 +136,7 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
             //return the id of the submitted comment
-            return response()->json(['id' => $id], 200);
+            return response()->json(['comment' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
           //get the message to have a reply
             $message = Message::find($parent);
@@ -208,6 +215,14 @@ class CommentandLinksController extends Controller
         //get user data by id
         $user = User::find($userID);
 
+        $validator = validator(
+            $request->all(),
+            ['name' => 'required|string|min:4']
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'invalid id'], 400);
+        }
         $name = $request['name'];
         //check the thing to be deleted is post or comment
         if ($name[1]==3) {                           //post
@@ -463,12 +478,12 @@ class CommentandLinksController extends Controller
             'userID' => $user['id']
             ]);
             //return true to ensure that the post hidden successfully
-            return response()->json(['hidden' => true], 200);
+            return response()->json(['hide' => true], 200);
         }
         // if post already hidden remove the relation record so post un-hidden.
         DB::table('hiddens')->where('userID', $user['id'])->where('postID', $post['id'])->delete();
         //return true to ensure that the post un-hidden successfully
-        return response()->json(['hidden' => true], 200);
+        return response()->json(['un-hide' => true], 200);
     }
 
 
@@ -556,14 +571,23 @@ class CommentandLinksController extends Controller
         $userID = $account->me($request)->getData()->user->id;
         //get the user by the user id
         $user = User::find($userID);
+        $validator = validator(
+            $request->all(),
+            [
+              'name' => 'required|string|min:4',
+              'content' => 'required|string|min:1'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'invalid data'], 400);
+        }
 
         //admin can't report any post or comment (he can take any action againest the post)
         if ($user['type'] ==3) {
             return response()->json(['error' => 'invalid Action'], 400);
         }
-        if (!$request['content']) {
-            return response()->json(['error' => 'report content not found'], 404);
-        }
+
         //check reporting post or comment (post id start with t3_ , comment id start with t1_)
         $name = $request['name'];
         //if the report request from post
@@ -685,6 +709,14 @@ class CommentandLinksController extends Controller
         if ($request['dir'] != 1 && $request['dir'] != -1) {
            //return invalid action if the vote direction is not 1 (up-vote) or -1 (down vote)
             return response()->json(['error' => 'Invalid Action'], 400);
+        }
+        $validator = validator(
+            $request->all(),
+            ['name' => 'required|string|min:4']
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'invalid id'], 400);
         }
         //check the id of the voted thing ( post or comment )
         $name = $request['name'];

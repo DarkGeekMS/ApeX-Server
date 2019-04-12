@@ -19,11 +19,7 @@ RUN apk update \
         php-mysqli \
         php-mysqlnd \
         php-simplexml \
-        composer \ 
-    && \
-    composer install -o \
-    && \
-    php7 artisan key:generate
+        composer 
 
 # pass `--build-arg MIGRATE=true` on building to run migrations
 ARG MIGRATE

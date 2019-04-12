@@ -314,7 +314,7 @@ class GeneralController extends Controller
         $account = new AccountController();
 
         // getting the user_id and user_type related to the token in the request and validate.
-       
+
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 
@@ -353,7 +353,7 @@ class GeneralController extends Controller
     /**
      * guestGetetSubscribers
      * Returns a list of the users subscribed to a certain ApexComm.
-     * 
+     *
      * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
      */
 
