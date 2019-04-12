@@ -7,8 +7,7 @@ VM_INSTANCE="mido3ds@main"
 
 main() {
     # login
-    gcloud auth activate-service-account \
-	$GCD_ACCOUNT_SECRET  --key-file="$GCD_KEYFILE_SECRET"
+    gcloud auth activate-service-account --key-file="$GCP_KEYFILE_SECRET"
     
     gcloud config set project $PROJECT_ID
     gcloud config set compute/zone $COMPUTE_ZONE
@@ -24,12 +23,11 @@ main() {
 		   docker-compose up --build --no-deps -d"
 }
 
-if [[ "$#" == 2 ]]; then
-  GCD_ACCOUNT_SECRET="$1"
+if [[ "$#" == 1 ]]; then
   GCD_KEYFILE_SECRET="$2"
 else
   echo "Wrong number of arguments specified."
-  echo "Usage: deploy.sh account keyfile"
+  echo "Usage: deploy.sh /path/to/keyfile"
   exit 1
 fi
 
