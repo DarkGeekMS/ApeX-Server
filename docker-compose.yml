@@ -1,17 +1,23 @@
+# for local development and CI
+# pass MIGRATE=true or TEST=true for migration or testing
 version: '2'
 
 services:
 
   # The Application
   app:
-    image: app-image
+    build:
+      context: .
+      args:
+        MIGRATE: ${MIGRATE}
+        TEST: ${TEST}
     working_dir: /app
     env_file:
       - .env
     volumes:
       - ./:/app
     ports:
-      - "8000:80"
+      - "${PORT}:80"
 
   # The Database
   database:

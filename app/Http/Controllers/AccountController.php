@@ -353,9 +353,39 @@ class AccountController extends Controller
      * @bodyParam token JWT required Used to verify the user recieving the message.
      */
 
-    public function readMsg()
+    public function readMsg(Request $request)
     {
-        return;
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
+        $type=$user->type;
+        $id=$user->id;
+
+        $validator = validator(
+            $request->all(),
+            ['ID' => 'required|string']
+        );
+        if ($validator->fails()) {
+            return  response()->json($validator->errors(), 400);
+        }
+        $msgid= $request['ID'];
+        $msgCheck=DB::table('messages')->where('id', '=', $msgid)->get();
+        if(count($msgCheck)==0)
+        {
+            return response()->json(['error' => 'Message doesnot exist'], 500);
+        }
+        $subject=DB::table('messages')->where('id', '=', $msgid)->select('subject')->get();
+        $msg=DB::table('messages')->join('users', 'messages.receiver', '=', 'users.id')
+            ->where('messages.id', '=', $msgid)
+            ->orWhere('messages.parent', $msgid)
+            ->orderBy('messages.created_at', 'asc')
+            ->select('username','content','messages.created_at')
+            ->get();
+    
+       $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ]);
+       //$json_output = json_encode( [$msg,$subject] );
+        return $json_output;
+
+
     }
 
 
@@ -471,9 +501,24 @@ class AccountController extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function profileInfo()
+    public function profileInfo(Request $request)
     {
-        return;
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
+        $type=$user->type;
+        $id=$user->id;
+        $info=DB::table('users')->where('id', '=', $id)->select('username','avatar','karma')->get();
+        $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
+        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
+        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
+        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')->where('moderators.userID', '=', $id)->select('name','description')->get();
+        
+        
+        if($type == 2)
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);  
+        else
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
+        return $json_output;
     }
 
 
