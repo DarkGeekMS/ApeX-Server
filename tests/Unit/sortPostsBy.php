@@ -36,30 +36,7 @@ class sortPostsBy extends TestCase
         return true;
     }
 
-    /**
-     * Just a helper fuction to check there is no posts shown between blocked users
-     *
-     * @param string $userID the apexComID that contains the posts
-     * @param array  $posts  the posts itself
-     *
-     * @return bool
-     */
-    private function _checkBlockedPosts($userID, $posts)
-    {
-        foreach ($posts as $post) {
-            $postWriterID = $post['posted_by'];
-            if (Block::query()->where(
-                ['blockerID' => $userID, 'blockedID' => $postWriterID]
-            )->orWhere(
-                ['blockerID' => $postWriterID, 'blockedID' => $userID]
-            )->exists()
-            ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    
     /**
      * Test sorting the posts by valid sortingParam.
      *
@@ -94,40 +71,49 @@ class sortPostsBy extends TestCase
 
     /**
      * Tests userSortPostsBy
-     *
+     * Assumes that there are some records in the database
+     * 
      * @test
      *
      * @return void
      */
     public function userSort()
     {
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+        $loginResponse = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/sign_in',
+            ['username' => 'Monda Talaat', 'password' => 'monda21']
         );
-        $signUpResponse->assertStatus(200);
-
-        $token = $signUpResponse->json('token');
-        $userID = $signUpResponse->json('user')['id'];
-
-        //block some users before sorting
-        $posts = Post::all();
-        for ($i=0; $i < count($posts)/2; $i++) {
-            $postWriterID = $posts[$i]['posted_by'];
-            if (!Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                Block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
-            }
-        }
+        $token = $loginResponse->json('token');
+        $userID = $loginResponse->json('user')['id'];
 
         $response = $this->json('POST', '/api/sort_posts', compact('token'));
         $posts = $response->json('posts');
 
-        $this->assertTrue($this->_checkBlockedPosts($userID, $posts));
+        //check that there are no posts from blocked users or hidden posts or reported posts
+        $posts = $response->json('posts');
+        foreach ($posts as $post) {
+            $postWriterID = $post['posted_by'];
+            $this->assertFalse(
+                Block::query()->where(
+                    ['blockerID' => $userID, 'blockedID' => $postWriterID]
+                )->orWhere(
+                    ['blockerID' => $postWriterID, 'blockedID' => $userID]
+                )->exists()
+            );
+            $this->assertDatabaseMissing(
+                'apex_blocks',
+                ['ApexID' => $post['apex_id'], 'blockedID' => $userID]
+            );
+            $this->assertDatabaseMissing(
+                'hiddens',
+                ['postID' => $post['id'], 'userID' => $userID]
+            );
+            $this->assertDatabaseMissing(
+                'report_posts',
+                ['postID' => $post['id'], 'userID' => $userID]
+            );
+        }
 
         $sortingParams = [
             'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
@@ -145,16 +131,6 @@ class sortPostsBy extends TestCase
             );
         }
 
-        //unblock blocked users
-        $posts = Post::all();
-        for ($i=0; $i < count($posts)/2; $i++) {
-            $postWriterID = $posts[$i]['posted_by'];
-            if (Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                Block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
-            }
-        }
-
-        \App\Models\User::where('id', $userID)->delete();
     }
 
     /**
