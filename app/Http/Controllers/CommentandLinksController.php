@@ -302,16 +302,62 @@ class CommentandLinksController extends Controller
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) NoAccessRight the token is not for the owner of the post or comment to be edited.
-     * 3) post or commet fullname (ID) is not found.
+     * 3) post or comment fullname (ID) is not found.
      *
      * @bodyParam name string required The fullname of the self-post ,comment or reply to be edited.
      * @bodyParam content string required The body of the thing to be edited.
-     * @bodyParam ID JWT required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function editText()
+    public function editText(Request $request)
     {
-        return;
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
+        $id=$user->id;
+        $validator = validator(
+            $request->all(),
+            ['name' => 'required|string',
+             'content'=>'required|string'
+            ]
+        );
+        if ($validator->fails()) {
+            return  response()->json($validator->errors(), 400);
+        }
+        $textid= $request['name'];
+        $content= $request['content'];
+
+        $commentcheck=DB::table('comments')->where('id','=',$textid)->get();
+        $postcheck=DB::table('posts')->where('id','=',$textid)->get();
+        
+
+        if(!count($commentcheck) && !count($postcheck))
+            return response()->json(['error' => 'post or comment is not found'], 500);
+        elseif(count($commentcheck))
+        {
+            $commentcheck2=DB::table('comments')->where([['commented_by', '=', $id],['id','=',$textid]])->get();
+            if(!count($commentcheck2))
+                return response()->json(['error' => 'user is not the owner of the comment'], 403);
+ 
+            else
+            {
+                DB::table('comments')->where('id', $textid)->update(['content' => $content]);
+                return response()->json(['the comment is updated successfully'], 200);
+            }
+        }
+        elseif(count($postcheck))
+        {
+            $postcheck2=DB::table('posts')->where([['posted_by', '=', $id],['id','=',$textid]])->get();
+            if(!count($postcheck2))
+                return response()->json(['error' => 'user is not the owner of the post'], 404);
+ 
+            else
+            {
+                DB::table('posts')->where('id', $textid)->update(['content' => $content]);
+                return response()->json(['the post is updated successfully'], 201);
+            }
+           
+        }
+
     }
 
 
