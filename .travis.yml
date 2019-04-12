@@ -36,7 +36,8 @@ before_deploy:
     fi
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud version
+  - openssl aes-256-cbc -K $encrypted_12c8071d2874_key -iv $encrypted_12c8071d2874_iv -in ./scripts/encrypted-deploy-key -out ./scripts/deploy-key.json -d
 deploy:
   skip_cleanup: true
   provider: script
-  script: bash scripts/deploy.sh
+  script: bash -e BRANCH=master scripts/deploy.sh "./scripts/deploy-key.json"
