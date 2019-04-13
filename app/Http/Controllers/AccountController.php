@@ -208,7 +208,7 @@ class AccountController extends Controller
             } catch (\Swift_TransportException $e) {
                 /*Returning json response with status code 400
                  indicating an error in sending*/
-                return response()->json(['msg' => 'Error sending the email'], 400);
+                return response()->json(['msg' => $e->getMessage()], 400);
             }
             Code::where('id', $user->id)->delete(); //Deleting previous codes
             $code = new Code; //creating new code
