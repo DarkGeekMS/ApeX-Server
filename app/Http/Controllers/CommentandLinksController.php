@@ -19,6 +19,11 @@ use App\Models\Hidden;
 use App\Models\Post;
 
 /**
+ * this Class contains all the endpoints responsible for all posts and comments interactions.
+ */
+
+
+/**
  * @group Links and comments
  *
  * controls the comments , replies and private messages for each user
@@ -58,6 +63,24 @@ class CommentandLinksController extends Controller
      * }
      */
 
+     /**
+      * add.
+      * This Function used to comment on post or another comment or reply to private message.
+      *
+      * It makes sure that the user who want to add the comment (or reply) exists in our app,
+      * Then check what kind of action he want to take depending on the parent ID sent to the function.
+      * as the comment component ID starts with t1 so if the sent id t1 + value,
+      * So he want to reply on comment and so on.
+      * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
+      * check the post\comment owner exists or not ( if not action not valid)
+      * then add the comment\msg reply content in the specific table in the database.
+      *
+      * @param string token the JWT representation of the user in frontend.
+      * @param string parent the ID of the thing to be replied to.
+      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
+      * @return string id , the id of the added reply named ( id for msg , reply for comment or reply)
+      */
+
     public function add(Request $request)
     {
       //get the logged in user
@@ -86,9 +109,18 @@ class CommentandLinksController extends Controller
             if (!$comment) {
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
+
+            if (!$comment['commented_by']) {
+                return response()->json(['error' => 'you can not add any reply on this comment'], 400);
+            }
+
             $post = Post::find($comment['root']);
             if ($post['locked']) {
-                return response()->json(['error' => 'you can not add any reply on ths post'], 400);
+                return response()->json(['error' => 'you can not add any reply on this post'], 400);
+            }
+
+            if (!$post['posted_by']) {
+                return response()->json(['error' => 'you can not add any reply on this post'], 400);
             }
             //check mention existance
             //create the comment id by getting the last comment id and increment it by 1
@@ -114,10 +146,15 @@ class CommentandLinksController extends Controller
             if (!$post) {
                 return response()->json(['error' => 'post not exists '], 404);
             }
+
+            if (!$post['posted_by']) {
+                return response()->json(['error' => 'you can not add any reply on ths post'], 400);
+            }
+
             if ($post['locked']) {
                 return response()->json(['error' => 'you can not comment on this post'], 400);
             }
-            //check if any mention exists
+
             //create the comment id by getting the total count of comments table and increment it by 1
             $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
             $id = "t1_1";
@@ -206,6 +243,28 @@ class CommentandLinksController extends Controller
      * "token_error":"The token has been blacklisted"
      * }
      */
+
+     /**
+      * delete.
+      * This Function used to delete comment or post by their owner, any admin or
+      * any moderator in the apexCom holds this post or comment.
+      * any user can delete any comment on his own posts.
+      *
+      * it receives the token of the logged in user as for the user to delete any post he has to be logged in our app.
+      * It makes sure that the user who want to delete the comment/post exists in our app by the token,
+      *then check what is the thing to be deleted (post or comment).
+      * by checking the second char of the id as posts start with t3 but comment with t1.
+      * In case of post : check the type of the logged in user,
+      * if admin delete the post, if post owner delete the post, if moderator in the apexCom holds the post delete it.
+      * If comment check the same with post
+      * in addition to checking if the logged in is the owner of the post holds this comment, then delete it.
+      * If none of the above return the action is not valid.
+      *
+      * @param string token the JWT representation of the user in frontend.
+      * @param string name the ID of the thing to be deleted.
+      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment).
+      * @return boolean deleted , if the post/comment deleted successfully.
+      */
 
     public function delete(Request $request)
     {
@@ -326,38 +385,29 @@ class CommentandLinksController extends Controller
         $textid= $request['name'];
         $content= $request['content'];
 
-        $commentcheck=DB::table('comments')->where('id','=',$textid)->get();
-        $postcheck=DB::table('posts')->where('id','=',$textid)->get();
-        
+        $commentcheck=DB::table('comments')->where('id', '=', $textid)->get();
+        $postcheck=DB::table('posts')->where('id', '=', $textid)->get();
 
-        if(!count($commentcheck) && !count($postcheck))
+
+        if (!count($commentcheck) && !count($postcheck)) {
             return response()->json(['error' => 'post or comment is not found'], 500);
-        elseif(count($commentcheck))
-        {
+        } elseif (count($commentcheck)) {
             $commentcheck2=DB::table('comments')->where([['commented_by', '=', $id],['id','=',$textid]])->get();
-            if(!count($commentcheck2))
+            if (!count($commentcheck2)) {
                 return response()->json(['error' => 'user is not the owner of the comment'], 403);
- 
-            else
-            {
+            } else {
                 DB::table('comments')->where('id', $textid)->update(['content' => $content]);
                 return response()->json(['the comment is updated successfully'], 200);
             }
-        }
-        elseif(count($postcheck))
-        {
+        } elseif (count($postcheck)) {
             $postcheck2=DB::table('posts')->where([['posted_by', '=', $id],['id','=',$textid]])->get();
-            if(!count($postcheck2))
+            if (!count($postcheck2)) {
                 return response()->json(['error' => 'user is not the owner of the post'], 404);
- 
-            else
-            {
+            } else {
                 DB::table('posts')->where('id', $textid)->update(['content' => $content]);
                 return response()->json(['the post is updated successfully'], 201);
             }
-           
         }
-
     }
 
 
@@ -389,6 +439,22 @@ class CommentandLinksController extends Controller
      * "token_error":"The token has been blacklisted"
      * }
      */
+
+     /**
+      * lock.
+      * This Function used to un/lock a post from recieving any new comment.
+      * By his owner, moderator in the apexCom holds the post or admin site.
+      *
+      * It makes sure that the user who want to un/lock the posts exists in our app,
+      * then check if the posts exists in our app.
+      * then check if the logged in user was admin , post owner or moderator in the apexCom holds this post
+      * It toggles the post locked status, if none of them it return Invalid action.
+      *
+      * @param string token the JWT representation of the user in frontend.
+      * @param string name the ID of the post.
+      * must be at least 4 chars starts with t3_.
+      * @return boolean locked true to ensure the action done successfully.
+      */
 
     public function lock(Request $request)
     {
@@ -455,6 +521,20 @@ class CommentandLinksController extends Controller
      * "token_error":"The token has been blacklisted"
      * }
      */
+
+     /**
+      * hide.
+      * This Function used to hide a post by logged in user.
+      *
+      * It makes sure that the user who want to hide the post exists in our app,
+      * Then check the post to be hidden exists in our app.
+      * It check if the post already hidden by this user, remove this record if not add this record in DB.
+      *
+      * @param string token the JWT representation of the user in frontend.
+      * @param string name the ID of the post.
+      * must be at least 4 chars starts with t3_.
+      * @return boolean hide or un-hide is true to ensure the action done successfully.
+      */
 
     public function hide(Request $request)
     {
@@ -564,6 +644,33 @@ class CommentandLinksController extends Controller
      * }
      */
 
+     /**
+      * report.
+      * This Function used to report post or comment by logged in user.
+      * Admin can't report any post/comment as he can take action directly aginst this post/comment.
+      * post/comment owner can't report their own posts or comments.
+      * post owners can't report comment on their own posts as they can take action directly against any comment.
+      * moderator in the apexComs holds the post/comment can't report them.
+      *
+      * It makes sure that the user who want to report the comment/post exists in our app,
+      * check the logged in user if admin return invalid action.
+      * Then check the this to be reported is post or comment.
+      * as the comment component ID starts with t1_ but post with t3_.
+      * check if the logged in user is the post/comment owner,
+      * or moderator in the apexcom holds this post/comment return invalid action.
+      * in case of comment check if the logged in user is the owner of the post holds this comment,
+      * return invalid action.
+      * then check if the user reported this post/comment before,
+      * if so return the user already reported this post/comment.
+      * if not create this report in the DB.
+      *
+      * @param string token the JWT representation of the user in frontend.
+      * @param string name the ID of the post/comment to be reported.
+      * @param string content the content of the report.
+      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
+      * @return boolean reported is true to ensure the post or comment reported successfully.
+      */
+
     public function report(Request $request)
     {
         //get the user id using the token
@@ -598,6 +705,11 @@ class CommentandLinksController extends Controller
             if (!$post) {
                 return response()->json(['error' => 'post_not_exists'], 404);
             }
+
+            if (!$post['posted_by']) {
+                return response()->json(['error' => 'you can not report this post'], 400);
+            }
+
             //one can't report any post written by him.
             if ($user['id'] == $post['posted_by']) {
                  return response()->json(['error' => 'invalid Action'], 400);
@@ -631,6 +743,10 @@ class CommentandLinksController extends Controller
             //check valid comment
             if (!$comment) {
                 return response()->json(['error' => 'comment_not_found'], 404);
+            }
+
+            if (!$comment['commented_by']) {
+                return response()->json(['error' => 'you can not report this comment'], 400);
             }
             //one can't report his own comments.
             if ($user['id'] == $comment['commented_by']) {
@@ -696,6 +812,25 @@ class CommentandLinksController extends Controller
      * "token_error":"The token has been blacklisted"
      * }
      */
+
+     /**
+      * add.
+      * This Function used to comment on post or another comment or reply to private message.
+      *
+      * It makes sure that the user who want to add the comment (or reply) exists in our app,
+      * Then check what kind of action he want to take depending on the parent ID sent to the function.
+      * as the comment component ID starts with t1 so if the sent id t1 + value,
+      * So he want to reply on comment and so on.
+      * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
+      * check the post\comment owner exists or not ( if not action not valid)
+      * then add the comment\msg reply content in the specific table in the database.
+      *
+      * @param string token the JWT representation of the user in frontend.
+      * @param integer dir the direction of vote.
+      * @param string parent the ID of the thing to be voted on.
+      * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+      * @return integer votes represent the total number of votes on this post/comment.
+      */
 
     public function vote(Request $request)
     {
