@@ -325,7 +325,7 @@ class CommentandLinksController extends Controller
         }
         $textid= $request['name'];
         $content= $request['content'];
-
+        
         $commentcheck=DB::table('comments')->where('id','=',$textid)->get();
         $postcheck=DB::table('posts')->where('id','=',$textid)->get();
         
