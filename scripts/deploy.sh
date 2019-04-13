@@ -1,36 +1,33 @@
 #!/bin/bash
 set -euox pipefail
 
-PROJECT_ID=""#TODO
-COMPUTE_ZONE=us-central1-b #TODO
-IMAGE=""#TODO
-
-DEPLOYMENT=""#TODO
-VM_INSTANCE=""#TODO
+PROJECT_ID="lunar-clone-235511"
+COMPUTE_ZONE="us-central1-c"
+VM_INSTANCE="mido3ds@main"
 
 main() {
-    gcloud auth activate-service-account $GCD_ACCOUNT_SECRET  --key-file="$GCD_KEYFILE_SECRET"
-    gcloud auth configure-docker
-
+    # login
+    gcloud auth activate-service-account --key-file="$GCP_KEYFILE_SECRET"
+    
     gcloud config set project $PROJECT_ID
     gcloud config set compute/zone $COMPUTE_ZONE
 
-    docker build -t gcr.io/${PROJECT_ID}/$IMAGE . -f app.dockerfile
-    docker push gcr.io/${PROJECT_ID}/$IMAGE
+    # copy docker-compose.yml to update it there
+    gcloud compute scp \
+	production-docker-compose.yml \
+	$VM_INSTANCE:docker-compose.yml 
 
-    #TODO: kube or simple vm?
-    #TODO: if vm, rollout with shutdown or without?
-    # kubectl set image deployment/$DEPLOYMENT $DEPLOYMENT=gcr.io/${PROJECT_ID}/$IMAGE
-    # gcloud compute ssh $VM_INSTANCE 
-    #   --command="docker pull gcr.io/${PROJECT_ID}/$IMAGE && docker run gcr.io/${PROJECT_ID}/$IMAGE"
+    # run docker-compose
+    gcloud compute ssh $VM_INSTANCE \
+	--command="sudo BRANCH=${BRANCH:master} \
+		   docker-compose up --build --no-deps -d"
 }
 
-if [[ "$#" == 2 ]]; then
-  GCD_ACCOUNT_SECRET="$1"
+if [[ "$#" == 1 ]]; then
   GCD_KEYFILE_SECRET="$2"
 else
   echo "Wrong number of arguments specified."
-  echo "Usage: deploy.sh account keyfile"
+  echo "Usage: deploy.sh /path/to/keyfile"
   exit 1
 fi
 
