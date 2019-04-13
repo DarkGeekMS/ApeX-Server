@@ -22,6 +22,31 @@ use App\Models\Post;
 
 class ApexComController extends Controller
 {
+
+  /**
+   * getApexComs
+   * getapexcom names which user subscribe in.
+   * Success Cases :
+   * 1) return the apexComs names and ids the user subscribed in.
+   * failure Cases:
+   * 1) NoAccessRight token is not authorized.
+   *
+   * @bodyParam token JWT required Verifying user ID.
+   */
+
+    public function getApexComs(Request $request)
+    {
+        $account=new AccountController;
+        //get the user data
+        $userID = $account->me($request)->getData()->user->id;
+
+        $apexcoms = DB::table('subscribers')->where('userID', $userID)->pluck('apexID');
+
+        $apexs = DB::table('apex_coms')->whereIn('id', $apexcoms)->pluck('name', 'id');
+
+        return response()->json([$apexs], 400);
+    }
+
     /**
      * Guestabout
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
@@ -75,7 +100,7 @@ class ApexComController extends Controller
             )
         );
     }
-    
+
     /**
      * About
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count) with a logged in user.
@@ -231,14 +256,18 @@ class ApexComController extends Controller
         $v['posted_by'] = $user_id;
         $v['apex_id'] = $apex_id;
         $v['title'] = $r['title'];
-        if (array_key_exists('body', $r) && $r['body'] != "")
+        if (array_key_exists('body', $r) && $r['body'] != "") {
             $v['content'] = $r['body'];
-        if (array_key_exists('img_name', $r) && $r['img_name'] != "")
+        }
+        if (array_key_exists('img_name', $r) && $r['img_name'] != "") {
             $v['img'] = $r['img_name'];
-        if (array_key_exists('video_url', $r) && $r['video_url'] != "")
+        }
+        if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $v['videolink'] = $r['video_url'];
-        if (array_key_exists('isLocked', $r) && $r['isLocked'] != "")
+        }
+        if (array_key_exists('isLocked', $r) && $r['isLocked'] != "") {
             $v['locked'] = $r['isLocked'];
+        }
         Post::create($v);
         return response()->json('Created', 200);
     }
