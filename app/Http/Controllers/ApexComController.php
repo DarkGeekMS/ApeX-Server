@@ -34,17 +34,28 @@ class ApexComController extends Controller
    * @bodyParam token JWT required Verifying user ID.
    */
 
+   /**
+    * getApexComs.
+    * This Function used to get the apexComs names & IDs of the logged in user.
+    *
+    * It makes sure that the user exists in our app,
+    * select the apexComs ID's  and names which this user subscriber in then return them.
+    *
+    * @param string token the JWT representation of the user in frontend.
+    * @return array the apexComs names and Ids
+    */
+
     public function getApexComs(Request $request)
     {
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
 
-        $apexcoms = DB::table('subscribers')->where('userID', $userID)->pluck('apexID');
-
-        $apexs = DB::table('apex_coms')->whereIn('id', $apexcoms)->pluck('name', 'id');
-
-        return response()->json([$apexs], 400);
+        $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
+            ->where('subscribers.userID', '=', $userID)
+            ->select('name', 'apexID')
+            ->get();
+        return response()->json([$apexs], 200);
     }
 
     /**

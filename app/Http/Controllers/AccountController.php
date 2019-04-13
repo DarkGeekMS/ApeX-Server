@@ -448,8 +448,7 @@ class AccountController extends Controller
         }
         $msgid= $request['ID'];
         $msgCheck=DB::table('messages')->where('id', '=', $msgid)->get();
-        if(count($msgCheck)==0)
-        {
+        if (count($msgCheck)==0) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
         $subject=DB::table('messages')->where('id', '=', $msgid)->select('subject')->get();
@@ -457,14 +456,11 @@ class AccountController extends Controller
             ->where('messages.id', '=', $msgid)
             ->orWhere('messages.parent', $msgid)
             ->orderBy('messages.created_at', 'asc')
-            ->select('username','content','messages.created_at')
+            ->select('username', 'content', 'messages.created_at')
             ->get();
-    
-       $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ]);
+        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ]);
        //$json_output = json_encode( [$msg,$subject] );
         return $json_output;
-
-
     }
 
 
@@ -604,10 +600,10 @@ class AccountController extends Controller
         $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
         $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
         $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')->where('moderators.userID', '=', $id)->select('name','description')->get();
-        
-        
+
+
         if($type == 2)
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);  
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
         else
             $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
         return $json_output;
