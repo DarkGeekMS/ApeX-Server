@@ -15,6 +15,8 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Block;
 use App\Models\Vote;
+use App\Models\ReportPost;
+use App\Models\Hidden;
 
 class GeneralController extends Controller
 {
@@ -63,14 +65,17 @@ class GeneralController extends Controller
     }
 
     /**
-     * Just a helper fuction to remove posts from blocked users
-     *
+     * Just a helper fuction to remove posts from blocked users,
+     * posts that are hidden or reported by the current user
+     * and posts from apexComs that the current user is blocked from
+     * and remove blocked users and apexComs from the result 
+     * 
      * @param Collection $result the collection that contains posts
      * @param JWT        $token  to get the userID
      *
      * @return Response
      */
-    private function _removeBlockedPosts(Collection $result, $token)
+    private function _filterResult(Collection $result, $token)
     {
         $account = new AccountController();
         $meResponse = $account->me(new Request(compact('token')));
@@ -84,9 +89,32 @@ class GeneralController extends Controller
             );
 
             //remove the posts that have been posted by a user in the blocklist
-            //and flatten the new collection so that it doesn't contain new keys
-            $result['posts'] = $result['posts']->whereNotIn('posted_by', $blockList)->flatten();
+            $result['posts'] = $result['posts']
+                ->whereNotIn('posted_by', $blockList)->flatten();
 
+            //create a list of posts ids that are hidden or reported by the current user
+            $postsList = ReportPost::where(compact('userID'))->pluck('postID');
+            $postsList = $postsList
+                ->concat(Hidden::where(compact('userID'))->pluck('postID'));
+            $result['posts'] = $result['posts']
+                ->whereNotIn('id', $postsList)->flatten();
+
+            //create a list of apexComs that the current user is blocked from
+            $apexList = ApexBlock::where('blockedID', $userID)->pluck('ApexID');
+            $result['posts'] = $result['posts']
+                ->whereNotIn('apex_id', $apexList)->flatten();
+
+            //remove blocked users from the result
+            if (array_key_exists('users', $result)) {
+                $result['users'] = $result['users']
+                    ->whereNotIn('id', $blockList)->flatten();
+            }
+
+            //remove from the result the apexComs that the user is blocked from 
+            if (array_key_exists('apexComs', $result)) {
+                $result['apexComs'] = $result['apexComs']
+                    ->whereNotIn('id', $apexList)->flatten();
+            }
             return $result;
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
@@ -96,7 +124,11 @@ class GeneralController extends Controller
     /**
      * User Search
      * Just like [Guest Search](#guest-search) except that
-     * it does't return the posts between blocked users.
+     * it does't return the posts between blocked users,
+     * posts that are hidden or reported by the current user
+     * and posts from apexComs that the current user is blocked from
+     * it also doesn't return blocked users
+     * and the apexComs that the user is blocked from.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -124,7 +156,7 @@ class GeneralController extends Controller
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->_removeBlockedPosts(collect($result), $request['token']);
+        return $this->_filterResult(collect($result), $request['token']);
     }
 
 
@@ -223,7 +255,9 @@ class GeneralController extends Controller
     /**
      * User Sort Posts
      * Just like [Guest Sort Posts](#guest-sort-posts), except that
-     * it does't return the posts between blocked users.
+     * it does't return the posts between blocked users
+     * and posts that are hidden or reported by the current user
+     * and posts from apexComs that the current user is blocked from.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -251,7 +285,7 @@ class GeneralController extends Controller
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->_removeBlockedPosts(collect($result), $request['token']);
+        return $this->_filterResult(collect($result), $request['token']);
     }
 
     /**
@@ -276,8 +310,8 @@ class GeneralController extends Controller
 
 
     /**
-     * getSubscribers
-     * Returns a list of the users subscribed to a certain ApexComm.
+     * GetSubscribers
+     * Returns a list of the users subscribed to a certain ApexCom to a logged in user.
      * Success Cases :
      * 1) Return the result successfully.
      * failure Cases:
@@ -338,7 +372,7 @@ class GeneralController extends Controller
 
         // get the subscribers' for the apexcom user IDs.
         $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
-        $subscribers = User::joinSub(
+        $subscribers = User::select('id', 'username')->joinSub(
             $subscribers_id,
             'apex_subscribers',
             function ($join) {
@@ -351,8 +385,31 @@ class GeneralController extends Controller
     }
 
     /**
-     * guestGetetSubscribers
-     * Returns a list of the users subscribed to a certain ApexComm.
+     * GuestGetSubscribers
+     * Returns a list of the users subscribed to a certain ApexCom.
+     * Success Cases :
+     * 1) Return the result successfully.
+     * failure Cases:
+     * 2) ApexComm Fullname (ID) is not found.
+     *
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 200 {
+     * "subscribers": [
+     *   {
+     *       "id": "t2_1017",
+     *       "fullname": null,
+     *       "email": "ms16@gmail.com",
+     *       "username": "ms16",
+     *       "avatar": "storage/avatars/users/default.png",
+     *       "karma": 1,
+     *       "notification": 1,
+     *       "type": 3,
+     *       "created_at": "2019-03-23 21:34:24",
+     *       "updated_at": "2019-03-23 21:34:24",
+     *       "userID": "t2_1017"
+     *   }
+     *  ]
+     * }
      *
      * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
      */
@@ -371,7 +428,7 @@ class GeneralController extends Controller
 
         // get the subscribers' for the apexcom user IDs.
         $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
-        $subscribers = User::joinSub(
+        $subscribers = User::select('id', 'username')->joinSub(
             $subscribers_id,
             'apex_subscribers',
             function ($join) {
