@@ -10,5 +10,7 @@ services:
       volumes:
         - front:/app/TODO
         - ./.env:/app/.env
+        - ./app/vendor/:/app/vendor
+        - ./app/storage/logs:/app/storage/logs
 volumes:
   front:

@@ -23,7 +23,9 @@ main() {
 		   docker-compose up --build --no-deps -d"
 }
 
-BRANCH=${BRANCH:master}
+if [[ -z "$BRANCH" ]]; then
+	BRANCH=`git rev-parse --abbrev-ref HEAD`
+fi
 
 if [[ "$#" == 1 ]]; then
   GCP_KEYFILE_SECRET="$1"
