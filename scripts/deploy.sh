@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euox pipefail
+set -eox pipefail
 
 PROJECT_ID="lunar-clone-235511"
 COMPUTE_ZONE="us-central1-c"
@@ -19,12 +19,16 @@ main() {
 
     # run docker-compose
     gcloud compute ssh $VM_INSTANCE \
-	--command="sudo BRANCH=${BRANCH:master} \
+	--command="sudo BRANCH=${BRANCH} \
 		   docker-compose up --build --no-deps -d"
 }
 
+if [[ -z "$BRANCH" ]]; then
+	BRANCH=`git rev-parse --abbrev-ref HEAD`
+fi
+
 if [[ "$#" == 1 ]]; then
-  GCD_KEYFILE_SECRET="$2"
+  GCP_KEYFILE_SECRET="$1"
 else
   echo "Wrong number of arguments specified."
   echo "Usage: deploy.sh /path/to/keyfile"

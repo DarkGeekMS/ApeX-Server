@@ -2,7 +2,6 @@
 set -ex
 
 composer install -o
-php7 artisan key:generate
 
 if [[ "$MIGRATE" == 'true' ]]; then 
     php7 artisan migrate -v
