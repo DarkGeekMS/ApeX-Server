@@ -27,27 +27,17 @@ env:
   global:
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1 
 
-before_script:
-  - phpenv config-rm xdebug.ini # remove xdebug to speed up testing
-  - cp .env.example .env
-  - docker build . -t app-image --build-arg MIGRATE='true' --build-arg TEST='true'
-script:
-  - docker-compose up --exit-code-from app
+script: bash scripts/ci.sh
 
-# TODO: uncomment when cloud is available
-# before_deploy:
-#   - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
-#       rm -rf $HOME/google-cloud-sdk;
-#       curl https://sdk.cloud.google.com | bash > /dev/null;
-#     fi
-#   - source $HOME/google-cloud-sdk/path.bash.inc
-#   - gcloud version
-#   # TODO: use kube?
-#   # - gcloud components update kubectl
-#   # - kubectl version
-# deploy:
-#   skip_cleanup: true
-#   provider: script
-#   script: bash scripts/deploy.sh "TODO@gmail.com" "/path/to/TODO"
-#   on:
-#     tags: true
+before_deploy:
+  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+      rm -rf $HOME/google-cloud-sdk;
+      curl https://sdk.cloud.google.com | bash > /dev/null;
+    fi
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud version
+  - openssl aes-256-cbc -K $encrypted_12c8071d2874_key -iv $encrypted_12c8071d2874_iv -in ./scripts/encrypted-deploy-key -out ./scripts/deploy-key.json -d
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash -e BRANCH=master scripts/deploy.sh "./scripts/deploy-key.json"

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use App\Models\ApexCom;
 use App\Models\ApexBlock;
-use App\Models\subscriber;
+use App\Models\Subscriber;
 use App\Models\User;
 
 class AboutTest extends TestCase
@@ -33,7 +33,7 @@ class AboutTest extends TestCase
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400)->assertSee('Not authorized');;
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
@@ -98,8 +98,8 @@ class AboutTest extends TestCase
         $this->assertDatabaseHas('users', compact('username'));
 
         // get any apexcom and block the signed in user from
-        $apex_id = apexCom::all()->first()->id;
-        apexBlock::create(
+        $apex_id = ApexCom::all()->first()->id;
+        ApexBlock::create(
             [
                 'blockedID' => $id,
                 'ApexID' => $apex_id
@@ -125,7 +125,7 @@ class AboutTest extends TestCase
 
         // delete user added to database and blocked from apexblock table
 
-        apexBlock::where('blockedID', $id)->delete();
+        ApexBlock::where('blockedID', $id)->delete();
         User::where('id', $id)->delete();
 
         //check that the blocked user from apexcom is deleted from database
@@ -160,7 +160,7 @@ class AboutTest extends TestCase
         $this->assertDatabaseHas('users', compact('username'));
 
         //get any apex com and hit the route with it to get its about info
-        $apex_id = apexCom::all()->first()->id;
+        $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'POST',
             '/api/about',

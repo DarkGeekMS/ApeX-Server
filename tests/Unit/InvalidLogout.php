@@ -22,6 +22,6 @@ class InvalidLogout extends TestCase
             'token' => "invalid token"
             ]
         );
-        $logoutResponse->assertStatus(400)->assertSeeText("token_error");
+        $logoutResponse->assertStatus(400)->assertSeeText("Not authorized");
     }
 }

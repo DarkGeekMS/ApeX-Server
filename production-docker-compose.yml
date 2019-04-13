@@ -1,0 +1,16 @@
+version: '2'
+services:
+    app:
+      build:
+        context: https://${GITHUB_TOKEN}@github.com/DarkGeekMS/ApeX-Server.git#${BRANCH}
+      env_file:
+        - .env
+      ports:
+        - "80:80"
+      volumes:
+        - front:/app/TODO
+        - ./.env:/app/.env
+        - ./app/vendor/:/app/vendor
+        - ./app/storage/logs:/app/storage/logs
+volumes:
+  front:
