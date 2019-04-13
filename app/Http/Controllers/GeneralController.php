@@ -276,8 +276,8 @@ class GeneralController extends Controller
 
 
     /**
-     * getSubscribers
-     * Returns a list of the users subscribed to a certain ApexComm.
+     * GetSubscribers
+     * Returns a list of the users subscribed to a certain ApexCom to a logged in user.
      * Success Cases :
      * 1) Return the result successfully.
      * failure Cases:
@@ -338,7 +338,7 @@ class GeneralController extends Controller
 
         // get the subscribers' for the apexcom user IDs.
         $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
-        $subscribers = User::joinSub(
+        $subscribers = User::select('id', 'username')->joinSub(
             $subscribers_id,
             'apex_subscribers',
             function ($join) {
@@ -351,8 +351,31 @@ class GeneralController extends Controller
     }
 
     /**
-     * guestGetetSubscribers
-     * Returns a list of the users subscribed to a certain ApexComm.
+     * GuestGetSubscribers
+     * Returns a list of the users subscribed to a certain ApexCom.
+     * Success Cases :
+     * 1) Return the result successfully.
+     * failure Cases:
+     * 2) ApexComm Fullname (ID) is not found.
+     *
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 200 {
+     * "subscribers": [
+     *   {
+     *       "id": "t2_1017",
+     *       "fullname": null,
+     *       "email": "ms16@gmail.com",
+     *       "username": "ms16",
+     *       "avatar": "storage/avatars/users/default.png",
+     *       "karma": 1,
+     *       "notification": 1,
+     *       "type": 3,
+     *       "created_at": "2019-03-23 21:34:24",
+     *       "updated_at": "2019-03-23 21:34:24",
+     *       "userID": "t2_1017"
+     *   }
+     *  ]
+     * }
      *
      * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
      */
@@ -371,7 +394,7 @@ class GeneralController extends Controller
 
         // get the subscribers' for the apexcom user IDs.
         $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
-        $subscribers = User::joinSub(
+        $subscribers = User::select('id', 'username')->joinSub(
             $subscribers_id,
             'apex_subscribers',
             function ($join) {
