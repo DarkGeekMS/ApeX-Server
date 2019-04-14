@@ -63,7 +63,7 @@ class ApexComController extends Controller
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then about information of apexcom is returned.
-     * 
+     *
      * Success Cases :
      * 1) return the information about the ApexCom.
      * failure Cases:
@@ -121,7 +121,7 @@ class ApexComController extends Controller
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
      * Then, The about information of apexcom is returned.
-     * 
+     *
      * ###Success Cases :
      * 1) return the information about the ApexCom.
      * ###failure Cases:
@@ -129,7 +129,7 @@ class ApexComController extends Controller
      * 2) ApexCom fullname (ApexCom_id) is not found.
      *
      * @authenticated
-     * 
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
@@ -201,7 +201,7 @@ class ApexComController extends Controller
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
      * Validation to request parameters is done, the post shall contain title and at least a body, an image, or a video url.
      * if validation fails logical error is returned, else a new post is added and return 'created'.
-     * 
+     *
      * ###Success Cases :
      * 1) return true to ensure that the post was added to the ApexCom successfully.
      * ###failure Cases:
@@ -211,7 +211,7 @@ class ApexComController extends Controller
      * 4) NoAccessRight token is not authorized.
      *
      * @authenticated
-     * 
+     *
      * @bodyParam ApexCom_id string required The fullname of the community where the post is posted.
      * @bodyParam title string required The title of the post.
      * @bodyParam body string The text body of the post.
@@ -310,7 +310,7 @@ class ApexComController extends Controller
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
      * If, the user already subscribes this apexcom, it will delete the subscription and return 'unsubscribed'.
      * Else, the user will subscribe the apexcom, and it will return 'subscribed'.
-     * 
+     *
      * ###Success Cases :
      * 1) return true to ensure that the subscription or unsubscribtion has been done successfully.
      * ###failure Cases:
@@ -318,7 +318,7 @@ class ApexComController extends Controller
      * 2) ApexCom fullname (ApexCom_id) is not found.
      *
      * @authenticated
-     * 
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
@@ -389,15 +389,15 @@ class ApexComController extends Controller
      * If, the validation fails all validation errors are returned.
      * Then, check if the apexcom with this name exists or not, if it already exists then its data is updatad and return 'updated'.
      * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
-     * 
+     *
      * ###Success Cases :
      * 1) return true to ensure that the ApexCom was created  successfully.
      * ###failure Cases:
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
-     * 
+     *
      * @authenticated
-     * 
+     *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 400 {"error":"No Access Rights to create or edit an ApexCom"}
      * @response 400 {"name":["The name field is required."]}
@@ -452,8 +452,15 @@ class ApexComController extends Controller
 
         if (!$exists) {
             // making the id of the new apexcom and creating it
-            $count = apexComModel::selectRaw('CONVERT( SUBSTR(id, 4), INT ) AS intID')->get()->max('intID');
-            $id = 't5_'.((int)$count+1);
+            $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
+            $id = "t5_1";
+            if ($lastapex) {
+                $count = DB::table('apex_coms') ->where('created_at', $lastapex->created_at)->count();
+                $id = $lastapex->id;
+                $newIdx = (int)explode("_", $id)[1];
+                $id = "t5_".($newIdx+$count);
+            }
+
             $v = $request->all();
             $v['id'] = $id;
             apexComModel::create($v);
