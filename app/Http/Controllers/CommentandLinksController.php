@@ -816,16 +816,17 @@ class CommentandLinksController extends Controller
      */
 
      /**
-      * add.
-      * This Function used to comment on post or another comment or reply to private message.
+      * vote.
+      * This Function used to vote on comment or post by a logged in user.
       *
-      * It makes sure that the user who want to add the comment (or reply) exists in our app,
-      * Then check what kind of action he want to take depending on the parent ID sent to the function.
-      * as the comment component ID starts with t1 so if the sent id t1 + value,
-      * So he want to reply on comment and so on.
-      * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
-      * check the post\comment owner exists or not ( if not action not valid)
-      * then add the comment\msg reply content in the specific table in the database.
+      * It makes sure that the user who want to vote on post/comment exists in our app,
+      * Then check the vote will be on comment or post.
+      * as the comment component ID starts with t1_ but post with t3_.
+      * check if the user voted on this post/comment before.
+      * if not create the record and sum the votes on this post/comment then return it.
+      * if it's not the first time for this user to vote on this post/comment,
+      * check if the new vote on is the same as the previous one cancel this record return the updated votes count.
+      * if not update the vote record with the new value and return the updated votes count of the post/comment.
       *
       * @param string token the JWT representation of the user in frontend.
       * @param integer dir the direction of vote.
