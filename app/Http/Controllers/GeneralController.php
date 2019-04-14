@@ -310,13 +310,20 @@ class GeneralController extends Controller
 
 
     /**
-     * GetSubscribers
-     * Returns a list of the users subscribed to a certain ApexCom to a logged in user.
-     * Success Cases :
+     * Get Subscribers
+     * Returns a list of the users subscribed to a certain ApexCom to an authorized user.
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the authorized user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Then, it gets the username and id of the subscribers and returns them.
+     * 
+     * ###Success Cases :
      * 1) Return the result successfully.
-     * failure Cases:
+     * ###failure Cases:
      * 1) Return empty list if there are no subscribers.
      * 2) ApexComm Fullname (ID) is not found.
+     * 3) User blocked from this apexcom.
+     * 
+     * @authenticated
      *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
@@ -339,7 +346,7 @@ class GeneralController extends Controller
      *  ]
      * }
      *
-     * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
+     * @bodyParam ApexCommID string required The ID of the ApexCom that contains the subscribers.
      * @bodyParam token JWT required Verifying user ID.
      */
 
@@ -386,10 +393,13 @@ class GeneralController extends Controller
 
     /**
      * GuestGetSubscribers
-     * Returns a list of the users subscribed to a certain ApexCom.
-     * Success Cases :
+     * Returns a list of the users subscribed to a certain ApexCom to a guest user. 
+     * It first checks the apexcom id, if it was not found an error is returned.
+     * it gets the username and id of the subscribers and returns them.
+     * 
+     * ###Success Cases :
      * 1) Return the result successfully.
-     * failure Cases:
+     * ###failure Cases:
      * 2) ApexComm Fullname (ID) is not found.
      *
      * @response 404 {"error":"ApexCom is not found."}

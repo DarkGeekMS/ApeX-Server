@@ -59,8 +59,11 @@ class ApexComController extends Controller
     }
 
     /**
-     * Guestabout
+     * Guest about
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then about information of apexcom is returned.
+     * 
      * Success Cases :
      * 1) return the information about the ApexCom.
      * failure Cases:
@@ -115,12 +118,18 @@ class ApexComController extends Controller
     /**
      * About
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count) with a logged in user.
-     * Success Cases :
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Then, The about information of apexcom is returned.
+     * 
+     * ###Success Cases :
      * 1) return the information about the ApexCom.
-     * failure Cases:
-     * 1) NoAccessRight the token does not support to view the about information.
+     * ###failure Cases:
+     * 1) User is blocked from this apexcom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
      *
+     * @authenticated
+     * 
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
@@ -188,16 +197,23 @@ class ApexComController extends Controller
     /**
      * Post
      * to post text , image or video in any ApexCom.
-     * Success Cases :
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Validation to request parameters is done, the post shall contain title and at least a body, an image, or a video url.
+     * if validation fails logical error is returned, else a new post is added and return 'created'.
+     * 
+     * ###Success Cases :
      * 1) return true to ensure that the post was added to the ApexCom successfully.
-     * failure Cases:
-     * 1) NoAccessRight the token does not support to Create a post in this ApexCom.
+     * ###failure Cases:
+     * 1) User is blocked from this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
      * 3) Not including text , image or video in the request.
      * 4) NoAccessRight token is not authorized.
      *
+     * @authenticated
+     * 
      * @bodyParam ApexCom_id string required The fullname of the community where the post is posted.
-     * @bodyParam title string required The title the post.
+     * @bodyParam title string required The title of the post.
      * @bodyParam body string The text body of the post.
      * @bodyParam img_name string The attached image to the post.
      * @bodyParam video_url string The url to attached video to the post.
@@ -289,13 +305,20 @@ class ApexComController extends Controller
 
     /**
      * Subscribe
-     * for a user to subscribe in any ApexCom.
-     * Success Cases :
+     * for a user to subscribe an ApexCom.
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * If, the user already subscribes this apexcom, it will delete the subscription and return 'unsubscribed'.
+     * Else, the user will subscribe the apexcom, and it will return 'subscribed'.
+     * 
+     * ###Success Cases :
      * 1) return true to ensure that the subscription or unsubscribtion has been done successfully.
-     * failure Cases:
-     * 1) NoAccessRight the token does not support to subscribe this ApexCom.
+     * ###failure Cases:
+     * 1) user blocked from this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
      *
+     * @authenticated
+     * 
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
@@ -359,14 +382,22 @@ class ApexComController extends Controller
 
 
     /**
-     * SiteAdmin
-     * used by the site admin to create new ApexCom.
-     * Success Cases :
+     * Site Admin
+     * Used by the site admin to create or update a new ApexCom.
+     * First, a verification that the user creating or updating apexcom is an admin, if not a logical error is returned.
+     * Then, validating the request parameters the name, description and rules are required, banner and avatar are optional but they should be images.
+     * If, the validation fails all validation errors are returned.
+     * Then, check if the apexcom with this name exists or not, if it already exists then its data is updatad and return 'updated'.
+     * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
+     * 
+     * ###Success Cases :
      * 1) return true to ensure that the ApexCom was created  successfully.
-     * failure Cases:
+     * ###failure Cases:
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
-     *
+     * 
+     * @authenticated
+     * 
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 400 {"error":"No Access Rights to create or edit an ApexCom"}
      * @response 400 {"name":["The name field is required."]}
