@@ -29,6 +29,7 @@ env:
 
 script: bash scripts/ci.sh
 
+
 before_deploy:
   - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
       rm -rf $HOME/google-cloud-sdk;
