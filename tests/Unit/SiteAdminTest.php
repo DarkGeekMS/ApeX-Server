@@ -31,7 +31,7 @@ class SiteAdminTest extends TestCase
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400)->assertSee('Not authorized');;
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
@@ -199,7 +199,7 @@ class SiteAdminTest extends TestCase
         User::where('id', $id)->update(['type' => 3]);
 
         // hit the route with the admin with complete information
-        $name = 'sports';
+        $name = 'kareemOsama';
         $response = $this->json(
             'POST',
             '/api/site_admin',
