@@ -8,7 +8,9 @@ if [[ "$MIGRATE" == 'true' ]]; then
     composer dump-autoload
     php7 artisan DB:seed
     php7 artisan jwt:secret
+
 fi
+
 
 runTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
 serve() { php7 artisan serve --host=0.0.0.0 --port=80; }
