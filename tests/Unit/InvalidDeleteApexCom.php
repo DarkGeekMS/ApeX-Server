@@ -76,7 +76,6 @@ class InvalidDeleteApexCom extends TestCase
         $rules='none';
         $description='none';
         DB::table('apex_coms')-> insert(['id' => $id, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
-    //to unsave a saved post
         $delResponse = $this->json(
             'DELETE',
             '/api/del_account',

@@ -49,7 +49,8 @@ class ValidDeleteUser extends TestCase
             '/api/del_user',
             [
             'token' => $token,
-            'UserID' => $id
+            'UserID' => $id,
+            'passwordConfirmation'=>'123456'
             ]
         );
         $delResponse->assertStatus(200)->assertDontSee("token_error");
@@ -113,7 +114,8 @@ class ValidDeleteUser extends TestCase
             '/api/del_user',
             [
             'token' => $token,
-            'UserID' => $id
+            'UserID' => $id,
+            'passwordConfirmation'=>'12'
             ]
         );
         $delResponse->assertStatus(200)->assertDontSee("token_error");

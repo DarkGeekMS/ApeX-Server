@@ -28,13 +28,9 @@ class InvalidAddMoerator extends TestCase
         );
         $token = $adminLoginResponse->json("token");
 
-    //creating a dummy apexcom
-        $apexid='100';
-        $name='m';
-        $rules='none';
-        $description='none';
-        DB::table('apex_coms')-> insert(['id' => $apexid, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
-
+    //id of an existing apexcom
+        $apexid='t5_10';
+ 
         $addResponse = $this->json(
             'POST',
             '/api/add_moderator',
@@ -45,7 +41,6 @@ class InvalidAddMoerator extends TestCase
             ]
         );
         $addResponse->assertStatus(403)->assertDontSee("token_error");
-        DB::table('apex_coms')->where('id', '=', $apexid)->delete();
     }
   /**
    *Test an admin add a moderator to an apexcom
@@ -98,7 +93,7 @@ class InvalidAddMoerator extends TestCase
             [
               'token' => $token,
               'UserID' => $id,
-              'ApexComID'=>'1000'         //wron apexid
+              'ApexComID'=>'1000'         //wrong apexid
             ]
         );
         $addResponse->assertStatus(404)->assertDontSee("token_error");
@@ -149,13 +144,9 @@ class InvalidAddMoerator extends TestCase
         );
         $id = $meResponse->getData()->user->id;
 
-    //creating a dummy apexcom
-        $apexid='100';
-        $name='m';
-        $rules='none';
-        $description='none';
-        DB::table('apex_coms')-> insert(['id' => $apexid, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
-
+        //id of an existing apexcom
+        $apexid='t5_10';
+ 
         $addResponse = $this->json(
             'POST',
             '/api/add_moderator',
@@ -166,6 +157,5 @@ class InvalidAddMoerator extends TestCase
             ]
         );
         $addResponse->assertStatus(500)->assertDontSee("token_error");
-        DB::table('apex_coms')->where('id', '=', $apexid)->delete();
     }
 }
