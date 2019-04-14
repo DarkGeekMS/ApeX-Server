@@ -2,6 +2,7 @@
 set -ex
 
 composer install -o
+npm install
 
 if [[ "$MIGRATE" == 'true' ]]; then 
     php7 artisan migrate -v

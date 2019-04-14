@@ -19,7 +19,9 @@ RUN apk update \
         php-mysqli \
         php-mysqlnd \
         php-simplexml \
-        composer 
+        composer \
+        npm \
+        git
 
 # pass `--build-arg MIGRATE=true` on building to run migrations
 ARG MIGRATE
