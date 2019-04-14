@@ -26,7 +26,7 @@ services:
 
   e2e:
     build:
-      image: https://${GITHUB_TOKEN}@github.com/RehamGamal97/apeXTesting
+      context: https://${GITHUB_TOKEN}@github.com/RehamGamal97/apeXTesting
       args:
         SERVER_URL: http://app:80 
 

@@ -12,4 +12,4 @@ env PORT=8080 MIGRATE='true' TEST='true' docker-compose up --build --exit-code-f
 #git clone https://${GITHUB_TOKEN}@github.com/RehamGamal97/apeXTesting e2e
 #docker run -it --rm -v "$(pwd)"/e2e/:/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 chmod +x /usr/src/mymaven/driver/chromedriver.exe
 #docker run -it --rm -v "$(pwd)"/e2e/:/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
-env PORT=8080 docker-compose -f e2e-docker-compose.yml up --build --exit-code-from testing
+env PORT=8080 docker-compose -f e2e-docker-compose.yml up --build --exit-code-from e2e
