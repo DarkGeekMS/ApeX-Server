@@ -74,29 +74,55 @@ class AccountController extends Controller
       * The function takes the email, username and password and validates them
       * if the validation is failed it will return an error response and if it is
       * successeded it will generate a new id for the new user then it will hash its
-      * password and creates a new user with the given data and creates a default 
+      * password and creates a new user with the given data and creates a default
       * avatar then it will save the user into the database then it will generate a
       * JWT token from its data and returns the token with the data as a response.
       *
       * @param string email The user's email.
       * @param string username The user's username.
       * @param string password The user's password.
-      * 
+      *
       * @return json the user data and the token.
       *
       */
     public function signUp(Request $request)
     {
         //validating the input data to be correct
-        $validator = Validator::make(
+        $validator1 = Validator::make(
             $request->all(),
             [
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:6',
+            'email' => 'required|string|email|max:100|unique:users'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator1->fails()) {
+            return response()->json(['error' => 'Invalid email or Email already exists'], 400);
+        }
+
+        $validator2 = Validator::make(
+            $request->all(),
+            [
+            'password' => 'required|string|min:6'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator2->fails()) {
+            return response()->json(['error' => 'Invalid password less than 6 chars'], 400);
+        }
+        $validator3 = Validator::make(
+            $request->all(),
+            [
             'username' => 'required|string|max:50|unique:users',
             'avatar' => 'image'
             ]
         );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator3->fails()) {
+            return response()->json(['error' => 'Username already exists'], 400);
+        }
 
         $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
         $id = "t2_1";
@@ -105,12 +131,6 @@ class AccountController extends Controller
             $id = $lastUser->id;
             $newIdx = (int)explode("_", $id)[1];
             $id = "t2_".($newIdx+$count);
-        }
-
-        //Returning the validation errors in case of validation failure
-        if ($validator->fails()) {
-            //converting the errors to json and returning them with 400 status code
-            return response()->json($validator->errors(), 400);
         }
 
         $requestData = $request->all();
@@ -161,13 +181,13 @@ class AccountController extends Controller
      /**
       * Signs in the user into the website.
       *
-      * The function first extracts the credentials of the user and checks for them 
+      * The function first extracts the credentials of the user and checks for them
       * if they are wrong it will return an error message, else it will generate a
       * jwt token and returns it.
       *
       * @param string username The user's username.
       * @param string password The user's password.
-      * 
+      *
       * @return JWT The user's JWT token.
       *
       */
@@ -217,19 +237,19 @@ class AccountController extends Controller
       * Sends a code to the email to reset password.
       *
       * The function first validates the input username and if the validator fails it
-      * will return an error else it will check if the user exists in the website if 
+      * will return an error else it will check if the user exists in the website if
       * it doesn't exist it will return an error, Then it will generate random code
       * and send it to the user's email, Then it will delete all codes in the
       * database asssociated with the user if exists then it will save the new code
       * in the database and return a success message.
       *
       * @param string username The user's username.
-      * 
+      *
       * @return Json A status message indicating the mail is sent or not.
       *
       */
 
-     
+
 
     public function mailVerify(Request $request)
     {
@@ -305,7 +325,7 @@ class AccountController extends Controller
       *
       * @param string username The user's username.
       * @param string code The user's forgot password code.
-      * 
+      *
       * @return Json a boolean value to indicate whether the code is correct or not.
       *
       */
@@ -376,7 +396,7 @@ class AccountController extends Controller
       * value equals to null to indicate a successfull logout.
       *
       * @param JWT token The user's JWT token.
-      * 
+      *
       * @return Json returns null or an error message.
       *
       */
@@ -552,7 +572,7 @@ class AccountController extends Controller
       * case else it will return the user object of the token.
       *
       * @param JWT token The user's token.
-      * 
+      *
       * @return Json The user's object as json or an error message.
       *
       */
@@ -595,17 +615,23 @@ class AccountController extends Controller
         $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
-        $info=DB::table('users')->where('id', '=', $id)->select('username','avatar','karma')->get();
+        $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
         $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
-        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
-        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
-        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')->where('moderators.userID', '=', $id)->select('name','description')->get();
+        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')
+        ->where('posts.posted_by', '=', $id)->select('content')->get();
+        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')
+        ->where('posts.posted_by', '=', $id)->select('content')->get();
+        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')
+        ->where('moderators.userID', '=', $id)->select('name', 'description')->get();
 
 
-        if($type == 2)
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
-        else
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
+        if ($type == 2) {
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
+        } else {
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
+        }
         return $json_output;
     }
 
