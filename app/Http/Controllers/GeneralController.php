@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
-use App\vote;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
-use App\subscriber;
-use App\apexCom;
-use App\apexBlock;
-use App\User;
-use App\Http\Controllers\Account;
-use App\post;
-use App\comment;
-use App\block;
-use Illuminate\Support\Collection;
+use App\Models\Subscriber;
+use App\Models\ApexCom;
+use App\Models\ApexBlock;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Block;
+use App\Models\Vote;
+use App\Models\ReportPost;
+use App\Models\Hidden;
 
-class General extends Controller
+class GeneralController extends Controller
 {
 
     /**
@@ -50,11 +52,11 @@ class General extends Controller
 
         $query = $request->input('query');
         try {
-            $apexComs = apexCom::where('name', 'like', '%'.$query.'%')
+            $apexComs = ApexCom::where('name', 'like', '%'.$query.'%')
                 ->orWhere('description', 'like', '%'.$query.'%')->get();
             $users = User::where('fullname', 'like', '%'.$query.'%')
                 ->orWhere('username', 'like', '%'.$query.'%')->get();
-            $posts = post::where('title', 'like', '%'.$query.'%')
+            $posts = Post::where('title', 'like', '%'.$query.'%')
                 ->orWhere('content', 'like', '%'.$query.'%')->get();
             return compact('posts', 'apexComs', 'users');
         } catch (\Exception $e) {
@@ -63,33 +65,56 @@ class General extends Controller
     }
 
     /**
-     * Just a helper fuction to remove posts from blocked users
-     *
+     * Just a helper fuction to remove posts from blocked users,
+     * posts that are hidden or reported by the current user
+     * and posts from apexComs that the current user is blocked from
+     * and remove blocked users and apexComs from the result 
+     * 
      * @param Collection $result the collection that contains posts
      * @param JWT        $token  to get the userID
      *
      * @return Response
      */
-    private function _removeBlockedPosts(Collection $result, $token)
+    private function _filterResult(Collection $result, $token)
     {
-        $account = new Account();
-        $meResponse = $account->me(new Request(['token' => $token]));
-        if (!array_key_exists('user', $meResponse->getData())) {
-            //there is token_error or user_not found_error
-            return $meResponse;
-        }
+        $account = new AccountController();
+        $meResponse = $account->me(new Request(compact('token')));
+
         $userID = $meResponse->getData()->user->id;
 
         try {
-            $blockList = block::where('blockerID', $userID)->pluck('blockedID');
+            $blockList = Block::where('blockerID', $userID)->pluck('blockedID');
             $blockList = $blockList->concat(
-                block::where('blockedID', $userID)->pluck('blockerID')
+                Block::where('blockedID', $userID)->pluck('blockerID')
             );
 
             //remove the posts that have been posted by a user in the blocklist
-            //and flatten the new collection so that it doesn't contain new keys
-            $result['posts'] = $result['posts']->whereNotIn('posted_by', $blockList)->flatten();
+            $result['posts'] = $result['posts']
+                ->whereNotIn('posted_by', $blockList)->flatten();
 
+            //create a list of posts ids that are hidden or reported by the current user
+            $postsList = ReportPost::where(compact('userID'))->pluck('postID');
+            $postsList = $postsList
+                ->concat(Hidden::where(compact('userID'))->pluck('postID'));
+            $result['posts'] = $result['posts']
+                ->whereNotIn('id', $postsList)->flatten();
+
+            //create a list of apexComs that the current user is blocked from
+            $apexList = ApexBlock::where('blockedID', $userID)->pluck('ApexID');
+            $result['posts'] = $result['posts']
+                ->whereNotIn('apex_id', $apexList)->flatten();
+
+            //remove blocked users from the result
+            if (array_key_exists('users', $result)) {
+                $result['users'] = $result['users']
+                    ->whereNotIn('id', $blockList)->flatten();
+            }
+
+            //remove from the result the apexComs that the user is blocked from 
+            if (array_key_exists('apexComs', $result)) {
+                $result['apexComs'] = $result['apexComs']
+                    ->whereNotIn('id', $apexList)->flatten();
+            }
             return $result;
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
@@ -99,7 +124,11 @@ class General extends Controller
     /**
      * User Search
      * Just like [Guest Search](#guest-search) except that
-     * it does't return the posts between blocked users.
+     * it does't return the posts between blocked users,
+     * posts that are hidden or reported by the current user
+     * and posts from apexComs that the current user is blocked from
+     * it also doesn't return blocked users
+     * and the apexComs that the user is blocked from.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -115,9 +144,7 @@ class General extends Controller
      * @responseFile responses\validSearch.json
      * @responseFile 400 responses\missingQueryParam.json
      * @responseFile 400 responses\invalidQuery.json
-     * @responseFile 400 responses\missingToken.json
-     * @responseFile 400 responses\invalidToken.json
-     * @responseFile 400 responses\invalidToken2.json
+     * @responseFile 400 responses\notAuthorized.json
      *
      * @bodyParam query string required The query to be searched for (at least 3 characters). Example: lorem
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
@@ -125,18 +152,11 @@ class General extends Controller
 
     public function userSearch(Request $request)
     {
-
-        $validator = validator($request->only('token'), ['token' => 'required']);
-
-        if ($validator->fails()) {
-            return response($validator->errors(), 400);
-        }
-
         $result = $this->guestSearch($request);
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->_removeBlockedPosts(collect($result), $request['token']);
+        return $this->_filterResult(collect($result), $request['token']);
     }
 
 
@@ -168,7 +188,8 @@ class General extends Controller
     public function guestSortPostsBy(Request $request)
     {
         $validator = validator(
-            $request->all(), [
+            $request->all(),
+            [
                 'apexComID' => 'string|nullable',
                 'sortingParam' => 'string|nullable'
             ]
@@ -183,26 +204,30 @@ class General extends Controller
             $sortingParam = 'date';
         }
         $apexComID = $request->input('apexComID', null);
-        $posts = post::query();
+        $posts = Post::query();
 
         if ($apexComID !== null) {
-            if (apexCom::where('id', $apexComID)->exists()) {
+            if (ApexCom::where('id', $apexComID)->exists()) {
                 $posts = $posts->where('apex_id', $apexComID);
             } else {
                 return response(['error' => 'ApexCom is not found.'], 404);
             }
         }
-        $votesTable = vote::select('postID', DB::raw('CONVERT(SUM(dir), int) AS votes'))->groupBy('postID');
-        $commentsTable = comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
+        $votesTable = Vote::select('postID', DB::raw('CONVERT(SUM(dir), int) AS votes'))->groupBy('postID');
+        $commentsTable = Comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
 
         $posts = $posts->leftJoinSub(
-            $votesTable, 'votes_table', function ($join) {
+            $votesTable,
+            'votes_table',
+            function ($join) {
                 $join->on('posts.id', '=', 'votes_table.postID');
             }
         );
 
         $posts = $posts->leftJoinSub(
-            $commentsTable, 'comments_table', function ($join) {
+            $commentsTable,
+            'comments_table',
+            function ($join) {
                 $join->on('posts.id', '=', 'comments_table.root');
             }
         );
@@ -222,7 +247,7 @@ class General extends Controller
                 $posts = $posts->orderBy('comments_num', 'desc')->get();
             }
             return compact('posts', 'sortingParam');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
     }
@@ -230,7 +255,9 @@ class General extends Controller
     /**
      * User Sort Posts
      * Just like [Guest Sort Posts](#guest-sort-posts), except that
-     * it does't return the posts between blocked users.
+     * it does't return the posts between blocked users
+     * and posts that are hidden or reported by the current user
+     * and posts from apexComs that the current user is blocked from.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -245,9 +272,7 @@ class General extends Controller
      *
      * @responseFile responses\validSort.json
      * @responseFile 404 responses\apexComNotFound.json
-     * @responseFile 400 responses\missingToken.json
-     * @responseFile 400 responses\invalidToken.json
-     * @responseFile 400 responses\invalidToken2.json
+     * @responseFile 400 responses\notAuthorized.json
      *
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
@@ -256,17 +281,11 @@ class General extends Controller
     public function userSortPostsBy(Request $request)
     {
 
-        $validator = validator($request->only('token'), ['token' => 'required']);
-
-        if ($validator->fails()) {
-            return response($validator->errors(), 400);
-        }
-
         $result = $this->guestSortPostsBy($request);
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->_removeBlockedPosts(collect($result), $request['token']);
+        return $this->_filterResult(collect($result), $request['token']);
     }
 
     /**
@@ -282,7 +301,7 @@ class General extends Controller
     public function apexNames()
     {
         try {
-            $Anames = apexCom::select('id', 'name')->get();
+            $Anames = ApexCom::select('id', 'name')->get();
             return response()->json([$Anames], 200);
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
@@ -291,35 +310,59 @@ class General extends Controller
 
 
     /**
-     * getSubscribers
-     * Returns a list of the users subscribed to a certain ApexComm.
-     * Success Cases :
+     * Get Subscribers
+     * Returns a list of the users subscribed to a certain ApexCom to an authorized user.
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the authorized user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Then, it gets the username and id of the subscribers and returns them.
+     * 
+     * ###Success Cases :
      * 1) Return the result successfully.
-     * failure Cases:
+     * ###failure Cases:
      * 1) Return empty list if there are no subscribers.
      * 2) ApexComm Fullname (ID) is not found.
+     * 3) User blocked from this apexcom.
+     * 
+     * @authenticated
      *
-     * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
-     * @bodyParam _token string required Verifying user ID.
+     * @response 400 {"token_error":"The token could not be parsed from the request"}
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 400 {"error":"You are blocked from this Apexcom"}
+     * @response 200 {
+     * "subscribers": [
+     *   {
+     *       "id": "t2_1017",
+     *       "fullname": null,
+     *       "email": "ms16@gmail.com",
+     *       "username": "ms16",
+     *       "avatar": "storage/avatars/users/default.png",
+     *       "karma": 1,
+     *       "notification": 1,
+     *       "type": 3,
+     *       "created_at": "2019-03-23 21:34:24",
+     *       "updated_at": "2019-03-23 21:34:24",
+     *       "userID": "t2_1017"
+     *   }
+     *  ]
+     * }
+     *
+     * @bodyParam ApexCommID string required The ID of the ApexCom that contains the subscribers.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
     public function getSubscribers(Request $request)
     {
-        $account = new Account();
+        $account = new AccountController();
 
         // getting the user_id and user_type related to the token in the request and validate.
-        $user_id = $account->me($request);
-        if (!array_key_exists('user', $user_id->getData())) {
-                //there is token_error or user_not found_error
-                return $user_id;
-        }
+
         $User = $account->me($request)->getData()->user;
         $user_id = $User->id;
 
         $apex_id = $request['ApexCommID'];
 
         // checking if the apexCom exists.
-        $exists = apexCom::where('id', $apex_id)->count();
+        $exists = ApexCom::where('id', $apex_id)->count();
 
         // return an error message if the id (fullname) of the apexcom was not found.
         if (!$exists) {
@@ -327,7 +370,7 @@ class General extends Controller
         }
 
         // check if the validated user was blocked from the apexcom.
-        $blocked = apexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id]])->count();
+        $blocked = ApexBlock::where([['ApexID', '=',$apex_id],['blockedID', '=',$user_id]])->count();
 
         // return an error for if the user was blocked from the apexcom.
         if ($blocked != 0) {
@@ -335,8 +378,67 @@ class General extends Controller
         }
 
         // get the subscribers' for the apexcom user IDs.
-        $subscribers_id = subscriber::select('userID')->where('apexID', '=', $apex_id);
-        $subscribers = User::joinSub(
+        $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
+        $subscribers = User::select('id', 'username')->joinSub(
+            $subscribers_id,
+            'apex_subscribers',
+            function ($join) {
+                $join->on('id', '=', 'userID');
+            }
+        )->get();
+
+        // return the subscribers user IDs.
+        return response()->json(compact('subscribers'));
+    }
+
+    /**
+     * GuestGetSubscribers
+     * Returns a list of the users subscribed to a certain ApexCom to a guest user. 
+     * It first checks the apexcom id, if it was not found an error is returned.
+     * it gets the username and id of the subscribers and returns them.
+     * 
+     * ###Success Cases :
+     * 1) Return the result successfully.
+     * ###failure Cases:
+     * 2) ApexComm Fullname (ID) is not found.
+     *
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 200 {
+     * "subscribers": [
+     *   {
+     *       "id": "t2_1017",
+     *       "fullname": null,
+     *       "email": "ms16@gmail.com",
+     *       "username": "ms16",
+     *       "avatar": "storage/avatars/users/default.png",
+     *       "karma": 1,
+     *       "notification": 1,
+     *       "type": 3,
+     *       "created_at": "2019-03-23 21:34:24",
+     *       "updated_at": "2019-03-23 21:34:24",
+     *       "userID": "t2_1017"
+     *   }
+     *  ]
+     * }
+     *
+     * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
+     */
+
+    public function guestGetSubscribers(Request $request)
+    {
+        $apex_id = $request['ApexCommID'];
+
+        // checking if the apexCom exists.
+        $exists = ApexCom::where('id', $apex_id)->count();
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
+        }
+
+        // get the subscribers' for the apexcom user IDs.
+        $subscribers_id = Subscriber::select('userID')->where('apexID', '=', $apex_id);
+        $subscribers = User::select('id', 'username')->joinSub(
             $subscribers_id,
             'apex_subscribers',
             function ($join) {

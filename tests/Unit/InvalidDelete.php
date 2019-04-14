@@ -19,7 +19,7 @@ class InvalidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -49,7 +49,7 @@ class InvalidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -78,7 +78,7 @@ class InvalidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Anyone',
             'password' => '451447'
@@ -107,7 +107,7 @@ class InvalidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'

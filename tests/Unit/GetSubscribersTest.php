@@ -6,10 +6,10 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use App\apexCom;
-use App\apexBlock;
-use App\subscriber;
-use \App\User;
+use App\Models\ApexCom;
+use App\Models\ApexBlock;
+use App\Models\Subscriber;
+use \App\Models\User;
 
 class GetSubscribersTest extends TestCase
 {
@@ -17,41 +17,81 @@ class GetSubscribersTest extends TestCase
 
     use WithFaker;
     /**
+     * Test the guest get subscribers with out a valid apexcom id and with a valid apexcom id.
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function guestTest()
+    {
+        // hit the route with out valid apexcomid
+        $response = $this->json(
+            'GET',
+            '/api/get_subscribers',
+            [
+                'ApexCommID' => '12354'
+            ]
+        );
+        
+        // an error that the apexcom is not found
+        $response->assertStatus(404)->assertSee('ApexCom is not found.');
+        
+        //get any apex com and hit the route with it to get its subscribers
+        $apex_id = ApexCom::all()->first()->id;
+        $response = $this->json(
+            'GET',
+            '/api/get_subscribers',
+            [
+                'ApexCommID' => $apex_id
+            ]
+        );
+
+        // a list of subscribers of apexcom should be returned.
+        $response->assertStatus(200);
+    } 
+    /**
      * Test with an Apexcom not found, and with out token.
-     * 
+     *
      * @test
      *
      * @return void
      */
     public function apexComNotFound()
     {
-        
+
         // hit the route with out token
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST',
+            '/api/get_subscribers',
+            [
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400);
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
         $password = $this->faker->password;
-        
+
         $signUp = $this->json(
-            'POST', '/api/sign_up', compact('email', 'username', 'password')
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
-        
+
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         $token = $signUp->json('token');
         // hit the route with an invalid id of an apexcom to get its subscribers
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST',
+            '/api/get_subscribers',
+            [
                 'token' => $token,
                 'ApexCommID' => '12354'
             ]
@@ -63,11 +103,11 @@ class GetSubscribersTest extends TestCase
         User::where('id', $id)->delete();
 
         //check that the user deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
     /**
      * User Blocked from apexcom.
-     * 
+     *
      * @test
      *
      * @return void
@@ -78,19 +118,21 @@ class GetSubscribersTest extends TestCase
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
         $password = $this->faker->password;
-        
+
         $signUp = $this->json(
-            'POST', '/api/sign_up', compact('email', 'username', 'password')
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         // get any apexcom and block the signed in user from
-        $apex_id = apexCom::all()->first()->id;
-        apexBlock::create(
+        $apex_id = ApexCom::all()->first()->id;
+        ApexBlock::create(
             [
                 'blockedID' => $id,
                 'ApexID' => $apex_id
@@ -103,7 +145,9 @@ class GetSubscribersTest extends TestCase
 
         // hit the route with the blocked user
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST',
+            '/api/get_subscribers',
+            [
                 'token' => $signUp->json('token'),
                 'ApexCommID' => $apex_id
             ]
@@ -113,19 +157,19 @@ class GetSubscribersTest extends TestCase
         $response->assertStatus(400)->assertSee('You are blocked from this Apexcom');
 
         // delete user added to database and blocked from apexblock table
-        
-        apexBlock::where('blockedID', $id)->delete();
+
+        ApexBlock::where('blockedID', $id)->delete();
         User::where('id', $id)->delete();
 
         //check that the blocked user from apexcom is deleted from database
         $this->assertDatabaseMissing('apex_blocks', compact('blockedID', 'ApexID'));
 
         // check that the user added in test function is deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
     /**
      * User gets the subscribers of an apexcom.
-     * 
+     *
      * @test
      *
      * @return void
@@ -136,20 +180,24 @@ class GetSubscribersTest extends TestCase
         $username = $this->faker->unique()->userName;
         $email = $this->faker->unique()->safeEmail;
         $password = $this->faker->password;
-        
+
         $signUp = $this->json(
-            'POST', '/api/sign_up', compact('email', 'username', 'password')
+            'POST',
+            '/api/sign_up',
+            compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
-        
+
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
-        
+        $this->assertDatabaseHas('users', compact('username'));
+
         //get any apex com and hit the route with it to get its subscribers
-        $apex_id = apexCom::all()->first()->id;
+        $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
-            'GET', '/api/get_subscribers', [
+            'POST',
+            '/api/get_subscribers',
+            [
                 'token' => $signUp->json('token'),
                 'ApexCommID' => $apex_id
             ]
@@ -162,6 +210,6 @@ class GetSubscribersTest extends TestCase
         User::where('id', $id)->delete();
 
         //check that the added user is deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
 }

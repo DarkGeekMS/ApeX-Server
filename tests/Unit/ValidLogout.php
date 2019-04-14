@@ -29,7 +29,7 @@ class ValidLogout extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => $username,
             'password' => '1234567'

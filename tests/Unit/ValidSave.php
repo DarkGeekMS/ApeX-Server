@@ -27,7 +27,7 @@ class SaveValid extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -44,6 +44,13 @@ class SaveValid extends TestCase
             ]
         );
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
  /**
@@ -56,7 +63,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -73,6 +80,13 @@ class SaveValid extends TestCase
             ]
         );
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
  /**
@@ -85,7 +99,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -102,6 +116,13 @@ class SaveValid extends TestCase
             ]
         );
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
  /**
    *
@@ -113,7 +134,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -130,5 +151,12 @@ class SaveValid extends TestCase
             ]
         );
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 }

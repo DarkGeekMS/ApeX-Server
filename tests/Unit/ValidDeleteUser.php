@@ -16,85 +16,115 @@ class ValidDeleteUser extends TestCase
    */
     public function Deactivate()
     {
-        
+
         $SignupResponse = $this->json(
-            'POST', '/api/sign_up', [
+            'POST',
+            '/api/sign_up',
+            [
             'email' => 'sebak@gmail.com',
             'password' => '123456',
             'username' => 'sebak',
             ]
         );
         $loginResponse = $this->json(
-            'POST', '/api/Sign_in', [
+            'POST',
+            '/api/sign_in',
+            [
             'username' => 'sebak',
             'password' => '123456'
             ]
         );
         $token = $loginResponse->json("token");
         $meResponse = $this->json(
-            'POST','/api/me',[
+            'POST',
+            '/api/me',
+            [
             'token' => $token
             ]
         );
         $id = $meResponse->getData()->user->id;
-        //to delete a user 
+        //to delete a user
         $delResponse = $this->json(
-            'DELETE', '/api/del_user', [
+            'DELETE',
+            '/api/del_user',
+            [
             'token' => $token,
-            'UserID' => $id  
+            'UserID' => $id,
+            'passwordConfirmation'=>'123456'
             ]
         );
         $delResponse->assertStatus(200)->assertDontSee("token_error");
-        
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
-    
+
  /**
    *Test an admin delete an existing user
    * @test
    *
    * @return void
    */
-  public function AdminDelete()
-  { 
+    public function AdminDelete()
+    {
       //sign in with an admin account
-      $adminLoginResponse = $this->json(
-          'POST', '/api/Sign_in', [
-          'username' => 'king',
-          'password' => 'queen12'
-          ]
-      );
-      $token = $adminLoginResponse->json("token");
+        $adminLoginResponse = $this->json(
+            'POST',
+            '/api/sign_in',
+            [
+            'username' => 'king',
+            'password' => 'queen12'
+            ]
+        );
+        $token = $adminLoginResponse->json("token");
       //user to deleted
-      $userSignupResponse = $this->json(
-        'POST', '/api/sign_up', [
-        'email' => 'sebak@gmail.com',
-        'password' => '123456',
-        'username' => 'sebak',
-        ]
-    );
-    $userLoginResponse = $this->json(
-        'POST', '/api/Sign_in', [
-        'username' => 'sebak',
-        'password' => '123456'
-        ]
-    );
-    $userToken = $userLoginResponse->json("token");
-    $meResponse = $this->json(
-        'POST','/api/me',[
-        'token' => $userToken
-        ]
-    );
-    $id = $meResponse->getData()->user->id;
-     
-    $delResponse = $this->json(
-        'DELETE', '/api/del_user', [
-        'token' => $token,
-        'UserID' => $id  
-        ]
-    );
-    $delResponse->assertStatus(200)->assertDontSee("token_error");
-      
-  }
-  
-    
+        $userSignupResponse = $this->json(
+            'POST',
+            '/api/sign_up',
+            [
+              'email' => 'sebak@gmail.com',
+              'password' => '123456',
+              'username' => 'sebak',
+            ]
+        );
+        $userLoginResponse = $this->json(
+            'POST',
+            '/api/sign_in',
+            [
+            'username' => 'sebak',
+            'password' => '123456'
+            ]
+        );
+        $userToken = $userLoginResponse->json("token");
+        $meResponse = $this->json(
+            'POST',
+            '/api/me',
+            [
+            'token' => $userToken
+            ]
+        );
+        $id = $meResponse->getData()->user->id;
+
+        $delResponse = $this->json(
+            'DELETE',
+            '/api/del_user',
+            [
+            'token' => $token,
+            'UserID' => $id,
+            'passwordConfirmation'=>'12'
+            ]
+        );
+        $delResponse->assertStatus(200)->assertDontSee("token_error");
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
+    }
 }

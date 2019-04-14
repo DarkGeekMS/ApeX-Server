@@ -5,36 +5,13 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\block;
-use App\post;
+use App\Models\Block;
+use App\Models\Post;
+use App\Models\ApexBlock;
 
 class search extends TestCase
 {
     use WithFaker;
-
-    /**
-     * Just a helper fuction to check there is no posts shown between blocked users
-     *
-     * @param string $userID the apexComID that contains the posts
-     * @param array  $posts  the posts itself
-     *
-     * @return bool
-     */
-    private function _checkBlockedPosts($userID, $posts)
-    {
-        foreach ($posts as $post) {
-            $postWriterID = $post['posted_by'];
-            if (block::query()->where(
-                ['blockerID' => $userID, 'blockedID' => $postWriterID]
-            )->orWhere(
-                ['blockerID' => $postWriterID, 'blockedID' => $userID]
-            )->exists()
-            ) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Test Search request with valid query.
@@ -49,7 +26,7 @@ class search extends TestCase
             'GET',
             'api/search',
             [
-            'query' => 'lorem'
+            'query' => 'any'
             ]
         );
         $response->assertStatus(200);
@@ -57,59 +34,82 @@ class search extends TestCase
 
     /**
      * Tests userSearch
-     *
+     * Assumes that there are some records in the database
+     * 
      * @test
      *
      * @return void
      */
     public function userSearch()
     {
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
 
-        $signUpResponse = $this->json(
+        $loginResponse = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/sign_in',
+            ['username' => 'Monda Talaat', 'password' => 'monda21']
         );
-        $signUpResponse->assertStatus(200);
-
-        $token = $signUpResponse->json('token');
-        $userID = $signUpResponse->json('user')['id'];
-
-        //block some users before search
-        $posts = post::all();
-        for ($i=0; $i < count($posts)/2; $i++) {
-            $postWriterID = $posts[$i]['posted_by'];
-            if (!block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                block::insert(['blockerID' => $userID, 'blockedID' => $postWriterID]);
-            }
-        }
+        $token = $loginResponse->json('token');
+        $userID = $loginResponse->json('user')['id'];
 
         $response = $this->json(
             'POST',
             'api/search',
             [
-            'query' => 'lorem',
+            'query' => 'any',
             'token' => $token
             ]
         );
         $response->assertStatus(200);
 
+        //check that there are no posts from blocked users 
+        //or posts from apexComs that the user is blocked from
+        //or hidden posts or reported posts
         $posts = $response->json('posts');
-        $this->assertTrue($this->_checkBlockedPosts($userID, $posts));
-
-        //unblock blocked users
-        $posts = post::all();
-        for ($i=0; $i < count($posts)/2; $i++) {
-            $postWriterID = $posts[$i]['posted_by'];
-            if (block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->exists()) {
-                block::where(['blockerID' => $userID, 'blockedID' => $postWriterID])->delete();
-            }
+        foreach ($posts as $post) {
+            $postWriterID = $post['posted_by'];
+            $this->assertFalse(
+                Block::query()->where(
+                    ['blockerID' => $userID, 'blockedID' => $postWriterID]
+                )->orWhere(
+                    ['blockerID' => $postWriterID, 'blockedID' => $userID]
+                )->exists()
+            );
+            $this->assertDatabaseMissing(
+                'apex_blocks',
+                ['ApexID' => $post['apex_id'], 'blockedID' => $userID]
+            );
+            $this->assertDatabaseMissing(
+                'hiddens',
+                ['postID' => $post['id'], 'userID' => $userID]
+            );
+            $this->assertDatabaseMissing(
+                'report_posts',
+                ['postID' => $post['id'], 'userID' => $userID]
+            );
         }
 
-        \App\User::where('id', $userID)->delete();
+        //check that there is no blocked users shown in the results
+        $users = $response->json('users');
+        foreach ($users as $user) {
+            $this->assertFalse(
+                Block::query()->where(
+                    ['blockerID' => $userID, 'blockedID' => $user['id']]
+                )->orWhere(
+                    ['blockerID' => $user['id'], 'blockedID' => $userID]
+                )->exists() 
+            );
+        }
+
+        //check that there are no apexComs that the user is blocked from
+        $apexComs = $response->json('apexComs');
+        foreach ($apexComs as $apexCom ) {
+            $this->assertFalse(
+                ApexBlock::query()->where(
+                    ['ApexID' => $apexCom['id'], 'blockedID' => $userID]
+                )->exists()
+            );
+        }
+
     }
 
     /**

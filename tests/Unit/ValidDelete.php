@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use App\Models\Comment;
 
 class ValidDelete extends TestCase
 {
@@ -22,7 +24,7 @@ class ValidDelete extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/Sign_in',
+             '/api/sign_in',
              [
              'username' => 'mX',
              'password' => 'killa$&12'
@@ -39,6 +41,13 @@ class ValidDelete extends TestCase
          );
          $response->assertStatus(200);
          $this->assertDatabaseMissing('comments', ['id' => 't1_1']);
+         $logoutResponse = $this->json(
+             'POST',
+             '/api/sign_out',
+             [
+             'token' => $token
+             ]
+         );
     }
 
     /**
@@ -54,7 +63,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'mX',
             'password' => 'killa$&12'
@@ -71,6 +80,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('posts', ['id' => 't3_1']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -86,7 +102,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Anyone',
             'password' => 'anyone'
@@ -103,6 +119,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => 't1_2']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -116,7 +139,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -133,6 +156,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('posts', ['id' => 't3_2']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -146,7 +176,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -163,6 +193,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => 't1_3']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -177,7 +214,7 @@ class ValidDelete extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -194,6 +231,13 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => 't1_4']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -208,7 +252,7 @@ class ValidDelete extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -225,5 +269,79 @@ class ValidDelete extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseMissing('posts', ['id' => 't3_3']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //moderator in the apexcom where the post or comment to be deleted
+    public function records()
+    {
+
+        DB::table('posts')->insert([
+        'id' => 't3_1',
+        'posted_by' => 't2_2',
+        'apex_id' => 't5_1',
+        'title' => 'Anything',
+        'created_at' => '2019-03-23 17:20:30'
+        ]);
+
+        DB::table('posts')->insert([
+        'id' => 't3_2',
+        'posted_by' => 't2_1',
+        'apex_id' => 't5_1',
+        'title' => 'Anything',
+        'created_at' => '2019-03-23 17:20:31'
+        ]);
+
+        DB::table('posts')->insert([
+        'id' => 't3_3',
+        'posted_by' => 't2_4',
+        'apex_id' => 't5_1',
+        'title' => 'Anything',
+        'created_at' => '2019-03-23 17:20:32'
+        ]);
+          DB::table('comments')->insert([
+          'id' => 't1_1',
+          'commented_by' => 't2_1',
+          'content' => 'Hey there',
+          'root' => 't3_1',
+          'created_at' => '2019-03-23 17:20:37'
+          ]);
+
+          DB::table('comments')->insert([
+          'id' => 't1_2',
+          'commented_by' => 't2_3',
+          'content' => 'hii there',
+          'root' => 't3_2',
+          'created_at' => '2019-03-23 17:20:38'
+          ]);
+
+          DB::table('comments')->insert([
+          'id' => 't1_3',
+          'commented_by' => 't2_2',
+          'content' => 'good bye there',
+          'root' => 't3_3',
+          'created_at' => '2019-03-23 17:20:39'
+          ]);
+
+        DB::table('comments')->insert([
+          'id' => 't1_4',
+          'commented_by' => 't2_2',
+          'content' => 'good morning there',
+          'root' => 't3_4',
+          'created_at' => '2019-03-23 17:20:40'
+        ]);
+        $this->assertTrue(true);
     }
 }

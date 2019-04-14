@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 
 class ValidReport extends TestCase
 {
@@ -19,7 +20,7 @@ class ValidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -37,6 +38,14 @@ class ValidReport extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('report_posts', ['postID' => 't3_5' , 'userID' => 't2_1']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
+        DB::table('report_posts')->where('postID', 't3_5')->where('userID', 't2_1')->delete();
     }
 
     /**
@@ -50,7 +59,7 @@ class ValidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -68,5 +77,13 @@ class ValidReport extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('report_comments', ['comID' => 't1_5' , 'userID' => 't2_1']);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
+        DB::table('report_comments')->where('comID', 't1_5')->where('userID', 't2_1')->delete();
     }
 }

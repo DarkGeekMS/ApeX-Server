@@ -3,12 +3,11 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use JWTAuth;
-
 
 class MeInvalid2 extends TestCase
 {

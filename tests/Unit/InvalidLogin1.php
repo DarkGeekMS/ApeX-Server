@@ -29,7 +29,7 @@ class InvalidLogin1 extends TestCase
         );
         $response = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => $username,
             'password' => '12345678'

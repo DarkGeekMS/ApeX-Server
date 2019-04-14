@@ -6,16 +6,50 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use App\apexCom;
-use App\apexBlock;
-use App\subscriber;
-use \App\User;
+use App\Models\ApexCom;
+use App\Models\ApexBlock;
+use App\Models\Subscriber;
+use App\Models\User;
 
 class AboutTest extends TestCase
 {
 
 
     use WithFaker;
+    /**
+     * Test the guest about with out a valid apexcom id and with a valid apexcom id.
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function guestTest()
+    {
+        // hit the route with out valid apexcomid
+        $response = $this->json(
+            'GET',
+            '/api/about',
+            [
+                'ApexCom_ID' => '12354'
+            ]
+        );
+        
+        // an error that the apexcom is not found
+        $response->assertStatus(404)->assertSee('ApexCom is not found.');
+        
+        //get any apex com and hit the route with it to get its about info
+        $apex_id = ApexCom::all()->first()->id;
+        $response = $this->json(
+            'GET',
+            '/api/about',
+            [
+                'ApexCom_ID' => $apex_id
+            ]
+        );
+
+        // a list of information about apexcom should be returned.
+        $response->assertStatus(200);
+    } 
     /**
      * Test with an Apexcom not found, or with out a token.
      *
@@ -27,13 +61,13 @@ class AboutTest extends TestCase
     {
         // hit the route with out token
         $response = $this->json(
-            'GET',
+            'POST',
             '/api/about',
             [
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400);
+        $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
         $username = $this->faker->unique()->userName;
@@ -49,14 +83,14 @@ class AboutTest extends TestCase
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         $token = $signUp->json('token');
 
 
         // hit the route with an invalid id of an apexcom to get its about info
         $response = $this->json(
-            'GET',
+            'POST',
             '/api/about',
             [
                 'token' => $token,
@@ -70,7 +104,7 @@ class AboutTest extends TestCase
         User::where('id', $id)->delete();
 
         //check that the user deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
     /**
      * User Blocked from apexcom.
@@ -95,11 +129,11 @@ class AboutTest extends TestCase
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         // get any apexcom and block the signed in user from
-        $apex_id = apexCom::all()->first()->id;
-        apexBlock::create(
+        $apex_id = ApexCom::all()->first()->id;
+        ApexBlock::create(
             [
                 'blockedID' => $id,
                 'ApexID' => $apex_id
@@ -112,7 +146,7 @@ class AboutTest extends TestCase
 
         // hit the route with the blocked user
         $response = $this->json(
-            'GET',
+            'POST',
             '/api/about',
             [
                 'token' => $signUp->json('token'),
@@ -125,14 +159,14 @@ class AboutTest extends TestCase
 
         // delete user added to database and blocked from apexblock table
 
-        apexBlock::where('blockedID', $id)->delete();
+        ApexBlock::where('blockedID', $id)->delete();
         User::where('id', $id)->delete();
 
         //check that the blocked user from apexcom is deleted from database
         $this->assertDatabaseMissing('apex_blocks', compact('blockedID', 'ApexID'));
 
         // check that the user added in test function is deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
     /**
      * User gets the about information of an apexcom.
@@ -157,12 +191,12 @@ class AboutTest extends TestCase
 
         //check that the user is added to database
         $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('id'));
+        $this->assertDatabaseHas('users', compact('username'));
 
         //get any apex com and hit the route with it to get its about info
-        $apex_id = apexCom::all()->first()->id;
+        $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
-            'GET',
+            'POST',
             '/api/about',
             [
                 'token' => $signUp->json('token'),
@@ -177,6 +211,6 @@ class AboutTest extends TestCase
         User::where('id', $id)->delete();
 
         //check that the added user is deleted from database
-        $this->assertDatabaseMissing('users', compact('id'));
+        $this->assertDatabaseMissing('users', compact('username'));
     }
 }

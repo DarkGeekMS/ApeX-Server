@@ -31,7 +31,7 @@ class ValidReply extends TestCase
         }
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -49,6 +49,13 @@ class ValidReply extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('comments', ['id' => $id]);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 
     /**
@@ -71,7 +78,7 @@ class ValidReply extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
               'username' => 'Monda Talaat',
               'password' => 'monda21'
@@ -89,6 +96,13 @@ class ValidReply extends TestCase
           );
             $response->assertStatus(200);
             $this->assertDatabaseHas('comments', ['id' => $id]);
+            $logoutResponse = $this->json(
+                'POST',
+                '/api/sign_out',
+                [
+                'token' => $token
+                ]
+            );
     }
 
     /**
@@ -103,14 +117,14 @@ class ValidReply extends TestCase
     public function replyToMessage()
     {
         $lastcom = DB::table('messages')->orderBy('created_at', 'desc')->first();
-        $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
+        $count = DB::table('messages') ->where('created_at', $lastcom->created_at)->count();
         $id = $lastcom->id;
         $newIdx = (int)explode("_", $id)[1];
         $id = "t4_".($newIdx+$count);
 
         $loginResponse = $this->json(
             'POST',
-            '/api/Sign_in',
+            '/api/sign_in',
             [
             'username' => 'Monda Talaat',
             'password' => 'monda21'
@@ -128,5 +142,12 @@ class ValidReply extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('messages', ['id' => $id]);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 }

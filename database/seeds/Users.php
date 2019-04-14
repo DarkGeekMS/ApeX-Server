@@ -15,7 +15,7 @@ class Users extends Seeder
         DB::table('users')->insert([
           'id' => 't2_1',
           'fullname' => 'Monda Talaat',
-          'email' => 'monda21@gmail.com',
+          'email' => 'mondatalaat@gmail.com',
           'username' => 'Monda Talaat',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
           'type' => 2,

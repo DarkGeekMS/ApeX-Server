@@ -22,6 +22,6 @@ class MeInvalid1 extends TestCase
             'token' => 'invalid token'
             ]
         );
-        $meResponse->assertStatus(400)->assertSee("token_error");
+        $meResponse->assertStatus(400)->assertSee("Not authorized");
     }
 }
