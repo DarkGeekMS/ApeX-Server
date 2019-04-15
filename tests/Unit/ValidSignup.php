@@ -44,5 +44,6 @@ class ValidSignup extends TestCase
             ]
         );
         $response1->assertStatus(200);
+        DB::table('users')->where('username', 'rehab_hamdy')->delete();
     }
 }

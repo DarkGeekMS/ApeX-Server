@@ -17,6 +17,40 @@ class AboutTest extends TestCase
 
     use WithFaker;
     /**
+     * Test the guest about with out a valid apexcom id and with a valid apexcom id.
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function guestTest()
+    {
+        // hit the route with out valid apexcomid
+        $response = $this->json(
+            'GET',
+            '/api/about',
+            [
+                'ApexCom_ID' => '12354'
+            ]
+        );
+        
+        // an error that the apexcom is not found
+        $response->assertStatus(404)->assertSee('ApexCom is not found.');
+        
+        //get any apex com and hit the route with it to get its about info
+        $apex_id = ApexCom::all()->first()->id;
+        $response = $this->json(
+            'GET',
+            '/api/about',
+            [
+                'ApexCom_ID' => $apex_id
+            ]
+        );
+
+        // a list of information about apexcom should be returned.
+        $response->assertStatus(200);
+    } 
+    /**
      * Test with an Apexcom not found, or with out a token.
      *
      * @test

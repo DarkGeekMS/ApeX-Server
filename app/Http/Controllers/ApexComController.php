@@ -34,22 +34,36 @@ class ApexComController extends Controller
    * @bodyParam token JWT required Verifying user ID.
    */
 
+   /**
+    * getApexComs.
+    * This Function used to get the apexComs names & IDs of the logged in user.
+    *
+    * It makes sure that the user exists in our app,
+    * select the apexComs ID's  and names which this user subscriber in then return them.
+    *
+    * @param string token the JWT representation of the user in frontend.
+    * @return array the apexComs names and Ids
+    */
+
     public function getApexComs(Request $request)
     {
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
 
-        $apexcoms = DB::table('subscribers')->where('userID', $userID)->pluck('apexID');
-
-        $apexs = DB::table('apex_coms')->whereIn('id', $apexcoms)->pluck('name', 'id');
-
-        return response()->json([$apexs], 400);
+        $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
+            ->where('subscribers.userID', '=', $userID)
+            ->select('name', 'apexID')
+            ->get();
+        return response()->json([$apexs], 200);
     }
 
     /**
-     * Guestabout
+     * Guest about
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then about information of apexcom is returned.
+     *
      * Success Cases :
      * 1) return the information about the ApexCom.
      * failure Cases:
@@ -104,11 +118,17 @@ class ApexComController extends Controller
     /**
      * About
      * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count) with a logged in user.
-     * Success Cases :
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Then, The about information of apexcom is returned.
+     *
+     * ###Success Cases :
      * 1) return the information about the ApexCom.
-     * failure Cases:
-     * 1) NoAccessRight the token does not support to view the about information.
+     * ###failure Cases:
+     * 1) User is blocked from this apexcom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
+     *
+     * @authenticated
      *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
@@ -177,16 +197,23 @@ class ApexComController extends Controller
     /**
      * Post
      * to post text , image or video in any ApexCom.
-     * Success Cases :
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Validation to request parameters is done, the post shall contain title and at least a body, an image, or a video url.
+     * if validation fails logical error is returned, else a new post is added and return 'created'.
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post was added to the ApexCom successfully.
-     * failure Cases:
-     * 1) NoAccessRight the token does not support to Create a post in this ApexCom.
+     * ###failure Cases:
+     * 1) User is blocked from this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
      * 3) Not including text , image or video in the request.
      * 4) NoAccessRight token is not authorized.
      *
+     * @authenticated
+     *
      * @bodyParam ApexCom_id string required The fullname of the community where the post is posted.
-     * @bodyParam title string required The title the post.
+     * @bodyParam title string required The title of the post.
      * @bodyParam body string The text body of the post.
      * @bodyParam img_name string The attached image to the post.
      * @bodyParam video_url string The url to attached video to the post.
@@ -278,12 +305,19 @@ class ApexComController extends Controller
 
     /**
      * Subscribe
-     * for a user to subscribe in any ApexCom.
-     * Success Cases :
+     * for a user to subscribe an ApexCom.
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * If, the user already subscribes this apexcom, it will delete the subscription and return 'unsubscribed'.
+     * Else, the user will subscribe the apexcom, and it will return 'subscribed'.
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the subscription or unsubscribtion has been done successfully.
-     * failure Cases:
-     * 1) NoAccessRight the token does not support to subscribe this ApexCom.
+     * ###failure Cases:
+     * 1) user blocked from this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
+     *
+     * @authenticated
      *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
@@ -348,13 +382,21 @@ class ApexComController extends Controller
 
 
     /**
-     * SiteAdmin
-     * used by the site admin to create new ApexCom.
-     * Success Cases :
+     * Site Admin
+     * Used by the site admin to create or update a new ApexCom.
+     * First, a verification that the user creating or updating apexcom is an admin, if not a logical error is returned.
+     * Then, validating the request parameters the name, description and rules are required, banner and avatar are optional but they should be images.
+     * If, the validation fails all validation errors are returned.
+     * Then, check if the apexcom with this name exists or not, if it already exists then its data is updatad and return 'updated'.
+     * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the ApexCom was created  successfully.
-     * failure Cases:
+     * ###failure Cases:
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
+     *
+     * @authenticated
      *
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 400 {"error":"No Access Rights to create or edit an ApexCom"}
@@ -410,8 +452,15 @@ class ApexComController extends Controller
 
         if (!$exists) {
             // making the id of the new apexcom and creating it
-            $count = apexComModel::selectRaw('CONVERT( SUBSTR(id, 4), INT ) AS intID')->get()->max('intID');
-            $id = 't5_'.((int)$count+1);
+            $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
+            $id = "t5_1";
+            if ($lastapex) {
+                $count = DB::table('apex_coms') ->where('created_at', $lastapex->created_at)->count();
+                $id = $lastapex->id;
+                $newIdx = (int)explode("_", $id)[1];
+                $id = "t5_".($newIdx+$count);
+            }
+
             $v = $request->all();
             $v['id'] = $id;
             apexComModel::create($v);
