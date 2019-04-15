@@ -272,7 +272,7 @@ class GeneralController extends Controller
      *
      * @authenticated
      *
-     * @responseFile responses\validSort.json
+     * @responseFile responses\validUserSort.json
      * @responseFile 404 responses\apexComNotFound.json
      * @responseFile 400 responses\notAuthorized.json
      *
