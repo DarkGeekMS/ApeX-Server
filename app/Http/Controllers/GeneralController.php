@@ -53,9 +53,13 @@ class GeneralController extends Controller
         $query = $request->input('query');
         try {
             $apexComs = ApexCom::where('name', 'like', '%'.$query.'%')
-                ->orWhere('description', 'like', '%'.$query.'%')->get();
+                ->orWhere('description', 'like', '%'.$query.'%')
+                ->select('id', 'name', 'avatar', 'description')
+                ->withCount('subscribers')->get();
+    
             $users = User::where('fullname', 'like', '%'.$query.'%')
-                ->orWhere('username', 'like', '%'.$query.'%')->get();
+                ->orWhere('username', 'like', '%'.$query.'%')
+                ->select('id', 'username', 'avatar', 'karma')->get();
             $posts = Post::where('title', 'like', '%'.$query.'%')
                 ->orWhere('content', 'like', '%'.$query.'%')->get();
             return compact('posts', 'apexComs', 'users');
@@ -69,13 +73,16 @@ class GeneralController extends Controller
      * posts that are hidden or reported by the current user
      * and posts from apexComs that the current user is blocked from
      * and remove blocked users and apexComs from the result 
+     * it also adds the current user votes on the posts 
+     * and if he had saved the post previously,
+     * it also adds the current user subscription of the apexComs
      * 
      * @param Collection $result the collection that contains posts
      * @param JWT        $token  to get the userID
      *
      * @return Response
      */
-    private function _filterResult(Collection $result, $token)
+    public function filterResult(Collection $result, $token)
     {
         $account = new AccountController();
         $meResponse = $account->me(new Request(compact('token')));
@@ -92,28 +99,44 @@ class GeneralController extends Controller
             $result['posts'] = $result['posts']
                 ->whereNotIn('posted_by', $blockList)->flatten();
 
-            //create a list of posts ids that are hidden or reported by the current user
+            //remove the posts that are hidden or reported by the current user
             $postsList = ReportPost::where(compact('userID'))->pluck('postID');
             $postsList = $postsList
                 ->concat(Hidden::where(compact('userID'))->pluck('postID'));
             $result['posts'] = $result['posts']
                 ->whereNotIn('id', $postsList)->flatten();
 
-            //create a list of apexComs that the current user is blocked from
-            $apexList = ApexBlock::where('blockedID', $userID)->pluck('ApexID');
-            $result['posts'] = $result['posts']
-                ->whereNotIn('apex_id', $apexList)->flatten();
+            //add the current user vote on the posts and if he had saved it
+            $result['posts']->each(
+                function ($post) use ($userID) {
+                    $post['current_user_vote'] = $post->userVote($userID);
+                    $post['current_user_saved_post'] = $post->isSavedBy($userID);
+                }
+            );
 
             //remove blocked users from the result
-            if (array_key_exists('users', $result)) {
+            if ($result->has('users')) {
                 $result['users'] = $result['users']
                     ->whereNotIn('id', $blockList)->flatten();
             }
-
-            //remove from the result the apexComs that the user is blocked from 
-            if (array_key_exists('apexComs', $result)) {
+            
+            
+            if ($result->has('apexComs')) {
+                //create a list of apexComs that the current user is blocked from
+                $apexList = ApexBlock::where('blockedID', $userID)->pluck('ApexID');
+                $result['posts'] = $result['posts']
+                    ->whereNotIn('apex_id', $apexList)->flatten();
+                
                 $result['apexComs'] = $result['apexComs']
                     ->whereNotIn('id', $apexList)->flatten();
+
+                //add the current user subscription to the apexCom
+                $result['apexComs']->each(
+                    function ($apexCom) use ($userID) {
+                        $apexCom['current_user_subscribed'] 
+                            = $apexCom->isSubscribedBy($userID);
+                    }
+                );
             }
             return $result;
         } catch (\Exception $e) {
@@ -126,9 +149,11 @@ class GeneralController extends Controller
      * Just like [Guest Search](#guest-search) except that
      * it does't return the posts between blocked users,
      * posts that are hidden or reported by the current user
-     * and posts from apexComs that the current user is blocked from
+     * and posts from apexComs that the current user is blocked from,
      * it also doesn't return blocked users
-     * and the apexComs that the user is blocked from.
+     * and the apexComs that the user is blocked from,
+     * it also adds the current user vote on the posts and if he had saved them
+     * and adds the current user subscription of the apexComs.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -141,7 +166,7 @@ class GeneralController extends Controller
      *
      * @authenticated
      *
-     * @responseFile responses\validSearch.json
+     * @responseFile responses\validUserSearch.json
      * @responseFile 400 responses\missingQueryParam.json
      * @responseFile 400 responses\invalidQuery.json
      * @responseFile 400 responses\notAuthorized.json
@@ -156,7 +181,7 @@ class GeneralController extends Controller
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->_filterResult(collect($result), $request['token']);
+        return $this->filterResult(collect($result), $request['token']);
     }
 
 
@@ -213,38 +238,14 @@ class GeneralController extends Controller
                 return response(['error' => 'ApexCom is not found.'], 404);
             }
         }
-        $votesTable = Vote::select('postID', DB::raw('CONVERT(SUM(dir), int) AS votes'))->groupBy('postID');
-        $commentsTable = Comment::select('root', DB::raw('count(*) AS comments_num'))->groupBy('root');
-
-        $posts = $posts->leftJoinSub(
-            $votesTable,
-            'votes_table',
-            function ($join) {
-                $join->on('posts.id', '=', 'votes_table.postID');
-            }
-        );
-
-        $posts = $posts->leftJoinSub(
-            $commentsTable,
-            'comments_table',
-            function ($join) {
-                $join->on('posts.id', '=', 'comments_table.root');
-            }
-        );
-
-        $posts = $posts->select(
-            'posts.*',
-            DB::raw('COALESCE(votes, 0) as votes'),
-            DB::raw('COALESCE(comments_num, 0) as comments_num')
-        );
 
         try {
             if ($sortingParam === 'date') {
                 $posts = $posts->orderBy('created_at', 'desc')->get();
             } elseif ($sortingParam === 'votes') {
-                $posts = $posts->orderBy('votes', 'desc')->get();
+                $posts = $posts->get()->sortByDesc('votes')->flatten();
             } elseif ($sortingParam === 'comments') {
-                $posts = $posts->orderBy('comments_num', 'desc')->get();
+                $posts = $posts->get()->sortByDesc('comments_count')->flatten();
             }
             return compact('posts', 'sortingParam');
         } catch (\Exception $e) {
@@ -257,7 +258,8 @@ class GeneralController extends Controller
      * Just like [Guest Sort Posts](#guest-sort-posts), except that
      * it does't return the posts between blocked users
      * and posts that are hidden or reported by the current user
-     * and posts from apexComs that the current user is blocked from.
+     * and posts from apexComs that the current user is blocked from,
+     * it also adds to every post the current user vote and if he had saved the post.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -285,7 +287,7 @@ class GeneralController extends Controller
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->_filterResult(collect($result), $request['token']);
+        return $this->filterResult(collect($result), $request['token']);
     }
 
     /**

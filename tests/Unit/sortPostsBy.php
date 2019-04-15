@@ -50,7 +50,7 @@ class sortPostsBy extends TestCase
     {
         $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
@@ -116,7 +116,7 @@ class sortPostsBy extends TestCase
         }
 
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
@@ -144,7 +144,7 @@ class sortPostsBy extends TestCase
     public function noApexCom()
     {
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
