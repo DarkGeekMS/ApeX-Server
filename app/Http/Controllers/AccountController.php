@@ -15,6 +15,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
 use App\Models\User;
 use App\Models\Code;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @group Account
@@ -523,11 +524,41 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
+     * @response{
+     * "username":"Azzoz",
+     * "email":"Azzoz@hotmail.com",
+     * "fullname":"Azzoz mando",
+     * "avatar":"storage/users/default.jpg",
+     * "notification":1
+     * }
      */
 
-    public function prefs()
+     /**
+      * Gets the preferences of the user.
+      *
+      * The function gets the user associated with the given token then it returns
+      * its username, email, fullname, avatar and notification settings then it
+      * returns then in a json response.
+      *
+      * @param JWT token The user's JWT token.
+      *
+      * @return Json returns user preferences as json with keys username, email,
+      * fullname, avatar and notification.
+      *
+      */
+
+    public function prefs(Request $request)
     {
-        return;
+        $account = new AccountController;
+        $user = $account->me($request)->getData()->user;
+        $user = [
+            "username" => $user->username,
+            "email" => $user->email,
+            "fullname" => $user->fullname,
+            "avatar" => $user->avatar,
+            "notification" => $user->notification
+        ];
+        return response()->json($user, 200);
     }
 
 

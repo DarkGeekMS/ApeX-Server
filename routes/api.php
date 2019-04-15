@@ -24,7 +24,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/read_msg', 'AccountController@readMsg');
     Route::post('/me', 'AccountController@me');
     Route::patch('/updateprefs', 'AccountController@updates');
-    Route::post('/prefs', 'AccountController@prefs');
+    Route::get('/prefs', 'AccountController@prefs');
     Route::post('/info', 'AccountController@profileInfo');
     Route::post('/karma', 'AccountController@karma');
     Route::post('/inbox_messages', 'AccountController@inbox');
