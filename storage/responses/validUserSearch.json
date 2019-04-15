@@ -11,6 +11,8 @@
             "locked": 0,
             "created_at": "2019-03-23 17:20:30",
             "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
             "votes": 0,
             "comments_count": 1,
             "apex_com_name": "Elder Scrolls",
@@ -27,25 +29,11 @@
             "locked": 0,
             "created_at": "2019-03-23 17:20:39",
             "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
             "votes": -2,
             "comments_count": 1,
             "apex_com_name": "foods",
-            "post_writer_username": "mazen"
-        },
-        {
-            "id": "t3_11",
-            "posted_by": "t2_8",
-            "apex_id": "t5_3",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": "2019-03-23 17:20:40",
-            "updated_at": null,
-            "votes": 1,
-            "comments_count": 1,
-            "apex_com_name": "gaming area",
             "post_writer_username": "mazen"
         }
     ],
@@ -55,21 +43,24 @@
             "name": "Elder Scrolls",
             "avatar": "public\\img\\apx.png",
             "description": "The name says it all.",
-            "subscribers_count": 0
+            "subscribers_count": 0,
+            "current_user_subscribed": false
         },
         {
             "id": "t5_10",
             "name": "comics",
             "avatar": "public\\img\\apx.png",
             "description": "The name says it all.",
-            "subscribers_count": 0
+            "subscribers_count": 0,
+            "current_user_subscribed": false
         },
         {
             "id": "t5_2",
             "name": "New dawn",
             "avatar": "public\\img\\apx.png",
             "description": "The name says it all.",
-            "subscribers_count": 0
+            "subscribers_count": 0,
+            "current_user_subscribed": false
         }
     ],
     "users": [

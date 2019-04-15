@@ -24,4 +24,14 @@ class ApexCom extends Model
     {
         return $this->hasMany(post::class, 'apex_id', 'id');
     }
+
+    public function subscribers()
+    {
+        return $this->hasMany(Subscriber::class, 'apexID');
+    }
+
+    public function isSubscribedBy($userID)
+    {
+        return $this->subscribers()->where(compact('userID'))->exists();
+    }
 }
