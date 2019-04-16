@@ -146,12 +146,7 @@ class UserController extends Controller
         $sender = $meResponse->getData()->user->id;
 
         //check that users are not blocked from each other
-        if (Block::query()->where(
-            ['blockerID' => $sender, 'blockedID' => $receiver]
-        )->orWhere(
-            ['blockerID' => $receiver, 'blockedID' => $sender]
-        )->exists()
-        ) {
+        if (Block::areBlocked($sender, $receiver)) {
             return response(["error" => "blocked users can't message each other"], 400);
         }
 
@@ -214,7 +209,9 @@ class UserController extends Controller
 
             $posts = Post::where('posted_by', $userData->first()['id'])->get();
 
-            $userData = $userData->select('username', 'fullname', 'karma', 'avatar')->first();
+            $userData = $userData->select(
+                'id', 'username', 'fullname', 'karma', 'avatar'
+            )->first();
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }
@@ -263,9 +260,7 @@ class UserController extends Controller
         try {
             $id2 = User::where('username', $request['username'])->first()['id'];
 
-            if (Block::query()->where(['blockerID'=> $id1, 'blockedID' => $id2])
-                ->orWhere(['blockerID' => $id2, 'blockedID'=> $id1])->exists()
-            ) {
+            if (Block::areBlocked($id1, $id2)) {
                 return response()->json(
                     ['error' => "blocked users can't view the data of each other"],
                     400

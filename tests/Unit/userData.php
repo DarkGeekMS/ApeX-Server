@@ -114,7 +114,7 @@ class userData extends TestCase
 
         $methods = [
             'GET' => [],
-            'POST' => compact( 'token')
+            'POST' => compact('token')
         ];
 
         foreach ($methods as $method => $data) {
