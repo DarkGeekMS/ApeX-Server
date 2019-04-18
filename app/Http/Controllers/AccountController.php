@@ -637,6 +637,7 @@ class AccountController extends Controller
         $account = new AccountController;
         //getting user info from the token
         $user = $account->me($request)->getData()->user;
+        $user = User::where("id", $user->id)->first();
         //returning the user data in an array
         $user = [
             "username" => $user->username,
@@ -722,16 +723,78 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) old password not right.
      * 3) new password is less than 6 chars.
+     * 4) Code is invalid.
      *
-     * @bodyParam token JWT required Used to verify the user.
-     * @bodyParam oldPassword string required Used to verify the user is the account owner.
-     * @bodyParam newPassword string required Used to update the old password to the new one.
+     * @bodyParam token JWT Used to verify the user.
+     * @bodyParam withcode bool required changing password using forgot code or not.
+     * @bodyParam password string required the new password.
+     * @bodyParam username string required the username.
+     * @bodyParam key string required the forgot password code or the old password.
      */
 
 
     public function changePassword(Request $request)
     {
-        return;
+        $validator = Validator::make(
+            $request->all(),
+            [
+            'password' => 'required|string|min:6'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Invalid password less than 6 chars'], 400);
+        }
+        $requestData = $request->all();
+        $withCode = $requestData["withCode"];
+        $username = $requestData["username"];
+        if ($withCode == "1") {
+            $code = $requestData["key"];
+            $username = $requestData["username"];
+            $user = User::where("username", $username)->first();
+            if (!$user) {
+                return response()->json(["error" => "user doesn't exist"]);
+            }
+            $storedCode = Code::where("id", $user->id)->first();
+            if ($storedCode) {
+                if ($storedCode->code == $code) {
+                    $newpass = Hash::make($requestData["password"]);
+                    $user->password = $newpass;
+                    $user->save();
+                    return response()->json(true, 200);
+                } else {
+                    return response()->json(["error" => "Invalid code"], 400);
+                } 
+            } else {
+                return response()->json(["error" => "Invalid code"], 400);
+            }
+        } else {
+            $account = new AccountController;
+            $user = $account->me($request)->getData();
+            if (!isset($user->user)) {
+                return response()->json(["error" => "invalid token"], 400);
+            }
+            $user = $user->user;
+            $user = User::where("id", $user->id)->first();
+            $oldpass = $requestData["key"];
+            $newpass = Hash::make($requestData["password"]);
+            $username = $user->username;
+            $credentials = [
+                "username" => $username,
+                "password" => $oldpass
+            ];
+            if (JWTAuth::attempt($credentials)) {
+                $user->password = $newpass;
+                $user->save();
+                return response()->json(true, 200);
+            } else {
+                return response()->json(
+                    [
+                    "error" => "old password is not correct"
+                    ], 400
+                );
+            }
+        }
     }
 
 
