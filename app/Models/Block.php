@@ -14,10 +14,10 @@ class Block extends Model
 
     /**
      * Check if two users are blocked from each other
-     * 
+     *
      * @param string $id1 the id of the first user
      * @param string $id2 the id of the second user
-     * 
+     *
      * @return bool
      */
     public static function areBlocked($id1, $id2)

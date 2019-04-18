@@ -211,9 +211,6 @@ class AccountController extends Controller
         return response()->json(compact('token'));
     }
 
-
-
-
     /**
      * mailVerify
      * Send a verification email to the user with a code in case of forgetting password.
@@ -498,12 +495,11 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) the changed email already exists.
      *
-     * @bodyParam change_email string required Enable changing the email
-     * @bodyParam change_password string required Enable changing the password.
-     * @bodyParam deactivate_account string Enable deactivating the account.
-     * @bodyParam media_autoplay bool Enabling media autoplay.
+     * @bodyParam username string required Enable changing the username.
+     * @bodyParam fullname string required Enable changing the fullname.
+     * @bodyParam email string required Enable changing the email.
+     * @bodyParam avatar string required Enable changing the profile picture.
      * @bodyParam pm_notifications bool Enable pm notifications.
-     * @bodyParam replies_notifications bool Enable notifications for replies.
      * @bodyParam token JWT required Used to verify the user.
      */
 
@@ -684,6 +680,26 @@ class AccountController extends Controller
     }
 
 
+    /**
+     * changePassword
+     * to change the password of any user.
+     * Success Cases :
+     * 1) return ture to ensure the password updated successfully.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     * 2) old password not right.
+     * 3) new password is less than 6 chars.
+     *
+     * @bodyParam token JWT required Used to verify the user.
+     * @bodyParam oldPassword string required Used to verify the user is the account owner.
+     * @bodyParam newPassword string required Used to update the old password to the new one.
+     */
+
+
+    public function changePassword(Request $request)
+    {
+        return;
+    }
 
 
     /**
@@ -728,22 +744,21 @@ class AccountController extends Controller
 
 
     /**
-     * karma
-     * Returns the karma of the user.
+     * blockList
+     * Returns the blocked users name & IDs by the logged in user.
      * Success Cases :
-     * 1) return the karmas of the user.
+     * 1) return the list of the blocked users.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function karma()
+
+    public function blockList(Request $request)
     {
         return;
     }
-
-
 
 
     /**

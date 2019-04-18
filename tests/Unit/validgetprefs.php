@@ -25,12 +25,19 @@ class validgetprefs extends TestCase
         );
         $token = $loginResponse->json('token');
         $prefsResponse = $this->json(
-            'GET',
+            'POST',
             '/api/prefs',
             [
             'token' => $token
             ]
         );
         $prefsResponse->assertStatus(200);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/sign_out',
+            [
+            'token' => $token
+            ]
+        );
     }
 }

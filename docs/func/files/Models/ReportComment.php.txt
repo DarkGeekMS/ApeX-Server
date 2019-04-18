@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ReportComment extends Model
+{
+    protected $fillable = [
+      'comID',
+      'userID',
+      'content',
+    ];
+    public $incrementing = false;
+}
+
