@@ -507,9 +507,67 @@ class AccountController extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function updates()
+    public function updates(Request $request)
     {
-        return;
+        //validating the input data to be correct
+        $validator1 = Validator::make(
+            $request->all(),
+            [
+            'email' => 'required|string|email|max:100'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator1->fails()) {
+            return response()->json(['error' => 'Invalid email or Email already exists'], 400);
+        }
+
+        $validator2 = Validator::make(
+            $request->all(),
+            [
+            'username' => 'required|string|max:50'
+            ]
+        );
+        if ($validator2->fails()) {
+            return response()->json(['error' => 'Username already exists'], 400);
+        }
+        $validator3 = Validator::make(
+            $request->all(),
+            [
+                'avatar' => 'image'
+            ]
+        );
+        if ($validator3->fails()) {
+            return response()->json(['error' => 'Avatar is not valid'], 400);
+        }
+        $account = new AccountController;
+        $user = $account->me($request)->getData()->user;
+        $id = $user->id;
+        $user = User::where("id", $id)->first();
+        $requestData = $request->all();
+        $prevUsers = count(User::where("username", $requestData["username"])->get());
+        if ($prevUsers && $user->username != $requestData["username"]) {
+            return response()->json(["error" => "username exists"], 400);
+        }
+        $prevEmails = count(User::where("email", $requestData["email"])->get());
+        if ($prevEmails && $user->email != $requestData["email"]) {
+            return response()->json(["error" => "email already exists"], 400);
+        }
+        $user->username = $requestData["username"];
+        $user->email = $requestData["email"];
+        $user->fullname = $requestData["fullname"];
+        $user->notification = $requestData["notification"];
+        if ($request->hasfile('avatar')) {
+            $img = $request->file('avatar');
+            $imgName = $img->getClientOriginalName();
+            $extention = explode(".", $imgName)[1];
+            $dir = "avatars/users/";
+            $img->storeAs($dir, $user->id.".".$extention, "public");
+            $dir = "storage/".$dir.$user->id.".".$extention;
+            $user->avatar = $dir;
+        }
+        $user->save();
+        return response()->json($user, 200);
     }
 
 
