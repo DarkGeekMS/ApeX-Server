@@ -502,9 +502,31 @@ class AccountController extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
+     /**
+      * Changes the preferences of the user.
+      *
+      * The function firstly validates the input data of the user to check
+      * if they are valid then it gets the user data from the given token.
+      * then it checks if there is other users with the given username or email
+      * except the original user, If this is the case then it returns error
+      * else it stores the data and then it extracts the avatar from the request
+      * then it stores it and stores its directory in the database then the
+      * then it returns true to indicate the success.
+      *
+      * @param JWT token The user's JWT token.
+      * @param string username The user's username.
+      * @param string email The user's email.
+      * @param string fullname The user's fullname.
+      * @param string notification The user's notification enable value.
+      * @param avatar image the avatar of the user.
+      *
+      * @return boolean returns true or an error message.
+      *
+      */
+
     public function updates(Request $request)
     {
-        //validating the input data to be correct
+        //validating the email to be correct
         $validator1 = Validator::make(
             $request->all(),
             [
@@ -516,53 +538,63 @@ class AccountController extends Controller
         if ($validator1->fails()) {
             return response()->json(['error' => 'Invalid email or Email already exists'], 400);
         }
-
+        //validating username
         $validator2 = Validator::make(
             $request->all(),
             [
             'username' => 'required|string|max:50'
             ]
         );
+        //returning errors in the case of username failure
         if ($validator2->fails()) {
             return response()->json(['error' => 'Username already exists'], 400);
         }
+        //validating the input avatar
         $validator3 = Validator::make(
             $request->all(),
             [
                 'avatar' => 'image'
             ]
         );
+        //returning error in the case of avatar failure.
         if ($validator3->fails()) {
             return response()->json(['error' => 'Avatar is not valid'], 400);
         }
         $account = new AccountController;
-        $user = $account->me($request)->getData()->user;
-        $id = $user->id;
-        $user = User::where("id", $id)->first();
-        $requestData = $request->all();
+        $user = $account->me($request)->getData()->user; // Getting user data
+        $id = $user->id; // Getting id
+        $user = User::where("id", $id)->first(); //Getting the user from database
+        $requestData = $request->all(); // Getting request data
+        // Getting number of previous users with the input username
         $prevUsers = count(User::where("username", $requestData["username"])->get());
+        //checking if there is users otherthan the given user
         if ($prevUsers && $user->username != $requestData["username"]) {
             return response()->json(["error" => "username exists"], 400);
         }
+        //Getting number of previous users with the input email.
         $prevEmails = count(User::where("email", $requestData["email"])->get());
+        //Checking if there is users otherthan the given user
         if ($prevEmails && $user->email != $requestData["email"]) {
             return response()->json(["error" => "email already exists"], 400);
         }
+        //Updating the user data
         $user->username = $requestData["username"];
         $user->email = $requestData["email"];
         $user->fullname = $requestData["fullname"];
         $user->notification = $requestData["notification"];
+        //checking if the request has an input avatar
         if ($request->hasfile('avatar')) {
+            //getting avatar object
             $img = $request->file('avatar');
-            $imgName = $img->getClientOriginalName();
-            $extention = explode(".", $imgName)[1];
-            $dir = "avatars/users/";
-            $img->storeAs($dir, $user->id.".".$extention, "public");
-            $dir = "storage/".$dir.$user->id.".".$extention;
-            $user->avatar = $dir;
+            $imgName = $img->getClientOriginalName(); //Getting image name
+            $extention = explode(".", $imgName)[1]; // Getting extension
+            $dir = "avatars/users/"; // initializing the directroy
+            $img->storeAs($dir, $user->id.".".$extention, "public"); //stroing avatar
+            $dir = "storage/".$dir.$user->id.".".$extention; // setting the directory
+            $user->avatar = $dir; // stroing the directory.
         }
-        $user->save();
-        return response()->json(true, 200);
+        $user->save(); // saving the changes
+        return response()->json(true, 200); // returning true with success response.
     }
 
 
