@@ -50,7 +50,7 @@ class Comment extends Model
         return $this->hasMany(SaveComment::class, 'comID');
     }
 
-    //return if the given user saved the post
+    //return if the given user saved the comment
     public function isSavedBy($userID)
     {
         return $this->saves()->where(compact('userID'))->exists();
