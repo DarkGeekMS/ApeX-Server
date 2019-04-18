@@ -725,70 +725,102 @@ class AccountController extends Controller
      * 3) new password is less than 6 chars.
      * 4) Code is invalid.
      *
-     * @bodyParam token JWT Used to verify the user.
-     * @bodyParam withcode bool required changing password using forgot code or not.
-     * @bodyParam password string required the new password.
-     * @bodyParam username string required the username.
-     * @bodyParam key string required the forgot password code or the old password.
+     * @param token JWT Used to verify the user.
+     * @param withcode bool required changing password using forgot code or not.
+     * @param password string required the new password.
+     * @param username string required the username.
+     * @param key string required the forgot password code or the old password.
+     * 
+     * @return boolean return true if the password change, otherwise an error.
      */
+
+     /**
+      * Change password whether with the old password or the forgot password code
+      *
+      * The function first check if i want to change the password using the code.
+      * or by inputting the old password, IN the first option we won't require a
+      * token if we change it with the code first i will compare the code with the 
+      * code in the database then if it is true i will change the password
+      * and delete the code, If we change without code, We will compare 
+      * the old password with the given one and if they are match we will 
+      * change the password.
+      *
+      * @bodyParam token JWT Used to verify the user.
+      * @bodyParam withcode bool required changing password using forgot code or not.
+      * @bodyParam password string required the new password.
+      * @bodyParam username string required the username.
+      * @bodyParam key string required the forgot password code or the old password.      *
+      * @return Json The user's object as json or an error message.
+      *
+      */
 
 
     public function changePassword(Request $request)
     {
+        //validating the password
         $validator = Validator::make(
             $request->all(),
             [
             'password' => 'required|string|min:6'
             ]
         );
-
+        //returning an error if the password is not as required
         if ($validator->fails()) {
             return response()->json(['error' => 'Invalid password less than 6 chars'], 400);
         }
-        $requestData = $request->all();
-        $withCode = $requestData["withCode"];
-        $username = $requestData["username"];
+        $requestData = $request->all(); //Getting the request data
+        //whether to change password with code or not
+        $withCode = $requestData["withCode"]; 
+        $username = $requestData["username"]; //Getting username
         if ($withCode == "1") {
-            $code = $requestData["key"];
-            $username = $requestData["username"];
-            $user = User::where("username", $username)->first();
-            if (!$user) {
+            $code = $requestData["key"]; //Getting the code
+            $username = $requestData["username"]; //Getting username
+            $user = User::where("username", $username)->first(); //Get user from DB
+            if (!$user) { //Checking for the user
                 return response()->json(["error" => "user doesn't exist"]);
             }
-            $storedCode = Code::where("id", $user->id)->first();
-            if ($storedCode) {
-                if ($storedCode->code == $code) {
+            $storedCode = Code::where("id", $user->id)->first(); //Get code from DB
+            if ($storedCode) { //check for the code
+                if ($storedCode->code == $code) { //check if codes are equal
+                    //hashing the new password
                     $newpass = Hash::make($requestData["password"]);
-                    $user->password = $newpass;
-                    $user->save();
-                    Code::where("id", $user->id)->delete();
-                    return response()->json(true, 200);
+                    $user->password = $newpass; //setting password
+                    $user->save(); //saving changes
+                    Code::where("id", $user->id)->delete(); //Deleting the code
+                    return response()->json(true, 200); // returning true
                 } else {
+                    //returning error
                     return response()->json(["error" => "Invalid code"], 400);
                 } 
             } else {
+                //returning error
                 return response()->json(["error" => "Invalid code"], 400);
             }
         } else {
+            //creating new account
             $account = new AccountController;
-            $user = $account->me($request)->getData();
-            if (!isset($user->user)) {
+            $user = $account->me($request)->getData(); //get user from token
+            if (!isset($user->user)) { //checking for user
+                //returning error
                 return response()->json(["error" => "invalid token"], 400);
             }
-            $user = $user->user;
-            $user = User::where("id", $user->id)->first();
-            $oldpass = $requestData["key"];
-            $newpass = Hash::make($requestData["password"]);
-            $username = $user->username;
+            $user = $user->user; //getting user
+            $user = User::where("id", $user->id)->first(); // get user from DB
+            $oldpass = $requestData["key"]; //getting old pass
+            $newpass = Hash::make($requestData["password"]); //hashing the new one
+            $username = $user->username; //Getting username
+            //setting credentials
             $credentials = [
                 "username" => $username,
                 "password" => $oldpass
             ];
+            //try to login with the old password and username
             if (JWTAuth::attempt($credentials)) {
-                $user->password = $newpass;
-                $user->save();
-                return response()->json(true, 200);
+                $user->password = $newpass; //changin password
+                $user->save(); //saving changes
+                return response()->json(true, 200); //return success
             } else {
+                //return error
                 return response()->json(
                     [
                     "error" => "old password is not correct"
