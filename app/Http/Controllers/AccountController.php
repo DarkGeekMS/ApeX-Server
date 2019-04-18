@@ -761,6 +761,7 @@ class AccountController extends Controller
                     $newpass = Hash::make($requestData["password"]);
                     $user->password = $newpass;
                     $user->save();
+                    Code::where("id", $user->id)->delete();
                     return response()->json(true, 200);
                 } else {
                     return response()->json(["error" => "Invalid code"], 400);
