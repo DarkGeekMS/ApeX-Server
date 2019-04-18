@@ -490,7 +490,6 @@ class AccountController extends Controller
      * Updates the preferences of the user.
      * Success Cases :
      * 1) return true to ensure that the data updated successfully.
-     * 2) in case deactivating the account the account will be deleted.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) the changed email already exists.
@@ -499,7 +498,7 @@ class AccountController extends Controller
      * @bodyParam fullname string required Enable changing the fullname.
      * @bodyParam email string required Enable changing the email.
      * @bodyParam avatar string required Enable changing the profile picture.
-     * @bodyParam pm_notifications bool Enable pm notifications.
+     * @bodyParam notifications bool Enable notifications.
      * @bodyParam token JWT required Used to verify the user.
      */
 
@@ -563,7 +562,7 @@ class AccountController extends Controller
             $user->avatar = $dir;
         }
         $user->save();
-        return response()->json($user, 200);
+        return response()->json(true, 200);
     }
 
 
@@ -604,7 +603,9 @@ class AccountController extends Controller
     public function prefs(Request $request)
     {
         $account = new AccountController;
+        //getting user info from the token
         $user = $account->me($request)->getData()->user;
+        //returning the user data in an array
         $user = [
             "username" => $user->username,
             "email" => $user->email,
