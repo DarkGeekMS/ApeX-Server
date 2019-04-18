@@ -25,12 +25,12 @@ class invalidgetprefs extends TestCase
         );
         $token = "bla bla";
         $prefsResponse = $this->json(
-            'GET',
+            'POST',
             '/api/prefs',
             [
             'token' => $token
             ]
         );
-        $prefsResponse->assertStatus(400);    
+        $prefsResponse->assertStatus(400);
     }
 }

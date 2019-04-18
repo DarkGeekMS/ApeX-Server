@@ -17,6 +17,7 @@ use App\Models\SavePost;
 use App\Models\Message;
 use App\Models\Hidden;
 use App\Models\Post;
+use App\Models\Block;
 
 /**
  * this Class contains all the endpoints responsible for all posts and comments interactions.
@@ -585,9 +586,31 @@ class CommentandLinksController extends Controller
      */
 
 
-    public function moreChildren()
+    public function moreChildren(Request $request)
     {
-        return;
+        //get the user id using the token
+        $account=new AccountController;
+        $userID = $account->me($request)->getData()->user->id;
+        //get the user by the user id
+        $user = User::find($userID);
+        $post = Post::find($request['parent']);
+        if (!$post) {
+            return response()->json(['error' => 'post not exists'], 404);
+        }
+        $comments= Comment::query();
+        $comments = $comments->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+
+        $removed = Block::where('blockerID', $userID)->pluck('blockedID')->flatten();
+        $removed = $removed->concat(
+            Block::where('blockedID', $userID)->pluck('blockerID')
+        )->concat(
+            ReportComment::where(compact('userID'))->pluck('comID')
+        );
+
+        //remove the comments that have been commented by a user in the blocklist
+        $comments = $comments->whereNotIn('commented_by', $removed);
+
+        return response()->json($comments, 200);
     }
 
     /**
@@ -605,9 +628,15 @@ class CommentandLinksController extends Controller
      */
 
 
-    public function guestMoreChildren()
+    public function guestMoreChildren(Request $request)
     {
-        return;
+        $post = Post::find($request['parent']);
+        if (!$post) {
+            return response()->json(['error' => 'post not exists'], 404);
+        }
+        $comments= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+
+        return response()->json([$comments], 200);
     }
 
     /**
