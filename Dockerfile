@@ -19,15 +19,18 @@ RUN apk update \
         php-mysqli \
         php-mysqlnd \
         php-simplexml \
-        composer 
+        composer \
+        git \
+        npm
 
-# pass `--build-arg MIGRATE=true` on building to run migrations
-ARG MIGRATE
-ENV MIGRATE=${MIGRATE}
+ARG SEED
+ENV SEED=${SEED}
 
-# pass `--build-arg TEST=true` on building to run tests
 ARG TEST
 ENV TEST=${TEST}
+
+ARG WEB_BRANCH
+ENV WEB_BRANCH=${WEB_BRANCH}
 
 EXPOSE 80
 ENTRYPOINT [ "/bin/bash", "/app/scripts/run.sh" ]
