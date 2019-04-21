@@ -1,16 +1,30 @@
-version: '2'
+version: '2.1'
 services:
     app:
       build:
-        context: https://${GITHUB_TOKEN}@github.com/DarkGeekMS/ApeX-Server.git#${BRANCH}
+        context: https://${GITHUB_TOKEN}@github.com/DarkGeekMS/ApeX-Server.git#${BRANCH-master}
+        args:
+          - WEB_BRANCH=${WEB_BRANCH-master}
+          - SEEDS=${SEEDS}
       env_file:
         - .env
       ports:
-        - "80:80"
+        - "${PORT-80}:80"
+      restart: always
       volumes:
-        - front:/app/TODO
         - ./.env:/app/.env
         - ./app/vendor/:/app/vendor
         - ./app/storage/logs:/app/storage/logs
+
+    database:
+      image: mariadb:10.1.38
+      volumes:
+        - dbdata:/var/lib/mysql
+      env_file:
+        - .env
+      restart: always
+      ports:
+        - "3306:3306"
+
 volumes:
-  front:
+  dbdata:

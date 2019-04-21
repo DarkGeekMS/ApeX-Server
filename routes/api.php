@@ -23,10 +23,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/del_msg', 'AccountController@deleteMsg');
     Route::post('/read_msg', 'AccountController@readMsg');
     Route::post('/me', 'AccountController@me');
-    Route::patch('/updateprefs', 'AccountController@updates');
-    Route::post('/prefs', 'AccountController@prefs');
+    Route::post('/updateprefs', 'AccountController@updates');
+    Route::get('/prefs', 'AccountController@prefs');
+    Route::post('/blocklist', 'AccountController@blockList');
+    Route::post('/sign_out', 'AccountController@logout');
     Route::post('/info', 'AccountController@profileInfo');
-    Route::post('/karma', 'AccountController@karma');
     Route::post('/inbox_messages', 'AccountController@inbox');
     Route::post('/sign_out', 'AccountController@logout');
 
@@ -82,6 +83,8 @@ Route::post('/sign_up', 'AccountController@signUp');
 Route::post('/sign_in', 'AccountController@login');
 Route::post('/mail_verify', 'AccountController@mailVerify');
 Route::post('/check_code', 'AccountController@checkCode');
+Route::patch('/changepassword', 'AccountController@changePassword');
+
 
 // ApexCom
 Route::get('/about', 'ApexComController@guestAbout');

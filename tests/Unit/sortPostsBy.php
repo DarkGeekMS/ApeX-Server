@@ -50,7 +50,7 @@ class sortPostsBy extends TestCase
     {
         $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
@@ -94,13 +94,7 @@ class sortPostsBy extends TestCase
         $posts = $response->json('posts');
         foreach ($posts as $post) {
             $postWriterID = $post['posted_by'];
-            $this->assertFalse(
-                Block::query()->where(
-                    ['blockerID' => $userID, 'blockedID' => $postWriterID]
-                )->orWhere(
-                    ['blockerID' => $postWriterID, 'blockedID' => $userID]
-                )->exists()
-            );
+            $this->assertFalse(Block::areBlocked($userID, $postWriterID));
             $this->assertDatabaseMissing(
                 'apex_blocks',
                 ['ApexID' => $post['apex_id'], 'blockedID' => $userID]
@@ -116,7 +110,7 @@ class sortPostsBy extends TestCase
         }
 
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
@@ -144,7 +138,7 @@ class sortPostsBy extends TestCase
     public function noApexCom()
     {
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(

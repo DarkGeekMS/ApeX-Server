@@ -39,7 +39,7 @@ failure Cases:
 curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"F75ar3jdrPQJH746","token":"JUxp6PzZ7OMKiArO"}'
+    -d '{"id":"sinOTBq18NiFbSvJ","token":"D7L8TqW2o6lE0frs"}'
 
 ```
 
@@ -53,8 +53,8 @@ let headers = {
 }
 
 let body = {
-    "id": "F75ar3jdrPQJH746",
-    "token": "JUxp6PzZ7OMKiArO"
+    "id": "sinOTBq18NiFbSvJ",
+    "token": "D7L8TqW2o6lE0frs"
 }
 
 fetch(url, {
@@ -86,6 +86,7 @@ Parameter | Type | Status | Description
 
 <!-- END_17ab3166922a15e0dcef5180e5c57447 -->
 
+
 <!-- START_293bfba07d359f07b62946a6702243f5 -->
 ## readMsg
 Read a sent message.
@@ -103,7 +104,7 @@ failure Cases:
 curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"1xbMtb1gX1SwvMRe","token":"V2nxhhaf4eXPD8IO"}'
+    -d '{"ID":"x8jqDpv2Fsi1A6xx","token":"BryHMvm7ZD9dGBVl"}'
 
 ```
 
@@ -117,8 +118,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "1xbMtb1gX1SwvMRe",
-    "token": "V2nxhhaf4eXPD8IO"
+    "ID": "x8jqDpv2Fsi1A6xx",
+    "token": "BryHMvm7ZD9dGBVl"
 }
 
 fetch(url, {
@@ -149,6 +150,7 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the user recieving the message.
 
 <!-- END_293bfba07d359f07b62946a6702243f5 -->
+
 
 <!-- START_d131f717df7db546af1657d1e7ce10f6 -->
 ## Returns the user of the sent token.
@@ -195,6 +197,7 @@ fetch(url, {
 
 <!-- END_d131f717df7db546af1657d1e7ce10f6 -->
 
+
 <!-- START_7d778b4cd1f31a8abdc1f7156cf2439a -->
 ## updates
 Updates the preferences of the user.
@@ -212,7 +215,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"hVldbQRcr6qeaDsd","change_password":"u6Rq1QbmXr4Zn5LX","deactivate_account":"ciNMBEcydXDwBawT","media_autoplay":false,"pm_notifications":true,"replies_notifications":true,"token":"aNi07cVDdUg5bgxV"}'
+    -d '{"change_email":"DfKGZzSl68HfRtCr","change_password":"KeVnV1AzypLNLAoi","deactivate_account":"Y05DbAsn0mP5q5QK","media_autoplay":false,"pm_notifications":true,"replies_notifications":true,"token":"b7OPqIbDmA17NIK4"}'
 
 ```
 
@@ -226,13 +229,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "hVldbQRcr6qeaDsd",
-    "change_password": "u6Rq1QbmXr4Zn5LX",
-    "deactivate_account": "ciNMBEcydXDwBawT",
+    "change_email": "DfKGZzSl68HfRtCr",
+    "change_password": "KeVnV1AzypLNLAoi",
+    "deactivate_account": "Y05DbAsn0mP5q5QK",
     "media_autoplay": false,
     "pm_notifications": true,
     "replies_notifications": true,
-    "token": "aNi07cVDdUg5bgxV"
+    "token": "b7OPqIbDmA17NIK4"
 }
 
 fetch(url, {
@@ -269,6 +272,7 @@ Parameter | Type | Status | Description
 
 <!-- END_7d778b4cd1f31a8abdc1f7156cf2439a -->
 
+
 <!-- START_d9dd108ffd7d5fcce74f2072aeaea32e -->
 ## prefs
 Returns the preferences of the user.
@@ -284,7 +288,7 @@ failure Cases:
 curl -X POST "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"NeMazUG2Ot0oPKBb"}'
+    -d '{"token":"tNNjha3ch3nijtXn"}'
 
 ```
 
@@ -298,7 +302,7 @@ let headers = {
 }
 
 let body = {
-    "token": "NeMazUG2Ot0oPKBb"
+    "token": "tNNjha3ch3nijtXn"
 }
 
 fetch(url, {
@@ -329,6 +333,7 @@ Parameter | Type | Status | Description
 
 <!-- END_d9dd108ffd7d5fcce74f2072aeaea32e -->
 
+
 <!-- START_09839bea62c266b3f7446dc71dd248c4 -->
 ## profileInfo
 Displaying the profile info of the user.
@@ -345,7 +350,7 @@ failure Cases:
 curl -X POST "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"CL0x40ZrWzDrTsi0"}'
+    -d '{"token":"dOr6jstIeSb5K0JO"}'
 
 ```
 
@@ -359,7 +364,7 @@ let headers = {
 }
 
 let body = {
-    "token": "CL0x40ZrWzDrTsi0"
+    "token": "dOr6jstIeSb5K0JO"
 }
 
 fetch(url, {
@@ -390,6 +395,7 @@ Parameter | Type | Status | Description
 
 <!-- END_09839bea62c266b3f7446dc71dd248c4 -->
 
+
 <!-- START_c2d21a2d9f4da12e2df2a5662f36d63c -->
 ## karma
 Returns the karma of the user.
@@ -405,7 +411,7 @@ failure Cases:
 curl -X POST "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"glIidHLlSHzYLNsL"}'
+    -d '{"token":"rSDigI67Z6nIasnf"}'
 
 ```
 
@@ -419,7 +425,7 @@ let headers = {
 }
 
 let body = {
-    "token": "glIidHLlSHzYLNsL"
+    "token": "rSDigI67Z6nIasnf"
 }
 
 fetch(url, {
@@ -450,6 +456,7 @@ Parameter | Type | Status | Description
 
 <!-- END_c2d21a2d9f4da12e2df2a5662f36d63c -->
 
+
 <!-- START_6be4333f0293eadb670cdacf4092f237 -->
 ## messages
 Returns the inbox messages of the user.
@@ -465,7 +472,7 @@ failure Cases:
 curl -X POST "http://localhost/api/inbox_messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":6,"token":"uIvfeChJdeoO1RmN"}'
+    -d '{"max":19,"token":"ZH1JU356ZffULkLq"}'
 
 ```
 
@@ -479,8 +486,8 @@ let headers = {
 }
 
 let body = {
-    "max": 6,
-    "token": "uIvfeChJdeoO1RmN"
+    "max": 19,
+    "token": "ZH1JU356ZffULkLq"
 }
 
 fetch(url, {
@@ -511,6 +518,7 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the user.
 
 <!-- END_6be4333f0293eadb670cdacf4092f237 -->
+
 
 <!-- START_61c037b1e23dc1e0f83fb62a8024cf9d -->
 ## Logs out a user from the website.
@@ -557,6 +565,7 @@ fetch(url, {
 
 <!-- END_61c037b1e23dc1e0f83fb62a8024cf9d -->
 
+
 <!-- START_311b0f388598aca8ed7f8fdf74916333 -->
 ## Registers the given user into the website.
 
@@ -595,15 +604,7 @@ fetch(url, {
 
 ```json
 {
-    "email": [
-        "The email field is required."
-    ],
-    "password": [
-        "The password field is required."
-    ],
-    "username": [
-        "The username field is required."
-    ]
+    "error": "Invalid email or Email already exists"
 }
 ```
 
@@ -612,6 +613,7 @@ fetch(url, {
 
 
 <!-- END_311b0f388598aca8ed7f8fdf74916333 -->
+
 
 <!-- START_ae15188c9c0642b2c58e5b4bb8beb57d -->
 ## Signs in the user into the website.
@@ -657,6 +659,7 @@ fetch(url, {
 
 
 <!-- END_ae15188c9c0642b2c58e5b4bb8beb57d -->
+
 
 <!-- START_9c2b68d84a5e58731426b62d8716d169 -->
 ## Sends a code to the email to reset password.
@@ -707,6 +710,7 @@ fetch(url, {
 
 
 <!-- END_9c2b68d84a5e58731426b62d8716d169 -->
+
 
 <!-- START_4b5bbd8dc31ae3073c29c9b679f448b5 -->
 ## Check the forgot password code to be correct.
@@ -759,6 +763,7 @@ fetch(url, {
 
 
 <!-- END_4b5bbd8dc31ae3073c29c9b679f448b5 -->
+
 
 #Adminstration
 
@@ -928,6 +933,7 @@ fetch(url, {
 
 <!-- END_fd85770e108112a824ea9fd5c16c7dfc -->
 
+
 #ApexCom
 
 Controls the ApexCom info , posts and admin.
@@ -977,6 +983,7 @@ fetch(url, {
 
 <!-- END_e412045afd6394e3d300c08eb23558f6 -->
 
+
 <!-- START_1f26a7d3b191a04ab9c1bc160deb8481 -->
 ## About
 to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count) with a logged in user.
@@ -998,7 +1005,7 @@ Then, The about information of apexcom is returned.
 curl -X POST "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"YO71J4qmyDIoveJd","token":"wAga6ZHsxyAF7ghb"}'
+    -d '{"ApexCom_ID":"nQmgGtt2PaSpea6W","token":"njRJvgOcV7ZJXB9k"}'
 
 ```
 
@@ -1012,8 +1019,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "YO71J4qmyDIoveJd",
-    "token": "wAga6ZHsxyAF7ghb"
+    "ApexCom_ID": "nQmgGtt2PaSpea6W",
+    "token": "njRJvgOcV7ZJXB9k"
 }
 
 fetch(url, {
@@ -1075,6 +1082,7 @@ Parameter | Type | Status | Description
 
 <!-- END_1f26a7d3b191a04ab9c1bc160deb8481 -->
 
+
 <!-- START_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 ## Post
 to post text , image or video in any ApexCom.
@@ -1099,7 +1107,7 @@ if validation fails logical error is returned, else a new post is added and retu
 curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"7NUYWL6tblazVr2o","title":"ydmck1s2FPxJQmZI","body":"42NVGeqxeZd1TM5a","img_name":"LNdYniciGwVtDk4i","video_url":"9TKQJ32FnF953cu6","isLocked":false,"token":"tznCej02J8fydopm"}'
+    -d '{"ApexCom_id":"8PmyAb1JlrviTwHN","title":"wKen6w3CaOffNnIG","body":"Q2C6IEn51nt4fxkf","img_name":"HiGnLmXtSBBuP8Gx","video_url":"1gFCk441LBzc0LOR","isLocked":false,"token":"vsGhiuMjZXLfc8C4"}'
 
 ```
 
@@ -1113,13 +1121,13 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "7NUYWL6tblazVr2o",
-    "title": "ydmck1s2FPxJQmZI",
-    "body": "42NVGeqxeZd1TM5a",
-    "img_name": "LNdYniciGwVtDk4i",
-    "video_url": "9TKQJ32FnF953cu6",
+    "ApexCom_id": "8PmyAb1JlrviTwHN",
+    "title": "wKen6w3CaOffNnIG",
+    "body": "Q2C6IEn51nt4fxkf",
+    "img_name": "HiGnLmXtSBBuP8Gx",
+    "video_url": "1gFCk441LBzc0LOR",
     "isLocked": false,
-    "token": "tznCej02J8fydopm"
+    "token": "vsGhiuMjZXLfc8C4"
 }
 
 fetch(url, {
@@ -1156,6 +1164,7 @@ Parameter | Type | Status | Description
 
 <!-- END_2a2f591ef5501e8aaaaa6c4d241d3b09 -->
 
+
 <!-- START_95d2609383a86210e2424765cf8031d1 -->
 ## Subscribe
 for a user to subscribe an ApexCom.
@@ -1178,7 +1187,7 @@ Else, the user will subscribe the apexcom, and it will return 'subscribed'.
 curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"vDyyYeI3KvckKeJO","token":"ZhUGuX5BB25G5ZAj"}'
+    -d '{"ApexCom_id":"xSTPaVWpWAQOkfTu","token":"WUINJxrww8JW4WF9"}'
 
 ```
 
@@ -1192,8 +1201,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "vDyyYeI3KvckKeJO",
-    "token": "ZhUGuX5BB25G5ZAj"
+    "ApexCom_id": "xSTPaVWpWAQOkfTu",
+    "token": "WUINJxrww8JW4WF9"
 }
 
 fetch(url, {
@@ -1246,6 +1255,7 @@ Parameter | Type | Status | Description
 
 <!-- END_95d2609383a86210e2424765cf8031d1 -->
 
+
 <!-- START_83008eaf25318b2ebea682cd9cd6b43b -->
 ## Site Admin
 Used by the site admin to create or update a new ApexCom.
@@ -1269,7 +1279,7 @@ if apexcom name doesn't exist then a new apexcom is created and return 'created'
 curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"PaCwhYNC30Zvc9VF","description":"SGUxaaKZSEwFNMMV","rules":"Ozszn48PIDEXrgRD","avatar":"s69Icrpw93odilXW","banner":"pfrZSrbx0auABLxK","token":"mfZl8qZoyKypN2zl"}'
+    -d '{"name":"VEoWSsYmJStzA1Hr","description":"NuYTd3G1ORI0oI53","rules":"oLq20Sj8M2JxFJN4","avatar":"4XZjxbHIpjWdcCX9","banner":"utNV8WjBJxpVmgKR","token":"oZMZlvV3wV4nFCzn"}'
 
 ```
 
@@ -1283,12 +1293,12 @@ let headers = {
 }
 
 let body = {
-    "name": "PaCwhYNC30Zvc9VF",
-    "description": "SGUxaaKZSEwFNMMV",
-    "rules": "Ozszn48PIDEXrgRD",
-    "avatar": "s69Icrpw93odilXW",
-    "banner": "pfrZSrbx0auABLxK",
-    "token": "mfZl8qZoyKypN2zl"
+    "name": "VEoWSsYmJStzA1Hr",
+    "description": "NuYTd3G1ORI0oI53",
+    "rules": "oLq20Sj8M2JxFJN4",
+    "avatar": "4XZjxbHIpjWdcCX9",
+    "banner": "utNV8WjBJxpVmgKR",
+    "token": "oZMZlvV3wV4nFCzn"
 }
 
 fetch(url, {
@@ -1401,6 +1411,7 @@ Parameter | Type | Status | Description
 
 <!-- END_83008eaf25318b2ebea682cd9cd6b43b -->
 
+
 <!-- START_931d45747883f17f4898d055e7277e3d -->
 ## Guest about
 to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
@@ -1419,7 +1430,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"o5wJ6OsgnALCD1Bp"}'
+    -d '{"ApexCom_ID":"48fhFrB5I3fF3l4N"}'
 
 ```
 
@@ -1433,7 +1444,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "o5wJ6OsgnALCD1Bp"
+    "ApexCom_ID": "48fhFrB5I3fF3l4N"
 }
 
 fetch(url, {
@@ -1479,6 +1490,7 @@ Parameter | Type | Status | Description
     ApexCom_ID | string |  required  | The fullname of the community.
 
 <!-- END_931d45747883f17f4898d055e7277e3d -->
+
 
 #Links and comments
 
@@ -1533,6 +1545,7 @@ fetch(url, {
 
 
 <!-- END_e795fade4d25e2473e7fd22cababfe99 -->
+
 
 <!-- START_4f136192702be68001efc45896913292 -->
 ## delete.
@@ -1589,6 +1602,7 @@ fetch(url, {
 
 <!-- END_4f136192702be68001efc45896913292 -->
 
+
 <!-- START_2dedef5a7a52cb3e96b8c08067a1b1d5 -->
 ## editText
 to edit the text of a post , comment or reply by its owner.
@@ -1606,7 +1620,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"wK7sXOErIbRox4fd","content":"9FfQeZIwRw5hqbVx","token":"68nbzgtIr87AQJ1X"}'
+    -d '{"name":"WxGsODsRpmIpTjrR","content":"DYn4cE8O3TQRt0wO","token":"dsEnjLQq0bHFucV3"}'
 
 ```
 
@@ -1620,9 +1634,9 @@ let headers = {
 }
 
 let body = {
-    "name": "wK7sXOErIbRox4fd",
-    "content": "9FfQeZIwRw5hqbVx",
-    "token": "68nbzgtIr87AQJ1X"
+    "name": "WxGsODsRpmIpTjrR",
+    "content": "DYn4cE8O3TQRt0wO",
+    "token": "dsEnjLQq0bHFucV3"
 }
 
 fetch(url, {
@@ -1654,6 +1668,7 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Verifying user ID.
 
 <!-- END_2dedef5a7a52cb3e96b8c08067a1b1d5 -->
+
 
 <!-- START_513d4e19011ae1f92bd8858b5eb059b2 -->
 ## report.
@@ -1714,6 +1729,7 @@ fetch(url, {
 
 <!-- END_513d4e19011ae1f92bd8858b5eb059b2 -->
 
+
 <!-- START_1ce8121bc6bb159652da3758695c4f33 -->
 ## vote.
 
@@ -1766,6 +1782,7 @@ fetch(url, {
 
 <!-- END_1ce8121bc6bb159652da3758695c4f33 -->
 
+
 <!-- START_4a071a0a5195e750a36b0b89a51e2235 -->
 ## lock.
 
@@ -1815,6 +1832,7 @@ fetch(url, {
 
 <!-- END_4a071a0a5195e750a36b0b89a51e2235 -->
 
+
 <!-- START_ebf64eb08a02a3600dbec8e628a60a56 -->
 ## hide.
 
@@ -1862,6 +1880,7 @@ fetch(url, {
 
 <!-- END_ebf64eb08a02a3600dbec8e628a60a56 -->
 
+
 <!-- START_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 ## save
 Save or UnSave a post or a comment.
@@ -1878,7 +1897,7 @@ failure Cases:
 curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"05oC7Jv8V19yy8OM","token":"ycJSdzgznNqcgiPV"}'
+    -d '{"ID":"QngoELkMlNLJKZat","token":"AEkQYbq56qimJBdq"}'
 
 ```
 
@@ -1892,8 +1911,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "05oC7Jv8V19yy8OM",
-    "token": "ycJSdzgznNqcgiPV"
+    "ID": "QngoELkMlNLJKZat",
+    "token": "AEkQYbq56qimJBdq"
 }
 
 fetch(url, {
@@ -1925,6 +1944,7 @@ Parameter | Type | Status | Description
 
 <!-- END_097a5f7f0c0183fb32d32b0e9bba6b31 -->
 
+
 <!-- START_43ad8fbdbde00499a1f5e68c9d48283a -->
 ## moreChildren
 to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
@@ -1941,7 +1961,7 @@ failure Cases:
 curl -X POST "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"33wePmW0k0ob5Gex","ID":"fK22IFexW2jSo6wb"}'
+    -d '{"parent":"FEUym71n1yOJUCLI","ID":"gcu96zitCrvgr1us"}'
 
 ```
 
@@ -1955,8 +1975,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "33wePmW0k0ob5Gex",
-    "ID": "fK22IFexW2jSo6wb"
+    "parent": "FEUym71n1yOJUCLI",
+    "ID": "gcu96zitCrvgr1us"
 }
 
 fetch(url, {
@@ -1988,6 +2008,7 @@ Parameter | Type | Status | Description
 
 <!-- END_43ad8fbdbde00499a1f5e68c9d48283a -->
 
+
 <!-- START_42544bc9403ef51f80610dbe397862b5 -->
 ## moreChildren
 to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
@@ -2004,7 +2025,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"K79k5sgm5omdKWIb","ID":"auottpKFnCbLJzeh"}'
+    -d '{"parent":"4InUiZOug57eNVQO","ID":"YBR7DonrlRIuZHf5"}'
 
 ```
 
@@ -2018,8 +2039,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "K79k5sgm5omdKWIb",
-    "ID": "auottpKFnCbLJzeh"
+    "parent": "4InUiZOug57eNVQO",
+    "ID": "YBR7DonrlRIuZHf5"
 }
 
 fetch(url, {
@@ -2049,6 +2070,7 @@ Parameter | Type | Status | Description
 
 <!-- END_42544bc9403ef51f80610dbe397862b5 -->
 
+
 #Moderation
 
 Controls the Moderators actions.
@@ -2068,7 +2090,7 @@ failure Cases:
 curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"VM7Ttpo2bozQTa79","user_id":"VBeAYq8jUaiqD7ol","_token":"GKFc920v4e3Aod9X"}'
+    -d '{"ApexCom_id":"ztY4h3Xp3JKwctdb","user_id":"YMe4YVqu3VJxKfh1","_token":"y0b6HPIkj6LQg1mm"}'
 
 ```
 
@@ -2082,9 +2104,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "VM7Ttpo2bozQTa79",
-    "user_id": "VBeAYq8jUaiqD7ol",
-    "_token": "GKFc920v4e3Aod9X"
+    "ApexCom_id": "ztY4h3Xp3JKwctdb",
+    "user_id": "YMe4YVqu3VJxKfh1",
+    "_token": "y0b6HPIkj6LQg1mm"
 }
 
 fetch(url, {
@@ -2117,6 +2139,7 @@ Parameter | Type | Status | Description
 
 <!-- END_bfe5eadf66f0e0ddc26472dc0275da31 -->
 
+
 <!-- START_85b1e06ff0cc2a00de486d21459568f9 -->
 ## ignoreReport
 to delete the ignored report from  ApexCom&#039;s reports.
@@ -2133,7 +2156,7 @@ failure Cases:
 curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"1OvMRoO9e04Fz0C5","_token":"aFKo4BOf2tSKAGEo"}'
+    -d '{"report_id":"u8I8fHYKyfsrGE9v","_token":"ufjkvibaQVt6hlgW"}'
 
 ```
 
@@ -2147,8 +2170,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "1OvMRoO9e04Fz0C5",
-    "_token": "aFKo4BOf2tSKAGEo"
+    "report_id": "u8I8fHYKyfsrGE9v",
+    "_token": "ufjkvibaQVt6hlgW"
 }
 
 fetch(url, {
@@ -2180,6 +2203,7 @@ Parameter | Type | Status | Description
 
 <!-- END_85b1e06ff0cc2a00de486d21459568f9 -->
 
+
 <!-- START_6a8a2ddc981aad24b0a9445fed663ae5 -->
 ## reviewReports
 view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
@@ -2195,7 +2219,7 @@ failure Cases:
 curl -X POST "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"eWz1ushgKyzJedry","_token":"ye7H8ubGkEFNatk4"}'
+    -d '{"ApexCom_id":"HTGYmaJJB8l8graT","_token":"u0M0ArLJPdEStIK3"}'
 
 ```
 
@@ -2209,8 +2233,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "eWz1ushgKyzJedry",
-    "_token": "ye7H8ubGkEFNatk4"
+    "ApexCom_id": "HTGYmaJJB8l8graT",
+    "_token": "u0M0ArLJPdEStIK3"
 }
 
 fetch(url, {
@@ -2241,6 +2265,7 @@ Parameter | Type | Status | Description
     _token | JWT |  required  | Verifying user ID.
 
 <!-- END_6a8a2ddc981aad24b0a9445fed663ae5 -->
+
 
 #User
 
@@ -2345,6 +2370,7 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the user.
 
 <!-- END_5603f5edd050cc1888d2fe64500d5499 -->
+
 
 <!-- START_77449fa4952e985b77eff4023c7451dd -->
 ## Compose
@@ -2468,10 +2494,13 @@ Parameter | Type | Status | Description
 
 <!-- END_77449fa4952e985b77eff4023c7451dd -->
 
+
 <!-- START_afac9f990e2b5e3d484085ba83568706 -->
 ## User Get User Data
 Just like [Guest Get User Data](#guest-get-user-data), except that
-it does&#039;t return user data between blocked users.
+it does&#039;t return user data between blocked users,
+it also adds the current user vote on the user&#039;s posts
+and if he had saved them.
 
 <br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 Use this request only if the user is logged in and authorized.
@@ -2539,7 +2568,13 @@ fetch(url, {
             "content": null,
             "locked": 0,
             "created_at": "2019-03-23 17:20:32",
-            "updated_at": null
+            "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "King"
         },
         {
             "id": "t3_6",
@@ -2551,7 +2586,13 @@ fetch(url, {
             "content": null,
             "locked": 0,
             "created_at": "2019-03-23 17:20:35",
-            "updated_at": null
+            "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
+            "votes": 0,
+            "comments_count": 0,
+            "apex_com_name": "New dawn",
+            "post_writer_username": "King"
         }
     ]
 }
@@ -2591,6 +2632,7 @@ Parameter | Type | Status | Description
     token | JWT |  required  | Used to verify the user.
 
 <!-- END_afac9f990e2b5e3d484085ba83568706 -->
+
 
 <!-- START_642cf7a37db701458812f02d6082db55 -->
 ## Guest Get User Data
@@ -2659,7 +2701,11 @@ fetch(url, {
             "content": null,
             "locked": 0,
             "created_at": "2019-03-23 17:20:32",
-            "updated_at": null
+            "updated_at": null,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "King"
         },
         {
             "id": "t3_6",
@@ -2671,7 +2717,11 @@ fetch(url, {
             "content": null,
             "locked": 0,
             "created_at": "2019-03-23 17:20:35",
-            "updated_at": null
+            "updated_at": null,
+            "votes": 0,
+            "comments_count": 0,
+            "apex_com_name": "New dawn",
+            "post_writer_username": "King"
         }
     ]
 }
@@ -2704,13 +2754,15 @@ Parameter | Status | Description
 
 <!-- END_642cf7a37db701458812f02d6082db55 -->
 
+
 #general
 <!-- START_422a9a84e2e26d41816d8167e5e45304 -->
 ## User Sort Posts
 Just like [Guest Sort Posts](#guest-sort-posts), except that
 it does&#039;t return the posts between blocked users
 and posts that are hidden or reported by the current user
-and posts from apexComs that the current user is blocked from.
+and posts from apexComs that the current user is blocked from,
+it also adds to every post the current user vote and if he had saved the post.
 
 <br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 Use this request only if the user is logged in and authorized.
@@ -2763,63 +2815,61 @@ fetch(url, {
 {
     "posts": [
         {
-            "id": "t3_4",
-            "posted_by": "t2_2",
-            "apex_id": "t5_1",
+            "id": "t3_16",
+            "posted_by": "t2_6",
+            "apex_id": "t5_9",
             "title": "Anything",
             "img": null,
             "videolink": null,
             "content": null,
             "locked": 0,
-            "created_at": null,
+            "created_at": "2019-03-23 17:20:45",
             "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
             "votes": 0,
-            "comments_num": 2
+            "comments_count": 0,
+            "apex_com_name": "health care",
+            "post_writer_username": "double"
         },
         {
-            "id": "t3_1",
-            "posted_by": "t2_2",
-            "apex_id": "t5_1",
+            "id": "t3_15",
+            "posted_by": "t2_13",
+            "apex_id": "t5_8",
             "title": "Anything",
             "img": null,
             "videolink": null,
             "content": null,
             "locked": 0,
-            "created_at": null,
+            "created_at": "2019-03-23 17:20:44",
             "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
             "votes": 0,
-            "comments_num": 1
+            "comments_count": 0,
+            "apex_com_name": "movies",
+            "post_writer_username": "waleed"
         },
         {
-            "id": "t3_2",
-            "posted_by": "t2_1",
-            "apex_id": "t5_1",
+            "id": "t3_14",
+            "posted_by": "t2_15",
+            "apex_id": "t5_7",
             "title": "Anything",
             "img": null,
             "videolink": null,
             "content": null,
             "locked": 0,
-            "created_at": null,
+            "created_at": "2019-03-23 17:20:43",
             "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
             "votes": 0,
-            "comments_num": 1
-        },
-        {
-            "id": "t3_3",
-            "posted_by": "t2_4",
-            "apex_id": "t5_1",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": null,
-            "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
+            "comments_count": 1,
+            "apex_com_name": "memes",
+            "post_writer_username": "menna"
         }
     ],
-    "sortingParam": "comments"
+    "sortingParam": "date"
 }
 ```
 > Example response (404):
@@ -2850,14 +2900,17 @@ Parameter | Type | Status | Description
 
 <!-- END_422a9a84e2e26d41816d8167e5e45304 -->
 
+
 <!-- START_9792377865465dfd12bebd73e7326925 -->
 ## User Search
 Just like [Guest Search](#guest-search) except that
 it does&#039;t return the posts between blocked users,
 posts that are hidden or reported by the current user
-and posts from apexComs that the current user is blocked from
+and posts from apexComs that the current user is blocked from,
 it also doesn&#039;t return blocked users
-and the apexComs that the user is blocked from.
+and the apexComs that the user is blocked from,
+it also adds the current user vote on the posts and if he had saved them
+and adds the current user subscription of the apexComs.
 
 <br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 Use this request only if the user is logged in and authorized.
@@ -2909,43 +2962,76 @@ fetch(url, {
 {
     "posts": [
         {
-            "id": "t3_10",
-            "posted_by": "t2_31",
-            "apex_id": "t5_10",
-            "title": "5yackoudW8",
+            "id": "t3_1",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Architecto nesciunt deleniti ut. Commodi doloremque blanditiis est odio sit quia. Eos sit et sunt in repellat omnis.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:30",
+            "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "mX"
         },
         {
-            "id": "t3_12",
-            "posted_by": "t2_35",
-            "apex_id": "t5_9",
-            "title": "qYxfPEUHif",
+            "id": "t3_10",
+            "posted_by": "t2_8",
+            "apex_id": "t5_4",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Assumenda iusto sed quae hic ex non rerum. Officia voluptatem minus perferendis distinctio sint qui. Dolorem ut aliquid id illum qui placeat sit.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:39",
+            "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
+            "votes": -2,
+            "comments_count": 1,
+            "apex_com_name": "foods",
+            "post_writer_username": "mazen"
         }
     ],
     "apexComs": [
         {
-            "id": "t5_7",
-            "name": "e4GiNXiUN6",
+            "id": "t5_1",
+            "name": "Elder Scrolls",
             "avatar": "public\\img\\apx.png",
-            "banner": "public\\img\\banner.jpg",
-            "rules": "Reprehenderit qui vero eum. Qui et quos est autem culpa perferendis. Vero omnis ea culpa doloremque dolorem.",
-            "description": "Maxime quos sit omnis dolore error reprehenderit et. Harum rerum nisi magni. Qui rerum voluptatem dolorem perspiciatis ut et.",
-            "created_at": "2019-03-22 16:58:24",
-            "updated_at": "2019-03-22 16:58:24"
+            "description": "The name says it all.",
+            "subscribers_count": 0,
+            "current_user_subscribed": false
+        },
+        {
+            "id": "t5_10",
+            "name": "comics",
+            "avatar": "public\\img\\apx.png",
+            "description": "The name says it all.",
+            "subscribers_count": 0,
+            "current_user_subscribed": false
+        },
+        {
+            "id": "t5_2",
+            "name": "New dawn",
+            "avatar": "public\\img\\apx.png",
+            "description": "The name says it all.",
+            "subscribers_count": 0,
+            "current_user_subscribed": false
         }
     ],
-    "users": []
+    "users": [
+        {
+            "id": "t2_3",
+            "username": "Anyone",
+            "avatar": "publicimgdef.png",
+            "karma": 1
+        }
+    ]
 }
 ```
 > Example response (400):
@@ -2986,6 +3072,7 @@ Parameter | Type | Status | Description
 
 <!-- END_9792377865465dfd12bebd73e7326925 -->
 
+
 <!-- START_f97178f40bfc121782991110d19861b1 -->
 ## Get Subscribers
 Returns a list of the users subscribed to a certain ApexCom to an authorized user.
@@ -3008,7 +3095,7 @@ Then, it gets the username and id of the subscribers and returns them.
 curl -X POST "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"NCFEYd0czXKote0R","token":"JnqsqbWwvpPGDfBK"}'
+    -d '{"ApexCommID":"Ndebhw37m4vIISYF","token":"YYGE2I4QbtIKwaIA"}'
 
 ```
 
@@ -3022,8 +3109,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "NCFEYd0czXKote0R",
-    "token": "JnqsqbWwvpPGDfBK"
+    "ApexCommID": "Ndebhw37m4vIISYF",
+    "token": "YYGE2I4QbtIKwaIA"
 }
 
 fetch(url, {
@@ -3090,6 +3177,7 @@ Parameter | Type | Status | Description
 
 <!-- END_f97178f40bfc121782991110d19861b1 -->
 
+
 <!-- START_f7828fe70326ce6166fdba9c0c9d80ed -->
 ## Guest Search
 Returns a json contains posts, apexComs and users that match the given query.
@@ -3138,43 +3226,85 @@ fetch(url, {
 {
     "posts": [
         {
-            "id": "t3_10",
-            "posted_by": "t2_31",
-            "apex_id": "t5_10",
-            "title": "5yackoudW8",
+            "id": "t3_1",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Architecto nesciunt deleniti ut. Commodi doloremque blanditiis est odio sit quia. Eos sit et sunt in repellat omnis.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:30",
+            "updated_at": null,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "mX"
         },
         {
-            "id": "t3_12",
-            "posted_by": "t2_35",
-            "apex_id": "t5_9",
-            "title": "qYxfPEUHif",
+            "id": "t3_10",
+            "posted_by": "t2_8",
+            "apex_id": "t5_4",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Assumenda iusto sed quae hic ex non rerum. Officia voluptatem minus perferendis distinctio sint qui. Dolorem ut aliquid id illum qui placeat sit.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:39",
+            "updated_at": null,
+            "votes": -2,
+            "comments_count": 1,
+            "apex_com_name": "foods",
+            "post_writer_username": "mazen"
+        },
+        {
+            "id": "t3_11",
+            "posted_by": "t2_8",
+            "apex_id": "t5_3",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": "2019-03-23 17:20:40",
+            "updated_at": null,
+            "votes": 1,
+            "comments_count": 1,
+            "apex_com_name": "gaming area",
+            "post_writer_username": "mazen"
         }
     ],
     "apexComs": [
         {
-            "id": "t5_7",
-            "name": "e4GiNXiUN6",
+            "id": "t5_1",
+            "name": "Elder Scrolls",
             "avatar": "public\\img\\apx.png",
-            "banner": "public\\img\\banner.jpg",
-            "rules": "Reprehenderit qui vero eum. Qui et quos est autem culpa perferendis. Vero omnis ea culpa doloremque dolorem.",
-            "description": "Maxime quos sit omnis dolore error reprehenderit et. Harum rerum nisi magni. Qui rerum voluptatem dolorem perspiciatis ut et.",
-            "created_at": "2019-03-22 16:58:24",
-            "updated_at": "2019-03-22 16:58:24"
+            "description": "The name says it all.",
+            "subscribers_count": 0
+        },
+        {
+            "id": "t5_10",
+            "name": "comics",
+            "avatar": "public\\img\\apx.png",
+            "description": "The name says it all.",
+            "subscribers_count": 0
+        },
+        {
+            "id": "t5_2",
+            "name": "New dawn",
+            "avatar": "public\\img\\apx.png",
+            "description": "The name says it all.",
+            "subscribers_count": 0
         }
     ],
-    "users": []
+    "users": [
+        {
+            "id": "t2_3",
+            "username": "Anyone",
+            "avatar": "publicimgdef.png",
+            "karma": 1
+        }
+    ]
 }
 ```
 > Example response (400):
@@ -3206,6 +3336,7 @@ Parameter | Status | Description
     query |  required  | The query to be searched for (at least 3 characters).
 
 <!-- END_f7828fe70326ce6166fdba9c0c9d80ed -->
+
 
 <!-- START_09bdc60a87430aec21b4b32b21773baa -->
 ## Guest Sort Posts
@@ -3262,63 +3393,55 @@ fetch(url, {
 {
     "posts": [
         {
-            "id": "t3_4",
-            "posted_by": "t2_2",
-            "apex_id": "t5_1",
+            "id": "t3_8",
+            "posted_by": "t2_12",
+            "apex_id": "t5_3",
             "title": "Anything",
             "img": null,
             "videolink": null,
             "content": null,
-            "locked": 0,
-            "created_at": null,
+            "locked": 1,
+            "created_at": "2019-03-23 17:20:37",
             "updated_at": null,
-            "votes": 0,
-            "comments_num": 2
+            "votes": 1,
+            "comments_count": 2,
+            "apex_com_name": "gaming area",
+            "post_writer_username": "dina"
         },
         {
-            "id": "t3_1",
-            "posted_by": "t2_2",
-            "apex_id": "t5_1",
+            "id": "t3_11",
+            "posted_by": "t2_8",
+            "apex_id": "t5_3",
             "title": "Anything",
             "img": null,
             "videolink": null,
             "content": null,
             "locked": 0,
-            "created_at": null,
+            "created_at": "2019-03-23 17:20:40",
             "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
+            "votes": 1,
+            "comments_count": 1,
+            "apex_com_name": "gaming area",
+            "post_writer_username": "mazen"
         },
         {
-            "id": "t3_2",
-            "posted_by": "t2_1",
+            "id": "t3_9",
+            "posted_by": "t2_7",
             "apex_id": "t5_1",
             "title": "Anything",
             "img": null,
             "videolink": null,
             "content": null,
             "locked": 0,
-            "created_at": null,
+            "created_at": "2019-03-23 17:20:38",
             "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
-        },
-        {
-            "id": "t3_3",
-            "posted_by": "t2_4",
-            "apex_id": "t5_1",
-            "title": "Anything",
-            "img": null,
-            "videolink": null,
-            "content": null,
-            "locked": 0,
-            "created_at": null,
-            "updated_at": null,
-            "votes": 0,
-            "comments_num": 1
+            "votes": 1,
+            "comments_count": 3,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "ramzy"
         }
     ],
-    "sortingParam": "comments"
+    "sortingParam": "votes"
 }
 ```
 > Example response (404):
@@ -3340,6 +3463,7 @@ Parameter | Status | Description
     sortingParam |  optional  | The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`.
 
 <!-- END_09bdc60a87430aec21b4b32b21773baa -->
+
 
 <!-- START_b402718e2399a5ffc349d38706b47a9f -->
 ## Apex Names
@@ -3430,6 +3554,7 @@ fetch(url, {
 
 <!-- END_b402718e2399a5ffc349d38706b47a9f -->
 
+
 <!-- START_75042856f5cd6cbf0efd54f67a2e85e8 -->
 ## GuestGetSubscribers
 Returns a list of the users subscribed to a certain ApexCom to a guest user.
@@ -3448,7 +3573,7 @@ it gets the username and id of the subscribers and returns them.
 curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"Q3GFoqWiLz3JOiyG"}'
+    -d '{"ApexCommID":"UCQrUsBiiEkFVhgP"}'
 
 ```
 
@@ -3462,7 +3587,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "Q3GFoqWiLz3JOiyG"
+    "ApexCommID": "UCQrUsBiiEkFVhgP"
 }
 
 fetch(url, {
@@ -3513,5 +3638,7 @@ Parameter | Type | Status | Description
     ApexCommID | string |  required  | The ID of the ApexComm that contains the subscribers.
 
 <!-- END_75042856f5cd6cbf0efd54f67a2e85e8 -->
+
+
 
 

@@ -67,13 +67,7 @@ class search extends TestCase
         $posts = $response->json('posts');
         foreach ($posts as $post) {
             $postWriterID = $post['posted_by'];
-            $this->assertFalse(
-                Block::query()->where(
-                    ['blockerID' => $userID, 'blockedID' => $postWriterID]
-                )->orWhere(
-                    ['blockerID' => $postWriterID, 'blockedID' => $userID]
-                )->exists()
-            );
+            $this->assertFalse(Block::areBlocked($userID, $postWriterID));
             $this->assertDatabaseMissing(
                 'apex_blocks',
                 ['ApexID' => $post['apex_id'], 'blockedID' => $userID]
@@ -91,13 +85,7 @@ class search extends TestCase
         //check that there is no blocked users shown in the results
         $users = $response->json('users');
         foreach ($users as $user) {
-            $this->assertFalse(
-                Block::query()->where(
-                    ['blockerID' => $userID, 'blockedID' => $user['id']]
-                )->orWhere(
-                    ['blockerID' => $user['id'], 'blockedID' => $userID]
-                )->exists() 
-            );
+            $this->assertFalse(Block::areBlocked($userID, $user['id']));
         }
 
         //check that there are no apexComs that the user is blocked from

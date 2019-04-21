@@ -1,17 +1,28 @@
 #!/bin/bash
 set -ex
 
-composer install -o
+getFront() { ./scripts/getFront.sh $WEB_BRANCH; }
 
-if [[ "$MIGRATE" == 'true' ]]; then 
-    php7 artisan migrate -v
+install() { composer install --optimize-autoloader --no-dev; }
+
+migrate() {
+    php7 artisan migrate -n --force
     composer dump-autoload
-    php7 artisan DB:seed
-    php7 artisan jwt:secret
-fi
+}
+
+seed() { php7 artisan DB:seed -n --force; }
 
 runTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
+
 serve() { php7 artisan serve --host=0.0.0.0 --port=80; }
+
+getFront
+install
+migrate
+
+if [[ "$SEED" == 'true' ]]; then 
+    seed
+fi
 
 if [[ "$TEST" == 'true' ]]; then
     serve &

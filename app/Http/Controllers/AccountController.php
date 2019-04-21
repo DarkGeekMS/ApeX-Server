@@ -15,6 +15,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
 use App\Models\User;
 use App\Models\Code;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @group Account
@@ -74,29 +75,55 @@ class AccountController extends Controller
       * The function takes the email, username and password and validates them
       * if the validation is failed it will return an error response and if it is
       * successeded it will generate a new id for the new user then it will hash its
-      * password and creates a new user with the given data and creates a default 
+      * password and creates a new user with the given data and creates a default
       * avatar then it will save the user into the database then it will generate a
       * JWT token from its data and returns the token with the data as a response.
       *
       * @param string email The user's email.
       * @param string username The user's username.
       * @param string password The user's password.
-      * 
+      *
       * @return json the user data and the token.
       *
       */
     public function signUp(Request $request)
     {
         //validating the input data to be correct
-        $validator = Validator::make(
+        $validator1 = Validator::make(
             $request->all(),
             [
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:6',
+            'email' => 'required|string|email|max:100|unique:users'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator1->fails()) {
+            return response()->json(['error' => 'Invalid email or Email already exists'], 400);
+        }
+
+        $validator2 = Validator::make(
+            $request->all(),
+            [
+            'password' => 'required|string|min:6'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator2->fails()) {
+            return response()->json(['error' => 'Invalid password less than 6 chars'], 400);
+        }
+        $validator3 = Validator::make(
+            $request->all(),
+            [
             'username' => 'required|string|max:50|unique:users',
             'avatar' => 'image'
             ]
         );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator3->fails()) {
+            return response()->json(['error' => 'Username already exists'], 400);
+        }
 
         $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
         $id = "t2_1";
@@ -105,12 +132,6 @@ class AccountController extends Controller
             $id = $lastUser->id;
             $newIdx = (int)explode("_", $id)[1];
             $id = "t2_".($newIdx+$count);
-        }
-
-        //Returning the validation errors in case of validation failure
-        if ($validator->fails()) {
-            //converting the errors to json and returning them with 400 status code
-            return response()->json($validator->errors(), 400);
         }
 
         $requestData = $request->all();
@@ -161,13 +182,13 @@ class AccountController extends Controller
      /**
       * Signs in the user into the website.
       *
-      * The function first extracts the credentials of the user and checks for them 
+      * The function first extracts the credentials of the user and checks for them
       * if they are wrong it will return an error message, else it will generate a
       * jwt token and returns it.
       *
       * @param string username The user's username.
       * @param string password The user's password.
-      * 
+      *
       * @return JWT The user's JWT token.
       *
       */
@@ -189,9 +210,6 @@ class AccountController extends Controller
         //Returning the token
         return response()->json(compact('token'));
     }
-
-
-
 
     /**
      * mailVerify
@@ -217,19 +235,19 @@ class AccountController extends Controller
       * Sends a code to the email to reset password.
       *
       * The function first validates the input username and if the validator fails it
-      * will return an error else it will check if the user exists in the website if 
+      * will return an error else it will check if the user exists in the website if
       * it doesn't exist it will return an error, Then it will generate random code
       * and send it to the user's email, Then it will delete all codes in the
       * database asssociated with the user if exists then it will save the new code
       * in the database and return a success message.
       *
       * @param string username The user's username.
-      * 
+      *
       * @return Json A status message indicating the mail is sent or not.
       *
       */
 
-     
+
 
     public function mailVerify(Request $request)
     {
@@ -305,7 +323,7 @@ class AccountController extends Controller
       *
       * @param string username The user's username.
       * @param string code The user's forgot password code.
-      * 
+      *
       * @return Json a boolean value to indicate whether the code is correct or not.
       *
       */
@@ -376,7 +394,7 @@ class AccountController extends Controller
       * value equals to null to indicate a successfull logout.
       *
       * @param JWT token The user's JWT token.
-      * 
+      *
       * @return Json returns null or an error message.
       *
       */
@@ -472,23 +490,111 @@ class AccountController extends Controller
      * Updates the preferences of the user.
      * Success Cases :
      * 1) return true to ensure that the data updated successfully.
-     * 2) in case deactivating the account the account will be deleted.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) the changed email already exists.
      *
-     * @bodyParam change_email string required Enable changing the email
-     * @bodyParam change_password string required Enable changing the password.
-     * @bodyParam deactivate_account string Enable deactivating the account.
-     * @bodyParam media_autoplay bool Enabling media autoplay.
-     * @bodyParam pm_notifications bool Enable pm notifications.
-     * @bodyParam replies_notifications bool Enable notifications for replies.
+     * @bodyParam username string required Enable changing the username.
+     * @bodyParam fullname string required Enable changing the fullname.
+     * @bodyParam email string required Enable changing the email.
+     * @bodyParam avatar string required Enable changing the profile picture.
+     * @bodyParam notifications bool Enable notifications.
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function updates()
+     /**
+      * Changes the preferences of the user.
+      *
+      * The function firstly validates the input data of the user to check
+      * if they are valid then it gets the user data from the given token.
+      * then it checks if there is other users with the given username or email
+      * except the original user, If this is the case then it returns error
+      * else it stores the data and then it extracts the avatar from the request
+      * then it stores it and stores its directory in the database then the
+      * then it returns true to indicate the success.
+      *
+      * @param JWT token The user's JWT token.
+      * @param string username The user's username.
+      * @param string email The user's email.
+      * @param string fullname The user's fullname.
+      * @param string notification The user's notification enable value.
+      * @param avatar image the avatar of the user.
+      *
+      * @return boolean returns true or an error message.
+      *
+      */
+
+    public function updates(Request $request)
     {
-        return;
+        //validating the email to be correct
+        $validator1 = Validator::make(
+            $request->all(),
+            [
+            'email' => 'required|string|email|max:100'
+            ]
+        );
+
+        //Returning the validation errors in case of validation failure
+        if ($validator1->fails()) {
+            return response()->json(['error' => 'Invalid email or Email already exists'], 400);
+        }
+        //validating username
+        $validator2 = Validator::make(
+            $request->all(),
+            [
+            'username' => 'required|string|max:50'
+            ]
+        );
+        //returning errors in the case of username failure
+        if ($validator2->fails()) {
+            return response()->json(['error' => 'Username already exists'], 400);
+        }
+        //validating the input avatar
+        $validator3 = Validator::make(
+            $request->all(),
+            [
+                'avatar' => 'image'
+            ]
+        );
+        //returning error in the case of avatar failure.
+        if ($validator3->fails()) {
+            return response()->json(['error' => 'Avatar is not valid'], 400);
+        }
+        $account = new AccountController;
+        $user = $account->me($request)->getData()->user; // Getting user data
+        $id = $user->id; // Getting id
+        $user = User::where("id", $id)->first(); //Getting the user from database
+        $requestData = $request->all(); // Getting request data
+        // Getting number of previous users with the input username
+        $prevUsers = count(User::where("username", $requestData["username"])->get());
+        //checking if there is users otherthan the given user
+        if ($prevUsers && $user->username != $requestData["username"]) {
+            return response()->json(["error" => "username exists"], 400);
+        }
+        //Getting number of previous users with the input email.
+        $prevEmails = count(User::where("email", $requestData["email"])->get());
+        //Checking if there is users otherthan the given user
+        if ($prevEmails && $user->email != $requestData["email"]) {
+            return response()->json(["error" => "email already exists"], 400);
+        }
+        //Updating the user data
+        $user->username = $requestData["username"];
+        $user->email = $requestData["email"];
+        $user->fullname = $requestData["fullname"];
+        $user->notification = $requestData["notification"];
+        //checking if the request has an input avatar
+        if ($request->hasfile('avatar')) {
+            //getting avatar object
+            $img = $request->file('avatar');
+            $imgName = $img->getClientOriginalName(); //Getting image name
+            $extention = explode(".", $imgName)[1]; // Getting extension
+            $dir = "avatars/users/"; // initializing the directroy
+            $img->storeAs($dir, $user->id.".".$extention, "public"); //stroing avatar
+            $dir = "storage/".$dir.$user->id.".".$extention; // setting the directory
+            $user->avatar = $dir; // stroing the directory.
+        }
+        $user->save(); // saving the changes
+        return response()->json(true, 200); // returning true with success response.
     }
 
 
@@ -503,11 +609,44 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
+     * @response{
+     * "username":"Azzoz",
+     * "email":"Azzoz@hotmail.com",
+     * "fullname":"Azzoz mando",
+     * "avatar":"storage/users/default.jpg",
+     * "notification":1
+     * }
      */
 
-    public function prefs()
+     /**
+      * Gets the preferences of the user.
+      *
+      * The function gets the user associated with the given token then it returns
+      * its username, email, fullname, avatar and notification settings then it
+      * returns then in a json response.
+      *
+      * @param JWT token The user's JWT token.
+      *
+      * @return Json returns user preferences as json with keys username, email,
+      * fullname, avatar and notification.
+      *
+      */
+
+    public function prefs(Request $request)
     {
-        return;
+        $account = new AccountController;
+        //getting user info from the token
+        $user = $account->me($request)->getData()->user;
+        $user = User::where("id", $user->id)->first();
+        //returning the user data in an array
+        $user = [
+            "username" => $user->username,
+            "email" => $user->email,
+            "fullname" => $user->fullname,
+            "avatar" => $user->avatar,
+            "notification" => $user->notification
+        ];
+        return response()->json($user, 200);
     }
 
 
@@ -552,7 +691,7 @@ class AccountController extends Controller
       * case else it will return the user object of the token.
       *
       * @param JWT token The user's token.
-      * 
+      *
       * @return Json The user's object as json or an error message.
       *
       */
@@ -575,6 +714,121 @@ class AccountController extends Controller
     }
 
 
+    /**
+     * changePassword
+     * to change the password of any user.
+     * Success Cases :
+     * 1) return ture to ensure the password updated successfully.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     * 2) old password not right.
+     * 3) new password is less than 6 chars.
+     * 4) Code is invalid.
+     *
+     * @param token JWT Used to verify the user.
+     * @param withcode bool required changing password using forgot code or not.
+     * @param password string required the new password.
+     * @param username string required the username.
+     * @param key string required the forgot password code or the old password.
+     * 
+     * @return boolean return true if the password change, otherwise an error.
+     */
+
+     /**
+      * Change password whether with the old password or the forgot password code
+      *
+      * The function first check if i want to change the password using the code.
+      * or by inputting the old password, IN the first option we won't require a
+      * token if we change it with the code first i will compare the code with the 
+      * code in the database then if it is true i will change the password
+      * and delete the code, If we change without code, We will compare 
+      * the old password with the given one and if they are match we will 
+      * change the password.
+      *
+      * @bodyParam token JWT Used to verify the user.
+      * @bodyParam withcode bool required changing password using forgot code or not.
+      * @bodyParam password string required the new password.
+      * @bodyParam username string required the username.
+      * @bodyParam key string required the forgot password code or the old password.      *
+      * @return Json The user's object as json or an error message.
+      *
+      */
+
+
+    public function changePassword(Request $request)
+    {
+        //validating the password
+        $validator = Validator::make(
+            $request->all(),
+            [
+            'password' => 'required|string|min:6'
+            ]
+        );
+        //returning an error if the password is not as required
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Invalid password less than 6 chars'], 400);
+        }
+        $requestData = $request->all(); //Getting the request data
+        //whether to change password with code or not
+        $withCode = $requestData["withCode"]; 
+        $username = $requestData["username"]; //Getting username
+        if ($withCode == "1") {
+            $code = $requestData["key"]; //Getting the code
+            $username = $requestData["username"]; //Getting username
+            $user = User::where("username", $username)->first(); //Get user from DB
+            if (!$user) { //Checking for the user
+                return response()->json(["error" => "user doesn't exist"]);
+            }
+            $storedCode = Code::where("id", $user->id)->first(); //Get code from DB
+            if ($storedCode) { //check for the code
+                if ($storedCode->code == $code) { //check if codes are equal
+                    //hashing the new password
+                    $newpass = Hash::make($requestData["password"]);
+                    $user->password = $newpass; //setting password
+                    $user->save(); //saving changes
+                    Code::where("id", $user->id)->delete(); //Deleting the code
+                    return response()->json(true, 200); // returning true
+                } else {
+                    //returning error
+                    return response()->json(["error" => "Invalid code"], 400);
+                } 
+            } else {
+                //returning error
+                return response()->json(["error" => "Invalid code"], 400);
+            }
+        } else {
+            //creating new account
+            $account = new AccountController;
+            $user = $account->me($request)->getData(); //get user from token
+            if (!isset($user->user)) { //checking for user
+                //returning error
+                return response()->json(["error" => "invalid token"], 400);
+            }
+            $user = $user->user; //getting user
+            $user = User::where("id", $user->id)->first(); // get user from DB
+            $oldpass = $requestData["key"]; //getting old pass
+            $newpass = Hash::make($requestData["password"]); //hashing the new one
+            $username = $user->username; //Getting username
+            //setting credentials
+            $credentials = [
+                "username" => $username,
+                "password" => $oldpass
+            ];
+            //try to login with the old password and username
+            if (JWTAuth::attempt($credentials)) {
+                $user->password = $newpass; //changin password
+                $user->save(); //saving changes
+                return response()->json(true, 200); //return success
+            } else {
+                //return error
+                return response()->json(
+                    [
+                    "error" => "old password is not correct"
+                    ], 400
+                );
+            }
+        }
+    }
 
 
     /**
@@ -595,17 +849,23 @@ class AccountController extends Controller
         $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
-        $info=DB::table('users')->where('id', '=', $id)->select('username','avatar','karma')->get();
+        $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
         $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
-        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
-        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')->where('posts.posted_by', '=', $id)->select('content')->get();
-        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')->where('moderators.userID', '=', $id)->select('name','description')->get();
+        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')
+        ->where('posts.posted_by', '=', $id)->select('content')->get();
+        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')
+        ->where('posts.posted_by', '=', $id)->select('content')->get();
+        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')
+        ->where('moderators.userID', '=', $id)->select('name', 'description')->get();
 
 
-        if($type == 2)
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
-        else
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
+        if ($type == 2) {
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
+        } else {
+            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
+        }
         return $json_output;
     }
 
@@ -613,22 +873,21 @@ class AccountController extends Controller
 
 
     /**
-     * karma
-     * Returns the karma of the user.
+     * blockList
+     * Returns the blocked users name & IDs by the logged in user.
      * Success Cases :
-     * 1) return the karmas of the user.
+     * 1) return the list of the blocked users.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function karma()
+
+    public function blockList(Request $request)
     {
         return;
     }
-
-
 
 
     /**

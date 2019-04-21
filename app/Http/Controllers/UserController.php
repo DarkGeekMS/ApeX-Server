@@ -146,12 +146,7 @@ class UserController extends Controller
         $sender = $meResponse->getData()->user->id;
 
         //check that users are not blocked from each other
-        if (Block::query()->where(
-            ['blockerID' => $sender, 'blockedID' => $receiver]
-        )->orWhere(
-            ['blockerID' => $receiver, 'blockedID' => $sender]
-        )->exists()
-        ) {
+        if (Block::areBlocked($sender, $receiver)) {
             return response(["error" => "blocked users can't message each other"], 400);
         }
 
@@ -186,7 +181,7 @@ class UserController extends Controller
      * 1. User is not found (status code 404).
      * 2. There is a server-side error (status code 500).
      *
-     * @responseFile 200 responses\validUserData.json
+     * @responseFile 200 responses\validGuestUserData.json
      * @responseFile 404 responses\userNotFound.json
      * @responseFile 400 responses\missingUsername.json
      *
@@ -214,18 +209,22 @@ class UserController extends Controller
 
             $posts = Post::where('posted_by', $userData->first()['id'])->get();
 
-            $userData = $userData->select('username', 'fullname', 'karma', 'avatar')->first();
+            $userData = $userData->select(
+                'id', 'username', 'fullname', 'karma', 'avatar'
+            )->first();
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }
 
-        return response()->json(compact('userData', 'posts'));
+        return compact('userData', 'posts');
     }
 
     /**
      * User Get User Data
      * Just like [Guest Get User Data](#guest-get-user-data), except that
-     * it does't return user data between blocked users.
+     * it does't return user data between blocked users,
+     * it also adds the current user vote on the user's posts 
+     * and if he had saved them.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -251,7 +250,7 @@ class UserController extends Controller
     public function userData(Request $request)
     {
         $result = $this->guestUserData($request);
-        if ($result->status() !== 200) {
+        if (!array_key_exists('posts', $result)) {
             return $result;
         }
 
@@ -261,18 +260,19 @@ class UserController extends Controller
         try {
             $id2 = User::where('username', $request['username'])->first()['id'];
 
-            if (Block::where(['blockerID'=> $id1, 'blockedID' => $id2])
-                ->orWhere(['blockerID' => $id2, 'blockedID'=> $id1])->exists()
-            ) {
+            if (Block::areBlocked($id1, $id2)) {
                 return response()->json(
                     ['error' => "blocked users can't view the data of each other"],
                     400
                 );
             }
+            //filter the posts
+            $general = new GeneralController();
+            $result = $general->filterResult(collect($result), $request['token']);
+            return $result;
+            
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }
-
-        return $result;
     }
 }
