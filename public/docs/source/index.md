@@ -39,7 +39,7 @@ failure Cases:
 curl -X POST "http://localhost/api/del_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"id":"BdK0FXLPX7SF2KzS","token":"b9L92YuzV1NC9nk6"}'
+    -d '{"id":"F75ar3jdrPQJH746","token":"JUxp6PzZ7OMKiArO"}'
 
 ```
 
@@ -53,8 +53,8 @@ let headers = {
 }
 
 let body = {
-    "id": "BdK0FXLPX7SF2KzS",
-    "token": "b9L92YuzV1NC9nk6"
+    "id": "F75ar3jdrPQJH746",
+    "token": "JUxp6PzZ7OMKiArO"
 }
 
 fetch(url, {
@@ -103,7 +103,7 @@ failure Cases:
 curl -X POST "http://localhost/api/read_msg" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"UCk0g56z5Beprq2E","token":"tiRimW0akcFrjaFo"}'
+    -d '{"ID":"1xbMtb1gX1SwvMRe","token":"V2nxhhaf4eXPD8IO"}'
 
 ```
 
@@ -117,8 +117,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "UCk0g56z5Beprq2E",
-    "token": "tiRimW0akcFrjaFo"
+    "ID": "1xbMtb1gX1SwvMRe",
+    "token": "V2nxhhaf4eXPD8IO"
 }
 
 fetch(url, {
@@ -212,7 +212,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/updateprefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"change_email":"FadcD1SLiI9k3v9w","change_password":"VssS58xrDJzUSuH1","deactivate_account":"BIhRK78ylZDug9tC","media_autoplay":true,"pm_notifications":true,"replies_notifications":true,"token":"qUG5WnEvuPUEZAQt"}'
+    -d '{"change_email":"hVldbQRcr6qeaDsd","change_password":"u6Rq1QbmXr4Zn5LX","deactivate_account":"ciNMBEcydXDwBawT","media_autoplay":false,"pm_notifications":true,"replies_notifications":true,"token":"aNi07cVDdUg5bgxV"}'
 
 ```
 
@@ -226,13 +226,13 @@ let headers = {
 }
 
 let body = {
-    "change_email": "FadcD1SLiI9k3v9w",
-    "change_password": "VssS58xrDJzUSuH1",
-    "deactivate_account": "BIhRK78ylZDug9tC",
-    "media_autoplay": true,
+    "change_email": "hVldbQRcr6qeaDsd",
+    "change_password": "u6Rq1QbmXr4Zn5LX",
+    "deactivate_account": "ciNMBEcydXDwBawT",
+    "media_autoplay": false,
     "pm_notifications": true,
     "replies_notifications": true,
-    "token": "qUG5WnEvuPUEZAQt"
+    "token": "aNi07cVDdUg5bgxV"
 }
 
 fetch(url, {
@@ -284,7 +284,7 @@ failure Cases:
 curl -X POST "http://localhost/api/prefs" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"NeHWIfGwYR1J1M7z"}'
+    -d '{"token":"NeMazUG2Ot0oPKBb"}'
 
 ```
 
@@ -298,7 +298,7 @@ let headers = {
 }
 
 let body = {
-    "token": "NeHWIfGwYR1J1M7z"
+    "token": "NeMazUG2Ot0oPKBb"
 }
 
 fetch(url, {
@@ -345,7 +345,7 @@ failure Cases:
 curl -X POST "http://localhost/api/info" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"0lymmqd0CPWlzper"}'
+    -d '{"token":"CL0x40ZrWzDrTsi0"}'
 
 ```
 
@@ -359,7 +359,7 @@ let headers = {
 }
 
 let body = {
-    "token": "0lymmqd0CPWlzper"
+    "token": "CL0x40ZrWzDrTsi0"
 }
 
 fetch(url, {
@@ -405,7 +405,7 @@ failure Cases:
 curl -X POST "http://localhost/api/karma" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"GmcUIrLRISIJHf23"}'
+    -d '{"token":"glIidHLlSHzYLNsL"}'
 
 ```
 
@@ -419,7 +419,7 @@ let headers = {
 }
 
 let body = {
-    "token": "GmcUIrLRISIJHf23"
+    "token": "glIidHLlSHzYLNsL"
 }
 
 fetch(url, {
@@ -465,7 +465,7 @@ failure Cases:
 curl -X POST "http://localhost/api/inbox_messages" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"max":17,"token":"3I3KtWHs2ka1LWVa"}'
+    -d '{"max":6,"token":"uIvfeChJdeoO1RmN"}'
 
 ```
 
@@ -479,8 +479,8 @@ let headers = {
 }
 
 let body = {
-    "max": 17,
-    "token": "3I3KtWHs2ka1LWVa"
+    "max": 6,
+    "token": "uIvfeChJdeoO1RmN"
 }
 
 fetch(url, {
@@ -764,23 +764,24 @@ fetch(url, {
 
 To manage the controls of admins and moderators
 <!-- START_2da9e0236ffb9162cb62c0fc316dcf91 -->
-## deleteApexCom
-Deleting the ApexCom by the admin.
+## deleteApexCom.
 
-Success Cases :
-1) return true to ensure ApexCom is deleted successfully.
-failure Cases:
-1) Apex fullname (ID) is not found.
-2) NoAccessRight the token is not the site admin token id.
+This Function used to delete an apexcom.
+only the admin can delete any apexcom.
+
+it receives the token of the logged in user.
+it gets the id of the apexcom to deleted.
+then it checks that an apexcom with this id exists.
+if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
+it checks that the user who want to delete the apexcom is an admin(type=3).
+if not it returns an error message unauthorized access.
+if the user is an admin it deletes the apexcom and return true.
 
 > Example request:
 
 ```bash
 curl -X DELETE "http://localhost/api/del_account" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"eEoJMkw2Ak3SYS1O","token":"dHEBrnOyWvvYbiUG"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
@@ -788,19 +789,13 @@ const url = new URL("http://localhost/api/del_account");
 
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "Apex_ID": "eEoJMkw2Ak3SYS1O",
-    "token": "dHEBrnOyWvvYbiUG"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "DELETE",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -817,33 +812,33 @@ fetch(url, {
 ### HTTP Request
 `DELETE api/del_account`
 
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    Apex_ID | string |  required  | The ID of the ApexCom to be deleted.
-    token | JWT |  required  | Used to verify the admin ID.
 
 <!-- END_2da9e0236ffb9162cb62c0fc316dcf91 -->
 
 <!-- START_e296e67bb691dee7c255f187ef41231e -->
-## deleteUser
-Delete a user from the application by the admin or self-delete (Account deactivation).
+## deleteUser.
 
-Success Cases :
-1) return true to ensure that the user is deleted successfully.
-failure Cases:
-1) user fullname (ID) is not found.
-2) NoAccessRight the token is not the site admin or the same user token id.
+This Function used to delete a user by an admin or used for self-delete(Account deactivation).
+
+it receives the token of the logged in user.
+it gets the id of the user to deleted.
+then it checks that a user exists with the given id.
+if not it returns an error message user doesnot exist.
+it gets password confirmation in case of account deactivation.
+then it gets the hashed password of the user with the given id.
+it checks that the logged in user is an admin.
+if the logged user is an admin it deletes the user.
+if he is not an admin it checks that the logged in user has the same given id.
+if the ids are different it returns an error message UnAuthorized Deletion.
+if the ids match it checks that the hashed password is the same as the password confirmation.
+if the passwords doesnot match it returns an error message Wrong password entered.
+otherwise it deletes the user (deactivate the account) and returns true.
 
 > Example request:
 
 ```bash
 curl -X DELETE "http://localhost/api/del_user" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"UserID":"VLGWGC895fSjbV9b","token":"mveTaPj5SIiEhfhu"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
@@ -851,19 +846,13 @@ const url = new URL("http://localhost/api/del_user");
 
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "UserID": "VLGWGC895fSjbV9b",
-    "token": "mveTaPj5SIiEhfhu"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "DELETE",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -880,33 +869,32 @@ fetch(url, {
 ### HTTP Request
 `DELETE api/del_user`
 
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    UserID | string |  required  | The ID of the user to be deleted.
-    token | JWT |  required  | Used to verify the admin or the same user ID.
 
 <!-- END_e296e67bb691dee7c255f187ef41231e -->
 
 <!-- START_fd85770e108112a824ea9fd5c16c7dfc -->
-## addModerator
-Adding (or Deleting) a moderator to ApexCom.
+## addModerator.
 
-Success Cases :
-1) return true to ensure that the moderator is added successfully.
-failure Cases:
-1) user fullname (ID) is not found.
-2) NoAccessRight the token is not the site admin token id.
+This Function used to add a user as a moderator for an apexcom.
+only the admin can add moderators to the apexcom.
+
+it receives the token of the logged in user.
+it gets the id of the user to be added as moderator.
+then it checks that a user exists with the given id.
+if not it returns an error message user doesnot exist.
+it gets the id of the apexcom.
+then it checks that an apexcom exists with the given id.
+if not it returns an error message apexcom doesnot exist.
+it checks that the logged in user is an admin.
+if the logged user is an admin it checks if the user is already a moderator for the given apex com.
+if the user is already a moderator it deletes the moderation and returns true.
+if not the user is added as moderator and it returns true.
 
 > Example request:
 
 ```bash
 curl -X POST "http://localhost/api/add_moderator" \
-    -H "Api-Version: 0.1.0" \
-    -H "Content-Type: application/json" \
-    -d '{"ApexComID":"VvhYlMquXiFSRdN2","token":"zapjDVSBl1D4jmJI","UserID":"JQYMuSEzzWDLDeHP"}'
-
+    -H "Api-Version: 0.1.0"
 ```
 
 ```javascript
@@ -914,20 +902,13 @@ const url = new URL("http://localhost/api/add_moderator");
 
 let headers = {
     "Api-Version": "0.1.0",
-    "Content-Type": "application/json",
     "Accept": "application/json",
-}
-
-let body = {
-    "ApexComID": "VvhYlMquXiFSRdN2",
-    "token": "zapjDVSBl1D4jmJI",
-    "UserID": "JQYMuSEzzWDLDeHP"
+    "Content-Type": "application/json",
 }
 
 fetch(url, {
     method: "POST",
     headers: headers,
-    body: body
 })
     .then(response => response.json())
     .then(json => console.log(json));
@@ -944,13 +925,6 @@ fetch(url, {
 ### HTTP Request
 `POST api/add_moderator`
 
-#### Body Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    ApexComID | string |  required  | The ID of the ApexCom.
-    token | JWT |  required  | Used to verify the Admin ID.
-    UserID | string |  required  | The user ID to be added as a moderator.
 
 <!-- END_fd85770e108112a824ea9fd5c16c7dfc -->
 
@@ -1024,7 +998,7 @@ Then, The about information of apexcom is returned.
 curl -X POST "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"rw7FmKHcyof0Xlp9","token":"n7nQ5QtjUgYDcDZ3"}'
+    -d '{"ApexCom_ID":"YO71J4qmyDIoveJd","token":"wAga6ZHsxyAF7ghb"}'
 
 ```
 
@@ -1038,8 +1012,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "rw7FmKHcyof0Xlp9",
-    "token": "n7nQ5QtjUgYDcDZ3"
+    "ApexCom_ID": "YO71J4qmyDIoveJd",
+    "token": "wAga6ZHsxyAF7ghb"
 }
 
 fetch(url, {
@@ -1125,7 +1099,7 @@ if validation fails logical error is returned, else a new post is added and retu
 curl -X POST "http://localhost/api/submit_post" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"htbZISP3gkS0VjrM","title":"Ozq3vE51fRyAvanN","body":"TfNMCmyJyNQ17TcL","img_name":"B0VJ6fv4gGjmqkiu","video_url":"TpfZI8Uyc96agkYX","isLocked":false,"token":"OLct5d6u8XrX1bqB"}'
+    -d '{"ApexCom_id":"7NUYWL6tblazVr2o","title":"ydmck1s2FPxJQmZI","body":"42NVGeqxeZd1TM5a","img_name":"LNdYniciGwVtDk4i","video_url":"9TKQJ32FnF953cu6","isLocked":false,"token":"tznCej02J8fydopm"}'
 
 ```
 
@@ -1139,13 +1113,13 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "htbZISP3gkS0VjrM",
-    "title": "Ozq3vE51fRyAvanN",
-    "body": "TfNMCmyJyNQ17TcL",
-    "img_name": "B0VJ6fv4gGjmqkiu",
-    "video_url": "TpfZI8Uyc96agkYX",
+    "ApexCom_id": "7NUYWL6tblazVr2o",
+    "title": "ydmck1s2FPxJQmZI",
+    "body": "42NVGeqxeZd1TM5a",
+    "img_name": "LNdYniciGwVtDk4i",
+    "video_url": "9TKQJ32FnF953cu6",
     "isLocked": false,
-    "token": "OLct5d6u8XrX1bqB"
+    "token": "tznCej02J8fydopm"
 }
 
 fetch(url, {
@@ -1204,7 +1178,7 @@ Else, the user will subscribe the apexcom, and it will return 'subscribed'.
 curl -X POST "http://localhost/api/subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"y24VEizI78hloee4","token":"CPdzgU00l0RecCZF"}'
+    -d '{"ApexCom_id":"vDyyYeI3KvckKeJO","token":"ZhUGuX5BB25G5ZAj"}'
 
 ```
 
@@ -1218,8 +1192,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "y24VEizI78hloee4",
-    "token": "CPdzgU00l0RecCZF"
+    "ApexCom_id": "vDyyYeI3KvckKeJO",
+    "token": "ZhUGuX5BB25G5ZAj"
 }
 
 fetch(url, {
@@ -1295,7 +1269,7 @@ if apexcom name doesn't exist then a new apexcom is created and return 'created'
 curl -X POST "http://localhost/api/site_admin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"BhEONqoIqgO6pkh6","description":"M73T3j0eZ3k32qhO","rules":"a9N5CRH03Xalniwj","avatar":"53t5euzgGEZMUTHG","banner":"1OOlHhAR3FQc53ei","token":"EnGjuYrgSkafbDQj"}'
+    -d '{"name":"PaCwhYNC30Zvc9VF","description":"SGUxaaKZSEwFNMMV","rules":"Ozszn48PIDEXrgRD","avatar":"s69Icrpw93odilXW","banner":"pfrZSrbx0auABLxK","token":"mfZl8qZoyKypN2zl"}'
 
 ```
 
@@ -1309,12 +1283,12 @@ let headers = {
 }
 
 let body = {
-    "name": "BhEONqoIqgO6pkh6",
-    "description": "M73T3j0eZ3k32qhO",
-    "rules": "a9N5CRH03Xalniwj",
-    "avatar": "53t5euzgGEZMUTHG",
-    "banner": "1OOlHhAR3FQc53ei",
-    "token": "EnGjuYrgSkafbDQj"
+    "name": "PaCwhYNC30Zvc9VF",
+    "description": "SGUxaaKZSEwFNMMV",
+    "rules": "Ozszn48PIDEXrgRD",
+    "avatar": "s69Icrpw93odilXW",
+    "banner": "pfrZSrbx0auABLxK",
+    "token": "mfZl8qZoyKypN2zl"
 }
 
 fetch(url, {
@@ -1445,7 +1419,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/about" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"ANBZzZ8surnPxdqv"}'
+    -d '{"ApexCom_ID":"o5wJ6OsgnALCD1Bp"}'
 
 ```
 
@@ -1459,7 +1433,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "ANBZzZ8surnPxdqv"
+    "ApexCom_ID": "o5wJ6OsgnALCD1Bp"
 }
 
 fetch(url, {
@@ -1632,7 +1606,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/edit" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"EO6BETpjQrJJSPx9","content":"1k645biCcrTbNGyp","token":"MVtuq5qilhFqyDPH"}'
+    -d '{"name":"wK7sXOErIbRox4fd","content":"9FfQeZIwRw5hqbVx","token":"68nbzgtIr87AQJ1X"}'
 
 ```
 
@@ -1646,9 +1620,9 @@ let headers = {
 }
 
 let body = {
-    "name": "EO6BETpjQrJJSPx9",
-    "content": "1k645biCcrTbNGyp",
-    "token": "MVtuq5qilhFqyDPH"
+    "name": "wK7sXOErIbRox4fd",
+    "content": "9FfQeZIwRw5hqbVx",
+    "token": "68nbzgtIr87AQJ1X"
 }
 
 fetch(url, {
@@ -1904,7 +1878,7 @@ failure Cases:
 curl -X POST "http://localhost/api/save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"soHVyJethkBYqCGG","token":"OveqsOXoNmvIfw7l"}'
+    -d '{"ID":"05oC7Jv8V19yy8OM","token":"ycJSdzgznNqcgiPV"}'
 
 ```
 
@@ -1918,8 +1892,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "soHVyJethkBYqCGG",
-    "token": "OveqsOXoNmvIfw7l"
+    "ID": "05oC7Jv8V19yy8OM",
+    "token": "ycJSdzgznNqcgiPV"
 }
 
 fetch(url, {
@@ -1967,7 +1941,7 @@ failure Cases:
 curl -X POST "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"vJmQjMB34Hpcklb1","ID":"AB1X2JTDmWAlU3ug"}'
+    -d '{"parent":"33wePmW0k0ob5Gex","ID":"fK22IFexW2jSo6wb"}'
 
 ```
 
@@ -1981,8 +1955,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "vJmQjMB34Hpcklb1",
-    "ID": "AB1X2JTDmWAlU3ug"
+    "parent": "33wePmW0k0ob5Gex",
+    "ID": "fK22IFexW2jSo6wb"
 }
 
 fetch(url, {
@@ -2030,7 +2004,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/moreComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"SvVWkfhrCU6ph13q","ID":"exGOYDQF85ySFeb5"}'
+    -d '{"parent":"K79k5sgm5omdKWIb","ID":"auottpKFnCbLJzeh"}'
 
 ```
 
@@ -2044,8 +2018,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "SvVWkfhrCU6ph13q",
-    "ID": "exGOYDQF85ySFeb5"
+    "parent": "K79k5sgm5omdKWIb",
+    "ID": "auottpKFnCbLJzeh"
 }
 
 fetch(url, {
@@ -2094,7 +2068,7 @@ failure Cases:
 curl -X POST "http://localhost/api/block" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"Hrh5dkTECHHJrUWk","user_id":"EhqohfY9guLYxYOG","_token":"aoQYWw9cJ8Aq3Llt"}'
+    -d '{"ApexCom_id":"VM7Ttpo2bozQTa79","user_id":"VBeAYq8jUaiqD7ol","_token":"GKFc920v4e3Aod9X"}'
 
 ```
 
@@ -2108,9 +2082,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "Hrh5dkTECHHJrUWk",
-    "user_id": "EhqohfY9guLYxYOG",
-    "_token": "aoQYWw9cJ8Aq3Llt"
+    "ApexCom_id": "VM7Ttpo2bozQTa79",
+    "user_id": "VBeAYq8jUaiqD7ol",
+    "_token": "GKFc920v4e3Aod9X"
 }
 
 fetch(url, {
@@ -2159,7 +2133,7 @@ failure Cases:
 curl -X POST "http://localhost/api/report_action" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"report_id":"JP8KL8KSuh3PmX53","_token":"Wi5PUQjeY864rDrs"}'
+    -d '{"report_id":"1OvMRoO9e04Fz0C5","_token":"aFKo4BOf2tSKAGEo"}'
 
 ```
 
@@ -2173,8 +2147,8 @@ let headers = {
 }
 
 let body = {
-    "report_id": "JP8KL8KSuh3PmX53",
-    "_token": "Wi5PUQjeY864rDrs"
+    "report_id": "1OvMRoO9e04Fz0C5",
+    "_token": "aFKo4BOf2tSKAGEo"
 }
 
 fetch(url, {
@@ -2221,7 +2195,7 @@ failure Cases:
 curl -X POST "http://localhost/api/review_reports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"E4CgNupnRZLF9aLD","_token":"C7cny0VTKIeUi4zl"}'
+    -d '{"ApexCom_id":"eWz1ushgKyzJedry","_token":"ye7H8ubGkEFNatk4"}'
 
 ```
 
@@ -2235,8 +2209,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "E4CgNupnRZLF9aLD",
-    "_token": "C7cny0VTKIeUi4zl"
+    "ApexCom_id": "eWz1ushgKyzJedry",
+    "_token": "ye7H8ubGkEFNatk4"
 }
 
 fetch(url, {
@@ -3034,7 +3008,7 @@ Then, it gets the username and id of the subscribers and returns them.
 curl -X POST "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"Z0mLSYGawvut1QA0","token":"AQ6eI69jFWGkZXZt"}'
+    -d '{"ApexCommID":"NCFEYd0czXKote0R","token":"JnqsqbWwvpPGDfBK"}'
 
 ```
 
@@ -3048,8 +3022,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "Z0mLSYGawvut1QA0",
-    "token": "AQ6eI69jFWGkZXZt"
+    "ApexCommID": "NCFEYd0czXKote0R",
+    "token": "JnqsqbWwvpPGDfBK"
 }
 
 fetch(url, {
@@ -3474,7 +3448,7 @@ it gets the username and id of the subscribers and returns them.
 curl -X GET -G "http://localhost/api/get_subscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"5OIhzj2MWR3gHZ3D"}'
+    -d '{"ApexCommID":"Q3GFoqWiLz3JOiyG"}'
 
 ```
 
@@ -3488,7 +3462,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "5OIhzj2MWR3gHZ3D"
+    "ApexCommID": "Q3GFoqWiLz3JOiyG"
 }
 
 fetch(url, {

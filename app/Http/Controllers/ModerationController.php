@@ -3,6 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\AccountController;
+use App\Models\ApexCom as apexComModel;
+use App\Models\ApexBlock;
+use App\Models\User;
+use App\Models\Moderator;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\ReportComment;
+use App\Models\ReportPost;
 
 /**
  * @group Moderation
@@ -24,12 +34,74 @@ class ModerationController extends Controller
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the user is blocked.
      * @bodyParam user_id string required The fullname of the user to be blocked.
-     * @bodyParam _token JWT required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function blockUser()
+    public function blockUser(Request $request)
     {
-        return;
+        $account = new AccountController();
+        $User = $account->me($request)->getData()->user;
+        $moderator_id = $User->id;
+        $apex_id = $request['ApexCom_id'];
+        $user_id = $request['user_id'];
+        $moderator_type = $User->type;;
+
+        // checking if the apexCom exists.
+        $exists = apexComModel::where('id', $apex_id)->count();
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
+        }
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return an error message if the user was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+        
+        $user_type = User::find($user_id);
+        $user_type = $user_type->type;
+        
+        // checking if the user is a moderator for this apexcom.
+        $IsModerator = Moderator::where(
+            [['apexID', $apex_id], ['userID', $moderator_id]]
+        )->count();
+
+        if (!$IsModerator && $moderator_type != 3) {
+            return response()->json(['error' => 'You are not a moderator of this apexcom.'], 400);
+        }
+
+        // checking if the other user (blocked user) is a moderator for this apexcom or a siteadmin.
+        $IsModerator = Moderator::where(
+            [['apexID', $apex_id], ['userID', $user_id]]
+        )->count();
+
+        if ($IsModerator || $user_type == 3) {
+            return response()->json(['error' => 'You can not block a moderator in the apexcom.'], 400);
+        }
+
+        // checking if the user is already blocked
+        $Isblocked = ApexBlock::where(
+            [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
+        )->count();
+
+        // return an error for if the user was already blocked from the apexcom.
+        if ($Isblocked != 0) {
+            return response()->json(['error' => 'The user is already blocked from this Apexcom'], 400);
+        }
+
+        ApexBlock::create(
+            [
+                'ApexID' => $apex_id,
+                'blockedID' => $user_id
+            ]
+        );
+        
+        // return true to ensure the success of blocking from the apexcom.
+        return response()->json('Blocked', 200);
     }
 
 
@@ -43,13 +115,82 @@ class ModerationController extends Controller
      * 1) NoAccessRight the token is not for the moderator of this ApexCom including the report to be removed.
      * 2) report fullname (id) is not found.
      *
-     * @bodyParam report_id string required The fullname of the report to be ignored.
-     * @bodyParam _token JWT required Verifying user ID.
+     * @bodyParam user_id string required The fullname of the user who posted the comment or post to be ignored.
+     * @bodyParam reported_id string required The fullname of the post or comment to be ignored.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function ignoreReport()
+    public function ignoreReport(Request $request)
     {
-        return;
+        $account = new AccountController();
+        $User = $account->me($request)->getData()->user;
+        $moderator_id = $User->id;
+        $report_id = $request['report_id'];
+        $user_id = $request['user_id'];
+        $moderator_type = $User->type;
+
+        // checking if the user exists.
+        $exists = User::where('id', $user_id)->count();
+
+        // return an error message if the user was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
+        // getting apexcom of the reported comment or post;
+        $apex_id = 0;
+        $exists1 = Post::where('id', $report_id)->count();
+        if ($exists1) {
+            $apex_id = Post::where('id', $report_id)->get();
+            $apex_id = $apex_id[0]->apex_id;
+        }
+
+        $exists2 = Comment::where('id', $report_id)->count();
+        if ($exists2) {
+            $apex_id = Comment::where('id', $report_id)->get();
+            $apex_id = Post::where('id', $apex_id[0]->root)->get();
+            $apex_id = $apex_id[0]->apex_id;
+        }
+        if (!$exists1 && !$exists2) {
+            // if it was not a report on post or comment return a message error
+            return response()->json(['error' => 'Unable to find a post or a comment.'], 404);
+        }
+
+        // checking if the user is a moderator for this apexcom if not return an error message.
+        $IsModerator = Moderator::where(
+            [['apexID', $apex_id], ['userID', $moderator_id]]
+        )->count();
+
+        if (!$IsModerator && $moderator_type != 3) {
+            return response()->json(['error' => 'You have no rights to edit posts or comments in this apexcom.'], 400);
+        }
+
+        // checking if the reported was a comment
+        $IsComment = ReportComment::where(
+            [['comID', $report_id], ['userID', $user_id]]
+        )->count();
+
+        if ($IsComment) {
+            // delete the report and return deleted report on comment
+            ReportComment::where([['comID', '=',$report_id],['userID', '=',$user_id] ])->delete();
+
+            return response()->json('Ignore report on comment', 200);
+        }
+
+        // checking if the reported was a post
+        $IsPost = ReportPost::where(
+            [['postID', $report_id], ['userID', $user_id]]
+        )->count();
+
+        if ($IsPost) {
+            // delete the report and return deleted report on post
+            ReportPost::where([['PostID', '=',$report_id],['userID', '=',$user_id] ])->delete();
+
+            return response()->json('Ignore report on Post', 200);
+        }
+
+        // if it was not a report on post or comment return a message error
+        return response()->json(['error' => 'Report not found.'], 404);
     }
 
     /**
