@@ -16,6 +16,7 @@ use DB;
 use App\Models\User;
 use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Message;
 
 /**
  * @group Account
@@ -417,21 +418,78 @@ class AccountController extends Controller
 
 
     /**
-     * deleteMsg
-     * Delete private messages from the recipient's view of their inbox.
-     * Success Cases :
-     * 1) return true to ensure that the message is deleted successfully.
-     * failure Cases:
-     * 1) message id is not found.
-     * 2) NoAccessRight token is not authorized.
-     *
-     * @bodyParam id string required The id of the message to be deleted.
+     * Delete message
+     * Delete a private message or a reply to a message. Either the receiver or the 
+     * sender can delete a message. If both the receiver and the sender 
+     * have deleted the message, then it's deleted entirely from the database.
+     * If a message is deleted, all its replies will be deleted.
+     * 
+     * ###Success Cases :
+     * 1.The parameters are valid, return json contains 
+     *  'the message has been deleted successfully' (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Message ID is not found. (status code 404)
+     * 2. The user is not the sender nor the receiver of the message. (status code 400)
+     * 3. The message is already deleted from the current user 
+     *  but still not deleted from the other user. (status code 400)
+     * 4. The `token` is invalid, and the user is not authorized. (status code 400)
+     * 
+     * @authenticated
+     * 
+     * @response 200 {"result":"The message is deleted successfully"}
+     * @response 404 {"error":"message ID is not found"}
+     * @response 400 {"error":"The user is not the sender nor the receiver of the message"}
+     * @response 400 {"error":"The message is already deleted from the sender"}
+     * @response 400 {"error":"The message is already deleted from the receiver"}
+     * @response 400 {"error":"Not authorized"}
+     * 
+     * @bodyParam id string required The id of the me   ssage to be deleted.
      * @bodyParam token JWT required Used to verify the user.
      */
-
-    public function deleteMsg()
+    public function deleteMsg(Request $request)
     {
-        return;
+        $validator = validator($request->only('id'), ['id' => 'required|string']);
+        $userID = $this->me($request)->getData()->user->id;
+        $msgID = $request['id'];
+        $record = Message::find($msgID);
+        if (!$record) {
+            return response()->json(['error' => 'message ID is not found'], 404);
+        }
+        if ($record->sender == $userID) {
+            if ($record->delSend == true) {
+                return response()->json(
+                    ['error' => 'The message is already deleted from the sender'],
+                    400
+                );
+            } else {
+                $record->delSend = true;
+                $record->save();
+            }
+        } elseif ($record->receiver == $userID) {
+            if ($record->delReceive == true) {
+                return response()->json(
+                    ['error' => 'The message is already deleted from the receiver'],
+                    400
+                );
+            } else {
+                $record->delReceive = true;
+                $record->save();
+            }
+        } else {
+            return response()->json(
+                ['error' => 'The user is not the sender nor the receiver of the message'],
+                400
+            );
+        }
+        //check if the message is deleted from both the sender and the receiver
+        if ($record->delSend == true && $record->delReceive == true) {
+            $record->delete();
+        }
+
+        return response()->json(
+            ['result' => 'The message is deleted successfully']
+        );
     }
 
 
