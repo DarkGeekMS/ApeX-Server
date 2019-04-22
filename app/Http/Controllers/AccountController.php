@@ -421,12 +421,12 @@ class AccountController extends Controller
      * Delete message
      * Delete a private message or a reply to a message. Either the receiver or the 
      * sender can delete a message. If both the receiver and the sender 
-     * have deleted the message, then it's deleted entirely from the database.
+     * have deleted the message, then it's deleted entirely from the database,
      * If a message is deleted, all its replies will be deleted.
      * 
      * ###Success Cases :
      * 1.The parameters are valid, return json contains 
-     *  'the message has been deleted successfully' (status code 200).
+     *  "the message is deleted successfully" (status code 200).
      * 
      * ###Failure Cases:
      * 1. Message ID is not found. (status code 404)
@@ -444,7 +444,7 @@ class AccountController extends Controller
      * @response 400 {"error":"The message is already deleted from the receiver"}
      * @response 400 {"error":"Not authorized"}
      * 
-     * @bodyParam id string required The id of the me   ssage to be deleted.
+     * @bodyParam id string required The id of the message to be deleted.
      * @bodyParam token JWT required Used to verify the user.
      */
     public function deleteMsg(Request $request)
