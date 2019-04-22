@@ -10,7 +10,7 @@ migrate() {
     composer dump-autoload
 }
 
-seed() { php7 artisan DB:seed -n --force; }
+seed() { php7 artisan DB:seed -n --force || echo maybe the database already seeded, ignoring; }
 
 unitTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
 
