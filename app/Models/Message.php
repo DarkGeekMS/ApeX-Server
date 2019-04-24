@@ -14,10 +14,7 @@ class Message extends Model
       'subject',
       'parent',
       'sender',
-      'receiver',
-      'received',
-      'delSend',
-      'delReceive'
+      'receiver'
     ];
     public $incrementing = false;
 

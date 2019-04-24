@@ -35,23 +35,30 @@ class Inbox extends TestCase
         $sent = $response->json('sent');
         foreach ($sent as $mes ) {
             $this->assertDatabaseHas(
-                'messages', ['sender' => $userID, 'delSend' => false]
+                'messages', [
+                    'id' => $mes['id'], 'parent' => null,
+                    'sender' => $userID, 'delSend' => false
+                ]
             );
         }
 
         $read = $response->json('received')['read'];
         foreach ($read as $mes ) {
             $this->assertDatabaseHas(
-                'messages',
-                ['receiver' => $userID, 'delReceive' => false, 'received' => true]
+                'messages', [
+                    'id' => $mes['id'], 'parent' => null,
+                    'receiver' => $userID, 'delReceive' => false, 'received' => true
+                ]
             );
         }
 
         $unread = $response->json('received')['unread'];
         foreach ($unread as $mes ) {
             $this->assertDatabaseHas(
-                'messages',
-                ['receiver' => $userID, 'delReceive' => false, 'received' => false]
+                'messages', [
+                    'id' => $mes['id'], 'parent' => null,
+                    'receiver' => $userID, 'delReceive' => false, 'received' => false
+                ]
             );
         }
 
@@ -97,6 +104,6 @@ class Inbox extends TestCase
         $response = $this->json(
             'POST', 'api/inbox_messages', compact('token')
         );
-        $response->assertStatus(400)->assertSee('Not Authorized');
+        $response->assertStatus(400)->assertSee('Not authorized');
     }
 }
