@@ -17,7 +17,7 @@ use App\Models\User;
 use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Message;
-
+use Illuminate\Http\Response;
 /**
  * @group Account
  *
@@ -450,6 +450,9 @@ class AccountController extends Controller
     public function deleteMsg(Request $request)
     {
         $validator = validator($request->only('id'), ['id' => 'required|string']);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
         $userID = $this->me($request)->getData()->user->id;
         $msgID = $request['id'];
         $record = Message::find($msgID);
@@ -949,19 +952,62 @@ class AccountController extends Controller
 
 
     /**
-     * messages
-     * Returns the inbox messages of the user.
-     * Success Cases :
-     * 1) return lists of the inbox messages of the user categorized by All , Sent and Unread.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     *
-     * @bodyParam max int the maximum number of messages to be returned.
+     * Get Inbox Messages
+     * Return a json contains the not-deleted inbox messages (without its replies)
+     *  of the current user divided into `sent` and `received` messages,
+     *  and the `received` messages are divided into `read`, `unread` and `all`
+     *  that contain both `read` and `unread` messages.
+     *  all messages are sorted by latest messages.
+     * 
+     * ###Success Cases :
+     * 1. The logged-in user is authorized,
+     *  return the result successfully (status code 200)
+     * 
+     * ###Failure Cases:
+     * 1. The `token` is invalid, or the user is not found. (status code 400 or 404)
+     * 2. The `max` is invalid (status code 400)
+     * 
+     * @authenticated
+     * 
+     * @responseFile 200 responses\validInbox.json
+     * @responseFile 404 responses\userNotFoundJWTMiddlewareAuthentication.json
+     * @responseFile 400 responses\notAuthorized.json
+     * @responseFile 400 responses\maxMustBeInt.json
+     * 
+     * @bodyParam max int the maximum number of messages to be returned (default is no limit).
      * @bodyParam token JWT required Used to verify the user.
      */
-
-    public function inbox()
+    public function inbox(Request $request)
     {
-        return;
+        $validator = validator($request->only('max'), ['max' => 'int|nullable']);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $limit = $request->input('max', null);
+        $userID = $this->me($request)->getData()->user->id;
+
+        $messages = Message::notReply()->with('sender:id,username')
+            ->with('receiver:id,username')->latest()->take($limit)
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at');
+
+        $sent = clone $messages;
+        $read = clone $messages;
+        $unread = clone $messages;
+
+        $sent = $sent->sentBy($userID)->get();
+
+        $read = $read->receivedBy($userID)->read();
+
+        $unread = $unread->receivedBy($userID)->unread();
+
+        $all = clone $read;
+        $all = $all->union($unread)->latest()->get();  //all received messages
+
+        $read = $read->get();
+        $unread = $unread->get();
+        
+        $received = compact('read', 'unread', 'all');
+
+        return compact('sent', 'received');
     }
 }

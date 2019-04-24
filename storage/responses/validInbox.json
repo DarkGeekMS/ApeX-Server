@@ -1,0 +1,87 @@
+{
+    "sent": [
+        {
+            "id": "t4_2",
+            "content": "Hello there",
+            "subject": null,
+            "sender": {
+                "id": "t2_1",
+                "username": "Monda Talaat"
+            },
+            "receiver": {
+                "id": "t2_3",
+                "username": "Anyone"
+            },
+            "created_at": "2019-03-23 17:20:51",
+            "updated_at": "2019-04-14 21:22:05"
+        }
+    ],
+    "received": {
+        "read": [
+            {
+                "id": "t4_9",
+                "content": "anything",
+                "subject": null,
+                "sender": {
+                    "id": "t2_2",
+                    "username": "mX"
+                },
+                "receiver": {
+                    "id": "t2_1",
+                    "username": "Monda Talaat"
+                },
+                "created_at": null,
+                "updated_at": null
+            }
+        ],
+        "unread": [
+            {
+                "id": "t4_10",
+                "content": "anything",
+                "subject": null,
+                "sender": {
+                    "id": "t2_2",
+                    "username": "mX"
+                },
+                "receiver": {
+                    "id": "t2_1",
+                    "username": "Monda Talaat"
+                },
+                "created_at": null,
+                "updated_at": null
+            }
+        ],
+        "all": [
+            {
+                "id": "t4_9",
+                "content": "anything",
+                "subject": null,
+                "sender": {
+                    "id": "t2_2",
+                    "username": "mX"
+                },
+                "receiver": {
+                    "id": "t2_1",
+                    "username": "Monda Talaat"
+                },
+                "created_at": null,
+                "updated_at": null
+            },
+            {
+                "id": "t4_10",
+                "content": "anything",
+                "subject": null,
+                "sender": {
+                    "id": "t2_2",
+                    "username": "mX"
+                },
+                "receiver": {
+                    "id": "t2_1",
+                    "username": "Monda Talaat"
+                },
+                "created_at": null,
+                "updated_at": null
+            }
+        ]
+    }
+}
