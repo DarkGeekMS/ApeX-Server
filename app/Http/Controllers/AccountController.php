@@ -956,7 +956,7 @@ class AccountController extends Controller
      * Return a json contains the not-deleted inbox messages (without its replies)
      *  of the current user divided into `sent` and `received` messages,
      *  and the `received` messages are divided into `read`, `unread` and `all`
-     *  that contain both `read` and `unread` messages.
+     *  that contain both `read` and `unread` messages,
      *  all messages are sorted by latest messages.
      * 
      * ###Success Cases :
