@@ -18,7 +18,15 @@ e2eTests() {
     git clone https://${GITHUB_TOKEN}@github.com/RehamGamal97/apeXTesting e2e
     pushd e2e
       cat scripts/dependencies | xargs apk add
-      ./sripts/run.sh "http://localhost:80"
+
+      EXIT_CODE=0 && ./sripts/run.sh "http://localhost:80" || EXIT_CODE=$?
+      
+      EMAIL_CONTENT="E2E Tests Succeeded"
+      if [[ $EXIT_CODE -ne 0 ]]; then
+          EMAIL_CONTENT="E2E Tests Failed!"
+      fi
+
+      ./scripts/mailOutput.sh $EMAIL_CONTENT
     popd
 }
 
