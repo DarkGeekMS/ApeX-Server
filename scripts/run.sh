@@ -36,6 +36,9 @@ getFront
 install
 migrate
 
+# link public folder
+php7 artisan storage:link -n -q
+
 if [[ "$SEED" == 'true' ]]; then 
     seed
 fi
