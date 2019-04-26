@@ -112,20 +112,23 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
 
+            $commentOwner = User::find($comment['commented_by']);
 
-        /*    if ($comment['commented_by']) {
+            if ($commentOwner['deleted_at']) {
                 return response()->json(['error' => 'you can not add any reply on this comment'], 400);
-            }*/
+            }
 
             $post = Post::find($comment['root']);
             if ($post['locked']) {
                 return response()->json(['error' => 'you can not add any reply on this post'], 400);
             }
 
-          /*  if (!$post['posted_by']) {
-                return response()->json(['error' => 'you can not add any reply on this post'], 400);
-            }*/
-            //check mention existance
+            $postOwner = User::find($post['posted_by']);
+
+            if ($postOwner['deleted_at']) {
+                return response()->json(['error' => 'you can not add any reply on this comment'], 400);
+            }
+
             //create the comment id by getting the last comment id and increment it by 1
             $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
             $id = $lastcom->id;
@@ -150,9 +153,11 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'post not exists '], 404);
             }
 
-          /*  if (!$post['posted_by']) {
-                return response()->json(['error' => 'you can not add any reply on ths post'], 400);
-            }*/
+            $postOwner = User::find($post['posted_by']);
+
+            if ($postOwner['deleted_at']) {
+                return response()->json(['error' => 'you can not comment on this post'], 400);
+            }
 
             if ($post['locked']) {
                 return response()->json(['error' => 'you can not comment on this post'], 400);
@@ -600,16 +605,6 @@ class CommentandLinksController extends Controller
 
         $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
 
-        $blockList = Block::where('blockerID', $userID)->pluck('blockedID');
-        $blockList = $blockList->concat(
-            Block::where('blockedID', $userID)->pluck('blockerID')
-        );
-
-        $data = $data->whereNotIn('commented_by', $blockList)->flatten();
-
-        $reportedComments = ReportComment::where(compact('userID'))->pluck('comID');
-        $data = $data->whereNotIn('id', $reportedComments)->flatten();
-
         $data->each(
             function ($data) use ($userID) {
                 $data['userVote'] = $data->userVote($userID);
@@ -617,9 +612,37 @@ class CommentandLinksController extends Controller
             }
         );
 
+        $blockList = Block::where('blockerID', $userID)->pluck('blockedID');
+        $blockList = $blockList->concat(
+            Block::where('blockedID', $userID)->pluck('blockerID')
+        );
+
+        $deleted = $data->whereIn('commented_by', $blockList)->flatten();
+
+        $reportedComments = ReportComment::where(compact('userID'))->pluck('comID');
+
+        $deleted = $deleted->concat($data->whereIn('id', $reportedComments))->flatten();
+
+        $deleted = json_decode(json_encode($deleted, true), true);
+
         $data = json_decode(json_encode($data, true), true);
         $comments = [];
         $this->buildTree($data, $comments);
+
+        for ($i=0; $i <sizeof($deleted); $i++) {
+            for ($j=0; $j < sizeof($comments); $j++) {
+                if ($comments[$j]['id'] == $deleted[$i]['id']) {
+                    $lvl = $comments[$j]['level'];
+                    array_splice($comments, $j, 1);
+                    $k = $j;
+                    while ($k < sizeof($comments) && $comments[$k]['level'] > $lvl) {
+                        array_splice($comments, $k, 1);
+                    }
+                    break;
+                }
+            }
+        }
+
         return response()->json(['comments' =>$comments], 200);
     }
 
@@ -650,6 +673,7 @@ class CommentandLinksController extends Controller
 
         return response()->json($comments, 200);
     }
+
 
     private function buildTree(array & $elements, array & $branch, $parentId = null, $level = 0)
     {
@@ -768,7 +792,9 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'post_not_exists'], 404);
             }
 
-            if (!$post['posted_by']) {
+            $postOwner = User::find($post['posted_by']);
+
+            if ($postOwner['deleted_at']) {
                 return response()->json(['error' => 'you can not report this post'], 400);
             }
 
@@ -807,9 +833,12 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'comment_not_found'], 404);
             }
 
-            if (!$comment['commented_by']) {
+            $commentOwner = User::find($comment['commented_by']);
+
+            if ($commentOwner['deleted_at']) {
                 return response()->json(['error' => 'you can not report this comment'], 400);
             }
+
             //one can't report his own comments.
             if ($user['id'] == $comment['commented_by']) {
                  return response()->json(['error' => 'invalid Action'], 400);
