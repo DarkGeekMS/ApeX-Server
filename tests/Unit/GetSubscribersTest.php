@@ -28,7 +28,7 @@ class GetSubscribersTest extends TestCase
         // hit the route with out valid apexcomid
         $response = $this->json(
             'GET',
-            '/api/get_subscribers',
+            '/api/GetSubscribers',
             [
                 'ApexCommID' => '12354'
             ]
@@ -41,7 +41,7 @@ class GetSubscribersTest extends TestCase
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'GET',
-            '/api/get_subscribers',
+            '/api/GetSubscribers',
             [
                 'ApexCommID' => $apex_id
             ]
@@ -63,7 +63,7 @@ class GetSubscribersTest extends TestCase
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/get_subscribers',
+            '/api/GetSubscribers',
             [
             ]
         );
@@ -77,7 +77,7 @@ class GetSubscribersTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -90,7 +90,7 @@ class GetSubscribersTest extends TestCase
         // hit the route with an invalid id of an apexcom to get its subscribers
         $response = $this->json(
             'POST',
-            '/api/get_subscribers',
+            '/api/GetSubscribers',
             [
                 'token' => $token,
                 'ApexCommID' => '12354'
@@ -121,7 +121,7 @@ class GetSubscribersTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -146,7 +146,7 @@ class GetSubscribersTest extends TestCase
         // hit the route with the blocked user
         $response = $this->json(
             'POST',
-            '/api/get_subscribers',
+            '/api/GetSubscribers',
             [
                 'token' => $signUp->json('token'),
                 'ApexCommID' => $apex_id
@@ -183,7 +183,7 @@ class GetSubscribersTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -196,7 +196,7 @@ class GetSubscribersTest extends TestCase
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'POST',
-            '/api/get_subscribers',
+            '/api/GetSubscribers',
             [
                 'token' => $signUp->json('token'),
                 'ApexCommID' => $apex_id

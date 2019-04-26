@@ -28,7 +28,7 @@ class SubscribeTest extends TestCase
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/subscribe',
+            '/api/Subscribe',
             [
             ]
         );
@@ -42,7 +42,7 @@ class SubscribeTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -56,7 +56,7 @@ class SubscribeTest extends TestCase
         // hit the route with an invalid id of an apexcom to subscribe
         $response = $this->json(
             'POST',
-            '/api/subscribe',
+            '/api/Subscribe',
             [
                 'token' => $token,
                 'ApexCom_ID' => '12354'
@@ -87,7 +87,7 @@ class SubscribeTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -112,8 +112,8 @@ class SubscribeTest extends TestCase
         // hit the route with the blocked user
         $response = $this->json(
             'POST',
-            '/api/subscribe'
-             [
+            '/api/Subscribe',
+            [
                 'token' => $signUp->json('token'),
                 'ApexCom_ID' => $apex_id
             ]
@@ -149,7 +149,7 @@ class SubscribeTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
 
@@ -163,7 +163,7 @@ class SubscribeTest extends TestCase
         $apexid = ApexCom::all()->first()->id;
         $response = $this->json(
             'POST',
-            '/api/subscribe',
+            '/api/Subscribe',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_ID' => $apexid
@@ -180,7 +180,7 @@ class SubscribeTest extends TestCase
         // hit the route with same user and apexcom to unsubscribe
         $response = $this->json(
             'POST',
-            '/api/subscribe',
+            '/api/Subscribe',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_ID' => $apexid

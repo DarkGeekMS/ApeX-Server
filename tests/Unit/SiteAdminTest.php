@@ -26,7 +26,7 @@ class SiteAdminTest extends TestCase
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
             ]
         );
@@ -40,7 +40,7 @@ class SiteAdminTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -55,7 +55,7 @@ class SiteAdminTest extends TestCase
         $name = 'sports';
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
                 'token' => $token,
                 'name' => $name,
@@ -92,7 +92,7 @@ class SiteAdminTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -110,7 +110,7 @@ class SiteAdminTest extends TestCase
         $name = 'sports';
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
                 'token' => $token,
                 'name' => $name,
@@ -127,7 +127,7 @@ class SiteAdminTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
                 'token' => $token,
                 'name' => $name,
@@ -146,7 +146,7 @@ class SiteAdminTest extends TestCase
         $name = 'sp';
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
                 'token' => $token,
                 'name' => $name,
@@ -184,7 +184,7 @@ class SiteAdminTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -202,7 +202,7 @@ class SiteAdminTest extends TestCase
         $name = 'kareemOsama';
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
                 'token' => $token,
                 'name' => $name,
@@ -221,7 +221,7 @@ class SiteAdminTest extends TestCase
         $rules = 'you can not post';
         $response = $this->json(
             'POST',
-            '/api/site_admin',
+            '/api/SiteAdmin',
             [
                 'token' => $token,
                 'name' => $name,

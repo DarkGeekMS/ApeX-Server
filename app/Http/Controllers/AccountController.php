@@ -117,7 +117,7 @@ class AccountController extends Controller
         $validator3 = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string|max:50|unique:users',
+            'username' => 'required|string|alpha_dash|max:50|unique:users',
             'avatar' => 'image'
             ]
         );
@@ -326,7 +326,7 @@ class AccountController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string',
+            'email' => 'required|email',
             'code' => 'required|string'
             ]
         );
@@ -338,8 +338,8 @@ class AccountController extends Controller
         }
 
         $codeText = $request->input('code'); //Getting the code from request
-        $username = $request->input('username'); // Getting the username
-        $user = User::where('username', $username)->first(); //Getting user from DB
+        $email = $request->input('email'); // Getting the username
+        $user = User::where('email', $email)->first(); //Getting user from DB
         //Checking if the user exists
         if ($user) {
             //selecting the corresponding code
@@ -589,7 +589,7 @@ class AccountController extends Controller
         $validator2 = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string|max:50'
+            'username' => 'required|string|alpha_dash|max:50'
             ]
         );
         //returning errors in the case of username failure
