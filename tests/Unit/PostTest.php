@@ -157,7 +157,7 @@ class PostTest extends TestCase
 
         //check that the user is added to database
         $this->assertDatabaseHas('users', compact('username'));
-        
+
         // get the first apexcom and post in it with the signed in user with the synthesized parameters.
         $apex_id = ApexCom::all()->first()->id;
         $posted_by = $signUp->json('user')['id'];
@@ -284,10 +284,10 @@ class PostTest extends TestCase
                 'body' => $body
             ]
         );
-        
+
         // the post should be created in the apexcom.
         $response->assertStatus(200);
-        
+
         //check that there is no post added to database
         $this->assertDatabaseHas('posts', compact('apex_id', 'posted_by'));
 

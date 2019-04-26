@@ -11,10 +11,10 @@ use App\Models\Block;
 class userData extends TestCase
 {
     use WithFaker;
-    
+
     /**
      * Create a new user and return him and his token
-     * 
+     *
      * @return array
      */
     private function _createUser()
@@ -38,11 +38,11 @@ class userData extends TestCase
 
     /**
      * Tests user data request with valid parameters.
-     * 
+     *
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function validUserData()
@@ -57,7 +57,6 @@ class userData extends TestCase
         ];
 
         foreach ($methods as $method => $data) {
-            
             $response = $this->json(
                 $method,
                 '/api/user_data',
@@ -66,15 +65,15 @@ class userData extends TestCase
 
             $response->assertStatus(200)->assertSee('userData')->assertSee('posts');
         }
-        
+
         User::destroy($user['id']);
     }
 
     /**
      * Tests user data request with invalid username.
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function invalidUsername()
@@ -97,15 +96,15 @@ class userData extends TestCase
 
             $response->assertStatus(404)->assertSee('User is not found');
         }
-        
+
         User::destroy($user['id']);
     }
 
     /**
      * Tests user data request with no username.
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function missingUsername()
@@ -132,11 +131,11 @@ class userData extends TestCase
 
     /**
      * Tests user data request with blocked users.
-     * 
+     *
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function blokcedUserData()

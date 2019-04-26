@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\ApexCom;
 
 class ValidVote extends TestCase
 {
@@ -18,11 +19,12 @@ class ValidVote extends TestCase
     //new vote in a post
     public function newPost()
     {
+
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -60,7 +62,7 @@ class ValidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -98,7 +100,7 @@ class ValidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -136,7 +138,7 @@ class ValidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -174,7 +176,7 @@ class ValidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -212,7 +214,7 @@ class ValidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );

@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
                 $table->integer('type')->default(1);   //1 normal user , 2 moderator , 3 admin
                 $table->timestamps();
                 $table->primary('id');
+                $table->SoftDeletes();
             }
         );
     }

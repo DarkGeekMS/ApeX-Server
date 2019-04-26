@@ -29,7 +29,7 @@ class InvalidDeleteApexCom extends TestCase
         $token = $loginResponse->json("token");
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_account',
+            '/api/del_apexCom',
             [
             'token' => $token,
             'Apex_ID' => 't3_1000'               //wrong Apex_ID
@@ -78,7 +78,7 @@ class InvalidDeleteApexCom extends TestCase
         DB::table('apex_coms')-> insert(['id' => $id, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_account',
+            '/api/del_apexCom',
             [
               'token' => $token,
               'Apex_ID' => $id

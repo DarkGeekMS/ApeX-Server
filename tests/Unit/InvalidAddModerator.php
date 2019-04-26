@@ -30,7 +30,7 @@ class InvalidAddMoerator extends TestCase
 
     //id of an existing apexcom
         $apexid='t5_10';
- 
+
         $addResponse = $this->json(
             'POST',
             '/api/add_moderator',
@@ -111,7 +111,7 @@ class InvalidAddMoerator extends TestCase
             'POST',
             '/api/sign_in',
             [
-              'username' => 'Monda Talaat',
+              'username' => 'mondaTalaat',
               'password' => 'monda21'
             ]
         );
@@ -146,7 +146,7 @@ class InvalidAddMoerator extends TestCase
 
         //id of an existing apexcom
         $apexid='t5_10';
- 
+
         $addResponse = $this->json(
             'POST',
             '/api/add_moderator',
