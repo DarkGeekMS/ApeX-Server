@@ -19,7 +19,7 @@ class invalidgetprefs extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );

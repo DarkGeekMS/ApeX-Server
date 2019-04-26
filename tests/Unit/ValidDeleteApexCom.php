@@ -36,7 +36,7 @@ class ValidDeleteApexCom extends TestCase
          //to delete an apexcom
          $delResponse = $this->json(
              'DELETE',
-             '/api/del_account',
+             '/api/del_apexCom',
              [
              'token' => $token,
              'Apex_ID' => $id

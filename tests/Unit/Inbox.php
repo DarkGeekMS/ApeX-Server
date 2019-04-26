@@ -15,7 +15,7 @@ class Inbox extends TestCase
      * Assumes that there are some records in the database
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function validInbox()
@@ -23,7 +23,7 @@ class Inbox extends TestCase
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',
-            ['username' => 'Monda Talaat', 'password' => 'monda21']
+            ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
         $userID = 't2_1';
@@ -31,11 +31,12 @@ class Inbox extends TestCase
         $response = $this->json('POST', 'api/inbox_messages', compact('token'));
         $structure = ["sent" , "received" => ["read", "unread", "all"]];
         $response->assertStatus(200)->assertJsonStructure($structure);
-        
+
         $sent = $response->json('sent');
-        foreach ($sent as $mes ) {
+        foreach ($sent as $mes) {
             $this->assertDatabaseHas(
-                'messages', [
+                'messages',
+                [
                     'id' => $mes['id'], 'parent' => null,
                     'sender' => $userID, 'delSend' => false
                 ]
@@ -43,9 +44,10 @@ class Inbox extends TestCase
         }
 
         $read = $response->json('received')['read'];
-        foreach ($read as $mes ) {
+        foreach ($read as $mes) {
             $this->assertDatabaseHas(
-                'messages', [
+                'messages',
+                [
                     'id' => $mes['id'], 'parent' => null,
                     'receiver' => $userID, 'delReceive' => false, 'received' => true
                 ]
@@ -53,9 +55,10 @@ class Inbox extends TestCase
         }
 
         $unread = $response->json('received')['unread'];
-        foreach ($unread as $mes ) {
+        foreach ($unread as $mes) {
             $this->assertDatabaseHas(
-                'messages', [
+                'messages',
+                [
                     'id' => $mes['id'], 'parent' => null,
                     'receiver' => $userID, 'delReceive' => false, 'received' => false
                 ]
@@ -72,7 +75,7 @@ class Inbox extends TestCase
      * Assumes that there are some records in the database
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function invalidMax()
@@ -80,12 +83,14 @@ class Inbox extends TestCase
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',
-            ['username' => 'Monda Talaat', 'password' => 'monda21']
+            ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
         $max = "bla";
         $response = $this->json(
-            'POST', 'api/inbox_messages', compact('token', 'max')
+            'POST',
+            'api/inbox_messages',
+            compact('token', 'max')
         );
         $response->assertStatus(400)->assertSee('max');
     }
@@ -95,14 +100,16 @@ class Inbox extends TestCase
      * Assumes that there are some records in the database
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function invalidtoken()
     {
         $token = '-1';
         $response = $this->json(
-            'POST', 'api/inbox_messages', compact('token')
+            'POST',
+            'api/inbox_messages',
+            compact('token')
         );
         $response->assertStatus(400)->assertSee('Not authorized');
     }

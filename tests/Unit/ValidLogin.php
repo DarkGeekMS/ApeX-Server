@@ -24,14 +24,14 @@ class ValidLogin extends TestCase
             [
             'email' => $email,
             'password' => 'monda21',
-            'username' => 'Monda Talaat'
+            'username' => 'mondaTalaat'
             ]
         );
         $response = $this->json(
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );

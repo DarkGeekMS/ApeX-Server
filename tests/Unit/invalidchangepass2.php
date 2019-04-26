@@ -15,7 +15,7 @@ class invalidchangepass2 extends TestCase
      */
     public function testExample()
     {
-        $username = "Monda Talaat";
+        $username = "mondaTalaat";
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',

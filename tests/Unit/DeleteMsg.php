@@ -14,7 +14,7 @@ class DeleteMsg extends TestCase
 
     /**
      * Create a new userID and return him and his token
-     * 
+     *
      * @return array
      */
     private function _createUser()
@@ -40,12 +40,12 @@ class DeleteMsg extends TestCase
      * Test delete a message
      *
      * @test
-     * 
+     *
      * @return void
      */
     public function validDelete()
     {
-        //create sender and receiver users and a message 
+        //create sender and receiver users and a message
         [$sender, $sToken] = $this->_createUser();
         [$receiver, $rToken] = $this->_createUser();
         $lastID = Message::selectRaw('CONVERT( SUBSTR(id, 4), INT ) AS intID')
@@ -90,7 +90,7 @@ class DeleteMsg extends TestCase
         $response->assertStatus(404)
             ->assertSee("message ID is not found");
         $this->assertDatabaseMissing('messages', compact('id'));
-        
+
         //delete the created users
         User::destroy([$sender, $receiver]);
     }
@@ -98,20 +98,20 @@ class DeleteMsg extends TestCase
     /**
      * Test delete a message with a user that is not the sender nor the receiver
      * Assumes that there is at least one record of messages in the database
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function invalidUser()
-    {   
+    {
         [$user, $token] = $this->_createUser();
         $id = Message::firstOrFail()->id;
         $response = $this->json('POST', 'api/del_msg', compact('id', 'token'));
 
         $response->assertStatus(400)
             ->assertSee('The user is not the sender nor the receiver of the message');
-        
+
         User::destroy($user);
     }
 }

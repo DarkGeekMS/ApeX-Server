@@ -21,7 +21,7 @@ class InvalidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -58,7 +58,7 @@ class InvalidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -95,7 +95,7 @@ class InvalidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => '1561998'
             ]
         );
@@ -133,7 +133,7 @@ class InvalidVote extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );

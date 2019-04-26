@@ -22,7 +22,7 @@ class InvalidReply extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => '1561998'
             ]
         );
@@ -51,7 +51,7 @@ class InvalidReply extends TestCase
              'POST',
              '/api/sign_in',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -89,7 +89,7 @@ class InvalidReply extends TestCase
              'POST',
              '/api/sign_in',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -127,7 +127,7 @@ class InvalidReply extends TestCase
              'POST',
              '/api/sign_in',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -165,7 +165,7 @@ class InvalidReply extends TestCase
              'POST',
              '/api/sign_in',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -201,7 +201,7 @@ class InvalidReply extends TestCase
              'POST',
              '/api/sign_in',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -238,7 +238,7 @@ class InvalidReply extends TestCase
              'POST',
              '/api/sign_in',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
