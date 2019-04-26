@@ -44,7 +44,7 @@ class ModerationController extends Controller
         $moderator_id = $User->id;
         $apex_id = $request['ApexCom_id'];
         $user_id = $request['user_id'];
-        $moderator_type = $User->type;;
+        $moderator_type = $User->type;
 
         // checking if the apexCom exists.
         $exists = apexComModel::where('id', $apex_id)->count();
@@ -202,11 +202,135 @@ class ModerationController extends Controller
      * 1) NoAccessRight the token is not for the moderator of this ApexCom.
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the reported comments or posts.
-     * @bodyParam _token JWT required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
-    public function reviewReports()
+    public function reviewReports(Request $request)
     {
-        return;
+        $account = new AccountController();
+        $User = $account->me($request)->getData()->user;
+        $moderator_id = $User->id;
+        $apex_id = $request['ApexCom_id'];
+        $moderator_type = $User->type;
+
+        // checking if the apexCom exists.
+        $exists = apexComModel::where('id', $apex_id)->count();
+
+        // return an error message if the id (fullname) of the apexcom was not found.
+        if (!$exists) {
+            return response()->json(['error' => 'ApexCom is not found.'], 404);
+        }
+        
+        // checking if the user is a moderator for this apexcom if not return an error message.
+        $IsModerator = Moderator::where(
+            [['apexID', $apex_id], ['userID', $moderator_id]]
+        )->count();
+
+        if (!$IsModerator && $moderator_type != 3) {
+            return response()->json(['error' => 'You have no rights to review reports on posts or comments in this apexcom.'], 400);
+        }
+
+        // get all posts that belongs to apexcom
+        $posts = Post::where('apex_id', '=', $apex_id);
+
+        // get the reported posts from the posts of the apexcom
+        $reportedposts = ReportPost::joinSub(
+            $posts,
+            'apex_posts',
+            function ($join) {
+                $join->on('postID', '=', 'id');
+            }
+        );
+
+        // get the comments on the posts of the apexcom
+        $comments = Comment::joinSub(
+            $posts,
+            'apex_posts',
+            function ($join) {
+                $join->on('root', '=', 'apex_posts.id');
+            }
+        )->select(
+            ['comments.id AS commentid', 'comments.content AS commentcontent',
+             'commented_by', 'root', 'parent', 'apex_posts.*']
+        );
+        $reportedcomments = ReportComment::joinSub(
+            $comments, 'comments_posts',
+            function ($join) {
+                $join->on('comID', '=', 'comments_posts.commentid');
+            }
+        )->get(
+            ['comID', 'userID','report_comments.created_at AS report_created_at',
+            'report_comments.updated_at AS report_updated_at',
+            'report_comments.content AS report_content', 'comments_posts.*']
+        )->map(
+            /**
+             * A callback function to split the information in every row
+             * to associative array that has three keys post, comment and report.
+             * Each of which contains the related information to the key.
+             * 
+             * @return Array
+             */
+            function ($item) {
+                return [
+                    'post' => [
+                        'id' => $item['id'], 'posted_by' => $item['posted_by'], 
+                        'apex_id' => $item['apex_id'], 'title' => $item['title'],
+                        'img' => $item['img'], 'videolink' => $item['videolink'],
+                        'content' => $item['content'], 'locked' => $item['locked']
+                    ],
+                    'comment' => [
+                        'root' => $item['root'], 'content' =>$item['commentcontent'],
+                        'commented_by' => $item['commented_by'],
+                        'id' => $item['commentid'], 'parent' => $item['parent']
+                    ],
+                    'report' => [
+                        'userID' => $item['userID'], 'comID' => $item['comID'],
+                        'content' => $item['report_content'], 
+                        'created_at' => $item['report_created_at'],
+                        'updated_at' => $item['report_updated_at']
+                    ]
+                ];
+            }
+        )->toArray();
+        $reportedposts = ReportPost::joinSub(
+            $posts,
+            'apex_posts',
+            function ($join) {
+                $join->on('postID', '=', 'id');
+            }
+        )->get(
+            ['postID', 'userID','report_posts.created_at AS report_created_at',
+            'report_posts.updated_at AS report_updated_at',
+            'report_posts.content AS report_content', 'apex_posts.*']
+        )->map(
+            /**
+             * A callback function to split the information in every row
+             * to associative array that has two keys post and the report.
+             * Each of which contains the related information to the key.
+             * 
+             * @return Array
+             */
+            function ($item) {
+                return [
+                    'post' => [
+                        'id' => $item['id'], 'posted_by' => $item['posted_by'], 
+                        'apex_id' => $item['apex_id'], 'title' => $item['title'],
+                        'img' => $item['img'], 'videolink' => $item['videolink'],
+                        'content' => $item['content'], 'locked' => $item['locked']
+                    ],
+                    'report' => [
+                        'userID' => $item['userID'], 'postID' => $item['postID'],
+                        'content' => $item['report_content'], 
+                        'created_at' => $item['report_created_at'],
+                        'updated_at' => $item['report_updated_at']
+                    ]
+                ];
+            }
+        )->toArray();
+        $reported = array(
+                'ReportedPosts' => $reportedposts,
+                'ReportedComments' => $reportedcomments
+        );
+        return $reported;
     }
 }

@@ -22,7 +22,7 @@ class InvalidHide extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'tc'
             ]
         );
@@ -52,7 +52,7 @@ class InvalidHide extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );

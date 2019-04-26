@@ -33,10 +33,10 @@ class AboutTest extends TestCase
                 'ApexCom_ID' => '12354'
             ]
         );
-        
+
         // an error that the apexcom is not found
         $response->assertStatus(404)->assertSee('ApexCom is not found.');
-        
+
         //get any apex com and hit the route with it to get its about info
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
@@ -49,7 +49,7 @@ class AboutTest extends TestCase
 
         // a list of information about apexcom should be returned.
         $response->assertStatus(200);
-    } 
+    }
     /**
      * Test with an Apexcom not found, or with out a token.
      *

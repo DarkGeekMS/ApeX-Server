@@ -33,10 +33,10 @@ class GetSubscribersTest extends TestCase
                 'ApexCommID' => '12354'
             ]
         );
-        
+
         // an error that the apexcom is not found
         $response->assertStatus(404)->assertSee('ApexCom is not found.');
-        
+
         //get any apex com and hit the route with it to get its subscribers
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
@@ -49,7 +49,7 @@ class GetSubscribersTest extends TestCase
 
         // a list of subscribers of apexcom should be returned.
         $response->assertStatus(200);
-    } 
+    }
     /**
      * Test with an Apexcom not found, and with out token.
      *

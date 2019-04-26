@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Block;
 
 class blocks extends Seeder
 {
@@ -11,5 +12,6 @@ class blocks extends Seeder
      */
     public function run()
     {
+          factory(Block::class, 10)->create();
     }
 }

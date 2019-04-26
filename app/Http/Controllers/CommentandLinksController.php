@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Kalnoy\Nestedset\NestedSet;
 use App\Models\Comment;
 use App\Models\CommentVote;
 use App\Models\Vote;
@@ -111,18 +112,19 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
 
-            if (!$comment['commented_by']) {
+
+        /*    if ($comment['commented_by']) {
                 return response()->json(['error' => 'you can not add any reply on this comment'], 400);
-            }
+            }*/
 
             $post = Post::find($comment['root']);
             if ($post['locked']) {
                 return response()->json(['error' => 'you can not add any reply on this post'], 400);
             }
 
-            if (!$post['posted_by']) {
+          /*  if (!$post['posted_by']) {
                 return response()->json(['error' => 'you can not add any reply on this post'], 400);
-            }
+            }*/
             //check mention existance
             //create the comment id by getting the last comment id and increment it by 1
             $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
@@ -148,9 +150,9 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'post not exists '], 404);
             }
 
-            if (!$post['posted_by']) {
+          /*  if (!$post['posted_by']) {
                 return response()->json(['error' => 'you can not add any reply on ths post'], 400);
-            }
+            }*/
 
             if ($post['locked']) {
                 return response()->json(['error' => 'you can not comment on this post'], 400);
@@ -573,16 +575,15 @@ class CommentandLinksController extends Controller
 
     /**
      * moreChildren
-     * to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
+     * to retrieve additional comments omitted from a base comment tree (comment , replies).
      * Success Cases :
-     * 1) return thr retrieved comments or replies (10 reply at a time ).
+     * 1) return thr retrieved comments or replies.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
-     * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+     * 2) post fullname (ID) is not found for any of the parent IDs.
      *
      * @bodyParam parent string required The fullname of the posts whose comments are being fetched
-     * ( post , comment or message ).
-     * @bodyParam ID JWT required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
      */
 
 
@@ -591,40 +592,47 @@ class CommentandLinksController extends Controller
         //get the user id using the token
         $account=new AccountController;
         $userID = $account->me($request)->getData()->user->id;
-        //get the user by the user id
-        $user = User::find($userID);
+
         $post = Post::find($request['parent']);
         if (!$post) {
             return response()->json(['error' => 'post not exists'], 404);
         }
-        $comments= Comment::query();
-        $comments = $comments->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
 
-        $removed = Block::where('blockerID', $userID)->pluck('blockedID')->flatten();
-        $removed = $removed->concat(
+        $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+
+        $blockList = Block::where('blockerID', $userID)->pluck('blockedID');
+        $blockList = $blockList->concat(
             Block::where('blockedID', $userID)->pluck('blockerID')
-        )->concat(
-            ReportComment::where(compact('userID'))->pluck('comID')
         );
 
-        //remove the comments that have been commented by a user in the blocklist
-        $comments = $comments->whereNotIn('commented_by', $removed);
+        $data = $data->whereNotIn('commented_by', $blockList)->flatten();
 
-        return response()->json($comments, 200);
+        $reportedComments = ReportComment::where(compact('userID'))->pluck('comID');
+        $data = $data->whereNotIn('id', $reportedComments)->flatten();
+
+        $data->each(
+            function ($data) use ($userID) {
+                $data['userVote'] = $data->userVote($userID);
+                $data['Saved'] = $data->isSavedBy($userID);
+            }
+        );
+
+        $data = json_decode(json_encode($data, true), true);
+        $comments = [];
+        $this->buildTree($data, $comments);
+        return response()->json(['comments' =>$comments], 200);
     }
 
     /**
      * moreChildren
-     * to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
+     * to retrieve additional comments omitted from a base comment tree (comment , replies ).
      * Success Cases :
-     * 1) return thr retrieved comments or replies (10 reply at a time ).
+     * 1) return the retrieved comments or replies.
      * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+     * 1) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
      *
      * @bodyParam parent string required The fullname of the posts whose comments are being fetched
      * ( post , comment or message ).
-     * @bodyParam ID JWT required Verifying user ID.
      */
 
 
@@ -634,9 +642,32 @@ class CommentandLinksController extends Controller
         if (!$post) {
             return response()->json(['error' => 'post not exists'], 404);
         }
-        $comments= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
 
-        return response()->json([$comments], 200);
+        $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+        $data = json_decode(json_encode($data, true), true);
+        $comments = [];
+        $this->buildTree($data, $comments);
+
+        return response()->json($comments, 200);
+    }
+
+    private function buildTree(array & $elements, array & $branch, $parentId = null, $level = 0)
+    {
+        if (empty($elements)) {
+            return;
+        }
+        if ($parentId) {
+            $level = $level +1;
+        }
+        foreach ($elements as $element) {
+            if ($element['parent'] == $parentId) {
+                $element['level'] = $level;
+                array_push($branch, $element);
+                $ID = $element['id'];
+                $this->buildTree($elements, $branch, $ID, $level);
+            }
+        }
+        unset($elements[$element['parent']]);
     }
 
     /**

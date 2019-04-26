@@ -17,7 +17,7 @@ class validchangepass2 extends TestCase
      */
     public function testExample()
     {
-        $username = "Monda Talaat";
+        $username = "mondaTalaat";
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',
@@ -47,6 +47,6 @@ class validchangepass2 extends TestCase
             'username' => $username
             ]
         );
-        $changeRequest->assertStatus(200);    
+        $changeRequest->assertStatus(200);
     }
 }

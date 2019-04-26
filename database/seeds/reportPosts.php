@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\ReportPost;
 
 class reportPosts extends Seeder
 {
@@ -11,10 +12,6 @@ class reportPosts extends Seeder
      */
     public function run()
     {
-        DB::table('report_posts')->insert([
-        'postID' => 't3_14',
-        'userID' => 't2_1',
-        'content' => 'Anything'
-        ]);
+        factory(ReportPost::class, 10)->create();
     }
 }

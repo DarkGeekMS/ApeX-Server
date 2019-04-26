@@ -36,7 +36,7 @@ class sortPostsBy extends TestCase
         return true;
     }
 
-    
+
     /**
      * Test sorting the posts by valid sortingParam.
      *
@@ -72,7 +72,7 @@ class sortPostsBy extends TestCase
     /**
      * Tests userSortPostsBy
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -82,10 +82,10 @@ class sortPostsBy extends TestCase
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',
-            ['username' => 'Monda Talaat', 'password' => 'monda21']
+            ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
-        $userID = $loginResponse->json('user')['id'];
+        $userID = 't2_1';
 
         $response = $this->json('POST', '/api/sort_posts', compact('token'));
         $posts = $response->json('posts');
@@ -124,7 +124,6 @@ class sortPostsBy extends TestCase
                 $this->_checkPosts(null, $posts, $sortedColumn)
             );
         }
-
     }
 
     /**
@@ -182,7 +181,7 @@ class sortPostsBy extends TestCase
      * it will use the default parameter 'date'
      *
      * Assumes that there are some recordes in the database
-     * 
+     *
      * @test
      *
      * @return void

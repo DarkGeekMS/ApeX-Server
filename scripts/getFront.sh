@@ -15,11 +15,14 @@ main() {
 
     echo Compiling...
 
-    BACK_DIR=$PWD
-    cd $FRONT_DIR
-    npm install
-    npm run build
-    cd $BACK_DIR
+    cp scripts/fix $FRONT_DIR/fix # temp workaround
+
+    pushd $FRONT_DIR
+      npm install
+      mv fix node_modules/@intervolga/optimize-cssnano-plugin/index.js # temp workaround
+      npm run build
+    popd
+    
     cp -r $FRONT_DIR/dist/* public/
     mv public/index.html resources/views/welcome.blade.php
 

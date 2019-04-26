@@ -10,12 +10,10 @@ services:
       context: .
       args:
         SEED: ${SEED}
-        TEST: ${TEST}
-    working_dir: /app
+        UNIT_TEST: ${UNIT_TEST}
+        E2E_TEST: ${E2E_TEST}
     env_file:
       - .env
-    volumes:
-      - ./:/app
     ports:
       - "${PORT}:80"
 

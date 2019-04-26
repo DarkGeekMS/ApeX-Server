@@ -35,7 +35,7 @@ class search extends TestCase
     /**
      * Tests userSearch
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -46,10 +46,10 @@ class search extends TestCase
         $loginResponse = $this->json(
             'POST',
             '/api/sign_in',
-            ['username' => 'Monda Talaat', 'password' => 'monda21']
+            ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
-        $userID = $loginResponse->json('user')['id'];
+        $userID = 't2_1';
 
         $response = $this->json(
             'POST',
@@ -61,7 +61,7 @@ class search extends TestCase
         );
         $response->assertStatus(200);
 
-        //check that there are no posts from blocked users 
+        //check that there are no posts from blocked users
         //or posts from apexComs that the user is blocked from
         //or hidden posts or reported posts
         $posts = $response->json('posts');
@@ -90,14 +90,13 @@ class search extends TestCase
 
         //check that there are no apexComs that the user is blocked from
         $apexComs = $response->json('apexComs');
-        foreach ($apexComs as $apexCom ) {
+        foreach ($apexComs as $apexCom) {
             $this->assertFalse(
                 ApexBlock::query()->where(
                     ['ApexID' => $apexCom['id'], 'blockedID' => $userID]
                 )->exists()
             );
         }
-
     }
 
     /**

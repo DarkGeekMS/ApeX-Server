@@ -17,6 +17,7 @@ use App\Models\SavePost;
 use App\Models\Message;
 use App\Models\Hidden;
 use App\Models\Post;
+use App\Models\Block;
 
 /**
  * this Class contains all the endpoints responsible for all posts and comments interactions.
@@ -585,29 +586,97 @@ class CommentandLinksController extends Controller
      */
 
 
-    public function moreChildren()
+    public function moreChildren(Request $request)
     {
-        return;
+        //get the user id using the token
+        $account=new AccountController;
+        $userID = $account->me($request)->getData()->user->id;
+        //get the user by the user id
+        $user = User::find($userID);
+        $post = Post::find($request['parent']);
+        if (!$post) {
+            return response()->json(['error' => 'post not exists'], 404);
+        }
+
+        $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+        $data->each(
+            function ($data) use ($userID) {
+                $data['userVote'] = $data->userVote($userID);
+                $data['Saved'] = $data->isSavedBy($userID);
+            }
+        );
+        $base = $data->where('parent', null)->flatten();
+        $data = $data ->where('parent', '<>', null)->flatten();
+        $size = $base->count();
+        $comments = array();
+        $parents= array();
+
+        for ($i=0; $i < $size; $i++) {
+            array_push($comments, $base[i]);
+            $index = $base[0];
+            filterSort($comments, $index, $data);
+        }
+        return response()->json(['comments' =>$comments], 200);
+    }
+
+    private function filterSort($comments, $index, $data)
+    {
+        if (empty($data)) {
+            return $comments;
+        }
+        if (in_array($index, $data)) {
+          // code...
+        }
+        return filterSort($comments, $index, $data);
     }
 
     /**
      * moreChildren
-     * to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
+     * to retrieve additional comments omitted from a base comment tree (comment , replies ).
      * Success Cases :
-     * 1) return thr retrieved comments or replies (10 reply at a time ).
+     * 1) return the retrieved comments or replies.
      * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+     * 1) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
      *
      * @bodyParam parent string required The fullname of the posts whose comments are being fetched
      * ( post , comment or message ).
-     * @bodyParam ID JWT required Verifying user ID.
      */
 
 
-    public function guestMoreChildren()
+    public function guestMoreChildren(Request $request)
     {
-        return;
+        $post = Post::find($request['parent']);
+        if (!$post) {
+            return response()->json(['error' => 'post not exists'], 404);
+        }
+        $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+        $data->toArray();
+        $test = [$data];
+        $comments = $this->buildTree($test);
+
+        //return response()->json(true, 200);
+    }
+
+    private function buildTree(array & $elements, $parentId = null)
+    {
+        $branch = array();
+
+      /*  for ($i=0; $i < count($elements[0]); $i++) {
+            echo $elements[0][$i]['id'];
+        }*/
+        foreach ($elements[0] as $element) {
+        //      echo $element['id'] ;
+       //      echo "  ,  ";
+            if ($element['parent'] == $parentId) {
+                $children = buildTree($elements, $element['id']);
+                if ($children) {
+                    $element['children'] = $children;
+                }
+                $branch[$element['id']] = $element;
+                unset($elements[0][$element['id']]);
+            }
+        }
+        return $branch;
     }
 
     /**

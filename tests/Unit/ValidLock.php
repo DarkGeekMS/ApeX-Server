@@ -169,7 +169,7 @@ class ValidLock extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -206,7 +206,7 @@ class ValidLock extends TestCase
             'POST',
             '/api/sign_in',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );

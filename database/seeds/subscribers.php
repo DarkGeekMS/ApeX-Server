@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Subscriber;
 
 class subscribers extends Seeder
 {
@@ -11,29 +12,6 @@ class subscribers extends Seeder
      */
     public function run()
     {
-        DB::table('subscribers')->insert([
-          'apexID' => 't5_5',
-          'userID' => 't2_7'
-        ]);
-
-        DB::table('subscribers')->insert([
-          'apexID' => 't5_5',
-          'userID' => 't2_2'
-        ]);
-
-        DB::table('subscribers')->insert([
-          'apexID' => 't5_4',
-          'userID' => 't2_2'
-        ]);
-
-        DB::table('subscribers')->insert([
-          'apexID' => 't5_3',
-          'userID' => 't2_7'
-        ]);
-
-        DB::table('subscribers')->insert([
-          'apexID' => 't5_4',
-          'userID' => 't2_10'
-        ]);
+        factory(Subscriber::class, 10)->create();
     }
 }

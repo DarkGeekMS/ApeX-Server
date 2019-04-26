@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+
     protected $fillable = [
       'id',
       'commented_by',
@@ -15,7 +16,7 @@ class Comment extends Model
     ];
 
     protected $appends = [
-        'votes', 'writerUsername'
+        'votes', 'writerUsername' , 'level'
     ];
 
     public $incrementing = false;
@@ -40,6 +41,10 @@ class Comment extends Model
         return $this->user()->first()['username'];
     }
 
+    public function getLevelAttribute()
+    {
+        return 0;
+    }
     public function userVote($userID)
     {
         return (int)$this->votes()->where(compact('userID'))->first()['dir'];
