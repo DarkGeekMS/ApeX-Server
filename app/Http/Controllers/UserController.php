@@ -209,9 +209,7 @@ class UserController extends Controller
 
             $posts = Post::where('posted_by', $userData->first()['id'])->get();
 
-            $userData = $userData->select(
-                'id', 'username', 'fullname', 'karma', 'avatar'
-            )->first();
+            $userData = $userData->select('id', 'username', 'fullname', 'karma', 'avatar')->first();
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }
@@ -223,7 +221,7 @@ class UserController extends Controller
      * User Get User Data
      * Just like [Guest Get User Data](#guest-get-user-data), except that
      * it does't return user data between blocked users,
-     * it also adds the current user vote on the user's posts 
+     * it also adds the current user vote on the user's posts
      * and if he had saved them.
      * Use this request only if the user is logged in and authorized.
      *
@@ -270,7 +268,6 @@ class UserController extends Controller
             $general = new GeneralController();
             $result = $general->filterResult(collect($result), $request['token']);
             return $result;
-            
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }

@@ -20,83 +20,83 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['jwt.verify']], function () {
 
     // account
-    Route::post('/del_msg', 'AccountController@deleteMsg');
-    Route::post('/read_msg', 'AccountController@readMsg');
-    Route::post('/me', 'AccountController@me');
-    Route::post('/updateprefs', 'AccountController@updates');
-    Route::get('/prefs', 'AccountController@prefs');
-    Route::post('/blocklist', 'AccountController@blockList');
-    Route::post('/sign_out', 'AccountController@logout');
-    Route::post('/info', 'AccountController@profileInfo');
-    Route::post('/inbox_messages', 'AccountController@inbox');
-    Route::post('/sign_out', 'AccountController@logout');
+    Route::post('/DeleteMessage', 'AccountController@deleteMsg');
+    Route::post('/ReadMessage', 'AccountController@readMsg');
+    Route::post('/Me', 'AccountController@me');
+    Route::post('/UpdatePreferences', 'AccountController@updates');
+    Route::post('/GetPreferences', 'AccountController@prefs');
+    Route::post('/BlockList', 'AccountController@blockList');
+    Route::post('/SignOut', 'AccountController@logout');
+    Route::post('/ProfileInfo', 'AccountController@profileInfo');
+    Route::post('/InboxMessages', 'AccountController@inbox');
+    Route::post('/SignOut', 'AccountController@logout');
 
 
     // administration
 
-    Route::delete('/del_apexCom', 'AdministrationController@deleteApexCom');
-    Route::delete('/del_user', 'AdministrationController@deleteUser');
-    Route::post('/add_moderator', 'AdministrationController@addModerator');
+    Route::delete('/DeleteApexcom', 'AdministrationController@deleteApexCom');
+    Route::delete('/DeleteUser', 'AdministrationController@deleteUser');
+    Route::post('/AddModerator', 'AdministrationController@addModerator');
 
 
     // links and comments
 
-    Route::post('/comment', 'CommentandLinksController@add');
-    Route::delete('/delete', 'CommentandLinksController@delete');
-    Route::patch('/edit', 'CommentandLinksController@editText');
-    Route::post('/report', 'CommentandLinksController@report');
-    Route::post('/vote', 'CommentandLinksController@vote');
-    Route::post('/lock_post', 'CommentandLinksController@lock');
+    Route::post('/AddReply', 'CommentandLinksController@add');
+    Route::delete('/Delete', 'CommentandLinksController@delete');
+    Route::patch('/EditText', 'CommentandLinksController@editText');
+    Route::post('/Report', 'CommentandLinksController@report');
+    Route::post('/Vote', 'CommentandLinksController@vote');
+    Route::post('/LockPost', 'CommentandLinksController@lock');
     Route::post('/Hide', 'CommentandLinksController@hide');
-    Route::post('/save', 'CommentandLinksController@save');
-    Route::post('/moreComments', 'CommentandLinksController@moreChildren');
+    Route::post('/Save', 'CommentandLinksController@save');
+    Route::post('/RetrieveComments', 'CommentandLinksController@moreChildren');
 
     // user
 
-    Route::post('/block_user', 'UserController@block');
-    Route::post('/compose', 'UserController@compose');
-    Route::post('/user_data', 'UserController@userData');
+    Route::post('/BlockUser', 'UserController@block');
+    Route::post('/ComposeMessage', 'UserController@compose');
+    Route::post('/UserData', 'UserController@userData');
 
     // moderation
 
-    Route::post('/block', 'ModerationController@blockUser');
-    Route::post('/report_action', 'ModerationController@ignoreReport');
-    Route::post('/review_reports', 'ModerationController@reviewReports');
+    Route::post('/ApexcomBlockUser', 'ModerationController@blockUser');
+    Route::post('/IgnoreReport', 'ModerationController@ignoreReport');
+    Route::post('/ReviewReports', 'ModerationController@reviewReports');
 
     // ApexCom
 
-    Route::post('/get_ApexComs', 'ApexComController@getApexComs');
-    Route::post('/about', 'ApexComController@about');
-    Route::post('/submit_post', 'ApexComController@submitPost');
-    Route::post('/subscribe', 'ApexComController@subscribe');
-    Route::post('/site_admin', 'ApexComController@siteAdmin');
+    Route::post('/GetApexcoms', 'ApexComController@getApexComs');
+    Route::post('/AboutApexcom', 'ApexComController@about');
+    Route::post('/SubmitPost', 'ApexComController@submitPost');
+    Route::post('/Subscribe', 'ApexComController@subscribe');
+    Route::post('/SiteAdmin', 'ApexComController@siteAdmin');
 
     //General
 
-    Route::post('/sort_posts', 'GeneralController@userSortPostsBy');
-    Route::post('/search', 'GeneralController@userSearch');
-    Route::post('/get_subscribers', 'GeneralController@getSubscribers');
+    Route::post('/SortPosts', 'GeneralController@userSortPostsBy');
+    Route::post('/Search', 'GeneralController@userSearch');
+    Route::post('/GetSubscribers', 'GeneralController@getSubscribers');
 });
 
 // account
-Route::post('/sign_up', 'AccountController@signUp');
-Route::post('/sign_in', 'AccountController@login');
-Route::post('/mail_verify', 'AccountController@mailVerify');
-Route::post('/check_code', 'AccountController@checkCode');
-Route::patch('/changepassword', 'AccountController@changePassword');
+Route::post('/SignUp', 'AccountController@signUp');
+Route::post('/SignIn', 'AccountController@login');
+Route::post('/MailVirification', 'AccountController@mailVerify');
+Route::post('/CheckCode', 'AccountController@checkCode');
+Route::patch('/ChangePassword', 'AccountController@changePassword');
 
 
 // ApexCom
-Route::get('/about', 'ApexComController@guestAbout');
+Route::get('/AboutApexcom', 'ApexComController@guestAbout');
 
 // links and comments
-Route::get('/moreComments', 'CommentandLinksController@guestMoreChildren');
+Route::get('/RetrieveComments', 'CommentandLinksController@guestMoreChildren');
 
 // general
-Route::get('/search', 'GeneralController@guestSearch');
-Route::get('/sort_posts', 'GeneralController@guestSortPostsBy');
-Route::get('/Apex_names', 'GeneralController@apexNames');
-Route::get('/get_subscribers', 'GeneralController@guestGetSubscribers');
+Route::get('/Search', 'GeneralController@guestSearch');
+Route::get('/SortPosts', 'GeneralController@guestSortPostsBy');
+Route::get('/ApexComs', 'GeneralController@apexNames');
+Route::get('/GetSubscribers', 'GeneralController@guestGetSubscribers');
 
 //user
-Route::get('/user_data', 'UserController@guestUserData');
+Route::get('/UserData', 'UserController@guestUserData');

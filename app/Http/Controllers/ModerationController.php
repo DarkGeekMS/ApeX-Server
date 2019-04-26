@@ -61,10 +61,10 @@ class ModerationController extends Controller
         if (!$exists) {
             return response()->json(['error' => 'User not found.'], 404);
         }
-        
+
         $user_type = User::find($user_id);
         $user_type = $user_type->type;
-        
+
         // checking if the user is a moderator for this apexcom.
         $IsModerator = Moderator::where(
             [['apexID', $apex_id], ['userID', $moderator_id]]
@@ -99,7 +99,7 @@ class ModerationController extends Controller
                 'blockedID' => $user_id
             ]
         );
-        
+
         // return true to ensure the success of blocking from the apexcom.
         return response()->json('Blocked', 200);
     }
@@ -220,7 +220,7 @@ class ModerationController extends Controller
         if (!$exists) {
             return response()->json(['error' => 'ApexCom is not found.'], 404);
         }
-        
+
         // checking if the user is a moderator for this apexcom if not return an error message.
         $IsModerator = Moderator::where(
             [['apexID', $apex_id], ['userID', $moderator_id]]
@@ -254,7 +254,8 @@ class ModerationController extends Controller
              'commented_by', 'root', 'parent', 'apex_posts.*']
         );
         $reportedcomments = ReportComment::joinSub(
-            $comments, 'comments_posts',
+            $comments,
+            'comments_posts',
             function ($join) {
                 $join->on('comID', '=', 'comments_posts.commentid');
             }
@@ -267,13 +268,13 @@ class ModerationController extends Controller
              * A callback function to split the information in every row
              * to associative array that has three keys post, comment and report.
              * Each of which contains the related information to the key.
-             * 
+             *
              * @return Array
              */
             function ($item) {
                 return [
                     'post' => [
-                        'id' => $item['id'], 'posted_by' => $item['posted_by'], 
+                        'id' => $item['id'], 'posted_by' => $item['posted_by'],
                         'apex_id' => $item['apex_id'], 'title' => $item['title'],
                         'img' => $item['img'], 'videolink' => $item['videolink'],
                         'content' => $item['content'], 'locked' => $item['locked']
@@ -285,7 +286,7 @@ class ModerationController extends Controller
                     ],
                     'report' => [
                         'userID' => $item['userID'], 'comID' => $item['comID'],
-                        'content' => $item['report_content'], 
+                        'content' => $item['report_content'],
                         'created_at' => $item['report_created_at'],
                         'updated_at' => $item['report_updated_at']
                     ]
@@ -307,20 +308,20 @@ class ModerationController extends Controller
              * A callback function to split the information in every row
              * to associative array that has two keys post and the report.
              * Each of which contains the related information to the key.
-             * 
+             *
              * @return Array
              */
             function ($item) {
                 return [
                     'post' => [
-                        'id' => $item['id'], 'posted_by' => $item['posted_by'], 
+                        'id' => $item['id'], 'posted_by' => $item['posted_by'],
                         'apex_id' => $item['apex_id'], 'title' => $item['title'],
                         'img' => $item['img'], 'videolink' => $item['videolink'],
                         'content' => $item['content'], 'locked' => $item['locked']
                     ],
                     'report' => [
                         'userID' => $item['userID'], 'postID' => $item['postID'],
-                        'content' => $item['report_content'], 
+                        'content' => $item['report_content'],
                         'created_at' => $item['report_created_at'],
                         'updated_at' => $item['report_updated_at']
                     ]
