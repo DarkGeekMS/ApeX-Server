@@ -28,7 +28,7 @@ class AboutTest extends TestCase
         // hit the route with out valid apexcomid
         $response = $this->json(
             'GET',
-            '/api/about',
+            '/api/AboutApexcom',
             [
                 'ApexCom_ID' => '12354'
             ]
@@ -41,7 +41,7 @@ class AboutTest extends TestCase
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'GET',
-            '/api/about',
+            '/api/AboutApexcom',
             [
                 'ApexCom_ID' => $apex_id
             ]
@@ -62,7 +62,7 @@ class AboutTest extends TestCase
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/about',
+            '/api/AboutApexcom',
             [
             ]
         );
@@ -76,7 +76,7 @@ class AboutTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -91,7 +91,7 @@ class AboutTest extends TestCase
         // hit the route with an invalid id of an apexcom to get its about info
         $response = $this->json(
             'POST',
-            '/api/about',
+            '/api/AboutApexcom',
             [
                 'token' => $token,
                 'ApexCom_ID' => '12354'
@@ -122,7 +122,7 @@ class AboutTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -147,7 +147,7 @@ class AboutTest extends TestCase
         // hit the route with the blocked user
         $response = $this->json(
             'POST',
-            '/api/about',
+            '/api/AboutApexcom',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_ID' => $apex_id
@@ -184,7 +184,7 @@ class AboutTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -197,7 +197,7 @@ class AboutTest extends TestCase
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'POST',
-            '/api/about',
+            '/api/AboutApexcom',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_ID' => $apex_id

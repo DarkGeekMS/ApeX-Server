@@ -30,7 +30,7 @@ class PostTest extends TestCase
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
             ]
         );
@@ -44,7 +44,7 @@ class PostTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -57,7 +57,7 @@ class PostTest extends TestCase
         // hit the route with an invalid id of an apexcom to submit a post in it
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $token,
                 'ApexCom_id' => '12354'
@@ -88,7 +88,7 @@ class PostTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -113,7 +113,7 @@ class PostTest extends TestCase
         // hit the route with the blocked user
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_id' => $apex_id
@@ -150,7 +150,7 @@ class PostTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -170,7 +170,7 @@ class PostTest extends TestCase
         // hit the route with non complete information several times it shouldn't create a post
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_id' => $apex_id,
@@ -187,7 +187,7 @@ class PostTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_id' => $apex_id,
@@ -203,7 +203,7 @@ class PostTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_id' => $apex_id,
@@ -220,7 +220,7 @@ class PostTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_id' => $apex_id,
@@ -258,7 +258,7 @@ class PostTest extends TestCase
 
         $signUp = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUp->assertStatus(200);
@@ -276,7 +276,7 @@ class PostTest extends TestCase
         // hit the endpoint with valid parameters
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $signUp->json('token'),
                 'ApexCom_id' => $apex_id,
