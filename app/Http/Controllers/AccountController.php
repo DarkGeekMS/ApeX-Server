@@ -886,7 +886,13 @@ class AccountController extends Controller
 
     public function blockList(Request $request)
     {
-        return;
+        //get the logged in user id and type
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
+        $id=$user->id;
+        $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
+        ->where('blocks.blockerID', '=', $id)->select('users.username','users.id')->get();
+        return response()->json(['blocklist' =>$blocklist]);
     }
 
 
