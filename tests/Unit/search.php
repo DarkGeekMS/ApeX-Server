@@ -49,7 +49,7 @@ class search extends TestCase
             ['username' => 'Monda Talaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
-        $userID = $loginResponse->json('user')['id'];
+        $userID = 't2_1';
 
         $response = $this->json(
             'POST',
