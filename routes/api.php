@@ -35,7 +35,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // administration
 
-    Route::delete('/del_account', 'AdministrationController@deleteApexCom');
+    Route::delete('/del_apexCom', 'AdministrationController@deleteApexCom');
     Route::delete('/del_user', 'AdministrationController@deleteUser');
     Route::post('/add_moderator', 'AdministrationController@addModerator');
 

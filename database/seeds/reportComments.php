@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\ReportComment;
 
 class reportComments extends Seeder
 {
@@ -11,10 +12,6 @@ class reportComments extends Seeder
      */
     public function run()
     {
-        DB::table('report_comments')->insert([
-          'comID' => 't1_14',
-          'userID' => 't2_1',
-          'content' => 'Anything'
-        ]);
+        factory(ReportComment::class, 10)->create();
     }
 }

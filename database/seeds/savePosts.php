@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\SavePost;
 
 class savePosts extends Seeder
 {
@@ -11,5 +12,6 @@ class savePosts extends Seeder
      */
     public function run()
     {
+        factory(SavePost::class, 10)->create();
     }
 }

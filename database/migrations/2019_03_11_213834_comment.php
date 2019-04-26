@@ -17,13 +17,13 @@ class Comment extends Migration
             'comments',
             function (Blueprint $table) {
                 $table->string('id')->unique();
-                $table->string('commented_by')->nullable();
+                $table->string('commented_by');
                 $table->text('content');
                 $table->string('root')->nullable();     //post id
                 $table->string('parent')->nullable();  //comment id
                 $table->timestamps();
                 $table->primary('id');
-                $table->foreign('commented_by')->references('id')->on('users')->onDelete('set null');
+                $table->foreign('commented_by')->references('id')->on('users');
                 $table->foreign('root')->references('id')->on('posts')->onDelete('cascade');
                 $table->foreign('parent')->references('id')->on('comments')->onDelete('cascade');
             }
