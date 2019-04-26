@@ -18,7 +18,7 @@ class SaveValid extends TestCase
     {
         $SignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => 'sebak@gmail.com',
             'password' => '123456',
@@ -27,7 +27,7 @@ class SaveValid extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -37,7 +37,7 @@ class SaveValid extends TestCase
         //to save a comment
         $saveResponse = $this->json(
             'POST',
-            '/api/save',
+            '/api/Save',
             [
             'token' => $token,
             'ID' => 't1_10' //id of an existing comment
@@ -46,7 +46,7 @@ class SaveValid extends TestCase
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -63,7 +63,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignUp',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -73,7 +73,7 @@ class SaveValid extends TestCase
         //to unsave a saved comment
         $saveResponse = $this->json(
             'POST',
-            '/api/save',
+            '/api/Save',
             [
             'token' => $token,
             'ID' => 't1_10' //id of an existing comment
@@ -82,7 +82,7 @@ class SaveValid extends TestCase
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -99,7 +99,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -109,7 +109,7 @@ class SaveValid extends TestCase
         //to save a post
         $saveResponse = $this->json(
             'POST',
-            '/api/save',
+            '/api/Save',
             [
             'token' => $token,
             'ID' => 't3_10' //id of an existing post
@@ -118,7 +118,7 @@ class SaveValid extends TestCase
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -134,7 +134,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -144,7 +144,7 @@ class SaveValid extends TestCase
         //to unsave a saved post
         $saveResponse = $this->json(
             'POST',
-            '/api/save',
+            '/api/Save',
             [
             'token' => $token,
             'ID' => 't3_10' //id of an existing post
@@ -153,7 +153,7 @@ class SaveValid extends TestCase
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

@@ -19,7 +19,7 @@ class ValidSignup extends TestCase
     {
         $response = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => "bebo@gmail.com",
             'password' => '1721998',
@@ -29,7 +29,7 @@ class ValidSignup extends TestCase
         $response->assertStatus(200);
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'rehab_hamdy',
             'password' => '1721998'
@@ -38,7 +38,7 @@ class ValidSignup extends TestCase
         $token = $loginResponse->json('token');
         $response1 = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

@@ -25,7 +25,7 @@ class userData extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -59,7 +59,7 @@ class userData extends TestCase
         foreach ($methods as $method => $data) {
             $response = $this->json(
                 $method,
-                '/api/user_data',
+                '/api/UserData',
                 $data
             );
 
@@ -90,7 +90,7 @@ class userData extends TestCase
         foreach ($methods as $method => $data) {
             $response = $this->json(
                 $method,
-                '/api/user_data',
+                '/api/UserData',
                 $data
             );
 
@@ -119,7 +119,7 @@ class userData extends TestCase
         foreach ($methods as $method => $data) {
             $response = $this->json(
                 $method,
-                '/api/user_data',
+                '/api/UserData',
                 $data
             );
 
@@ -149,7 +149,7 @@ class userData extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/user_data',
+            '/api/UserData',
             compact('token', 'username')
         );
 

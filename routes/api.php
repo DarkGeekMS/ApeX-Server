@@ -31,13 +31,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/InboxMessages', 'AccountController@inbox');
     Route::post('/SignOut', 'AccountController@logout');
 
-
     // administration
 
     Route::delete('/DeleteApexcom', 'AdministrationController@deleteApexCom');
     Route::delete('/DeleteUser', 'AdministrationController@deleteUser');
     Route::post('/AddModerator', 'AdministrationController@addModerator');
-
 
     // links and comments
 
@@ -81,7 +79,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 // account
 Route::post('/SignUp', 'AccountController@signUp');
 Route::post('/SignIn', 'AccountController@login');
-Route::post('/MailVirification', 'AccountController@mailVerify');
+Route::post('/MailVerification', 'AccountController@mailVerify');
 Route::post('/CheckCode', 'AccountController@checkCode');
 Route::patch('/ChangePassword', 'AccountController@changePassword');
 

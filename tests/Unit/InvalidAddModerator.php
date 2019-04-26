@@ -20,7 +20,7 @@ class InvalidAddMoerator extends TestCase
       //sign in with an admin account
         $adminLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'king',
               'password' => 'queen12'
@@ -33,7 +33,7 @@ class InvalidAddMoerator extends TestCase
 
         $addResponse = $this->json(
             'POST',
-            '/api/add_moderator',
+            '/api/AddModerator',
             [
               'token' => $token,
               'UserID' => '1000',             //wrong id
@@ -53,7 +53,7 @@ class InvalidAddMoerator extends TestCase
       //sign in with an admin account
         $adminLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'king',
               'password' => 'queen12'
@@ -63,7 +63,7 @@ class InvalidAddMoerator extends TestCase
       //user to be added as a moderator
         $userSignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => 'sebak@gmail.com',
             'password' => '123456',
@@ -72,7 +72,7 @@ class InvalidAddMoerator extends TestCase
         );
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'sebak',
               'password' => '123456'
@@ -81,7 +81,7 @@ class InvalidAddMoerator extends TestCase
         $userToken = $userLoginResponse->json("token");
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
               'token' => $userToken
             ]
@@ -89,7 +89,7 @@ class InvalidAddMoerator extends TestCase
         $id = $meResponse->getData()->user->id;
         $addResponse = $this->json(
             'POST',
-            '/api/add_moderator',
+            '/api/AddModerator',
             [
               'token' => $token,
               'UserID' => $id,
@@ -109,7 +109,7 @@ class InvalidAddMoerator extends TestCase
       //sign in with a non-admin account
         $adminLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'mondaTalaat',
               'password' => 'monda21'
@@ -119,7 +119,7 @@ class InvalidAddMoerator extends TestCase
       //user to be added as a moderator
         $userSignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
               'email' => 'sebak@gmail.com',
               'password' => '123456',
@@ -128,7 +128,7 @@ class InvalidAddMoerator extends TestCase
         );
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'sebak',
               'password' => '123456'
@@ -137,7 +137,7 @@ class InvalidAddMoerator extends TestCase
         $userToken = $userLoginResponse->json("token");
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
               'token' => $userToken
             ]
@@ -149,7 +149,7 @@ class InvalidAddMoerator extends TestCase
 
         $addResponse = $this->json(
             'POST',
-            '/api/add_moderator',
+            '/api/AddModerator',
             [
               'token' => $token,
               'UserID' => $id,

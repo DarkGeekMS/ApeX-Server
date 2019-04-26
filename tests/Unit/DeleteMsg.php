@@ -25,7 +25,7 @@ class DeleteMsg extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -57,7 +57,7 @@ class DeleteMsg extends TestCase
         //delete the messege from the sender then from the receiver
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $sToken, 'id' => $id]
         );
         $response->assertStatus(200)
@@ -65,7 +65,7 @@ class DeleteMsg extends TestCase
         //trying to delete it again
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $sToken, 'id' => $id]
         );
         $response->assertStatus(400)
@@ -74,7 +74,7 @@ class DeleteMsg extends TestCase
         //delete it from the receiver
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $rToken, 'id' => $id]
         );
         $response->assertStatus(200)
@@ -84,7 +84,7 @@ class DeleteMsg extends TestCase
         //trying to delete it again
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $rToken, 'id' => $id]
         );
         $response->assertStatus(404)
@@ -107,7 +107,7 @@ class DeleteMsg extends TestCase
     {
         [$user, $token] = $this->_createUser();
         $id = Message::firstOrFail()->id;
-        $response = $this->json('POST', 'api/del_msg', compact('id', 'token'));
+        $response = $this->json('POST', 'api/DeleteMessage', compact('id', 'token'));
 
         $response->assertStatus(400)
             ->assertSee('The user is not the sender nor the receiver of the message');

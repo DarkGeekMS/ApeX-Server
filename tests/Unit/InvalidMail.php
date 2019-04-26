@@ -17,7 +17,7 @@ class InvalidMail extends TestCase
     {
         $response = $this->json(
             'POST',
-            '/api/mail_verify',
+            '/api/MailVerification',
             [
             'username' => 'MohamedRamzy5',
             ]

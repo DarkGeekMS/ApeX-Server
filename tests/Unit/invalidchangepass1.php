@@ -18,7 +18,7 @@ class invalidchangepass1 extends TestCase
         $username = "mondaTalaat";
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => $username,
             'password' => '123456'
@@ -27,7 +27,7 @@ class invalidchangepass1 extends TestCase
         $token = $loginResponse->json()["token"];
         $changeRequest = $this->json(
             'PATCH',
-            '/api/changepassword',
+            '/api/ChangePassword',
             [
             'token' => $token,
             'withCode' => '0',

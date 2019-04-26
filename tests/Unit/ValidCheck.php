@@ -20,7 +20,7 @@ class ValidCheck extends TestCase
         $username =  'MohamedRamzy';
         $response = $this->json(
             'POST',
-            '/api/mail_verify',
+            '/api/MailVerification',
             [
             'username' => $username,
             ]
@@ -29,7 +29,7 @@ class ValidCheck extends TestCase
         $code = Code::where('id', $id)->first()->code;
         $response = $this->json(
             'POST',
-            '/api/mail_verify',
+            '/api/MailVerification',
             [
             'username' => 'MohamedRamzy',
             'code' => $code

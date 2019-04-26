@@ -55,7 +55,7 @@ class sortPostsBy extends TestCase
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
                 'GET',
-                '/api/sort_posts',
+                '/api/SortPosts',
                 [
                     'apexComID' => $apexComID,
                     'sortingParam' => $sortingParam
@@ -81,13 +81,13 @@ class sortPostsBy extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
         $userID = 't2_1';
 
-        $response = $this->json('POST', '/api/sort_posts', compact('token'));
+        $response = $this->json('POST', '/api/SortPosts', compact('token'));
         $posts = $response->json('posts');
 
         //check that there are no posts from blocked users or hidden posts or reported posts
@@ -115,7 +115,7 @@ class sortPostsBy extends TestCase
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
                 'POST',
-                '/api/sort_posts',
+                '/api/SortPosts',
                 compact('sortingParam', 'token')
             );
             $response->assertStatus(200);
@@ -142,7 +142,7 @@ class sortPostsBy extends TestCase
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
                 'GET',
-                '/api/sort_posts',
+                '/api/SortPosts',
                 [
                     'sortingParam' => $sortingParam
                 ]
@@ -167,7 +167,7 @@ class sortPostsBy extends TestCase
     {
         $response = $this->json(
             'GET',
-            '/api/sort_posts',
+            '/api/SortPosts',
             [
             'apexComID' => '-1',
             'sortingParam' => 'votes'
@@ -191,7 +191,7 @@ class sortPostsBy extends TestCase
         $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
             'GET',
-            '/api/sort_posts',
+            '/api/SortPosts',
             [
             'apexComID' => $apexComID,
             'sortingParam' => 'something'
@@ -219,7 +219,7 @@ class sortPostsBy extends TestCase
         $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
             'GET',
-            '/api/sort_posts',
+            '/api/SortPosts',
             [
             'apexComID' => $apexComID,
             ]

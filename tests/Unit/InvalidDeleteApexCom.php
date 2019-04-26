@@ -20,7 +20,7 @@ class InvalidDeleteApexCom extends TestCase
     //login by an admin
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'king',
               'password' => 'queen12'
@@ -29,7 +29,7 @@ class InvalidDeleteApexCom extends TestCase
         $token = $loginResponse->json("token");
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_apexCom',
+            '/api/DeleteApexcom',
             [
             'token' => $token,
             'Apex_ID' => 't3_1000'               //wrong Apex_ID
@@ -38,7 +38,7 @@ class InvalidDeleteApexCom extends TestCase
         $delResponse->assertStatus(500)->assertSee("ApexCom doesnot exist");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
               'token' => $token
             ]
@@ -54,7 +54,7 @@ class InvalidDeleteApexCom extends TestCase
     {
         $SignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
               'email' => 'sebak@gmail.com',
               'password' => '123456',
@@ -63,7 +63,7 @@ class InvalidDeleteApexCom extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'sebak',
               'password' => '123456'
@@ -78,7 +78,7 @@ class InvalidDeleteApexCom extends TestCase
         DB::table('apex_coms')-> insert(['id' => $id, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_apexCom',
+            '/api/DeleteApexcom',
             [
               'token' => $token,
               'Apex_ID' => $id
@@ -88,7 +88,7 @@ class InvalidDeleteApexCom extends TestCase
         DB::table('apex_coms')->where('id', '=', $id)->delete();
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
               'token' => $token
             ]

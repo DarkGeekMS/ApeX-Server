@@ -17,7 +17,7 @@ class InvalidCheck extends TestCase
     {
         $response = $this->json(
             'POST',
-            '/api/check_code',
+            '/api/CheckCode',
             [
             'username' => 'MohamedRamzy',
             'code' => 'bla bla bla'

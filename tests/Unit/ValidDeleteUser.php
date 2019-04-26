@@ -19,7 +19,7 @@ class ValidDeleteUser extends TestCase
 
         $SignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => 'sebak@gmail.com',
             'password' => '123456',
@@ -28,7 +28,7 @@ class ValidDeleteUser extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -37,7 +37,7 @@ class ValidDeleteUser extends TestCase
         $token = $loginResponse->json("token");
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
             'token' => $token
             ]
@@ -46,7 +46,7 @@ class ValidDeleteUser extends TestCase
         //to delete a user
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
             'token' => $token,
             'UserID' => $id,
@@ -56,7 +56,7 @@ class ValidDeleteUser extends TestCase
         $delResponse->assertStatus(200)->assertDontSee("token_error");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -74,7 +74,7 @@ class ValidDeleteUser extends TestCase
       //sign in with an admin account
         $adminLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'king',
             'password' => 'queen12'
@@ -84,7 +84,7 @@ class ValidDeleteUser extends TestCase
       //user to deleted
         $userSignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
               'email' => 'sebak@gmail.com',
               'password' => '123456',
@@ -93,7 +93,7 @@ class ValidDeleteUser extends TestCase
         );
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'sebak',
             'password' => '123456'
@@ -102,7 +102,7 @@ class ValidDeleteUser extends TestCase
         $userToken = $userLoginResponse->json("token");
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
             'token' => $userToken
             ]
@@ -111,7 +111,7 @@ class ValidDeleteUser extends TestCase
 
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
             'token' => $token,
             'UserID' => $id,
@@ -121,7 +121,7 @@ class ValidDeleteUser extends TestCase
         $delResponse->assertStatus(200)->assertDontSee("token_error");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
