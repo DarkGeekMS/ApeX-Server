@@ -4,7 +4,7 @@ set -ex
 
 getFront() { ./scripts/getFront.sh $WEB_BRANCH; }
 
-install() { composer install --optimize-autoloader --no-dev; }
+install() { composer install --optimize-autoloader; }
 
 migrate() {
     php7 artisan migrate -n --force
