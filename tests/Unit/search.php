@@ -24,7 +24,7 @@ class search extends TestCase
     {
         $response = $this->json(
             'GET',
-            'api/search',
+            'api/Search',
             [
             'query' => 'any'
             ]
@@ -45,7 +45,7 @@ class search extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
@@ -53,7 +53,7 @@ class search extends TestCase
 
         $response = $this->json(
             'POST',
-            'api/search',
+            'api/Search',
             [
             'query' => 'any',
             'token' => $token
@@ -110,7 +110,7 @@ class search extends TestCase
     {
         $response = $this->json(
             'GET',
-            'api/search',
+            'api/Search',
             [
             'query' => 'l'
             ]
@@ -129,7 +129,7 @@ class search extends TestCase
     {
         $response = $this->json(
             'GET',
-            'api/search'
+            'api/Search'
         );
         $response->assertStatus(400);
     }

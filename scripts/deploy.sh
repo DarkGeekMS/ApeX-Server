@@ -19,7 +19,7 @@ main() {
 
     # run docker-compose
     gcloud compute ssh $VM_INSTANCE \
-	--command="sudo BRANCH=${BRANCH} \
+	--command="cd disk1 && sudo BRANCH=${BRANCH} \
 		   docker-compose up --build --no-deps -d"
 }
 

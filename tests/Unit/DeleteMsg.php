@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Message;
 use App\Models\User;
+use DB;
 
 class DeleteMsg extends TestCase
 {
@@ -19,19 +20,20 @@ class DeleteMsg extends TestCase
      */
     private function _createUser()
     {
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $userID = $signUpResponse->json('user')['id'];
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+        $userID = $user['id'];
 
         return [$userID, $token];
     }
@@ -57,7 +59,7 @@ class DeleteMsg extends TestCase
         //delete the messege from the sender then from the receiver
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $sToken, 'id' => $id]
         );
         $response->assertStatus(200)
@@ -65,7 +67,7 @@ class DeleteMsg extends TestCase
         //trying to delete it again
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $sToken, 'id' => $id]
         );
         $response->assertStatus(400)
@@ -74,7 +76,7 @@ class DeleteMsg extends TestCase
         //delete it from the receiver
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $rToken, 'id' => $id]
         );
         $response->assertStatus(200)
@@ -84,7 +86,7 @@ class DeleteMsg extends TestCase
         //trying to delete it again
         $response = $this->json(
             'POST',
-            'api/del_msg',
+            'api/DeleteMessage',
             ['token' => $rToken, 'id' => $id]
         );
         $response->assertStatus(404)
@@ -92,7 +94,7 @@ class DeleteMsg extends TestCase
         $this->assertDatabaseMissing('messages', compact('id'));
 
         //delete the created users
-        User::destroy([$sender, $receiver]);
+        DB::table('users')->where('id', $sender)->orWhere('id', $receiver)->delete();
     }
 
     /**
@@ -107,11 +109,11 @@ class DeleteMsg extends TestCase
     {
         [$user, $token] = $this->_createUser();
         $id = Message::firstOrFail()->id;
-        $response = $this->json('POST', 'api/del_msg', compact('id', 'token'));
+        $response = $this->json('POST', 'api/DeleteMessage', compact('id', 'token'));
 
         $response->assertStatus(400)
             ->assertSee('The user is not the sender nor the receiver of the message');
 
-        User::destroy($user);
+        DB::table('users')->Where('id', $user)->delete();
     }
 }

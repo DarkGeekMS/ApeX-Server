@@ -17,7 +17,7 @@ class InvalidLogout extends TestCase
     {
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => "invalid token"
             ]

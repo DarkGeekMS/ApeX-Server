@@ -18,6 +18,7 @@ use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Message;
 use Illuminate\Http\Response;
+
 /**
  * @group Account
  *
@@ -26,6 +27,24 @@ use Illuminate\Http\Response;
 
 class AccountController extends Controller
 {
+
+  /**
+   * Registers the given user into the website.
+   *
+   * The function takes the email, username and password and validates them
+   * if the validation is failed it will return an error response and if it is
+   * successeded it will generate a new id for the new user then it will hash its
+   * password and creates a new user with the given data and creates a default
+   * avatar then it will save the user into the database then it will generate a
+   * JWT token from its data and returns the token with the data as a response.
+   *
+   * @param string email The user's email.
+   * @param string username The user's username.
+   * @param string password The user's password.
+   *
+   * @return json the user data and the token.
+   *
+   */
 
     /**
      * SignUp
@@ -70,23 +89,6 @@ class AccountController extends Controller
      * }
      */
 
-     /**
-      * Registers the given user into the website.
-      *
-      * The function takes the email, username and password and validates them
-      * if the validation is failed it will return an error response and if it is
-      * successeded it will generate a new id for the new user then it will hash its
-      * password and creates a new user with the given data and creates a default
-      * avatar then it will save the user into the database then it will generate a
-      * JWT token from its data and returns the token with the data as a response.
-      *
-      * @param string email The user's email.
-      * @param string username The user's username.
-      * @param string password The user's password.
-      *
-      * @return json the user data and the token.
-      *
-      */
     public function signUp(Request $request)
     {
         //validating the input data to be correct
@@ -116,7 +118,7 @@ class AccountController extends Controller
         $validator3 = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string|max:50|unique:users',
+            'username' => 'required|string|alpha_dash|max:50|unique:users',
             'avatar' => 'image'
             ]
         );
@@ -126,21 +128,11 @@ class AccountController extends Controller
             return response()->json(['error' => 'Username already exists'], 400);
         }
 
-        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
-        $id = "t2_1";
-        if ($lastUser) {
-            $count = DB::table('users') ->where('created_at', $lastUser->created_at)->count();
-            $id = $lastUser->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t2_".($newIdx+$count);
-        }
+        $lastUser =User::withTrashed()->selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't2_'.(string)($lastUser +1);
 
         $requestData = $request->all();
         $requestData['id'] = $id;
-        /*removing password_confirmation from the request data as we don't need it
-        in the database
-        */
-        //unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password
@@ -157,6 +149,20 @@ class AccountController extends Controller
         //Returning the user data and the token with 200 status code
         return response()->json(compact('user', 'token'), 200);
     }
+
+    /**
+     * Signs in the user into the website.
+     *
+     * The function first extracts the credentials of the user and checks for them
+     * if they are wrong it will return an error message, else it will generate a
+     * jwt token and returns it.
+     *
+     * @param string username The user's username.
+     * @param string password The user's password.
+     *
+     * @return JWT The user's JWT token.
+     *
+     */
 
     /**
      * login
@@ -180,20 +186,6 @@ class AccountController extends Controller
      * }
      */
 
-     /**
-      * Signs in the user into the website.
-      *
-      * The function first extracts the credentials of the user and checks for them
-      * if they are wrong it will return an error message, else it will generate a
-      * jwt token and returns it.
-      *
-      * @param string username The user's username.
-      * @param string password The user's password.
-      *
-      * @return JWT The user's JWT token.
-      *
-      */
-
     public function login(Request $request)
     {
         //Selecting username and password from the request data
@@ -211,6 +203,22 @@ class AccountController extends Controller
         //Returning the token
         return response()->json(compact('token'));
     }
+
+    /**
+     * Sends a code to the email to reset password.
+     *
+     * The function first validates the input username and if the validator fails it
+     * will return an error else it will check if the user exists in the website if
+     * it doesn't exist it will return an error, Then it will generate random code
+     * and send it to the user's email, Then it will delete all codes in the
+     * database asssociated with the user if exists then it will save the new code
+     * in the database and return a success message.
+     *
+     * @param string username The user's username.
+     *
+     * @return Json A status message indicating the mail is sent or not.
+     *
+     */
 
     /**
      * mailVerify
@@ -231,24 +239,6 @@ class AccountController extends Controller
      * }
      * @bodyParam username string required The user's username.
      */
-
-     /**
-      * Sends a code to the email to reset password.
-      *
-      * The function first validates the input username and if the validator fails it
-      * will return an error else it will check if the user exists in the website if
-      * it doesn't exist it will return an error, Then it will generate random code
-      * and send it to the user's email, Then it will delete all codes in the
-      * database asssociated with the user if exists then it will save the new code
-      * in the database and return a success message.
-      *
-      * @param string username The user's username.
-      *
-      * @return Json A status message indicating the mail is sent or not.
-      *
-      */
-
-
 
     public function mailVerify(Request $request)
     {
@@ -293,7 +283,21 @@ class AccountController extends Controller
     }
 
 
-
+    /**
+     * Check the forgot password code to be correct.
+     *
+     * The function firstly checks for the input data and if the validator is
+     * failed it will return an error then it will extract the code and username
+     * from the data and get the stored code of the user and compares the 2 codes
+     * if the codes are matching then it will return true to indicate that the code
+     * is correct, Else it will return false.
+     *
+     * @param string username The user's username.
+     * @param string code The user's forgot password code.
+     *
+     * @return Json a boolean value to indicate whether the code is correct or not.
+     *
+     */
 
     /**
      * checkCode
@@ -313,29 +317,13 @@ class AccountController extends Controller
      * @bodyParam username string required The user's username.
      */
 
-     /**
-      * Check the forgot password code to be correct.
-      *
-      * The function firstly checks for the input data and if the validator is
-      * failed it will return an error then it will extract the code and username
-      * from the data and get the stored code of the user and compares the 2 codes
-      * if the codes are matching then it will return true to indicate that the code
-      * is correct, Else it will return false.
-      *
-      * @param string username The user's username.
-      * @param string code The user's forgot password code.
-      *
-      * @return Json a boolean value to indicate whether the code is correct or not.
-      *
-      */
-
     public function checkCode(Request $request)
     {
         //Validating the input parameters of the request
         $validator = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string',
+            'email' => 'required|email',
             'code' => 'required|string'
             ]
         );
@@ -347,8 +335,8 @@ class AccountController extends Controller
         }
 
         $codeText = $request->input('code'); //Getting the code from request
-        $username = $request->input('username'); // Getting the username
-        $user = User::where('username', $username)->first(); //Getting user from DB
+        $email = $request->input('email'); // Getting the username
+        $user = User::where('email', $email)->first(); //Getting user from DB
         //Checking if the user exists
         if ($user) {
             //selecting the corresponding code
@@ -368,7 +356,18 @@ class AccountController extends Controller
     }
 
 
-
+    /**
+     * Logs out a user from the website.
+     *
+     * The function firstly extracts the token and invalidates it if any error
+     * happens it will return an error message, else it will return the token
+     * value equals to null to indicate a successfull logout.
+     *
+     * @param JWT token The user's JWT token.
+     *
+     * @return Json returns null or an error message.
+     *
+     */
 
     /**
      * Logout
@@ -387,19 +386,6 @@ class AccountController extends Controller
      * @bodyParam token JWT required Used to verify the user.
      */
 
-     /**
-      * Logs out a user from the website.
-      *
-      * The function firstly extracts the token and invalidates it if any error
-      * happens it will return an error message, else it will return the token
-      * value equals to null to indicate a successfull logout.
-      *
-      * @param JWT token The user's JWT token.
-      *
-      * @return Json returns null or an error message.
-      *
-      */
-
     public function logout(Request $request)
     {
         try {
@@ -415,35 +401,33 @@ class AccountController extends Controller
     }
 
 
-
-
     /**
      * Delete message
-     * Delete a private message or a reply to a message. Either the receiver or the 
-     * sender can delete a message. If both the receiver and the sender 
+     * Delete a private message or a reply to a message. Either the receiver or the
+     * sender can delete a message. If both the receiver and the sender
      * have deleted the message, then it's deleted entirely from the database,
      * If a message is deleted, all its replies will be deleted.
-     * 
+     *
      * ###Success Cases :
-     * 1.The parameters are valid, return json contains 
+     * 1.The parameters are valid, return json contains
      *  "the message is deleted successfully" (status code 200).
-     * 
+     *
      * ###Failure Cases:
      * 1. Message ID is not found. (status code 404)
      * 2. The user is not the sender nor the receiver of the message. (status code 400)
-     * 3. The message is already deleted from the current user 
+     * 3. The message is already deleted from the current user
      *  but still not deleted from the other user. (status code 400)
      * 4. The `token` is invalid, and the user is not authorized. (status code 400)
-     * 
+     *
      * @authenticated
-     * 
+     *
      * @response 200 {"result":"The message is deleted successfully"}
      * @response 404 {"error":"message ID is not found"}
      * @response 400 {"error":"The user is not the sender nor the receiver of the message"}
      * @response 400 {"error":"The message is already deleted from the sender"}
      * @response 400 {"error":"The message is already deleted from the receiver"}
      * @response 400 {"error":"Not authorized"}
-     * 
+     *
      * @bodyParam id string required The id of the message to be deleted.
      * @bodyParam token JWT required Used to verify the user.
      */
@@ -543,8 +527,27 @@ class AccountController extends Controller
     }
 
 
-
-
+    /**
+     * Changes the preferences of the user.
+     *
+     * The function firstly validates the input data of the user to check
+     * if they are valid then it gets the user data from the given token.
+     * then it checks if there is other users with the given username or email
+     * except the original user, If this is the case then it returns error
+     * else it stores the data and then it extracts the avatar from the request
+     * then it stores it and stores its directory in the database then the
+     * then it returns true to indicate the success.
+     *
+     * @param JWT token The user's JWT token.
+     * @param string username The user's username.
+     * @param string email The user's email.
+     * @param string fullname The user's fullname.
+     * @param string notification The user's notification enable value.
+     * @param avatar image the avatar of the user.
+     *
+     * @return boolean returns true or an error message.
+     *
+     */
 
     /**
      * updates
@@ -562,28 +565,6 @@ class AccountController extends Controller
      * @bodyParam notifications bool Enable notifications.
      * @bodyParam token JWT required Used to verify the user.
      */
-
-     /**
-      * Changes the preferences of the user.
-      *
-      * The function firstly validates the input data of the user to check
-      * if they are valid then it gets the user data from the given token.
-      * then it checks if there is other users with the given username or email
-      * except the original user, If this is the case then it returns error
-      * else it stores the data and then it extracts the avatar from the request
-      * then it stores it and stores its directory in the database then the
-      * then it returns true to indicate the success.
-      *
-      * @param JWT token The user's JWT token.
-      * @param string username The user's username.
-      * @param string email The user's email.
-      * @param string fullname The user's fullname.
-      * @param string notification The user's notification enable value.
-      * @param avatar image the avatar of the user.
-      *
-      * @return boolean returns true or an error message.
-      *
-      */
 
     public function updates(Request $request)
     {
@@ -603,7 +584,7 @@ class AccountController extends Controller
         $validator2 = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string|max:50'
+            'username' => 'required|string|alpha_dash|max:50'
             ]
         );
         //returning errors in the case of username failure
@@ -659,7 +640,19 @@ class AccountController extends Controller
     }
 
 
-
+    /**
+     * Gets the preferences of the user.
+     *
+     * The function gets the user associated with the given token then it returns
+     * its username, email, fullname, avatar and notification settings then it
+     * returns then in a json response.
+     *
+     * @param JWT token The user's JWT token.
+     *
+     * @return Json returns user preferences as json with keys username, email,
+     * fullname, avatar and notification.
+     *
+     */
 
     /**
      * prefs
@@ -679,20 +672,6 @@ class AccountController extends Controller
      * }
      */
 
-     /**
-      * Gets the preferences of the user.
-      *
-      * The function gets the user associated with the given token then it returns
-      * its username, email, fullname, avatar and notification settings then it
-      * returns then in a json response.
-      *
-      * @param JWT token The user's JWT token.
-      *
-      * @return Json returns user preferences as json with keys username, email,
-      * fullname, avatar and notification.
-      *
-      */
-
     public function prefs(Request $request)
     {
         $account = new AccountController;
@@ -711,7 +690,18 @@ class AccountController extends Controller
     }
 
 
-
+    /**
+     * Returns the user of the sent token.
+     *
+     * The function extracts the token given in the request then it checks if it
+     * corresponds to an existing user then it will return an error if that is
+     * case else it will return the user object of the token.
+     *
+     * @param JWT token The user's token.
+     *
+     * @return Json The user's object as json or an error message.
+     *
+     */
 
     /**
      * Me
@@ -743,19 +733,6 @@ class AccountController extends Controller
      * }
      * @bodyParam token JWT required Used to verify the user.
      */
-
-     /**
-      * Returns the user of the sent token.
-      *
-      * The function extracts the token given in the request then it checks if it
-      * corresponds to an existing user then it will return an error if that is
-      * case else it will return the user object of the token.
-      *
-      * @param JWT token The user's token.
-      *
-      * @return Json The user's object as json or an error message.
-      *
-      */
 
     public function me(Request $request)
     {
@@ -791,7 +768,7 @@ class AccountController extends Controller
      * @param password string required the new password.
      * @param username string required the username.
      * @param key string required the forgot password code or the old password.
-     * 
+     *
      * @return boolean return true if the password change, otherwise an error.
      */
 
@@ -800,10 +777,10 @@ class AccountController extends Controller
       *
       * The function first check if i want to change the password using the code.
       * or by inputting the old password, IN the first option we won't require a
-      * token if we change it with the code first i will compare the code with the 
+      * token if we change it with the code first i will compare the code with the
       * code in the database then if it is true i will change the password
-      * and delete the code, If we change without code, We will compare 
-      * the old password with the given one and if they are match we will 
+      * and delete the code, If we change without code, We will compare
+      * the old password with the given one and if they are match we will
       * change the password.
       *
       * @bodyParam token JWT Used to verify the user.
@@ -831,7 +808,7 @@ class AccountController extends Controller
         }
         $requestData = $request->all(); //Getting the request data
         //whether to change password with code or not
-        $withCode = $requestData["withCode"]; 
+        $withCode = $requestData["withCode"];
         $username = $requestData["username"]; //Getting username
         if ($withCode == "1") {
             $code = $requestData["key"]; //Getting the code
@@ -852,7 +829,7 @@ class AccountController extends Controller
                 } else {
                     //returning error
                     return response()->json(["error" => "Invalid code"], 400);
-                } 
+                }
             } else {
                 //returning error
                 return response()->json(["error" => "Invalid code"], 400);
@@ -882,11 +859,7 @@ class AccountController extends Controller
                 return response()->json(true, 200); //return success
             } else {
                 //return error
-                return response()->json(
-                    [
-                    "error" => "old password is not correct"
-                    ], 400
-                );
+                return response()->json(["error" => "old password is not correct"], 400);
             }
         }
     }
@@ -953,7 +926,7 @@ class AccountController extends Controller
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
         $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
-        ->where('blocks.blockerID', '=', $id)->select('users.username','users.id')->get();
+        ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
         return response()->json(['blocklist' =>$blocklist]);
     }
 
@@ -965,22 +938,22 @@ class AccountController extends Controller
      *  and the `received` messages are divided into `read`, `unread` and `all`
      *  that contain both `read` and `unread` messages,
      *  all messages are sorted by latest messages.
-     * 
+     *
      * ###Success Cases :
      * 1. The logged-in user is authorized,
      *  return the result successfully (status code 200)
-     * 
+     *
      * ###Failure Cases:
      * 1. The `token` is invalid, or the user is not found. (status code 400 or 404)
      * 2. The `max` is invalid (status code 400)
-     * 
+     *
      * @authenticated
-     * 
+     *
      * @responseFile 200 responses\validInbox.json
      * @responseFile 404 responses\userNotFoundJWTMiddlewareAuthentication.json
      * @responseFile 400 responses\notAuthorized.json
      * @responseFile 400 responses\maxMustBeInt.json
-     * 
+     *
      * @bodyParam max int the maximum number of messages to be returned (default is no limit).
      * @bodyParam token JWT required Used to verify the user.
      */
@@ -1012,7 +985,7 @@ class AccountController extends Controller
 
         $read = $read->get();
         $unread = $unread->get();
-        
+
         $received = compact('read', 'unread', 'all');
 
         return compact('sent', 'received');

@@ -24,6 +24,17 @@ class ApexComController extends Controller
 {
 
   /**
+   * getApexComs.
+   * This Function used to get the apexComs names & IDs of the logged in user.
+   *
+   * It makes sure that the user exists in our app,
+   * select the apexComs ID's  and names which this user subscriber in then return them.
+   *
+   * @param string token the JWT representation of the user in frontend.
+   * @return array the apexComs names and Ids
+   */
+   
+  /**
    * getApexComs
    * getapexcom names which user subscribe in.
    * Success Cases :
@@ -33,17 +44,6 @@ class ApexComController extends Controller
    *
    * @bodyParam token JWT required Verifying user ID.
    */
-
-   /**
-    * getApexComs.
-    * This Function used to get the apexComs names & IDs of the logged in user.
-    *
-    * It makes sure that the user exists in our app,
-    * select the apexComs ID's  and names which this user subscriber in then return them.
-    *
-    * @param string token the JWT representation of the user in frontend.
-    * @return array the apexComs names and Ids
-    */
 
     public function getApexComs(Request $request)
     {
@@ -471,7 +471,7 @@ class ApexComController extends Controller
             $v = $request->all();
             $v['id'] = $id;
             apexComModel::create($v);
-            
+
 
             // return true to ensure creation of new apexcom
             return response()->json('Created', 200);

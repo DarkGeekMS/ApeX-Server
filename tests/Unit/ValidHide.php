@@ -19,7 +19,7 @@ class ValidHide extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mondaTalaat',
             'password' => 'monda21'
@@ -41,7 +41,7 @@ class ValidHide extends TestCase
         $this->assertDatabaseHas('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -59,7 +59,7 @@ class ValidHide extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mondaTalaat',
             'password' => 'monda21'
@@ -81,7 +81,7 @@ class ValidHide extends TestCase
         $this->assertDatabaseMissing('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

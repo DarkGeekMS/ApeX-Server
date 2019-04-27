@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ex
 
+
 getFront() { ./scripts/getFront.sh $WEB_BRANCH; }
 
 install() { composer install --optimize-autoloader --no-dev; }
@@ -19,6 +20,7 @@ e2eTests() {
     pushd e2e
       cat scripts/dependencies | xargs apk add
 
+
       EXIT_CODE=0 && ./sripts/run.sh "http://localhost:80" || EXIT_CODE=$?
       
       EMAIL_CONTENT="E2E Tests Succeeded"
@@ -36,11 +38,15 @@ getFront
 install
 migrate
 
+# link public folder
+php7 artisan storage:link -n -q
+
 if [[ "$SEED" == 'true' ]]; then 
     seed
 fi
 
 if [[ "$UNIT_TEST" == 'true' ]] || [[ "$E2E_TEST" == 'true' ]]; then
+
     serve &
     sleep 10
 else

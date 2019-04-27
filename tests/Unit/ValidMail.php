@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class invalidgetprefs extends TestCase
+class ValidMail extends TestCase
 {
     /**
      * A basic unit test example.
@@ -15,22 +15,13 @@ class invalidgetprefs extends TestCase
      */
     public function testExample()
     {
-        $loginResponse = $this->json(
+        $response = $this->json(
             'POST',
-            '/api/SignIn',
+            '/api/MailVerification',
             [
             'username' => 'mondaTalaat',
-            'password' => 'monda21'
             ]
         );
-        $token = "bla bla";
-        $prefsResponse = $this->json(
-            'POST',
-            '/api/GetPreferences',
-            [
-            'token' => $token
-            ]
-        );
-        $prefsResponse->assertStatus(400);
+        $response->assertStatus(200)->assertSee('Email sent successfully');
     }
 }

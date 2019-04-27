@@ -16,6 +16,24 @@ use App\Models\User;
 
 class AdministrationController extends Controller
 {
+  /**
+    * deleteApexCom.
+    * This Function used to delete an apexcom.
+    * only the admin can delete any apexcom.
+    *
+    * it receives the token of the logged in user.
+    * it gets the id of the apexcom to deleted.
+    * then it checks that an apexcom with this id exists.
+    * if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
+    * it checks that the user who want to delete the apexcom is an admin(type=3).
+    * if not it returns an error message unauthorized access.
+    * if the user is an admin it deletes the apexcom and return true.
+    *
+    * @param string token the JWT representation of the admin.
+    * @param string  Apex_ID The ID of the ApexCom to be deleted.
+    * must be at least 4 chars starts with t5_ .
+    * @return boolean deleted , if the apexcom is deleted successfully.
+    */
 
     /**
      * deleteApexCom
@@ -38,25 +56,6 @@ class AdministrationController extends Controller
      * "value": true
      * }
      */
-
-    /**
-      * deleteApexCom.
-      * This Function used to delete an apexcom.
-      * only the admin can delete any apexcom.
-      *
-      * it receives the token of the logged in user.
-      * it gets the id of the apexcom to deleted.
-      * then it checks that an apexcom with this id exists.
-      * if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
-      * it checks that the user who want to delete the apexcom is an admin(type=3).
-      * if not it returns an error message unauthorized access.
-      * if the user is an admin it deletes the apexcom and return true.
-      *
-      * @param string token the JWT representation of the admin.
-      * @param string  Apex_ID The ID of the ApexCom to be deleted.
-      * must be at least 4 chars starts with t5_ .
-      * @return boolean deleted , if the apexcom is deleted successfully.
-      */
 
     public function deleteApexCom(Request $request)
     {
@@ -147,6 +146,8 @@ class AdministrationController extends Controller
       * @return boolean deleted , if the user is deleted successfully.
       */
 
+
+
     public function deleteUser(Request $request)
     {
         //get the logged in user id and type
@@ -227,6 +228,7 @@ class AdministrationController extends Controller
      * }
      */
 
+
     /**
       * addModerator.
       * This Function used to add a user as a moderator for an apexcom.
@@ -251,6 +253,8 @@ class AdministrationController extends Controller
       * must be at least 4 chars starts with t2_ .
       * @return boolean moderate , if the user moderation is added or deleted successfully.
       */
+
+
 
     public function addModerator(Request $request)
     {
