@@ -884,6 +884,7 @@ class AccountController extends Controller
         $type=$user->type;
         $id=$user->id;
         $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
+        //to be edited
         $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
         $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')
         ->where('posts.posted_by', '=', $id)->select('content')->get();
