@@ -17,8 +17,10 @@ use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     static $i = 1;
+    $lastUser = User::withTrashed()
+    ->selectRaw('CONVERT( SUBSTR(id, 4), INT) AS intID')->get()->max('intID');
     return [
-        'id' => 't2_'.(string)(count(DB::table('users')->pluck('id')->all()) + $i++),
+        'id' => 't2_'.(string)($lastUser + $i++),
         'fullname'=>$faker->name,
         'email' => $faker->unique()->safeEmail,
         'username'=>$faker->userName,

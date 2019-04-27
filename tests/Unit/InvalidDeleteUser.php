@@ -19,7 +19,7 @@ class InvalidDeleteUser extends TestCase
     {
         $SignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
               'email' => 'sebak@gmail.com',
               'password' => '123456',
@@ -28,7 +28,7 @@ class InvalidDeleteUser extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'sebak',
               'password' => '123456'
@@ -38,7 +38,7 @@ class InvalidDeleteUser extends TestCase
 
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
               'token' => $token,
               'UserID' => 't3_1000',               //wrong UserID
@@ -48,7 +48,7 @@ class InvalidDeleteUser extends TestCase
         $delResponse->assertStatus(500)->assertSee("User doesnot exist");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
               'token' => $token
             ]
@@ -65,7 +65,7 @@ class InvalidDeleteUser extends TestCase
   //user that tries to perfom the deletion
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'sebak',
               'password' => '123456'
@@ -75,7 +75,7 @@ class InvalidDeleteUser extends TestCase
       //user to be deleted
         $userSignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
               'email' => 'mahmoud@gmail.com',
               'password' => '22011998',
@@ -84,7 +84,7 @@ class InvalidDeleteUser extends TestCase
         );
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mahmoud',
             'password' => '22011998'
@@ -93,7 +93,7 @@ class InvalidDeleteUser extends TestCase
         $userToken = $userLoginResponse->json()["token"];
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
               'token' => $userToken
             ]
@@ -101,7 +101,7 @@ class InvalidDeleteUser extends TestCase
         $id = $meResponse->getData()->user->id;
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
               'token' => $token,
               'UserID' => $id,
@@ -124,7 +124,7 @@ class InvalidDeleteUser extends TestCase
       //user to be deletes his account
         $userSignupResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => 'mahmoud@gmail.com',
             'password' => '22011998',
@@ -133,7 +133,7 @@ class InvalidDeleteUser extends TestCase
         );
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mahmoud',
             'password' => '22011998'
@@ -142,7 +142,7 @@ class InvalidDeleteUser extends TestCase
         $userToken = $userLoginResponse->json()["token"];
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
             'token' => $userToken
             ]
@@ -150,7 +150,7 @@ class InvalidDeleteUser extends TestCase
         $id = $meResponse->getData()->user->id;
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
             'token' => $userToken,
             'UserID' => $id,

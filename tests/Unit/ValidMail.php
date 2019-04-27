@@ -17,9 +17,9 @@ class ValidMail extends TestCase
     {
         $response = $this->json(
             'POST',
-            '/api/mail_verify',
+            '/api/MailVerification',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             ]
         );
         $response->assertStatus(200)->assertSee('Email sent successfully');

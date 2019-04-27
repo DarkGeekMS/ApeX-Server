@@ -6,9 +6,11 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use DB;
 
-class InvalidLogin1 extends TestCase
+class GetApexcoms extends TestCase
 {
+    use WithFaker;
     /**
      * A basic unit test example.
      *
@@ -16,30 +18,34 @@ class InvalidLogin1 extends TestCase
      */
     public function testExample()
     {
+        $username = $this->faker->unique()->userName;
+        $email = $this->faker->unique()->safeEmail;
+        $password = $this->faker->password;
 
-        $loginResponse = $this->json(
+        $signUp = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignUp',
+            compact('email', 'username', 'password')
+        );
+        $signUp->assertStatus(200);
+
+        $token = $signUp->json('token');
+
+        $response = $this->json(
+            'POST',
+            '/api/GetApexcoms',
             [
-              'username' => 'ramzy',
-              'password' => 'monda21'
+              'token' => $token
             ]
         );
-          $token = $loginResponse->json('token');
-          $response = $this->json(
-              'POST',
-              '/api/get_ApexComs',
-              [
-                'token' => $token
-              ]
-          );
-          $response->assertStatus(200);
-          $logoutResponse = $this->json(
-              'POST',
-              '/api/sign_out',
-              [
-                'token' => $token
-              ]
-          );
+        $response->assertStatus(200);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+              'token' => $token
+            ]
+        );
+        DB::table('users')->where('email', $email)->delete();
     }
 }

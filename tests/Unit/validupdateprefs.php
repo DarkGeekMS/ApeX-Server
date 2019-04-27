@@ -16,10 +16,10 @@ class validupdateprefs extends TestCase
      */
     public function testExample()
     {
-        $username = "Monda";
+        $username = "mondaTalaat";
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => $username,
             'password' => 'monda21'

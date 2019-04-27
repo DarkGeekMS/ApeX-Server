@@ -20,7 +20,7 @@ class validchangepass2 extends TestCase
         $username = "mondaTalaat";
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => $username,
             'password' => 'monda21'
@@ -29,7 +29,7 @@ class validchangepass2 extends TestCase
         $token = $loginResponse->json()["token"];
         $resetMail = $this->json(
             'POST',
-            '/api/mail_verify',
+            '/api/MailVerification',
             [
                 'username' => $username
             ]
@@ -38,7 +38,7 @@ class validchangepass2 extends TestCase
         $code = Code::where("id", $user->id)->first()->code;
         $changeRequest = $this->json(
             'PATCH',
-            '/api/changepassword',
+            '/api/ChangePassword',
             [
             'token' => $token,
             'withCode' => '1',

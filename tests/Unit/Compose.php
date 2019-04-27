@@ -28,7 +28,7 @@ class Compose extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -57,7 +57,7 @@ class Compose extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/compose',
+            '/api/ComposeMessage',
             $params->except('sender')->toArray()
         );
 
@@ -88,7 +88,7 @@ class Compose extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/compose',
+            '/api/ComposeMessage',
             $params->except('sender')->toArray()
         );
 
@@ -116,7 +116,7 @@ class Compose extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/compose',
+            '/api/ComposeMessage',
             $params->except('sender')->toArray()
         );
 
@@ -149,7 +149,7 @@ class Compose extends TestCase
         foreach ($missing as $misParam) {
             $response = $this->json(
                 'POST',
-                '/api/compose',
+                '/api/ComposeMessage',
                 $params->except('sender', $misParam)->toArray()
             );
 
@@ -175,7 +175,7 @@ class Compose extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/compose',
+            '/api/ComposeMessage',
             $params->except('sender')->toArray()
         );
 

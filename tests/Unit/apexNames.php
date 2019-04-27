@@ -19,7 +19,7 @@ class apexNames extends TestCase
     {
         $response = $this->json(
             'GET',
-            '/api/Apex_names'
+            '/api/ApexComs'
         );
         $response->assertStatus(200);
     }

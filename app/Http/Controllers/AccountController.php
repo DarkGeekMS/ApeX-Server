@@ -127,14 +127,8 @@ class AccountController extends Controller
             return response()->json(['error' => 'Username already exists'], 400);
         }
 
-        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
-        $id = "t2_1";
-        if ($lastUser) {
-            $count = DB::table('users') ->where('created_at', $lastUser->created_at)->count();
-            $id = $lastUser->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t2_".($newIdx+$count);
-        }
+        $lastUser =User::withTrashed()->selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't2_'.(string)($lastUser +1);
 
         $requestData = $request->all();
         $requestData['id'] = $id;

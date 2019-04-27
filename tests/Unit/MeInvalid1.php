@@ -17,7 +17,7 @@ class MeInvalid1 extends TestCase
     {
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
             'token' => 'invalid token'
             ]

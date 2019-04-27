@@ -29,7 +29,7 @@ class blockUser extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -42,7 +42,7 @@ class blockUser extends TestCase
 
         $response = $this->json(
             'POST',
-            'api/block_user',
+            'api/BlockUser',
             compact('token', 'blockedID')
         );
 
@@ -55,7 +55,7 @@ class blockUser extends TestCase
         //test requseting the block again
         $response = $this->json(
             'POST',
-            'api/block_user',
+            'api/BlockUser',
             compact('token', 'blockedID')
         );
 
@@ -82,7 +82,7 @@ class blockUser extends TestCase
 
         $response = $this->json(
             'POST',
-            'api/block_user',
+            'api/BlockUser',
             compact('blockedID')
         );
 
@@ -107,7 +107,7 @@ class blockUser extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -118,7 +118,7 @@ class blockUser extends TestCase
 
         $response = $this->json(
             'POST',
-            'api/block_user',
+            'api/BlockUser',
             compact('token')
         );
 
@@ -144,7 +144,7 @@ class blockUser extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -156,7 +156,7 @@ class blockUser extends TestCase
 
         $response = $this->json(
             'POST',
-            'api/block_user',
+            'api/BlockUser',
             compact('token', 'blockedID')
         );
 
@@ -182,7 +182,7 @@ class blockUser extends TestCase
 
         $signUpResponse = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             compact('email', 'username', 'password')
         );
         $signUpResponse->assertStatus(200);
@@ -193,7 +193,7 @@ class blockUser extends TestCase
 
         $response = $this->json(
             'POST',
-            'api/block_user',
+            'api/BlockUser',
             compact('token', 'blockedID')
         );
 

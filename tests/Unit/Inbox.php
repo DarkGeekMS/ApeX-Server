@@ -22,13 +22,13 @@ class Inbox extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
         $userID = 't2_1';
 
-        $response = $this->json('POST', 'api/inbox_messages', compact('token'));
+        $response = $this->json('POST', 'api/InboxMessages', compact('token'));
         $structure = ["sent" , "received" => ["read", "unread", "all"]];
         $response->assertStatus(200)->assertJsonStructure($structure);
 
@@ -82,14 +82,14 @@ class Inbox extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
         $max = "bla";
         $response = $this->json(
             'POST',
-            'api/inbox_messages',
+            'api/InboxMessages',
             compact('token', 'max')
         );
         $response->assertStatus(400)->assertSee('max');
@@ -108,7 +108,7 @@ class Inbox extends TestCase
         $token = '-1';
         $response = $this->json(
             'POST',
-            'api/inbox_messages',
+            'api/InboxMessages',
             compact('token')
         );
         $response->assertStatus(400)->assertSee('Not authorized');
