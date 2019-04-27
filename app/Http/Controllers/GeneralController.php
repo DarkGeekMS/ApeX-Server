@@ -17,10 +17,23 @@ use App\Models\Block;
 use App\Models\Vote;
 use App\Models\ReportPost;
 use App\Models\Hidden;
+use Illuminate\Http\Response;
 
 class GeneralController extends Controller
 {
 
+    /**
+     * Search for ApexComs, Users and posts that matches the given query.
+     * Validate the input by checking that the query is string and 
+     * at least 3 characters.
+     * Get the ApexComs that have name or description that matche the query.
+     * Get the Users that have fullname or username thath matche the query.
+     * Get the Posts that have title or content that match the query.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * Guest Search
      * Returns a json contains posts, apexComs and users that match the given query.
@@ -145,6 +158,14 @@ class GeneralController extends Controller
     }
 
     /**
+     * Get the result from `guestSearch` request, then filter the result
+     * using `filterResult` function.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
+    /**
      * User Search
      * Just like [Guest Search](#guest-search) except that
      * it does't return the posts between blocked users,
@@ -184,7 +205,19 @@ class GeneralController extends Controller
         return $this->filterResult(collect($result), $request['token']);
     }
 
-
+    /**
+     * Get the posts sorted by date, votes or comments.
+     * Validate the input by checking that the given apexComID exists,
+     * and the sortingParam is one of [`votes`, `date`, `comments`], if it's not,
+     * it uses `date` as a default value.
+     * If the apexComID is not found it return an error,
+     * else it uses that id to get the posts in that apexCom,
+     * then it return the posts sorted by the given sortingParam.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * Guest Sort Posts
      * Returns a list of posts in a given ApexCom
@@ -254,6 +287,14 @@ class GeneralController extends Controller
     }
 
     /**
+     * Get the result from `guestSortPostsBy`, then return the filtered results
+     * using `filterResult` function.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
+    /**
      * User Sort Posts
      * Just like [Guest Sort Posts](#guest-sort-posts), except that
      * it does't return the posts between blocked users
@@ -290,6 +331,11 @@ class GeneralController extends Controller
         return $this->filterResult(collect($result), $request['token']);
     }
 
+    /**
+     * Get all the existing ApexComs and return their id and name 
+     * 
+     * @return Response
+     */
     /**
      * Apex Names
      * Returns a list of the names and ids of all of the existing ApexComs.

@@ -246,7 +246,8 @@ class AccountController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string'
+            'username' => 'string',
+            'email' => 'required|email'
             ]
         );
 
@@ -256,10 +257,27 @@ class AccountController extends Controller
             return response()->json($validator->errors(), 400);
         }
         //Getting the username from the request
-        $username = $request->input("username");
+        $email = $request->input("email");
         //Selecting the user from the database
-        $user = User::where("username", $username)->first();
+        $user = User::where("email", $email)->first();
         if ($user) { // Checking if the user exists
+            $authorized = 0;
+            if ($request->has('password')) {
+                $credentials = $request->only(['email' , 'password']);
+                if (JWTAuth::attempt($credentials)) {
+                    $authorized = 1;
+                }
+            }
+            if ($request->has('email')) {
+                if ($request->input('username') == $user->username) {
+                    $authorized = 1;
+                }
+            }
+
+            if (!$authorized) {
+                return response()->json(['msg' => 'not authorized'], 400);
+            }
+                
             try {
                 $codeText = Str::random(15); // Generating random code
                 //Sending the email with random code
@@ -292,7 +310,7 @@ class AccountController extends Controller
      * if the codes are matching then it will return true to indicate that the code
      * is correct, Else it will return false.
      *
-     * @param string username The user's username.
+     * @param string email The user's email.
      * @param string code The user's forgot password code.
      *
      * @return Json a boolean value to indicate whether the code is correct or not.
@@ -314,7 +332,7 @@ class AccountController extends Controller
      * "authorized":false
      * }
      * @bodyParam code int required The entered code.
-     * @bodyParam username string required The user's username.
+     * @bodyParam email string required The user's email.
      */
 
     public function checkCode(Request $request)
@@ -400,7 +418,24 @@ class AccountController extends Controller
         return response()->json(['token' => null], 200);
     }
 
-
+    /**
+     * Delete Message
+     * Validate the input by checking that the given message id is valid and exists,
+     * or return an error message. Check that the logged-in user is authorized
+     * and get his id or return an error message. 
+     * If the user is the sender of the message check that the message isn't already
+     * deleted from the sender and then mark it as deleted form the sender,
+     * or return that it's already deleted.
+     * If the user is the receiver of the message do like above but from the receiver
+     * view instead of the sender.
+     * If the message is deleted from both the sender and receiver,
+     * delete it entirely form the database.
+     * Return a message that contains that the message is deleted successfully
+     * 
+     * @param Request $request
+     * 
+     * @return Resposne
+     */
     /**
      * Delete message
      * Delete a private message or a reply to a message. Either the receiver or the
@@ -930,7 +965,25 @@ class AccountController extends Controller
         return response()->json(['blocklist' =>$blocklist]);
     }
 
-
+    /**
+     * Get Inbox Messages
+     * Validate the input by checking that the logged-in user is authorized
+     * and get his id or return an error message.
+     * Check that the `max` is a valid integer or return an error message.
+     * If the `max` is not given don't limit the result.
+     * Get the messages that is not replies, order them by latest messages,
+     * limit them by `max` and select all attributes except 
+     * `delSent`, `delReceived` and `received`. 
+     * Get from the messages the messages that is sent by the user, the messages
+     * that are received and read by him and the messages that are received
+     * and not read, then collect the `read` and `unread` messages in `all`.
+     * Return the sent messages and the received messages that are divided into
+     * `read`, `unread` and `all`.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * Get Inbox Messages
      * Return a json contains the not-deleted inbox messages (without its replies)
