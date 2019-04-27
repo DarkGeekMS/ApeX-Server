@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AccountController;
+use App\Models\User;
 
 /**
  * @group Adminstration
@@ -32,6 +33,9 @@ class AdministrationController extends Controller
      * }
      * @response  300{
      * "error" : "Unauthorized access"
+     * }
+     * @response 200{
+     * "value": true
      * }
      */
 
@@ -112,6 +116,9 @@ class AdministrationController extends Controller
      * @response  300{
      * "error" : "UnAuthorized Deletion"
      * }
+     * @response 200{
+     * "value": true
+     * }
      */
 
     /**
@@ -172,13 +179,13 @@ class AdministrationController extends Controller
 
         //check if the logged in user is an admin
         if ($type==3) {
-                DB::table('users')->where('id', '=', $userid)->delete();
+                User::where('id', $userid)->delete();
         } else {
                  // if the user is not an admin check that the logged in user has the same given id
             if ($id==$userid) {
                     //check that the password confirmation matches the user password
                 if (Hash::check($password, $dbPassword)) {
-                        DB::table('users')->where('id', '=', $userid)->delete();
+                    User::where('id', $userid)->delete();
                 } else {  //if password confirmation doesnot match return Wrong password entered
                         return response()->json(['error' => 'Wrong password entered'], 501);
                 }
@@ -214,6 +221,9 @@ class AdministrationController extends Controller
      * }
      * @response  404{
      * "error" : "ApexCom doesnot exist"
+     * }
+     * @response 200{
+     * "value": true
      * }
      */
 
