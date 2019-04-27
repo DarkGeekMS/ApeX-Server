@@ -18,6 +18,7 @@ use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Message;
 use Illuminate\Http\Response;
+
 /**
  * @group Account
  *
@@ -132,10 +133,6 @@ class AccountController extends Controller
 
         $requestData = $request->all();
         $requestData['id'] = $id;
-        /*removing password_confirmation from the request data as we don't need it
-        in the database
-        */
-        //unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password
@@ -402,8 +399,6 @@ class AccountController extends Controller
         //Returning the token with null value with 200 status code
         return response()->json(['token' => null], 200);
     }
-
-
 
 
     /**

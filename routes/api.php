@@ -26,7 +26,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/UpdatePreferences', 'AccountController@updates');
     Route::post('/GetPreferences', 'AccountController@prefs');
     Route::post('/BlockList', 'AccountController@blockList');
-    Route::post('/SignOut', 'AccountController@logout');
     Route::post('/ProfileInfo', 'AccountController@profileInfo');
     Route::post('/InboxMessages', 'AccountController@inbox');
     Route::post('/SignOut', 'AccountController@logout');
