@@ -5,10 +5,13 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\ApexCom;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\User;
 
 class ValidVote extends TestCase
 {
+
      /**
       *
       * @test
@@ -16,106 +19,57 @@ class ValidVote extends TestCase
       * @return void
       */
 
-    //new vote in a post
-    public function newPost()
+    public function PostVote()
     {
-
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't3_6',
+            'name' => $post['id'],
             'dir' => 1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('votes', ['postID' => 't3_6' , 'userID' => 't2_1' , 'dir' => 1]);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
+        $this->assertDatabaseHas('votes', ['postID' => $post['id'] , 'userID' => $user['id'] , 'dir' => 1]);
 
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
-    //reverse the vote direction for a post
-    public function oppositeDirPost()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
-            ]
-        );
-        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't3_6',
+            'name' => $post['id'],
             'dir' => -1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('votes', ['postID' => 't3_6' , 'userID' => 't2_1' , 'dir' => -1 ]);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
+        $this->assertDatabaseHas('votes', ['postID' => $post['id'] , 'userID' => $user['id'] , 'dir' => -1]);
 
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
-    //remove one's vote on a post
-    public function sameDirPost()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
-            ]
-        );
-        $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't3_6',
+            'name' => $post['id'],
             'dir' => -1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('votes', ['postID' => 't3_5' , 'userID' => 't2_1']);
+        $this->assertDatabaseMissing('votes', ['postID' => $post['id'] , 'userID' => $user['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -123,6 +77,13 @@ class ValidVote extends TestCase
             'token' => $token
             ]
         );
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -132,104 +93,55 @@ class ValidVote extends TestCase
      * @return void
      */
     //new vote on a comment
-    public function newComment()
+    public function CommentVote()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $comment = factory(Comment::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't1_5',
+            'name' => $comment['id'],
             'dir' => 1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => 1]);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
-
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
-    //reverse the vote direction for a comment
-    public function oppositeDirComment()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
-            ]
-        );
-        $token = $loginResponse->json('token');
+        $this->assertDatabaseHas('comment_votes', ['comID' =>  $comment['id'] , 'userID' => $user['id'] , 'dir' => 1]);
         $response = $this->json(
             'POST',
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't1_5',
+            'name' => $comment['id'],
             'dir' => -1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => -1]);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
-
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
-    //remove one's vote on a comment
-    public function sameDirComment()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
-            ]
-        );
-        $token = $loginResponse->json('token');
+        $this->assertDatabaseHas('comment_votes', ['comID' =>  $comment['id'] , 'userID' => $user['id'] , 'dir' => -1]);
         $response = $this->json(
             'POST',
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't1_5',
+            'name' => $comment['id'],
             'dir' => -1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' ]);
+        $this->assertDatabaseMissing('comment_votes', ['comID' =>  $comment['id'] , 'userID' => $user['id'] ]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -237,5 +149,12 @@ class ValidVote extends TestCase
             'token' => $token
             ]
         );
+        Comment::where('id', $comment['id'])->delete();
+        $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

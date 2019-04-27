@@ -5,6 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\User;
 
 class InvalidVote extends TestCase
 {
@@ -17,15 +20,18 @@ class InvalidVote extends TestCase
      //no post
     public function invalidPost()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
@@ -43,6 +49,11 @@ class InvalidVote extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -54,15 +65,18 @@ class InvalidVote extends TestCase
     //no comment
     public function noComment()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
@@ -80,6 +94,11 @@ class InvalidVote extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -91,16 +110,18 @@ class InvalidVote extends TestCase
     //no user
     public function invalidUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => '1561998'
+              'username' => $user['username'],
+              'password' => 'non'
             ]
         );
-        $token = $loginResponse->json('token');
-        $loginResponse->assertStatus(400);
+
+        $signIn->assertStatus(400);
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
@@ -118,6 +139,11 @@ class InvalidVote extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -129,15 +155,18 @@ class InvalidVote extends TestCase
     //no user
     public function invalidDir()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Vote',
@@ -155,5 +184,10 @@ class InvalidVote extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }
