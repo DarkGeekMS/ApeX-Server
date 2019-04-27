@@ -20,16 +20,16 @@ class InvalidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_5'
@@ -38,7 +38,7 @@ class InvalidLock extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -56,16 +56,16 @@ class InvalidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_01'
@@ -74,7 +74,7 @@ class InvalidLock extends TestCase
         $response->assertStatus(404);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -92,16 +92,16 @@ class InvalidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => '1561998'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_6'

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\SaveComment;
 
 class saveComments extends Seeder
 {
@@ -11,5 +12,6 @@ class saveComments extends Seeder
      */
     public function run()
     {
+        factory(SaveComment::class, 10)->create();
     }
 }

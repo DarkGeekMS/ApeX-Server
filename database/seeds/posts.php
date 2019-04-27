@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Post;
 
 class posts extends Seeder
 {
@@ -11,133 +12,135 @@ class posts extends Seeder
      */
     public function run()
     {
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_1',
             'posted_by' => 't2_2',
             'apex_id' => 't5_1',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:30'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_2',
             'posted_by' => 't2_1',
             'apex_id' => 't5_1',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:31'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_3',
             'posted_by' => 't2_4',
             'apex_id' => 't5_1',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:32'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_4',
             'posted_by' => 't2_2',
             'apex_id' => 't5_1',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:33'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_5',
             'posted_by' => 't2_2',
             'apex_id' => 't5_2',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:34'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_6',
             'posted_by' => 't2_4',
             'apex_id' => 't5_2',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:35'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_7',
             'posted_by' => 't2_10',
             'apex_id' => 't5_3',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:36'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_8',
             'posted_by' => 't2_12',
             'apex_id' => 't5_3',
             'title' => 'Anything',
             'locked' => true,
-            'created_at' => '2019-03-23 17:20:37'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_9',
             'posted_by' => 't2_7',
             'apex_id' => 't5_1',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:38'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_10',
             'posted_by' => 't2_8',
             'apex_id' => 't5_4',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:39'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_11',
             'posted_by' => 't2_8',
             'apex_id' => 't5_3',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:40'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_12',
             'posted_by' => 't2_9',
             'apex_id' => 't5_5',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:41'
+            'content' => 'talking about the futrue'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_13',
             'posted_by' => 't2_12',
             'apex_id' => 't5_1',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:42'
+            'content' => 'good news'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_14',
             'posted_by' => 't2_15',
             'apex_id' => 't5_7',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:43'
+            'content' => 'talking about the past'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_15',
             'posted_by' => 't2_13',
             'apex_id' => 't5_8',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:44'
+            'content' => 'talking about the present'
         ]);
 
-        DB::table('posts')->insert([
+        Post::create([
             'id' => 't3_16',
             'posted_by' => 't2_6',
             'apex_id' => 't5_9',
             'title' => 'Anything',
-            'created_at' => '2019-03-23 17:20:45'
+            'content' => 'talking about the futrue'
         ]);
+
+        factory(Post::class, 10)->create();
     }
 }

@@ -27,7 +27,7 @@ class MeInvalid2 extends TestCase
         $token = JWTAuth::fromUser($dummyUser);
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
             'token' => $token
             ]

@@ -20,7 +20,7 @@ class ValidLogout extends TestCase
         $username = Str::random(15);
         $firstSignup = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => $email,
             'password' => '1234567',
@@ -29,7 +29,7 @@ class ValidLogout extends TestCase
         );
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => $username,
             'password' => '1234567'
@@ -38,7 +38,7 @@ class ValidLogout extends TestCase
         $token = $loginResponse->json()["token"];
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

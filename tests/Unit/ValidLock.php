@@ -19,7 +19,7 @@ class ValidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -28,7 +28,7 @@ class ValidLock extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_4'
@@ -38,7 +38,7 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -56,7 +56,7 @@ class ValidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -65,7 +65,7 @@ class ValidLock extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_4'
@@ -75,7 +75,7 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -93,7 +93,7 @@ class ValidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mX',
             'password' => 'killa$&12'
@@ -102,7 +102,7 @@ class ValidLock extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_4'
@@ -112,7 +112,7 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -130,7 +130,7 @@ class ValidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mX',
             'password' => 'killa$&12'
@@ -139,7 +139,7 @@ class ValidLock extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_4'
@@ -149,7 +149,7 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -167,16 +167,16 @@ class ValidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_4'
@@ -186,7 +186,7 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 1]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -204,16 +204,16 @@ class ValidLock extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/lock_post',
+            '/api/LockPost',
             [
             'token' => $token,
             'name' => 't3_4'
@@ -223,7 +223,7 @@ class ValidLock extends TestCase
         $this->assertDatabaseHas('posts', ['id' => 't3_4' , 'locked' => 0]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

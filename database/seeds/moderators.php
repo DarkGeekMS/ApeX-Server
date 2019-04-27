@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Moderator;
 
 class moderators extends Seeder
 {
@@ -11,14 +12,16 @@ class moderators extends Seeder
      */
     public function run()
     {
-        DB::table('moderators')->insert([
+        Moderator::create([
             'apexID' => 't5_1',
             'userID' => 't2_1'
         ]);
 
-        DB::table('moderators')->insert([
+        Moderator::create([
             'apexID' => 't5_2',
             'userID' => 't2_3'
         ]);
+
+        factory(Moderator::class, 10)->create();
     }
 }

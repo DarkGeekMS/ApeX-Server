@@ -1,16 +1,50 @@
-version: '2'
+version: '3.4'
 services:
     app:
       build:
-        context: https://${GITHUB_TOKEN}@github.com/DarkGeekMS/ApeX-Server.git#${BRANCH}
+        context: https://${GITHUB_TOKEN}@github.com/DarkGeekMS/ApeX-Server.git#${BRANCH-master}
+        args:
+          - WEB_BRANCH=${WEB_BRANCH-master}
+          - SEED=${SEED}
       env_file:
         - .env
       ports:
-        - "80:80"
+        - "${PORT-80}:80"
+      restart: always
       volumes:
-        - front:/app/TODO
         - ./.env:/app/.env
         - ./app/vendor/:/app/vendor
         - ./app/storage/logs:/app/storage/logs
+        - ./app/storage/app/public:/app/storage/app/public
+      labels:
+        com.datadoghq.ad.logs: '[{"source":"alpine", "service":"app"}]'
+      deploy:
+        update_config:
+          parallelism: 2
+          delay: 10s
+          failure_action: rollback
+          monitor: 2m
+          order: start-first
+      healthcheck:
+        test: ["CMD", "curl", "http://localhost"]
+        interval: 1m30s
+        timeout: 10s
+        retries: 3
+        start_period: 40s
+
+    database:
+      image: mariadb:10.1.38
+      volumes:
+        - dbdata:/var/lib/mysql
+      env_file:
+        - .env
+      restart: always
+      ports:
+        - "3306:3306"
+      labels:
+        com.datadoghq.ad.logs: '[{"source":"mariadb", "service":"database"}]'
+
 volumes:
-  front:
+  dbdata:
+    external:
+      name: dbdata-external-production

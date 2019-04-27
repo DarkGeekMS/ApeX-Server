@@ -24,7 +24,7 @@ class search extends TestCase
     {
         $response = $this->json(
             'GET',
-            'api/search',
+            'api/Search',
             [
             'query' => 'any'
             ]
@@ -35,7 +35,7 @@ class search extends TestCase
     /**
      * Tests userSearch
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -45,15 +45,15 @@ class search extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
-            ['username' => 'Monda Talaat', 'password' => 'monda21']
+            '/api/SignIn',
+            ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
-        $userID = $loginResponse->json('user')['id'];
+        $userID = 't2_1';
 
         $response = $this->json(
             'POST',
-            'api/search',
+            'api/Search',
             [
             'query' => 'any',
             'token' => $token
@@ -61,19 +61,13 @@ class search extends TestCase
         );
         $response->assertStatus(200);
 
-        //check that there are no posts from blocked users 
+        //check that there are no posts from blocked users
         //or posts from apexComs that the user is blocked from
         //or hidden posts or reported posts
         $posts = $response->json('posts');
         foreach ($posts as $post) {
             $postWriterID = $post['posted_by'];
-            $this->assertFalse(
-                Block::query()->where(
-                    ['blockerID' => $userID, 'blockedID' => $postWriterID]
-                )->orWhere(
-                    ['blockerID' => $postWriterID, 'blockedID' => $userID]
-                )->exists()
-            );
+            $this->assertFalse(Block::areBlocked($userID, $postWriterID));
             $this->assertDatabaseMissing(
                 'apex_blocks',
                 ['ApexID' => $post['apex_id'], 'blockedID' => $userID]
@@ -91,25 +85,18 @@ class search extends TestCase
         //check that there is no blocked users shown in the results
         $users = $response->json('users');
         foreach ($users as $user) {
-            $this->assertFalse(
-                Block::query()->where(
-                    ['blockerID' => $userID, 'blockedID' => $user['id']]
-                )->orWhere(
-                    ['blockerID' => $user['id'], 'blockedID' => $userID]
-                )->exists() 
-            );
+            $this->assertFalse(Block::areBlocked($userID, $user['id']));
         }
 
         //check that there are no apexComs that the user is blocked from
         $apexComs = $response->json('apexComs');
-        foreach ($apexComs as $apexCom ) {
+        foreach ($apexComs as $apexCom) {
             $this->assertFalse(
                 ApexBlock::query()->where(
                     ['ApexID' => $apexCom['id'], 'blockedID' => $userID]
                 )->exists()
             );
         }
-
     }
 
     /**
@@ -123,7 +110,7 @@ class search extends TestCase
     {
         $response = $this->json(
             'GET',
-            'api/search',
+            'api/Search',
             [
             'query' => 'l'
             ]
@@ -142,7 +129,7 @@ class search extends TestCase
     {
         $response = $this->json(
             'GET',
-            'api/search'
+            'api/Search'
         );
         $response->assertStatus(400);
     }

@@ -15,6 +15,24 @@ use App\Http\Controllers\AccountController;
 
 class AdministrationController extends Controller
 {
+  /**
+    * deleteApexCom.
+    * This Function used to delete an apexcom.
+    * only the admin can delete any apexcom.
+    *
+    * it receives the token of the logged in user.
+    * it gets the id of the apexcom to deleted.
+    * then it checks that an apexcom with this id exists.
+    * if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
+    * it checks that the user who want to delete the apexcom is an admin(type=3).
+    * if not it returns an error message unauthorized access.
+    * if the user is an admin it deletes the apexcom and return true.
+    *
+    * @param string token the JWT representation of the admin.
+    * @param string  Apex_ID The ID of the ApexCom to be deleted.
+    * must be at least 4 chars starts with t5_ .
+    * @return boolean deleted , if the apexcom is deleted successfully.
+    */
 
     /**
      * deleteApexCom
@@ -34,25 +52,6 @@ class AdministrationController extends Controller
      * "error" : "Unauthorized access"
      * }
      */
-
-    /**
-      * deleteApexCom.
-      * This Function used to delete an apexcom.
-      * only the admin can delete any apexcom.
-      *
-      * it receives the token of the logged in user.
-      * it gets the id of the apexcom to deleted.
-      * then it checks that an apexcom with this id exists.
-      * if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
-      * it checks that the user who want to delete the apexcom is an admin(type=3).
-      * if not it returns an error message unauthorized access.
-      * if the user is an admin it deletes the apexcom and return true.
-      *
-      * @param string token the JWT representation of the admin.
-      * @param string  Apex_ID The ID of the ApexCom to be deleted.
-      * must be at least 4 chars starts with t5_ .
-      * @return boolean deleted , if the apexcom is deleted successfully.
-      */
 
     public function deleteApexCom(Request $request)
     {
@@ -89,31 +88,6 @@ class AdministrationController extends Controller
 
 
 
-
-
-    /**
-     * deleteUser
-     * Delete a user from the application by the admin or self-delete (Account deactivation).
-     * Success Cases :
-     * 1) return true to ensure that the user is deleted successfully.
-     * failure Cases:
-     * 1) user fullname (ID) is not found.
-     * 2) NoAccessRight the token is not the site admin or the same user token id.
-     *
-     * @bodyParam UserID string required The ID of the user to be deleted.
-     * @bodyParam token JWT required Used to verify the admin or the same user ID.
-     * @bodyParam passwordConfirmation string required Used to verify the user deactivating his account.
-     * @response  500{
-     * "error" : "User doesnot exist"
-     * }
-     * @response  501{
-     * "error" : "Wrong password entered"
-     * }
-     * @response  300{
-     * "error" : "UnAuthorized Deletion"
-     * }
-     */
-
     /**
       * deleteUser.
       * This Function used to delete a user by an admin or used for self-delete(Account deactivation).
@@ -139,6 +113,29 @@ class AdministrationController extends Controller
       * must be at least 4 chars starts with t2_ .
       * @return boolean deleted , if the user is deleted successfully.
       */
+
+    /**
+     * deleteUser
+     * Delete a user from the application by the admin or self-delete (Account deactivation).
+     * Success Cases :
+     * 1) return true to ensure that the user is deleted successfully.
+     * failure Cases:
+     * 1) user fullname (ID) is not found.
+     * 2) NoAccessRight the token is not the site admin or the same user token id.
+     *
+     * @bodyParam UserID string required The ID of the user to be deleted.
+     * @bodyParam token JWT required Used to verify the admin or the same user ID.
+     * @bodyParam passwordConfirmation string required Used to verify the user deactivating his account.
+     * @response  500{
+     * "error" : "User doesnot exist"
+     * }
+     * @response  501{
+     * "error" : "Wrong password entered"
+     * }
+     * @response  300{
+     * "error" : "UnAuthorized Deletion"
+     * }
+     */
 
     public function deleteUser(Request $request)
     {
@@ -191,32 +188,6 @@ class AdministrationController extends Controller
     }
 
 
-
-
-    /**
-     * addModerator
-     * Adding (or Deleting) a moderator to ApexCom.
-     * Success Cases :
-     * 1) return true to ensure that the moderator is added successfully.
-     * failure Cases:
-     * 1) user fullname (ID) is not found.
-     * 2) apex com is not found.
-     * 3) NoAccessRight the token is not the site admin token id.
-     *
-     * @bodyParam ApexComID string required The ID of the ApexCom.
-     * @bodyParam token JWT required Used to verify the Admin ID.
-     * @bodyParam UserID string required The user ID to be added as a moderator.
-     * @response  500{
-     * "error" : "Unauthorized access"
-     * }
-     * @response  403{
-     * "error" : "User doesnot exist"
-     * }
-     * @response  404{
-     * "error" : "ApexCom doesnot exist"
-     * }
-     */
-
     /**
       * addModerator.
       * This Function used to add a user as a moderator for an apexcom.
@@ -241,6 +212,30 @@ class AdministrationController extends Controller
       * must be at least 4 chars starts with t2_ .
       * @return boolean moderate , if the user moderation is added or deleted successfully.
       */
+
+    /**
+     * addModerator
+     * Adding (or Deleting) a moderator to ApexCom.
+     * Success Cases :
+     * 1) return true to ensure that the moderator is added successfully.
+     * failure Cases:
+     * 1) user fullname (ID) is not found.
+     * 2) apex com is not found.
+     * 3) NoAccessRight the token is not the site admin token id.
+     *
+     * @bodyParam ApexComID string required The ID of the ApexCom.
+     * @bodyParam token JWT required Used to verify the Admin ID.
+     * @bodyParam UserID string required The user ID to be added as a moderator.
+     * @response  500{
+     * "error" : "Unauthorized access"
+     * }
+     * @response  403{
+     * "error" : "User doesnot exist"
+     * }
+     * @response  404{
+     * "error" : "ApexCom doesnot exist"
+     * }
+     */
 
     public function addModerator(Request $request)
     {

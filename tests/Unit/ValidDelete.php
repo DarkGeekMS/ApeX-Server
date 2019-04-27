@@ -24,7 +24,7 @@ class ValidDelete extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
              'username' => 'mX',
              'password' => 'killa$&12'
@@ -33,7 +33,7 @@ class ValidDelete extends TestCase
          $token = $loginResponse->json('token');
          $response = $this->json(
              'DELETE',
-             '/api/delete',
+             '/api/Delete',
              [
              'token' => $token,
              'name' => 't1_1'
@@ -43,7 +43,7 @@ class ValidDelete extends TestCase
          $this->assertDatabaseMissing('comments', ['id' => 't1_1']);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]
@@ -63,7 +63,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mX',
             'password' => 'killa$&12'
@@ -72,7 +72,7 @@ class ValidDelete extends TestCase
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't3_1'
@@ -82,7 +82,7 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('posts', ['id' => 't3_1']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -102,7 +102,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'Anyone',
             'password' => 'anyone'
@@ -111,7 +111,7 @@ class ValidDelete extends TestCase
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't1_2'
@@ -121,7 +121,7 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => 't1_2']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -139,7 +139,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -148,7 +148,7 @@ class ValidDelete extends TestCase
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't3_2'
@@ -158,7 +158,7 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('posts', ['id' => 't3_2']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -176,7 +176,7 @@ class ValidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -185,7 +185,7 @@ class ValidDelete extends TestCase
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't1_3'
@@ -195,7 +195,7 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => 't1_3']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -214,16 +214,16 @@ class ValidDelete extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't1_4'
@@ -233,7 +233,7 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => 't1_4']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -252,16 +252,16 @@ class ValidDelete extends TestCase
 
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't3_3'
@@ -271,7 +271,7 @@ class ValidDelete extends TestCase
         $this->assertDatabaseMissing('posts', ['id' => 't3_3']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -342,6 +342,7 @@ class ValidDelete extends TestCase
           'root' => 't3_4',
           'created_at' => '2019-03-23 17:20:40'
         ]);
+
         $this->assertTrue(true);
     }
 }

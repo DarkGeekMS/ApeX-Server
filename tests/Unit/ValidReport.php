@@ -20,16 +20,16 @@ class ValidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_5',
@@ -40,7 +40,7 @@ class ValidReport extends TestCase
         $this->assertDatabaseHas('report_posts', ['postID' => 't3_5' , 'userID' => 't2_1']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -59,16 +59,16 @@ class ValidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't1_5',
@@ -79,7 +79,7 @@ class ValidReport extends TestCase
         $this->assertDatabaseHas('report_comments', ['comID' => 't1_5' , 'userID' => 't2_1']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

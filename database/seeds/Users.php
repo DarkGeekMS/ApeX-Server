@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class Users extends Seeder
 {
@@ -12,145 +13,132 @@ class Users extends Seeder
     public function run()
     {
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_1',
           'fullname' => 'Monda Talaat',
           'email' => 'mondatalaat@gmail.com',
-          'username' => 'Monda Talaat',
+          'username' => 'mondaTalaat',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'type' => 2,
-          'created_at' => '2019-03-23 17:20:31'
+          'type' => 2
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_2',
           'fullname' => 'Maxwell',
           'email' => 'max@gmail.com',
           'username' => 'mX',
-          'password' => '$2y$10$Bn8ou70RVD03.XejoQ4fWeqn.JR6KOX3GO84Di/qvJnUKK190ATVG',
-          'created_at' => '2019-03-23 17:20:32'
+          'password' => '$2y$10$Bn8ou70RVD03.XejoQ4fWeqn.JR6KOX3GO84Di/qvJnUKK190ATVG'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_3',
           'fullname' => 'Any Hooman',
           'email' => 'AHom@gmail.com',
           'username' => 'Anyone',
           'password' => '$2y$10$MH4kKI.qEnCj0MZeEr9abOgQdD.MHtBhRm6PoxWOAsCE9BxaI7Loi',
-          'type' => 2,
-          'created_at' => '2019-03-23 17:20:33'
+          'type' => 2
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_4',
           'fullname' => 'Martin Luther King',
           'email' => 'king@gmail.com',
           'username' => 'King',
           'password' => '$2y$10$IYrxpk0//MRpX8lx.bhklu6.tn8FT3lqSF.LwVp5dco.UeUdfzlVS',
-          'type' => 3,
-          'created_at' => '2019-03-23 17:20:34'
+          'type' => 3
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_5',
           'fullname' => 'Mohamed Shawky',
-          'email' => 'DarkGeek@gmail.com',
+          'email' => 'mohamedshawky911@gmail.com',
           'username' => 'shawky',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:35'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_6',
           'fullname' => 'Mohamed Ahmed',
           'email' => 'double@gmail.com',
           'username' => 'double',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'type' => 3,
-          'created_at' => '2019-03-23 17:20:36'
+          'type' => 3
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_7',
           'fullname' => 'mohamed ramzy',
           'email' => 'ramzy21@gmail.com',
           'username' => 'ramzy',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'type' => 2,
-          'created_at' => '2019-03-23 17:20:37'
+          'type' => 2
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_8',
           'fullname' => 'mazen amr',
           'email' => 'mazen21@gmail.com',
           'username' => 'mazen',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:38'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_9',
           'fullname' => 'mostafa elshaaer',
           'email' => 'mostafa21@gmail.com',
           'username' => 'mostafa',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:39'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_10',
           'fullname' => 'kareem osama',
           'email' => 'kareem21@gmail.com',
           'username' => 'kareem',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:40'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_11',
           'fullname' => 'habiba Ali',
           'email' => 'habiba21@gmail.com',
           'username' => 'habiba',
           'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'type' => 2,
-          'created_at' => '2019-03-23 17:20:41'
+          'type' => 2
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_12',
           'fullname' => 'dina mamdoh',
           'email' => 'dina21@gmail.com',
           'username' => 'dina',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:42'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_13',
           'fullname' => 'ahmed waleed',
           'email' => 'ahmed21@gmail.com',
           'username' => 'waleed',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:43'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_14',
           'fullname' => 'mohamed kheir',
           'email' => 'mohamed@gmail.com',
           'username' => 'shaheen',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:44'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
 
-        DB::table('users')->insert([
+        User::create([
           'id' => 't2_15',
           'fullname' => 'menna mostafa',
           'email' => 'menna21@gmail.com',
           'username' => 'menna',
-          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-          'created_at' => '2019-03-23 17:20:45'
+          'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS'
         ]);
+
+        factory(User::class, 10)->create();
     }
 }

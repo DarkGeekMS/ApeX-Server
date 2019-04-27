@@ -1,41 +1,83 @@
 {
     "posts": [
         {
-            "id": "t3_10",
-            "posted_by": "t2_31",
-            "apex_id": "t5_10",
-            "title": "5yackoudW8",
+            "id": "t3_1",
+            "posted_by": "t2_2",
+            "apex_id": "t5_1",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Architecto nesciunt deleniti ut. Commodi doloremque blanditiis est odio sit quia. Eos sit et sunt in repellat omnis.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:30",
+            "updated_at": null,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "mX"
         },
         {
-            "id": "t3_12",
-            "posted_by": "t2_35",
-            "apex_id": "t5_9",
-            "title": "qYxfPEUHif",
+            "id": "t3_10",
+            "posted_by": "t2_8",
+            "apex_id": "t5_4",
+            "title": "Anything",
             "img": null,
             "videolink": null,
-            "content": "Assumenda iusto sed quae hic ex non rerum. Officia voluptatem minus perferendis distinctio sint qui. Dolorem ut aliquid id illum qui placeat sit.",
+            "content": null,
             "locked": 0,
-            "created_at": "2019-03-22 16:58:26",
-            "updated_at": "2019-03-22 16:58:26"
+            "created_at": "2019-03-23 17:20:39",
+            "updated_at": null,
+            "votes": -2,
+            "comments_count": 1,
+            "apex_com_name": "foods",
+            "post_writer_username": "mazen"
+        },
+        {
+            "id": "t3_11",
+            "posted_by": "t2_8",
+            "apex_id": "t5_3",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": "2019-03-23 17:20:40",
+            "updated_at": null,
+            "votes": 1,
+            "comments_count": 1,
+            "apex_com_name": "gaming area",
+            "post_writer_username": "mazen"
         }
     ],
     "apexComs": [
         {
-            "id": "t5_7",
-            "name": "e4GiNXiUN6",
+            "id": "t5_1",
+            "name": "Elder Scrolls",
             "avatar": "public\\img\\apx.png",
-            "banner": "public\\img\\banner.jpg",
-            "rules": "Reprehenderit qui vero eum. Qui et quos est autem culpa perferendis. Vero omnis ea culpa doloremque dolorem.",
-            "description": "Maxime quos sit omnis dolore error reprehenderit et. Harum rerum nisi magni. Qui rerum voluptatem dolorem perspiciatis ut et.",
-            "created_at": "2019-03-22 16:58:24",
-            "updated_at": "2019-03-22 16:58:24"
+            "description": "The name says it all.",
+            "subscribers_count": 0
+        },
+        {
+            "id": "t5_10",
+            "name": "comics",
+            "avatar": "public\\img\\apx.png",
+            "description": "The name says it all.",
+            "subscribers_count": 0
+        },
+        {
+            "id": "t5_2",
+            "name": "New dawn",
+            "avatar": "public\\img\\apx.png",
+            "description": "The name says it all.",
+            "subscribers_count": 0
         }
     ],
-    "users": []
+    "users": [
+        {
+            "id": "t2_3",
+            "username": "Anyone",
+            "avatar": "publicimgdef.png",
+            "karma": 1
+        }
+    ]
 }

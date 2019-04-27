@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\ApexCom;
 
 class ValidVote extends TestCase
 {
@@ -18,18 +19,19 @@ class ValidVote extends TestCase
     //new vote in a post
     public function newPost()
     {
+
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't3_6',
@@ -40,7 +42,7 @@ class ValidVote extends TestCase
         $this->assertDatabaseHas('votes', ['postID' => 't3_6' , 'userID' => 't2_1' , 'dir' => 1]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -58,16 +60,16 @@ class ValidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't3_6',
@@ -78,7 +80,7 @@ class ValidVote extends TestCase
         $this->assertDatabaseHas('votes', ['postID' => 't3_6' , 'userID' => 't2_1' , 'dir' => -1 ]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -96,16 +98,16 @@ class ValidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't3_6',
@@ -116,7 +118,7 @@ class ValidVote extends TestCase
         $this->assertDatabaseMissing('votes', ['postID' => 't3_5' , 'userID' => 't2_1']);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -134,16 +136,16 @@ class ValidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't1_5',
@@ -154,7 +156,7 @@ class ValidVote extends TestCase
         $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => 1]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -172,16 +174,16 @@ class ValidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't1_5',
@@ -192,7 +194,7 @@ class ValidVote extends TestCase
         $this->assertDatabaseHas('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' , 'dir' => -1]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -210,16 +212,16 @@ class ValidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't1_5',
@@ -230,7 +232,7 @@ class ValidVote extends TestCase
         $this->assertDatabaseMissing('comment_votes', ['comID' => 't1_5' , 'userID' => 't2_1' ]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

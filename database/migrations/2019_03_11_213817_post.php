@@ -17,7 +17,7 @@ class Post extends Migration
             'posts',
             function (Blueprint $table) {
                 $table->string('id')->unique();
-                $table->string('posted_by')->nullable();
+                $table->string('posted_by');
                 $table->string('apex_id');
                 $table->string('title');
                 $table->string('img')->nullable();
@@ -26,7 +26,7 @@ class Post extends Migration
                 $table->boolean('locked')->default(false);
                 $table->timestamps();
                 $table->primary('id');
-                $table->foreign('posted_by')->references('id')->on('users')->onDelete('set null');
+                $table->foreign('posted_by')->references('id')->on('users');
                 $table->foreign('apex_id')->references('id')->on('apex_coms')->onDelete('cascade');
             }
         );

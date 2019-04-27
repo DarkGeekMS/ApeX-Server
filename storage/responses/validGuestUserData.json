@@ -1,0 +1,42 @@
+{
+    "userData": {
+        "username": "King",
+        "fullname": "Martin Luther King",
+        "karma": 1,
+        "avatar": "publicimgdef.png"
+    },
+    "posts": [
+        {
+            "id": "t3_3",
+            "posted_by": "t2_4",
+            "apex_id": "t5_1",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": "2019-03-23 17:20:32",
+            "updated_at": null,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "King"
+        },
+        {
+            "id": "t3_6",
+            "posted_by": "t2_4",
+            "apex_id": "t5_2",
+            "title": "Anything",
+            "img": null,
+            "videolink": null,
+            "content": null,
+            "locked": 0,
+            "created_at": "2019-03-23 17:20:35",
+            "updated_at": null,
+            "votes": 0,
+            "comments_count": 0,
+            "apex_com_name": "New dawn",
+            "post_writer_username": "King"
+        }
+    ]
+}

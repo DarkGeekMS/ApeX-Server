@@ -20,7 +20,7 @@ class ValidAddMoerator extends TestCase
     //sign in with an admin account
         $adminLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'king',
             'password' => 'queen12'
@@ -30,16 +30,16 @@ class ValidAddMoerator extends TestCase
     //user to be added as a moderator
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-              'username' => 'Monda Talaat',
+              'username' => 'mondaTalaat',
               'password' => 'monda21'
             ]
         );
         $userToken = $userLoginResponse->json("token");
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
               'token' => $userToken
             ]
@@ -50,7 +50,7 @@ class ValidAddMoerator extends TestCase
         $apexid='t5_1';               //id of an existing apexcom
         $addResponse = $this->json(
             'POST',
-            '/api/add_moderator',
+            '/api/AddModerator',
             [
               'token' => $token,
               'UserID' => $id,
@@ -70,7 +70,7 @@ class ValidAddMoerator extends TestCase
       //sign in with an admin account
         $adminLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
               'username' => 'king',
               'password' => 'queen12'
@@ -79,16 +79,16 @@ class ValidAddMoerator extends TestCase
         $token = $adminLoginResponse->json("token");
         $userLoginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-              'username' => 'Monda Talaat',
+              'username' => 'mondaTalaat',
               'password' => 'monda21'
             ]
         );
         $userToken = $userLoginResponse->json("token");
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
               'token' => $userToken
             ]
@@ -97,7 +97,7 @@ class ValidAddMoerator extends TestCase
         $apexid='t5_1';
         $delResponse = $this->json(
             'POST',
-            '/api/add_moderator',
+            '/api/AddModerator',
             [
               'token' => $token,
               'UserID' => $id,

@@ -5,10 +5,14 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use DB;
+use App\Models\Comment;
+use App\Models\Message;
+use App\Models\User;
 
 class ValidReply extends TestCase
 {
+    use WithFaker;
+
   /**
    *
    * @test
@@ -21,26 +25,29 @@ class ValidReply extends TestCase
      // check the response status = 200 means success (comment to post added)
     public function commentToPost()
     {
-        $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
-        $id = "t1_1";
-        if ($lastcom) {
-            $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
-            $id = $lastcom->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t1_".($newIdx+ $count);
-        }
-        $loginResponse = $this->json(
+
+
+        $lastcom =Comment::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't1_'.(string)($lastcom +1);
+
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
         $response = $this->json(
             'POST',
-            '/api/comment',
+            '/api/AddReply',
             [
             'token' => $token,
             'parent' => 't3_10',
@@ -49,13 +56,16 @@ class ValidReply extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('comments', ['id' => $id]);
+
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
         );
+        Comment::where('id', $id)->delete();
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -70,24 +80,27 @@ class ValidReply extends TestCase
     public function replyToComment()
     {
 
-        $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
-        $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
-        $id = $lastcom->id;
-        $newIdx = (int)explode("_", $id)[1];
-        $id = "t1_".($newIdx+$count);
+        $lastcom =Comment::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't1_'.(string)($lastcom +1);
 
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-              'username' => 'Monda Talaat',
+              'username' => $user['username'],
               'password' => 'monda21'
             ]
         );
-          $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
           $response = $this->json(
               'POST',
-              '/api/comment',
+              '/api/AddReply',
               [
                 'token' => $token,
                 'parent' => 't1_8',
@@ -96,13 +109,16 @@ class ValidReply extends TestCase
           );
             $response->assertStatus(200);
             $this->assertDatabaseHas('comments', ['id' => $id]);
+
             $logoutResponse = $this->json(
                 'POST',
-                '/api/sign_out',
+                '/api/SignOut',
                 [
                 'token' => $token
                 ]
             );
+            Comment::where('id', $id)->delete();
+            User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -116,24 +132,27 @@ class ValidReply extends TestCase
     // check the response status = 200 means success (reply to message added)
     public function replyToMessage()
     {
-        $lastcom = DB::table('messages')->orderBy('created_at', 'desc')->first();
-        $count = DB::table('messages') ->where('created_at', $lastcom->created_at)->count();
-        $id = $lastcom->id;
-        $newIdx = (int)explode("_", $id)[1];
-        $id = "t4_".($newIdx+$count);
+        $lastcom =Message::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't4_'.(string)($lastcom +1);
 
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
         $response = $this->json(
             'POST',
-            '/api/comment',
+            '/api/AddReply',
             [
             'token' => $token,
             'parent' => 't4_1',
@@ -144,10 +163,15 @@ class ValidReply extends TestCase
         $this->assertDatabaseHas('messages', ['id' => $id]);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

@@ -3,33 +3,20 @@ FROM alpine
 COPY . /app
 WORKDIR /app
 
-RUN apk update \
-    && \ 
-    apk add \
-        bash \
-        php7 \
-        php7-session \
-        php7-fileinfo \
-        php7-tokenizer \
-        php7-dom \
-        php7-xmlwriter \
-        php7-xml \ 
-        php7-pdo \ 
-        php7-pdo_mysql \
-        php-mysqli \
-        php-mysqlnd \
-        php-simplexml \
-        composer \
-        npm \
-        git
+RUN apk update
+RUN cat scripts/dependencies | xargs apk add
 
-# pass `--build-arg MIGRATE=true` on building to run migrations
-ARG MIGRATE
-ENV MIGRATE=${MIGRATE}
+ARG SEED
+ENV SEED=${SEED}
 
-# pass `--build-arg TEST=true` on building to run tests
-ARG TEST
-ENV TEST=${TEST}
+ARG UNIT_TEST
+ENV UNIT_TEST=${UNIT_TEST}
+
+ARG E2E_TEST
+ENV E2E_TEST=${E2E_TEST}
+
+ARG WEB_BRANCH
+ENV WEB_BRANCH=${WEB_BRANCH}
 
 EXPOSE 80
 ENTRYPOINT [ "/bin/bash", "/app/scripts/run.sh" ]

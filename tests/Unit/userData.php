@@ -11,92 +11,137 @@ use App\Models\Block;
 class userData extends TestCase
 {
     use WithFaker;
-    
+
+    /**
+     * Create a new user and return him and his token
+     *
+     * @return array
+     */
+    private function _createUser()
+    {
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
+        return [$user, $token];
+    }
+
     /**
      * Tests user data request with valid parameters.
-     * 
+     *
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function validUserData()
     {
-        $username = User::firstOrFail()['username'];
+        [$user, $token] = $this->_createUser();
 
-        $response = $this->json(
-            'GET',
-            '/api/user_data',
-            compact('username')
-        );
+        $username = User::inRandomOrder()->firstOrFail()['username'];
 
-        $response->assertStatus(200)->assertSee('userData')->assertSee('posts');
+        $methods = [
+            'GET' => compact('username'),
+            'POST' => compact('username', 'token')
+        ];
 
+        foreach ($methods as $method => $data) {
+            $response = $this->json(
+                $method,
+                '/api/UserData',
+                $data
+            );
+
+            $response->assertStatus(200)->assertSee('userData')->assertSee('posts');
+        }
+
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
      * Tests user data request with invalid username.
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function invalidUsername()
     {
-        $response = $this->json(
-            'GET',
-            '/api/user_data',
-            ['username' => '-1']
-        );
+        $username = '-1';
 
-        $response->assertStatus(404)->assertSee('User is not found');
-        
+        [$user, $token] = $this->_createUser();
+
+        $methods = [
+            'GET' => compact('username'),
+            'POST' => compact('username', 'token')
+        ];
+
+        foreach ($methods as $method => $data) {
+            $response = $this->json(
+                $method,
+                '/api/UserData',
+                $data
+            );
+
+            $response->assertStatus(404)->assertSee('User is not found');
+        }
+
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
      * Tests user data request with no username.
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function missingUsername()
     {
-        $response = $this->json(
-            'GET',
-            '/api/user_data'
-        );
+        [$user, $token] = $this->_createUser();
 
-        $response->assertStatus(400)->assertSee('username');
+        $methods = [
+            'GET' => [],
+            'POST' => compact('token')
+        ];
+
+        foreach ($methods as $method => $data) {
+            $response = $this->json(
+                $method,
+                '/api/UserData',
+                $data
+            );
+
+            $response->assertStatus(400)->assertSee('username');
+        }
+
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
      * Tests user data request with blocked users.
-     * 
+     *
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function blokcedUserData()
     {
-        //create a new user and get its token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
-            'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
-        );
-        $signUpResponse->assertStatus(200);
-
-        $token = $signUpResponse->json('token');
-        $user1 = $signUpResponse->json('user');
-
+        [$user1, $token] = $this->_createUser();
         //block some user from the data base
 
         $user2 = User::firstOrFail();
@@ -105,7 +150,7 @@ class userData extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/user_data',
+            '/api/UserData',
             compact('token', 'username')
         );
 
@@ -114,6 +159,6 @@ class userData extends TestCase
 
         //delete the block relation and the created user
         Block::where(['blockerID' => $user1['id'], 'blockedID' => $user2['id']])->delete();
-        User::where('id', $user1['id']);
+        User::where('id', $user1['id'])->forceDelete();
     }
 }

@@ -19,16 +19,16 @@ class InvalidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't3_01',
@@ -38,7 +38,7 @@ class InvalidVote extends TestCase
         $response->assertStatus(404);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -56,16 +56,16 @@ class InvalidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't1_01',
@@ -75,7 +75,7 @@ class InvalidVote extends TestCase
         $response->assertStatus(404);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -93,9 +93,9 @@ class InvalidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => '1561998'
             ]
         );
@@ -103,7 +103,7 @@ class InvalidVote extends TestCase
         $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't1_4',
@@ -113,7 +113,7 @@ class InvalidVote extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -131,16 +131,16 @@ class InvalidVote extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/vote',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => 't1_4',
@@ -150,7 +150,7 @@ class InvalidVote extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

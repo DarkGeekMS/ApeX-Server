@@ -18,16 +18,16 @@ class MeValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $meResponse = $this->json(
             'POST',
-            '/api/me',
+            '/api/Me',
             [
             'token' => $token
             ]
@@ -35,7 +35,7 @@ class MeValid extends TestCase
         $meResponse->json('token');
         $response1 = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

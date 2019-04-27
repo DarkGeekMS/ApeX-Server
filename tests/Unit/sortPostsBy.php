@@ -36,7 +36,7 @@ class sortPostsBy extends TestCase
         return true;
     }
 
-    
+
     /**
      * Test sorting the posts by valid sortingParam.
      *
@@ -50,12 +50,12 @@ class sortPostsBy extends TestCase
     {
         $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
                 'GET',
-                '/api/sort_posts',
+                '/api/SortPosts',
                 [
                     'apexComID' => $apexComID,
                     'sortingParam' => $sortingParam
@@ -72,7 +72,7 @@ class sortPostsBy extends TestCase
     /**
      * Tests userSortPostsBy
      * Assumes that there are some records in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -81,26 +81,20 @@ class sortPostsBy extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
-            ['username' => 'Monda Talaat', 'password' => 'monda21']
+            '/api/SignIn',
+            ['username' => 'mondaTalaat', 'password' => 'monda21']
         );
         $token = $loginResponse->json('token');
-        $userID = $loginResponse->json('user')['id'];
+        $userID = 't2_1';
 
-        $response = $this->json('POST', '/api/sort_posts', compact('token'));
+        $response = $this->json('POST', '/api/SortPosts', compact('token'));
         $posts = $response->json('posts');
 
         //check that there are no posts from blocked users or hidden posts or reported posts
         $posts = $response->json('posts');
         foreach ($posts as $post) {
             $postWriterID = $post['posted_by'];
-            $this->assertFalse(
-                Block::query()->where(
-                    ['blockerID' => $userID, 'blockedID' => $postWriterID]
-                )->orWhere(
-                    ['blockerID' => $postWriterID, 'blockedID' => $userID]
-                )->exists()
-            );
+            $this->assertFalse(Block::areBlocked($userID, $postWriterID));
             $this->assertDatabaseMissing(
                 'apex_blocks',
                 ['ApexID' => $post['apex_id'], 'blockedID' => $userID]
@@ -116,12 +110,12 @@ class sortPostsBy extends TestCase
         }
 
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
                 'POST',
-                '/api/sort_posts',
+                '/api/SortPosts',
                 compact('sortingParam', 'token')
             );
             $response->assertStatus(200);
@@ -130,7 +124,6 @@ class sortPostsBy extends TestCase
                 $this->_checkPosts(null, $posts, $sortedColumn)
             );
         }
-
     }
 
     /**
@@ -144,12 +137,12 @@ class sortPostsBy extends TestCase
     public function noApexCom()
     {
         $sortingParams = [
-            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_num'
+            'date' => 'created_at', 'votes' => 'votes', 'comments' => 'comments_count'
         ];
         foreach ($sortingParams as $sortingParam => $sortedColumn) {
             $response = $this->json(
                 'GET',
-                '/api/sort_posts',
+                '/api/SortPosts',
                 [
                     'sortingParam' => $sortingParam
                 ]
@@ -174,7 +167,7 @@ class sortPostsBy extends TestCase
     {
         $response = $this->json(
             'GET',
-            '/api/sort_posts',
+            '/api/SortPosts',
             [
             'apexComID' => '-1',
             'sortingParam' => 'votes'
@@ -188,7 +181,7 @@ class sortPostsBy extends TestCase
      * it will use the default parameter 'date'
      *
      * Assumes that there are some recordes in the database
-     * 
+     *
      * @test
      *
      * @return void
@@ -198,7 +191,7 @@ class sortPostsBy extends TestCase
         $apexComID = apexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
             'GET',
-            '/api/sort_posts',
+            '/api/SortPosts',
             [
             'apexComID' => $apexComID,
             'sortingParam' => 'something'
@@ -226,7 +219,7 @@ class sortPostsBy extends TestCase
         $apexComID = ApexCom::inRandomOrder()->firstOrFail()->id;
         $response = $this->json(
             'GET',
-            '/api/sort_posts',
+            '/api/SortPosts',
             [
             'apexComID' => $apexComID,
             ]

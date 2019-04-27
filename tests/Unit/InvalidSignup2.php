@@ -20,7 +20,7 @@ class InvalidSignup2 extends TestCase
         $username = Str::random(15);
         $firstSignup = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => $email,
             'password' => '1234567',
@@ -29,7 +29,7 @@ class InvalidSignup2 extends TestCase
         );
         $duplicateSignup = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignUp',
             [
             'email' => Str::random(15)."@gmail.com",
             'password' => '1234567',

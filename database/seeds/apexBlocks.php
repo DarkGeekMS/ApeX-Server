@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\ApexBlock;
 
 class apexBlocks extends Seeder
 {
@@ -11,5 +12,6 @@ class apexBlocks extends Seeder
      */
     public function run()
     {
+        factory(ApexBlock::class, 10)->create();
     }
 }

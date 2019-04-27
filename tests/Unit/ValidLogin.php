@@ -16,22 +16,12 @@ class ValidLogin extends TestCase
      */
     public function testExample()
     {
-        $email = Str::random(15)."@gmail.com";
-        $username = Str::random(15);
-        $firstSignup = $this->json(
-            'POST',
-            '/api/sign_up',
-            [
-            'email' => $email,
-            'password' => 'monda21',
-            'username' => 'Monda Talaat'
-            ]
-        );
+
         $response = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
@@ -39,7 +29,7 @@ class ValidLogin extends TestCase
         $token = $response->json('token');
         $response1 = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

@@ -16,7 +16,13 @@
             "content": null,
             "locked": 0,
             "created_at": "2019-03-23 17:20:32",
-            "updated_at": null
+            "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
+            "votes": 0,
+            "comments_count": 1,
+            "apex_com_name": "Elder Scrolls",
+            "post_writer_username": "King"
         },
         {
             "id": "t3_6",
@@ -28,7 +34,13 @@
             "content": null,
             "locked": 0,
             "created_at": "2019-03-23 17:20:35",
-            "updated_at": null
+            "updated_at": null,
+            "current_user_vote": 0,
+            "current_user_saved_post": false,
+            "votes": 0,
+            "comments_count": 0,
+            "apex_com_name": "New dawn",
+            "post_writer_username": "King"
         }
     ]
 }

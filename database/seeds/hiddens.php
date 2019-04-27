@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Hidden;
 
 class hiddens extends Seeder
 {
@@ -11,5 +12,6 @@ class hiddens extends Seeder
      */
     public function run()
     {
+        factory(Hidden::class, 10)->create();
     }
 }

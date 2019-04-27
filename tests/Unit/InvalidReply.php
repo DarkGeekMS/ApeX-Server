@@ -20,9 +20,9 @@ class InvalidReply extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => '1561998'
             ]
         );
@@ -30,7 +30,7 @@ class InvalidReply extends TestCase
         $loginResponse->assertStatus(400);
         $response = $this->json(
             'POST',
-            '/api/comment',
+            '/api/AddReply',
             [
             'token' => $t,
             'parent' => 't1_5'
@@ -49,9 +49,9 @@ class InvalidReply extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -59,7 +59,7 @@ class InvalidReply extends TestCase
          $loginResponse->assertStatus(200);
          $response = $this->json(
              'POST',
-             '/api/comment',
+             '/api/AddReply',
              [
              'token' => $token,
              'parent' => 't3_001',
@@ -69,7 +69,7 @@ class InvalidReply extends TestCase
          $response->assertStatus(404);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]
@@ -87,9 +87,9 @@ class InvalidReply extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -97,7 +97,7 @@ class InvalidReply extends TestCase
          $loginResponse->assertStatus(200);
          $response = $this->json(
              'POST',
-             '/api/comment',
+             '/api/AddReply',
              [
              'token' => $token,
              'parent' => 't1_01',
@@ -107,7 +107,7 @@ class InvalidReply extends TestCase
          $response->assertStatus(404);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]
@@ -125,9 +125,9 @@ class InvalidReply extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -135,7 +135,7 @@ class InvalidReply extends TestCase
          $loginResponse->assertStatus(200);
          $response = $this->json(
              'POST',
-             '/api/comment',
+             '/api/AddReply',
              [
              'token' => $token,
              'parent' => 't4_01',
@@ -145,7 +145,7 @@ class InvalidReply extends TestCase
          $response->assertStatus(404);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]
@@ -163,9 +163,9 @@ class InvalidReply extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -173,7 +173,7 @@ class InvalidReply extends TestCase
          $loginResponse->assertStatus(200);
          $response = $this->json(
              'POST',
-             '/api/comment',
+             '/api/AddReply',
              [
              'token' => $token,
              'parent' => 't1_10'
@@ -182,7 +182,7 @@ class InvalidReply extends TestCase
          $response->assertStatus(400);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]
@@ -199,9 +199,9 @@ class InvalidReply extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -209,7 +209,7 @@ class InvalidReply extends TestCase
          $loginResponse->assertStatus(200);
          $response = $this->json(
              'POST',
-             '/api/comment',
+             '/api/AddReply',
              [
              'token' => $token,
              'parent' => 't3_8',
@@ -219,7 +219,7 @@ class InvalidReply extends TestCase
          $response->assertStatus(400);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]
@@ -236,9 +236,9 @@ class InvalidReply extends TestCase
     {
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
-             'username' => 'Monda Talaat',
+             'username' => 'mondaTalaat',
              'password' => 'monda21'
              ]
          );
@@ -246,7 +246,7 @@ class InvalidReply extends TestCase
          $loginResponse->assertStatus(200);
          $response = $this->json(
              'POST',
-             '/api/comment',
+             '/api/AddReply',
              [
              'token' => $token,
              'parent' => 't3_8',
@@ -256,7 +256,7 @@ class InvalidReply extends TestCase
          $response->assertStatus(400);
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]

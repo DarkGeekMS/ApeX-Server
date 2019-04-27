@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use DB;
 
 class InvalidReport extends TestCase
 {
@@ -20,16 +21,16 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'MondaTalaat',
+            'username' => 'mondaTalaat',
             'password' => '1561998'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_5',
@@ -39,7 +40,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -57,16 +58,16 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_01',
@@ -76,7 +77,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(404);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -94,16 +95,16 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't1_01',
@@ -113,7 +114,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(404);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -131,16 +132,16 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_1'
@@ -149,7 +150,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -167,7 +168,7 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'King',
             'password' => 'queen12'
@@ -176,7 +177,7 @@ class InvalidReport extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_4',
@@ -186,7 +187,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -204,16 +205,16 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_4',
@@ -223,7 +224,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -241,7 +242,7 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'kareem',
             'password' => 'monda21'
@@ -250,7 +251,7 @@ class InvalidReport extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't3_7',
@@ -260,7 +261,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -278,7 +279,7 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'kareem',
             'password' => 'monda21'
@@ -287,7 +288,7 @@ class InvalidReport extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't1_10',
@@ -297,7 +298,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -315,7 +316,7 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'kareem',
             'password' => 'monda21'
@@ -324,7 +325,7 @@ class InvalidReport extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't1_8',
@@ -334,7 +335,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -352,16 +353,16 @@ class InvalidReport extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'Monda Talaat',
+            'username' => 'mondaTalaat',
             'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json('token');
         $response = $this->json(
             'POST',
-            '/api/report',
+            '/api/Report',
             [
             'token' => $token,
             'name' => 't1_14',
@@ -371,7 +372,7 @@ class InvalidReport extends TestCase
         $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]
@@ -385,21 +386,23 @@ class InvalidReport extends TestCase
      *
      * @return void
      */
-       //moderator in apexcom not include the reported post
+
     public function reportPost()
     {
+          DB::table('report_posts')->insert(['postID' => 't3_14', 'userID' => 't2_1', 'content' => 'bla bla']);
+
           $loginResponse = $this->json(
               'POST',
-              '/api/sign_in',
+              '/api/SignIn',
               [
-              'username' => 'Monda Talaat',
+              'username' => 'mondaTalaat',
               'password' => 'monda21'
               ]
           );
           $token = $loginResponse->json('token');
           $response = $this->json(
               'POST',
-              '/api/report',
+              '/api/Report',
               [
               'token' => $token,
               'name' => 't3_14',
@@ -409,11 +412,12 @@ class InvalidReport extends TestCase
           $response->assertStatus(400);
           $logoutResponse = $this->json(
               'POST',
-              '/api/sign_out',
+              '/api/SignOut',
               [
               'token' => $token
               ]
           );
+          DB::table('report_posts')->where(['postID' => 't3_14', 'userID' => 't2_1'])->delete();
     }
 
       /**
@@ -425,18 +429,19 @@ class InvalidReport extends TestCase
       //ordinary user report a comment
     public function reportComment()
     {
+          DB::table('report_comments')->insert(['comID' => 't1_14', 'userID' => 't2_1', 'content' => 'bla bla']);
           $loginResponse = $this->json(
               'POST',
-              '/api/sign_in',
+              '/api/SignIn',
               [
-              'username' => 'Monda Talaat',
+              'username' => 'mondaTalaat',
               'password' => 'monda21'
               ]
           );
           $token = $loginResponse->json('token');
           $response = $this->json(
               'POST',
-              '/api/report',
+              '/api/Report',
               [
               'token' => $token,
               'name' => 't1_14',
@@ -446,10 +451,11 @@ class InvalidReport extends TestCase
           $response->assertStatus(400);
           $logoutResponse = $this->json(
               'POST',
-              '/api/sign_out',
+              '/api/SignOut',
               [
               'token' => $token
               ]
           );
+          DB::table('report_comments')->where(['comID' => 't1_14', 'userID' => 't2_1'])->delete();
     }
 }
