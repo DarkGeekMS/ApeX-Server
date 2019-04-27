@@ -233,15 +233,6 @@ class ModerationController extends Controller
         // get all posts that belongs to apexcom
         $posts = Post::where('apex_id', '=', $apex_id);
 
-        // get the reported posts from the posts of the apexcom
-        $reportedposts = ReportPost::joinSub(
-            $posts,
-            'apex_posts',
-            function ($join) {
-                $join->on('postID', '=', 'id');
-            }
-        );
-
         // get the comments on the posts of the apexcom
         $comments = Comment::joinSub(
             $posts,
@@ -253,6 +244,8 @@ class ModerationController extends Controller
             ['comments.id AS commentid', 'comments.content AS commentcontent',
              'commented_by', 'root', 'parent', 'apex_posts.*']
         );
+
+        // get all reported comments that belong to posts of the apexcom
         $reportedcomments = ReportComment::joinSub(
             $comments,
             'comments_posts',
@@ -277,12 +270,15 @@ class ModerationController extends Controller
                         'id' => $item['id'], 'posted_by' => $item['posted_by'],
                         'apex_id' => $item['apex_id'], 'title' => $item['title'],
                         'img' => $item['img'], 'videolink' => $item['videolink'],
-                        'content' => $item['content'], 'locked' => $item['locked']
+                        'content' => $item['content'], 'locked' => $item['locked'],
+                        'apex_com_name' => apexComModel::find($item['apex_id'])->name,
+                        'post_writer_username' => User::find($item['posted_by'])->username
                     ],
                     'comment' => [
+                        'id' => $item['commentid'], 'parent' => $item['parent'],
                         'root' => $item['root'], 'content' =>$item['commentcontent'],
-                        'commented_by' => $item['commented_by'],
-                        'id' => $item['commentid'], 'parent' => $item['parent']
+                        'commented_by' => $item['commented_by'], 
+                        'writerUsername' => User::find($item['commented_by'])->username
                     ],
                     'report' => [
                         'userID' => $item['userID'], 'comID' => $item['comID'],
@@ -293,6 +289,8 @@ class ModerationController extends Controller
                 ];
             }
         )->toArray();
+
+        // get all reported posts of the apexcom.
         $reportedposts = ReportPost::joinSub(
             $posts,
             'apex_posts',
@@ -317,7 +315,9 @@ class ModerationController extends Controller
                         'id' => $item['id'], 'posted_by' => $item['posted_by'],
                         'apex_id' => $item['apex_id'], 'title' => $item['title'],
                         'img' => $item['img'], 'videolink' => $item['videolink'],
-                        'content' => $item['content'], 'locked' => $item['locked']
+                        'content' => $item['content'], 'locked' => $item['locked'],
+                        'apex_com_name' => apexComModel::find($item['apex_id'])->name,
+                        'post_writer_username' => User::find($item['posted_by'])->username
                     ],
                     'report' => [
                         'userID' => $item['userID'], 'postID' => $item['postID'],
@@ -328,6 +328,8 @@ class ModerationController extends Controller
                 ];
             }
         )->toArray();
+
+        // combine the reported posts and reported comments in one array and return it.
         $reported = array(
                 'ReportedPosts' => $reportedposts,
                 'ReportedComments' => $reportedcomments
