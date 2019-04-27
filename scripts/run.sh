@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ex
 
+
 getFront() { ./scripts/getFront.sh $WEB_BRANCH; }
 
 install() { composer install --optimize-autoloader --no-dev; }
@@ -18,6 +19,7 @@ e2eTests() {
     git clone https://${GITHUB_TOKEN}@github.com/RehamGamal97/apeXTesting e2e
     pushd e2e
       cat scripts/dependencies | xargs apk add
+
 
       EXIT_CODE=0 && ./sripts/run.sh "http://localhost:80" || EXIT_CODE=$?
       
@@ -44,6 +46,7 @@ if [[ "$SEED" == 'true' ]]; then
 fi
 
 if [[ "$UNIT_TEST" == 'true' ]] || [[ "$E2E_TEST" == 'true' ]]; then
+
     serve &
     sleep 10
 else
