@@ -17,7 +17,7 @@ class invalidgetprefs extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mondaTalaat',
             'password' => 'monda21'
@@ -26,7 +26,7 @@ class invalidgetprefs extends TestCase
         $token = "bla bla";
         $prefsResponse = $this->json(
             'POST',
-            '/api/prefs',
+            '/api/GetPreferences',
             [
             'token' => $token
             ]

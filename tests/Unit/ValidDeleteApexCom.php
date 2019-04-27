@@ -20,7 +20,7 @@ class ValidDeleteApexCom extends TestCase
         //login by an admin
          $loginResponse = $this->json(
              'POST',
-             '/api/sign_in',
+             '/api/SignIn',
              [
              'username' => 'king',
              'password' => 'queen12'
@@ -36,7 +36,7 @@ class ValidDeleteApexCom extends TestCase
          //to delete an apexcom
          $delResponse = $this->json(
              'DELETE',
-             '/api/del_apexCom',
+             '/api/DeleteApexcom',
              [
              'token' => $token,
              'Apex_ID' => $id
@@ -46,7 +46,7 @@ class ValidDeleteApexCom extends TestCase
          DB::table('apex_coms')->where('id', '=', $id)->delete();
          $logoutResponse = $this->json(
              'POST',
-             '/api/sign_out',
+             '/api/SignOut',
              [
              'token' => $token
              ]

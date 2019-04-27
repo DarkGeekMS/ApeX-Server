@@ -18,6 +18,7 @@ use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Message;
 use Illuminate\Http\Response;
+
 /**
  * @group Account
  *
@@ -127,21 +128,11 @@ class AccountController extends Controller
             return response()->json(['error' => 'Username already exists'], 400);
         }
 
-        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
-        $id = "t2_1";
-        if ($lastUser) {
-            $count = DB::table('users') ->where('created_at', $lastUser->created_at)->count();
-            $id = $lastUser->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t2_".($newIdx+$count);
-        }
+        $lastUser =User::withTrashed()->selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't2_'.(string)($lastUser +1);
 
         $requestData = $request->all();
         $requestData['id'] = $id;
-        /*removing password_confirmation from the request data as we don't need it
-        in the database
-        */
-        //unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password
@@ -426,8 +417,6 @@ class AccountController extends Controller
         //Returning the token with null value with 200 status code
         return response()->json(['token' => null], 200);
     }
-
-
 
 
     /**
@@ -913,6 +902,7 @@ class AccountController extends Controller
         $type=$user->type;
         $id=$user->id;
         $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
+        //to be edited
         $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
         $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')
         ->where('posts.posted_by', '=', $id)->select('content')->get();

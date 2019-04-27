@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use DB;
 
 class InvalidDelete extends TestCase
 {
@@ -17,24 +19,37 @@ class InvalidDelete extends TestCase
     //no post
     public function noPost()
     {
-        $loginResponse = $this->json(
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $admin['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't3_06'
             ]
         );
         $response->assertStatus(404);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+            'token' => $token
+            ]
+        );
+        DB::table('users')->where('id', $admin['id'])->delete();
     }
 
 
@@ -47,24 +62,37 @@ class InvalidDelete extends TestCase
     //no comment or reply
     public function noComment()
     {
-        $loginResponse = $this->json(
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $admin['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't1_01'
             ]
         );
         $response->assertStatus(404);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+            'token' => $token
+            ]
+        );
+        DB::table('users')->where('id', $admin['id'])->delete();
     }
 
     /**
@@ -78,7 +106,7 @@ class InvalidDelete extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'Anyone',
             'password' => '451447'
@@ -87,7 +115,7 @@ class InvalidDelete extends TestCase
         $token = $loginResponse->json('token');
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't3_5'
@@ -105,23 +133,35 @@ class InvalidDelete extends TestCase
     //not post owner , admin or moderator in the apexcom where the post in
     public function notAllowed()
     {
-        $loginResponse = $this->json(
+        $admin = factory(User::class)->create();
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $admin['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
-            '/api/delete',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => 't3_6'
             ]
         );
         $response->assertStatus(400);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+            'token' => $token
+            ]
+        );
+        DB::table('users')->where('id', $admin['id'])->delete();
     }
 }

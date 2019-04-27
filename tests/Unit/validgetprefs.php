@@ -17,7 +17,7 @@ class validgetprefs extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
             'username' => 'mondaTalaat',
             'password' => 'monda21'
@@ -26,7 +26,7 @@ class validgetprefs extends TestCase
         $token = $loginResponse->json('token');
         $prefsResponse = $this->json(
             'POST',
-            '/api/prefs',
+            '/api/GetPreferences',
             [
             'token' => $token
             ]
@@ -34,7 +34,7 @@ class validgetprefs extends TestCase
         $prefsResponse->assertStatus(200);
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
             'token' => $token
             ]

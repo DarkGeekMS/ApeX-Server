@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AccountController;
+use App\Models\User;
 
 /**
  * @group Adminstration
@@ -51,6 +52,9 @@ class AdministrationController extends Controller
      * @response  300{
      * "error" : "Unauthorized access"
      * }
+     * @response 200{
+     * "value": true
+     * }
      */
 
     public function deleteApexCom(Request $request)
@@ -88,6 +92,34 @@ class AdministrationController extends Controller
 
 
 
+
+
+    /**
+     * deleteUser
+     * Delete a user from the application by the admin or self-delete (Account deactivation).
+     * Success Cases :
+     * 1) return true to ensure that the user is deleted successfully.
+     * failure Cases:
+     * 1) user fullname (ID) is not found.
+     * 2) NoAccessRight the token is not the site admin or the same user token id.
+     *
+     * @bodyParam UserID string required The ID of the user to be deleted.
+     * @bodyParam token JWT required Used to verify the admin or the same user ID.
+     * @bodyParam passwordConfirmation string required Used to verify the user deactivating his account.
+     * @response  500{
+     * "error" : "User doesnot exist"
+     * }
+     * @response  501{
+     * "error" : "Wrong password entered"
+     * }
+     * @response  300{
+     * "error" : "UnAuthorized Deletion"
+     * }
+     * @response 200{
+     * "value": true
+     * }
+     */
+
     /**
       * deleteUser.
       * This Function used to delete a user by an admin or used for self-delete(Account deactivation).
@@ -114,28 +146,7 @@ class AdministrationController extends Controller
       * @return boolean deleted , if the user is deleted successfully.
       */
 
-    /**
-     * deleteUser
-     * Delete a user from the application by the admin or self-delete (Account deactivation).
-     * Success Cases :
-     * 1) return true to ensure that the user is deleted successfully.
-     * failure Cases:
-     * 1) user fullname (ID) is not found.
-     * 2) NoAccessRight the token is not the site admin or the same user token id.
-     *
-     * @bodyParam UserID string required The ID of the user to be deleted.
-     * @bodyParam token JWT required Used to verify the admin or the same user ID.
-     * @bodyParam passwordConfirmation string required Used to verify the user deactivating his account.
-     * @response  500{
-     * "error" : "User doesnot exist"
-     * }
-     * @response  501{
-     * "error" : "Wrong password entered"
-     * }
-     * @response  300{
-     * "error" : "UnAuthorized Deletion"
-     * }
-     */
+
 
     public function deleteUser(Request $request)
     {
@@ -169,13 +180,13 @@ class AdministrationController extends Controller
 
         //check if the logged in user is an admin
         if ($type==3) {
-                DB::table('users')->where('id', '=', $userid)->delete();
+                User::where('id', $userid)->delete();
         } else {
                  // if the user is not an admin check that the logged in user has the same given id
             if ($id==$userid) {
                     //check that the password confirmation matches the user password
                 if (Hash::check($password, $dbPassword)) {
-                        DB::table('users')->where('id', '=', $userid)->delete();
+                    User::where('id', $userid)->delete();
                 } else {  //if password confirmation doesnot match return Wrong password entered
                         return response()->json(['error' => 'Wrong password entered'], 501);
                 }
@@ -186,6 +197,36 @@ class AdministrationController extends Controller
         //if the user is deleted successfully return true
         return response()->json(['value'=>true], 200);
     }
+
+
+
+
+    /**
+     * addModerator
+     * Adding (or Deleting) a moderator to ApexCom.
+     * Success Cases :
+     * 1) return true to ensure that the moderator is added successfully.
+     * failure Cases:
+     * 1) user fullname (ID) is not found.
+     * 2) apex com is not found.
+     * 3) NoAccessRight the token is not the site admin token id.
+     *
+     * @bodyParam ApexComID string required The ID of the ApexCom.
+     * @bodyParam token JWT required Used to verify the Admin ID.
+     * @bodyParam UserID string required The user ID to be added as a moderator.
+     * @response  500{
+     * "error" : "Unauthorized access"
+     * }
+     * @response  403{
+     * "error" : "User doesnot exist"
+     * }
+     * @response  404{
+     * "error" : "ApexCom doesnot exist"
+     * }
+     * @response 200{
+     * "value": true
+     * }
+     */
 
 
     /**
@@ -213,29 +254,7 @@ class AdministrationController extends Controller
       * @return boolean moderate , if the user moderation is added or deleted successfully.
       */
 
-    /**
-     * addModerator
-     * Adding (or Deleting) a moderator to ApexCom.
-     * Success Cases :
-     * 1) return true to ensure that the moderator is added successfully.
-     * failure Cases:
-     * 1) user fullname (ID) is not found.
-     * 2) apex com is not found.
-     * 3) NoAccessRight the token is not the site admin token id.
-     *
-     * @bodyParam ApexComID string required The ID of the ApexCom.
-     * @bodyParam token JWT required Used to verify the Admin ID.
-     * @bodyParam UserID string required The user ID to be added as a moderator.
-     * @response  500{
-     * "error" : "Unauthorized access"
-     * }
-     * @response  403{
-     * "error" : "User doesnot exist"
-     * }
-     * @response  404{
-     * "error" : "ApexCom doesnot exist"
-     * }
-     */
+
 
     public function addModerator(Request $request)
     {

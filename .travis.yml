@@ -41,4 +41,4 @@ before_deploy:
 deploy:
   skip_cleanup: true
   provider: script
-  script: bash -e BRANCH=master scripts/deploy.sh "./scripts/deploy-key.json"
+  script: env BRANCH=master ./scripts/deploy.sh "./scripts/deploy-key.json"

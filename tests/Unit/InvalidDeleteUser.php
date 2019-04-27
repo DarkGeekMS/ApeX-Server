@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class InvalidDeleteUser extends TestCase
 {
@@ -17,28 +18,25 @@ class InvalidDeleteUser extends TestCase
    */
     public function noUser()
     {
-        $SignupResponse = $this->json(
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignIn',
             [
-              'email' => 'sebak@gmail.com',
-              'password' => '123456',
-              'username' => 'sebak',
+            'username' => $admin['username'],
+            'password' => 'monda21'
             ]
         );
-        $loginResponse = $this->json(
-            'POST',
-            '/api/sign_in',
-            [
-              'username' => 'sebak',
-              'password' => '123456'
-            ]
-        );
-        $token = $loginResponse->json("token");
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
               'token' => $token,
               'UserID' => 't3_1000',               //wrong UserID
@@ -48,11 +46,13 @@ class InvalidDeleteUser extends TestCase
         $delResponse->assertStatus(500)->assertSee("User doesnot exist");
         $logoutResponse = $this->json(
             'POST',
-            '/api/sign_out',
+            '/api/SignOut',
             [
               'token' => $token
             ]
         );
+        User::where('id', $admin['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
    /**
    * User deletes another user
@@ -62,55 +62,45 @@ class InvalidDeleteUser extends TestCase
    */
     public function unauthorizedDeletion()
     {
-  //user that tries to perfom the deletion
-        $loginResponse = $this->json(
+        //user that tries to perfom the deletion
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 1]);
+        $signIn = $this->json(
             'POST',
-            '/api/sign_in',
+            '/api/SignIn',
             [
-              'username' => 'sebak',
-              'password' => '123456'
+              'username' => $admin['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json("token");
-      //user to be deleted
-        $userSignupResponse = $this->json(
-            'POST',
-            '/api/sign_up',
-            [
-              'email' => 'mahmoud@gmail.com',
-              'password' => '22011998',
-              'username' => 'mahmoud',
-            ]
-        );
-        $userLoginResponse = $this->json(
-            'POST',
-            '/api/sign_in',
-            [
-            'username' => 'mahmoud',
-            'password' => '22011998'
-            ]
-        );
-        $userToken = $userLoginResponse->json()["token"];
-        $meResponse = $this->json(
-            'POST',
-            '/api/me',
-            [
-              'token' => $userToken
-            ]
-        );
-        $id = $meResponse->getData()->user->id;
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
+        $user = factory(User::class)->create();
+
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
               'token' => $token,
-              'UserID' => $id,
+              'UserID' => $user['id'],
               'passwordConfirmation'=>'123456'
             ]
         );
         $delResponse->assertStatus(300)->assertSee("UnAuthorized Deletion");
-        DB::table('users')->where('username', '=', 'sebak')->delete();
-        DB::table('users')->where('id', '=', $id)->delete();
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+              'token' => $token
+            ]
+        );
+
+        User::where('id', $user['id'])->orwhere('id', $admin['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
   /**
    * User enters a wrong password
@@ -122,42 +112,38 @@ class InvalidDeleteUser extends TestCase
     {
 
       //user to be deletes his account
-        $userSignupResponse = $this->json(
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
+            '/api/SignIn',
             [
-            'email' => 'mahmoud@gmail.com',
-            'password' => '22011998',
-            'username' => 'mahmoud',
+            'username' => $user['username'],
+            'password' => 'monda21'
             ]
         );
-        $userLoginResponse = $this->json(
-            'POST',
-            '/api/sign_in',
-            [
-            'username' => 'mahmoud',
-            'password' => '22011998'
-            ]
-        );
-        $userToken = $userLoginResponse->json()["token"];
-        $meResponse = $this->json(
-            'POST',
-            '/api/me',
-            [
-            'token' => $userToken
-            ]
-        );
-        $id = $meResponse->getData()->user->id;
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $delResponse = $this->json(
             'DELETE',
-            '/api/del_user',
+            '/api/DeleteUser',
             [
-            'token' => $userToken,
-            'UserID' => $id,
+            'token' => $token,
+            'UserID' => $user['id'],
             'passwordConfirmation'=>'123456'
             ]
         );
         $delResponse->assertStatus(501)->assertSee("Wrong password entered");
-        DB::table('users')->where('id', '=', $id)->delete();
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+              'token' => $token
+            ]
+        );
+        User::where('id', $user['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

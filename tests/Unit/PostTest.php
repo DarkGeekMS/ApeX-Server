@@ -30,34 +30,29 @@ class PostTest extends TestCase
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
             ]
         );
         // a token error will apear.
-        $response->assertStatus(400)->assertSee('Not authorized');
+        $user = factory(User::class)->create();
 
-        //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        //check that the user is added to database
-        $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('username'));
+        $signIn->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $token = $signIn->json('token');
         // hit the route with an invalid id of an apexcom to submit a post in it
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
                 'token' => $token,
                 'ApexCom_id' => '12354'
@@ -67,10 +62,10 @@ class PostTest extends TestCase
         $response->assertStatus(404)->assertSee('ApexCom is not found.');
 
         // delete user added to database
-        User::where('id', $id)->delete();
+        User::where('id', $user['id'])->forceDelete();
 
         //check that the user deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
     /**
      * User Blocked from apexcom.
@@ -82,30 +77,30 @@ class PostTest extends TestCase
     public function userBlockedFromApexcom()
     {
         //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        //check that the user is added to database
-        $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('username'));
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         // get any apexcom and block the signed in user from
         $apex_id = ApexCom::all()->first()->id;
         ApexBlock::create(
             [
-                'blockedID' => $id,
+                'blockedID' => $user['id'],
                 'ApexID' => $apex_id
             ]
         );
-        $blockedID = $id;
+        $blockedID = $user['id'];
         $ApexID = $apex_id;
         //check that the blocked user from apexcom is added to database
         $this->assertDatabaseHas('apex_blocks', compact('blockedID', 'ApexID'));
@@ -113,9 +108,9 @@ class PostTest extends TestCase
         // hit the route with the blocked user
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
-                'token' => $signUp->json('token'),
+                'token' => $token,
                 'ApexCom_id' => $apex_id
             ]
         );
@@ -125,14 +120,14 @@ class PostTest extends TestCase
 
         // delete user added to database and blocked from apexblock table
 
-        ApexBlock::where('blockedID', $id)->delete();
-        User::where('id', $id)->delete();
+        ApexBlock::where('blockedID', $user['id'])->delete();
+        User::where('id', $user['id'])->forceDelete();
 
         //check that the blocked user from apexcom is deleted from database
         $this->assertDatabaseMissing('apex_blocks', compact('blockedID', 'ApexID'));
 
         // check that the user added in test function is deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
     /**
      * An user is posting in an apexcom with invalid or insufficient data of post.
@@ -144,24 +139,24 @@ class PostTest extends TestCase
     public function invalidData()
     {
         //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        //check that the user is added to database
-        $this->assertDatabaseHas('users', compact('username'));
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         // get the first apexcom and post in it with the signed in user with the synthesized parameters.
         $apex_id = ApexCom::all()->first()->id;
-        $posted_by = $signUp->json('user')['id'];
-        $token = $signUp->json('token');
+        $posted_by = $user['id'];
         $body = "body";
         $title = "title";
         $img_name = "image.png";
@@ -170,9 +165,9 @@ class PostTest extends TestCase
         // hit the route with non complete information several times it shouldn't create a post
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
-                'token' => $signUp->json('token'),
+                'token' => $token,
                 'ApexCom_id' => $apex_id,
                 'body' => $body
             ]
@@ -187,9 +182,9 @@ class PostTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
-                'token' => $signUp->json('token'),
+                'token' => $token,
                 'ApexCom_id' => $apex_id,
                 'title' => $title
             ]
@@ -203,9 +198,9 @@ class PostTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
-                'token' => $signUp->json('token'),
+                'token' => $token,
                 'ApexCom_id' => $apex_id,
                 'title' => $title,
                 'img_name' => $img_name
@@ -220,9 +215,9 @@ class PostTest extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
-                'token' => $signUp->json('token'),
+                'token' => $token,
                 'ApexCom_id' => $apex_id,
                 'title' => $title,
                 'video_url' => $video_url
@@ -237,10 +232,10 @@ class PostTest extends TestCase
 
         // delete user added to database
 
-        User::where('username', $username)->delete();
+        User::where('id', $user['id'])->forceDelete();
 
         // check that the user added in test function is deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
     /**
      * User posts a valid post in an apexcom.
@@ -252,33 +247,33 @@ class PostTest extends TestCase
     public function userSucceeds()
     {
         //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        //check that the user is added to database
-        $this->assertDatabaseHas('users', compact('username'));
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         // get the first apexcom and post in it with the signed in user with the synthesized parameters.
         $apex_id = ApexCom::all()->first()->id;
-        $posted_by = $signUp->json('user')['id'];
+        $posted_by = $user['id'];
         $body = "body";
         $title = "title";
-        $token = $signUp->json('token');
 
         // hit the endpoint with valid parameters
         $response = $this->json(
             'POST',
-            '/api/submit_post',
+            '/api/SubmitPost',
             [
-                'token' => $signUp->json('token'),
+                'token' => $token,
                 'ApexCom_id' => $apex_id,
                 'title' => $title,
                 'body' => $body
@@ -292,11 +287,10 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('posts', compact('apex_id', 'posted_by'));
 
         // delete user and post added to database
-        User::where('username', $username)->delete();
         Post::where([['posted_by', $posted_by], ['apex_id', $apex_id]])->delete();
-
+        User::where('id', $user['id'])->forceDelete();
         //check that the added user and post are deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
         $this->assertDatabaseMissing('posts', compact('apex_id', 'posted_by'));
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

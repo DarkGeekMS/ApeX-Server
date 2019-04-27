@@ -19,19 +19,20 @@ class userData extends TestCase
      */
     private function _createUser()
     {
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUpResponse = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/sign_up',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $user = $signUpResponse->json('user');
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         return [$user, $token];
     }
@@ -59,14 +60,14 @@ class userData extends TestCase
         foreach ($methods as $method => $data) {
             $response = $this->json(
                 $method,
-                '/api/user_data',
+                '/api/UserData',
                 $data
             );
 
             $response->assertStatus(200)->assertSee('userData')->assertSee('posts');
         }
 
-        User::destroy($user['id']);
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -90,14 +91,14 @@ class userData extends TestCase
         foreach ($methods as $method => $data) {
             $response = $this->json(
                 $method,
-                '/api/user_data',
+                '/api/UserData',
                 $data
             );
 
             $response->assertStatus(404)->assertSee('User is not found');
         }
 
-        User::destroy($user['id']);
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -119,14 +120,14 @@ class userData extends TestCase
         foreach ($methods as $method => $data) {
             $response = $this->json(
                 $method,
-                '/api/user_data',
+                '/api/UserData',
                 $data
             );
 
             $response->assertStatus(400)->assertSee('username');
         }
 
-        User::destroy($user['id']);
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -149,7 +150,7 @@ class userData extends TestCase
 
         $response = $this->json(
             'POST',
-            '/api/user_data',
+            '/api/UserData',
             compact('token', 'username')
         );
 
@@ -158,6 +159,6 @@ class userData extends TestCase
 
         //delete the block relation and the created user
         Block::where(['blockerID' => $user1['id'], 'blockedID' => $user2['id']])->delete();
-        User::destroy($user1['id']);
+        User::where('id', $user1['id'])->forceDelete();
     }
 }
