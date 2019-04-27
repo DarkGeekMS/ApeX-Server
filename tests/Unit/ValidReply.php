@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Comment;
 use App\Models\Message;
-use DB;
+use App\Models\User;
 
 class ValidReply extends TestCase
 {
@@ -30,18 +30,20 @@ class ValidReply extends TestCase
         $lastcom =Comment::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
         $id = 't1_'.(string)($lastcom +1);
 
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         $response = $this->json(
             'POST',
@@ -54,6 +56,7 @@ class ValidReply extends TestCase
         );
         $response->assertStatus(200);
         $this->assertDatabaseHas('comments', ['id' => $id]);
+
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -61,6 +64,8 @@ class ValidReply extends TestCase
             'token' => $token
             ]
         );
+        Comment::where('id', $id)->delete();
+        User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -78,18 +83,20 @@ class ValidReply extends TestCase
         $lastcom =Comment::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
         $id = 't1_'.(string)($lastcom +1);
 
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
           $response = $this->json(
               'POST',
@@ -102,6 +109,7 @@ class ValidReply extends TestCase
           );
             $response->assertStatus(200);
             $this->assertDatabaseHas('comments', ['id' => $id]);
+
             $logoutResponse = $this->json(
                 'POST',
                 '/api/SignOut',
@@ -109,6 +117,8 @@ class ValidReply extends TestCase
                 'token' => $token
                 ]
             );
+            Comment::where('id', $id)->delete();
+            User::where('id', $user['id'])->forceDelete();
     }
 
     /**
@@ -125,18 +135,20 @@ class ValidReply extends TestCase
         $lastcom =Message::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
         $id = 't4_'.(string)($lastcom +1);
 
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         $response = $this->json(
             'POST',
@@ -156,6 +168,10 @@ class ValidReply extends TestCase
             'token' => $token
             ]
         );
-        DB::table('users')->where('email', $email)->delete();
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

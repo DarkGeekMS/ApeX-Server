@@ -31,7 +31,7 @@ class validupdateprefs extends TestCase
         $newnot = 0;
         $updateprefs = $this->json(
             'POST',
-            '/api/updateprefs',
+            '/api/UpdatePreferences',
             [
             'username' => $username,
             'fullname' => $newname,

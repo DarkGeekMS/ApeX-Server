@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use \App\Models\User;
 use App\Models\Block;
+use DB;
 
 class blockUser extends TestCase
 {
@@ -23,19 +24,21 @@ class blockUser extends TestCase
     public function validBlock()
     {
         //make a new user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $blockerID = $signUpResponse->json('user')['id'];
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
+        $blockerID = $user['id'];
 
         //make the blocked user
         $blockedID = factory(User::class)->create()->id;
@@ -65,7 +68,7 @@ class blockUser extends TestCase
 
         $this->assertDatabaseMissing('blocks', compact('blockerID', 'blockedID'));
         //delete the created users
-        User::where('id', $blockerID)->orWhere('id', $blockedID)->delete();
+        DB::table('users')->where('id', $blockerID)->orWhere('id', $blockedID)->delete();
     }
 
     /**
@@ -88,7 +91,7 @@ class blockUser extends TestCase
 
         $response->assertStatus(400)->assertSee('Not authorized');
 
-        User::where('id', $blockedID)->delete();
+        DB::table('users')->where('id', $blockedID)->delete();
     }
 
     /**
@@ -101,19 +104,20 @@ class blockUser extends TestCase
     public function noBlockedID()
     {
         //make a new user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $blockerID = $signUpResponse->json('user')['id'];
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+        $blockerID = $user['id'];
 
 
         $response = $this->json(
@@ -125,7 +129,7 @@ class blockUser extends TestCase
         $response->assertStatus(400)->assertSee('blockedID');
 
         //delete the created users
-        User::where('id', $blockerID)->delete();
+        DB::table('users')->where('id', $blockerID)->delete();
     }
 
     /**
@@ -137,20 +141,21 @@ class blockUser extends TestCase
      */
     public function invalidBlockedID()
     {
-        //make a new user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+      //make a new user, sign him up and get the token
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $blockerID = $signUpResponse->json('user')['id'];
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+        $blockerID = $user['id'];
 
         $blockedID = '-1';
 
@@ -163,7 +168,7 @@ class blockUser extends TestCase
         $response->assertStatus(404);
 
         //delete the created users
-        User::where('id', $blockerID)->delete();
+        DB::table('users')->where('id', $blockerID)->delete();
     }
 
     /**
@@ -176,19 +181,20 @@ class blockUser extends TestCase
     public function selfBlock()
     {
         //make a new user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+          $user = factory(User::class)->create();
+          $signIn = $this->json(
+              'POST',
+              '/api/SignIn',
+              [
+              'username' => $user['username'],
+              'password' => 'monda21'
+              ]
+          );
 
-        $signUpResponse = $this->json(
-            'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
-        );
-        $signUpResponse->assertStatus(200);
+          $signIn->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $blockedID = $signUpResponse->json('user')['id'];
+          $token = $signIn->json('token');
+        $blockedID = $user['id'];
 
 
         $response = $this->json(
@@ -199,6 +205,6 @@ class blockUser extends TestCase
 
         $response->assertStatus(400)->assertSee("The user can't block himself");
 
-        User::where('id', $blockedID)->delete();
+        DB::table('users')->where('id', $blockedID)->delete();
     }
 }

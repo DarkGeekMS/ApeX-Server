@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\Block;
 use Illuminate\Support\Collection;
+use DB;
 
 class Compose extends TestCase
 {
@@ -21,20 +22,21 @@ class Compose extends TestCase
      */
     private function _createParams()
     {
-        //create sender user
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+      //make a new user, sign him up and get the token
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $sender = $signUpResponse->json('user')['id'];
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+        $sender = $user['id'];
 
         $receiver = factory(User::class)->create()->id;
 
@@ -68,8 +70,7 @@ class Compose extends TestCase
         //remove the composed message
         Message::where('id', $response->json('id'))->delete();
         //remove the created users
-        User::where('id', $params['sender'])
-            ->orWhere('id', $params['receiver'])->delete();
+        DB::table('users')->where('id', $params['receiver'])->orWhere('id', $params['sender'])->delete();
     }
 
     /**
@@ -95,7 +96,7 @@ class Compose extends TestCase
         $response->assertStatus(404)->assertSee('Receiver id is not found');
 
         //remove the created user
-        User::where('id', $params['sender'])->delete();
+        DB::table('users')->Where('id', $params['sender'])->delete();
     }
 
     /**
@@ -129,8 +130,7 @@ class Compose extends TestCase
         )->delete();
 
         //remove the created users
-        User::where('id', $params['receiver'])
-            ->orWhere('id', $params['sender'])->delete();
+        DB::table('users')->where('id', $params['receiver'])->orWhere('id', $params['sender'])->delete();
     }
 
 
@@ -157,8 +157,7 @@ class Compose extends TestCase
         }
 
         //remove the created users
-        User::where('id', $params['receiver'])
-            ->orWhere('id', $params['sender'])->delete();
+        DB::table('users')->where('id', $params['receiver'])->orWhere('id', $params['sender'])->delete();
     }
 
     /**
@@ -183,7 +182,6 @@ class Compose extends TestCase
             ->assertSee('Not authorized');
 
         //remove the created users
-        User::where('id', $params['receiver'])
-            ->orWhere('id', $params['sender'])->delete();
+        DB::table('users')->where('id', $params['receiver'])->orWhere('id', $params['sender'])->delete();
     }
 }

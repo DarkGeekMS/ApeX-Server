@@ -63,7 +63,7 @@ class SaveValid extends TestCase
     {
         $loginResponse = $this->json(
             'POST',
-            '/api/SignUp',
+            '/api/SignIn',
             [
             'username' => 'sebak',
             'password' => '123456'

@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class InvalidDeleteApexCom extends TestCase
 {
@@ -18,15 +19,20 @@ class InvalidDeleteApexCom extends TestCase
     public function noApexCom()
     {
     //login by an admin
-        $loginResponse = $this->json(
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-              'username' => 'king',
-              'password' => 'queen12'
+              'username' => $admin['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json("token");
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $delResponse = $this->json(
             'DELETE',
             '/api/DeleteApexcom',
@@ -43,6 +49,7 @@ class InvalidDeleteApexCom extends TestCase
               'token' => $token
             ]
         );
+        DB::table('users')->where('id', $admin['id'])->delete();
     }
  /**
    * User deletes an apexcom (not admin)
@@ -52,24 +59,19 @@ class InvalidDeleteApexCom extends TestCase
    */
     public function unautorizedDeletion()
     {
-        $SignupResponse = $this->json(
-            'POST',
-            '/api/SignUp',
-            [
-              'email' => 'sebak@gmail.com',
-              'password' => '123456',
-              'username' => 'sebak',
-            ]
-        );
-        $loginResponse = $this->json(
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 1]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-              'username' => 'sebak',
-              'password' => '123456'
+            'username' => $admin['username'],
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json("token");
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
      //creating a dummy apexcom
         $id='2';
         $name='m';
@@ -93,5 +95,6 @@ class InvalidDeleteApexCom extends TestCase
               'token' => $token
             ]
         );
+        DB::table('users')->where('id', $admin['id'])->delete();
     }
 }

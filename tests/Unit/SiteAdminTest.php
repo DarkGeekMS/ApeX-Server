@@ -34,25 +34,24 @@ class SiteAdminTest extends TestCase
         $response->assertStatus(400)->assertSee('Not authorized');
 
         //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $signIn->assertStatus(200);
 
-        //check that the user is added to database
-        $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('username'));
+        $token = $signIn->json('token');
 
         // hit the route with a normal user
-        $name = 'sports';
+        $name = 'mondas';
         $response = $this->json(
             'POST',
             '/api/SiteAdmin',
@@ -68,10 +67,10 @@ class SiteAdminTest extends TestCase
         $response->assertStatus(400)->assertSee('No Access Rights to create or edit an ApexCom');
 
         // delete user added to database
-        User::where('id', $id)->delete();
+        User::where('id', $user['id'])->forceDelete();
 
         //check that the user deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
 
         //check that there is no apexcom added to database
         $this->assertDatabaseMissing('apex_coms', compact('name'));
@@ -86,28 +85,26 @@ class SiteAdminTest extends TestCase
     public function invalidData()
     {
         //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        //check that the user is added to database
-        $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('username'));
+        $signIn->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $token = $signIn->json('token');
 
         //changing normal user to admin.
-        User::where('id', $id)->update(['type' => 3]);
+        User::where('id', $user['id'])->update(['type' => 3]);
 
         // hit the route with the admin with non complete information several times
-        $name = 'sports';
+        $name = 'mondas';
         $response = $this->json(
             'POST',
             '/api/SiteAdmin',
@@ -163,10 +160,10 @@ class SiteAdminTest extends TestCase
 
         // delete user added to database
 
-        User::where('id', $id)->delete();
+        User::where('id', $user['id'])->forceDelete();
 
-        // check that the user added in test function is deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
     /**
      * Admin succeeds to edit or create an apexcom.
@@ -178,25 +175,23 @@ class SiteAdminTest extends TestCase
     public function userSucceeds()
     {
         //fake a user, sign him up and get the token
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        //check that the user is added to database
-        $id = $signUp->json('user')['id'];
-        $this->assertDatabaseHas('users', compact('username'));
+        $signIn->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $token = $signIn->json('token');
         //changing normal user to admin.
 
-        User::where('id', $id)->update(['type' => 3]);
+        User::where('id', $user['id'])->update(['type' => 3]);
 
         // hit the route with the admin with complete information
         $name = 'kareemOsama';
@@ -237,11 +232,11 @@ class SiteAdminTest extends TestCase
         $this->assertDatabaseHas('apex_coms', compact('name', 'rules'));
 
         // delete user and apexcoms added to database
-        User::where('id', $id)->delete();
+        User::where('id', $user['id'])->forceDelete();
         apexCom::where('name', $name)->delete();
 
         //check that the added user and apexcom are deleted from database
-        $this->assertDatabaseMissing('users', compact('username'));
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
         $this->assertDatabaseMissing('apex_coms', compact('name'));
     }
 }

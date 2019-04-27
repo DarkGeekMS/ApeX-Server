@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use DB;
+use \App\Models\User;
+use App\Models\Block;
 
 class GetApexcoms extends TestCase
 {
@@ -18,18 +20,20 @@ class GetApexcoms extends TestCase
      */
     public function testExample()
     {
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
+        $user = factory(User::class)->create();
 
-        $signUp = $this->json(
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUp->assertStatus(200);
 
-        $token = $signUp->json('token');
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         $response = $this->json(
             'POST',
@@ -46,6 +50,10 @@ class GetApexcoms extends TestCase
               'token' => $token
             ]
         );
-        DB::table('users')->where('email', $email)->delete();
+        // delete user added to database
+        DB::table('users')->where('id', $user['id'])->delete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

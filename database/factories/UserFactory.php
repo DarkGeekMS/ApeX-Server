@@ -24,7 +24,7 @@ $factory->define(User::class, function (Faker $faker) {
         'fullname'=>$faker->name,
         'email' => $faker->unique()->safeEmail,
         'username'=>$faker->userName,
-        'password' => '$2y$10$Bn8ou70RVD03.XejoQ4fWeqn.JR6KOX3GO84Di/qvJnUKK190ATVG',
+        'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
         'avatar'=>'public\img\def.jpg',
         'karma'=>1,
         'notification'=>true,

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Message;
 use App\Models\User;
+use DB;
 
 class DeleteMsg extends TestCase
 {
@@ -19,19 +20,20 @@ class DeleteMsg extends TestCase
      */
     private function _createUser()
     {
-        $username = $this->faker->unique()->userName;
-        $email = $this->faker->unique()->safeEmail;
-        $password = $this->faker->password;
-
-        $signUpResponse = $this->json(
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
             'POST',
-            '/api/SignUp',
-            compact('email', 'username', 'password')
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
         );
-        $signUpResponse->assertStatus(200);
 
-        $token = $signUpResponse->json('token');
-        $userID = $signUpResponse->json('user')['id'];
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+        $userID = $user['id'];
 
         return [$userID, $token];
     }
@@ -92,7 +94,7 @@ class DeleteMsg extends TestCase
         $this->assertDatabaseMissing('messages', compact('id'));
 
         //delete the created users
-        User::destroy([$sender, $receiver]);
+        DB::table('users')->where('id', $sender)->orWhere('id', $receiver)->delete();
     }
 
     /**
@@ -112,6 +114,6 @@ class DeleteMsg extends TestCase
         $response->assertStatus(400)
             ->assertSee('The user is not the sender nor the receiver of the message');
 
-        User::destroy($user);
+        DB::table('users')->Where('id', $user)->delete();
     }
 }
