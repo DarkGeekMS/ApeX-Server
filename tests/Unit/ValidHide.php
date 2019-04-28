@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use App\Models\Post;
 
 class ValidHide extends TestCase
 {
@@ -17,16 +19,20 @@ class ValidHide extends TestCase
 
     public function hidePost()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
 
-        $token = $loginResponse->json('token');
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
 
         //to hide the post
         $response = $this->json(
@@ -34,51 +40,21 @@ class ValidHide extends TestCase
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_4'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
-
-/**
-     *
-     * @test
-     *
-     * @return void
-     */
-
-    public function unhidePost()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
-            ]
-        );
-
-        $token = $loginResponse->json('token');
-
-        //to unhide the post
+        $this->assertDatabaseHas('hiddens', ['postID' => $post['id'] , 'userID' => $user['id']]);
         $response = $this->json(
             'POST',
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_4'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('hiddens', ['postID' => 't3_4' , 'userID' => 't2_1']);
+        $this->assertDatabaseMissing('hiddens', ['postID' => $post['id'] , 'userID' => $user['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -86,5 +62,12 @@ class ValidHide extends TestCase
             'token' => $token
             ]
         );
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

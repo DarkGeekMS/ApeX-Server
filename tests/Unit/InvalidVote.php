@@ -111,6 +111,7 @@ class InvalidVote extends TestCase
     public function invalidUser()
     {
         $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -127,7 +128,7 @@ class InvalidVote extends TestCase
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't1_4',
+            'name' => $post['id'],
             'dir' => 1
             ]
         );
@@ -139,6 +140,9 @@ class InvalidVote extends TestCase
             'token' => $token
             ]
         );
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -156,6 +160,7 @@ class InvalidVote extends TestCase
     public function invalidDir()
     {
         $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -172,7 +177,7 @@ class InvalidVote extends TestCase
             '/api/Vote',
             [
             'token' => $token,
-            'name' => 't1_4',
+            'name' => $post['id'],
             'dir' => 2
             ]
         );
@@ -184,6 +189,8 @@ class InvalidVote extends TestCase
             'token' => $token
             ]
         );
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 

@@ -42,7 +42,7 @@ class ValidReply extends TestCase
         $signIn->assertStatus(200);
 
         $token = $signIn->json('token');
-        
+
         $this->assertDatabaseHas('posts', ['id' => $post['id']]);
 
         $response = $this->json(
@@ -173,7 +173,7 @@ class ValidReply extends TestCase
             '/api/AddReply',
             [
             'token' => $token,
-            'parent' => 't4_1',
+            'parent' => $msg['id'],
             'content' => ' reply to message '
             ]
         );

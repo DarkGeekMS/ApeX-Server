@@ -117,7 +117,7 @@ class CommentandLinksController extends Controller
 
             $commentOwner = User::find($comment['commented_by']);
 
-            if ($commentOwner['deleted_at']) {
+            if (!$commentOwner) {
                 return response()->json(['error' => 'you can not add any reply on this comment'], 400);
             }
 
@@ -128,7 +128,7 @@ class CommentandLinksController extends Controller
 
             $postOwner = User::find($post['posted_by']);
 
-            if ($postOwner['deleted_at']) {
+            if (!$postOwner) {
                 return response()->json(['error' => 'you can not add any reply on this comment'], 400);
             }
 
@@ -155,7 +155,7 @@ class CommentandLinksController extends Controller
 
             $postOwner = User::find($post['posted_by']);
 
-            if ($postOwner['deleted_at']) {
+            if (!$postOwner) {
                 return response()->json(['error' => 'you can not comment on this post'], 400);
             }
 
@@ -195,6 +195,7 @@ class CommentandLinksController extends Controller
             $id = 't4_'.(string)($lastcom +1);
             //insert the new message record in the message table
             Message::create([
+              'parent' => $parent,
               'sender'=> $user['id'],
               'receiver' =>$userF,
               'id' =>$id,

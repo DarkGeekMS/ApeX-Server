@@ -298,4 +298,63 @@ class InvalidReply extends TestCase
          //check that the user deleted from database
          $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
+
+    /**
+      *
+      * @test
+      *
+      * @return void
+      */
+      public function DeletedUser()
+      {
+          $user = factory(User::class)->create();
+          $user2 = factory(User::class)->create();
+          $post = factory(Post::class)->create();
+          Post::where('id', $post['id'])->update(['posted_by' => $user2['id']]);
+          User::where('id', $user2['id'])->delete();
+
+          $signIn = $this->json(
+              'POST',
+              '/api/SignIn',
+              [
+              'username' => $user['username'],
+              'password' => 'monda21'
+              ]
+          );
+
+          $signIn->assertStatus(200);
+
+          $token = $signIn->json('token');
+
+           $response = $this->json(
+               'POST',
+               '/api/AddReply',
+               [
+               'token' => $token,
+               'parent' => $post['id'],
+               'content' => ' reply to deleted post '
+               ]
+           );
+
+           $response->assertStatus(400);
+           $logoutResponse = $this->json(
+               'POST',
+               '/api/SignOut',
+               [
+               'token' => $token
+               ]
+           );
+
+           Post::where('id', $post['id'])->delete();
+           $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+           User::where('id', $user2['id'])->forceDelete();
+
+           //check that the user deleted from database
+           $this->assertDatabaseMissing('users', ['id' => $user2['id']]);
+           // delete user added to database
+           User::where('id', $user['id'])->forceDelete();
+
+           //check that the user deleted from database
+           $this->assertDatabaseMissing('users', ['id' => $user['id']]);
+      }
 }
