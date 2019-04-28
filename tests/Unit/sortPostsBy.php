@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\ApexCom;
 use App\Models\Block;
 use App\Models\Post;
+use App\Models\Subscriber;
+use App\Models\User;
 
 class sortPostsBy extends TestCase
 {
@@ -127,6 +129,67 @@ class sortPostsBy extends TestCase
                 $this->_checkPosts(null, $posts, $sortedColumn)
             );
         }
+    }
+
+    /**
+     * Test sortPosts when subscribedApexCom is true
+     * 
+     * @test
+     * 
+     * @return void
+     */
+    public function subscribedApexCom()
+    {
+        //get a user from `subscribed` table
+        $user = Subscriber::inRandomOrder()->firstOrFail()->user()->first();
+        $loginResponse = $this->json(
+            'POST',
+            '/api/SignIn',
+            ['username' => $user->username, 'password' => 'monda21']
+        )->assertStatus(200);
+        $token = $loginResponse->json('token');
+        $userID = $user->id;
+
+        $subscribedApexCom = true;
+        $response = $this->json(
+            'POST', '/api/SortPosts', compact('token', 'subscribedApexCom')
+        )->assertStatus(200);
+        
+        //check that the posts are from apexCom that the user is subscribed in
+        $posts = $response->json('posts');
+        foreach ($posts as $post) {
+            $apexID = $post['apex_id'];
+            $this->assertDatabaseHas('subscribers', compact('userID', 'apexID'));
+        }
+    }
+
+    /**
+     * Test sortPosts when subscribedApexCom is true and 
+     * there is no apexComs that the user is Subscribed in
+     * 
+     * @test
+     * 
+     * @return void
+     */
+    public function noSubscribedApexCom()
+    {
+        //create a new user and get his token 
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            ['username' => $user['username'], 'password' => 'monda21']
+        )->assertStatus(200);
+
+        $token = $signIn->json('token');
+
+        $subscribedApexCom = true;
+        $response = $this->json(
+            'POST', '/api/SortPosts', compact('token', 'subscribedApexCom')
+        )->assertStatus(400)->assertSee('The user is not subscribed in any ApexCom');
+
+        //delete the created user
+        $user->forceDelete();
     }
 
     /**
