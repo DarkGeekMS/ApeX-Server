@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Message;
 use App\Models\User;
-use DB;
 
 class DeleteMsg extends TestCase
 {
@@ -24,10 +23,7 @@ class DeleteMsg extends TestCase
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
-            [
-              'username' => $user['username'],
-              'password' => 'monda21'
-            ]
+            ['username' => $user['username'], 'password' => 'monda21']
         );
 
         $signIn->assertStatus(200);
@@ -94,7 +90,7 @@ class DeleteMsg extends TestCase
         $this->assertDatabaseMissing('messages', compact('id'));
 
         //delete the created users
-        DB::table('users')->where('id', $sender)->orWhere('id', $receiver)->delete();
+        User::where('id', $sender)->orWhere('id', $receiver)->forceDelete();
     }
 
     /**
@@ -114,6 +110,6 @@ class DeleteMsg extends TestCase
         $response->assertStatus(400)
             ->assertSee('The user is not the sender nor the receiver of the message');
 
-        DB::table('users')->Where('id', $user)->delete();
+        User::where('id', $user)->forceDelete();
     }
 }

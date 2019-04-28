@@ -7,6 +7,8 @@ use PHPUnit\Framework\Assert;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use App\Models\Message;
+use App\Models\User;
 
 class Inbox extends TestCase
 {
@@ -20,13 +22,15 @@ class Inbox extends TestCase
      */
     public function validInbox()
     {
+        //get a message sender
+        $user = Message::inRandomOrder()->firstOrFail()->sender()->first();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
-            ['username' => 'mondaTalaat', 'password' => 'monda21']
-        );
+            ['username' => $user->username, 'password' => 'monda21']
+        )->assertStatus(200);
         $token = $loginResponse->json('token');
-        $userID = 't2_1';
+        $userID = $user->id;
 
         $response = $this->json('POST', 'api/InboxMessages', compact('token'));
         $structure = ["sent" , "received" => ["read", "unread", "all"]];
@@ -80,11 +84,12 @@ class Inbox extends TestCase
      */
     public function invalidMax()
     {
+        $user = User::firstOrFail();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
-            ['username' => 'mondaTalaat', 'password' => 'monda21']
-        );
+            ['username' => $user->username, 'password' => 'monda21']
+        )->assertStatus(200);
         $token = $loginResponse->json('token');
         $max = "bla";
         $response = $this->json(

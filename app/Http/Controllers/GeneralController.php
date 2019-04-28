@@ -17,10 +17,23 @@ use App\Models\Block;
 use App\Models\Vote;
 use App\Models\ReportPost;
 use App\Models\Hidden;
+use Illuminate\Http\Response;
 
 class GeneralController extends Controller
 {
 
+    /**
+     * Search for ApexComs, Users and posts that matches the given query.
+     * Validate the input by checking that the query is string and 
+     * at least 3 characters.
+     * Get the ApexComs that have name or description that matche the query.
+     * Get the Users that have fullname or username thath matche the query.
+     * Get the Posts that have title or content that match the query.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * Guest Search
      * Returns a json contains posts, apexComs and users that match the given query.
@@ -74,7 +87,8 @@ class GeneralController extends Controller
      * and posts from apexComs that the current user is blocked from
      * and remove blocked users and apexComs from the result
      * it also adds the current user votes on the posts
-     * and if he had saved the post previously,
+     * and if he had saved the post previously, if the bool `subscribed` is true,
+     * limit the posts to be from only apexComs that the user is subscribed in
      * it also adds the current user subscription of the apexComs
      *
      * @param Collection $result the collection that contains posts
@@ -82,7 +96,7 @@ class GeneralController extends Controller
      *
      * @return Response
      */
-    public function filterResult(Collection $result, $token)
+    public function filterResult(Collection $result, $token, bool $subscribed = false)
     {
         $account = new AccountController();
         $meResponse = $account->me(new Request(compact('token')));
@@ -106,6 +120,12 @@ class GeneralController extends Controller
             $result['posts'] = $result['posts']
                 ->whereNotIn('id', $postsList)->flatten();
 
+            //create a list of apexComs that the current user is blocked from
+            $apexList = ApexBlock::where('blockedID', $userID)->pluck('ApexID');
+            //remove them from the result
+            $result['posts'] = $result['posts']
+                ->whereNotIn('apex_id', $apexList)->flatten();
+                
             //add the current user vote on the posts and if he had saved it
             $result['posts']->each(
                 function ($post) use ($userID) {
@@ -113,6 +133,15 @@ class GeneralController extends Controller
                     $post['current_user_saved_post'] = $post->isSavedBy($userID);
                 }
             );
+
+            //check if the posts should be from the apexComs that the user is
+            //subscribed in and filter the result according to that
+            if ($subscribed) {
+                $subscribedList = Subscriber::where(compact('userID'))
+                    ->pluck('apexID');
+                $result['posts'] = $result['posts']
+                    ->whereIn('apex_id', $subscribedList)->flatten();
+            }
 
             //remove blocked users from the result
             if ($result->has('users')) {
@@ -122,10 +151,6 @@ class GeneralController extends Controller
 
 
             if ($result->has('apexComs')) {
-                //create a list of apexComs that the current user is blocked from
-                $apexList = ApexBlock::where('blockedID', $userID)->pluck('ApexID');
-                $result['posts'] = $result['posts']
-                    ->whereNotIn('apex_id', $apexList)->flatten();
 
                 $result['apexComs'] = $result['apexComs']
                     ->whereNotIn('id', $apexList)->flatten();
@@ -144,6 +169,14 @@ class GeneralController extends Controller
         }
     }
 
+    /**
+     * Get the result from `guestSearch` request, then filter the result
+     * using `filterResult` function.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * User Search
      * Just like [Guest Search](#guest-search) except that
@@ -184,7 +217,20 @@ class GeneralController extends Controller
         return $this->filterResult(collect($result), $request['token']);
     }
 
-
+    /**
+     * Get the posts sorted by date, votes or comments.
+     * Validate the input by checking that the given apexComID exists,
+     * and the sortingParam is one of [`votes`, `date`, `comments`], if it's not,
+     * it uses `date` as a default value.
+     * If the apexComID is not found it return an error,
+     * else it uses that id to get the posts in that apexCom if there is no
+     * `subscribedApexCom` parameter in the request (not called from userSortPosts),
+     * then it return the posts sorted by the given sortingParam.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * Guest Sort Posts
      * Returns a list of posts in a given ApexCom
@@ -221,7 +267,7 @@ class GeneralController extends Controller
         );
 
         if ($validator->fails()) {
-            return  response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $sortingParam = $request->input('sortingParam', 'date');
@@ -231,7 +277,7 @@ class GeneralController extends Controller
         $apexComID = $request->input('apexComID', null);
         $posts = Post::query();
 
-        if ($apexComID !== null) {
+        if ((!$request->has('subscribedApexCom') || $request['subscribedApexCom'] == false) && $apexComID !== null) {
             if (ApexCom::where('id', $apexComID)->exists()) {
                 $posts = $posts->where('apex_id', $apexComID);
             } else {
@@ -254,12 +300,24 @@ class GeneralController extends Controller
     }
 
     /**
+     * Get the result from `guestSortPostsBy`,
+     * check that there are ApexComs that the user is subscribed in,
+     * or return an error message,
+     * then return the filtered results using `filterResult` function.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
+    /**
      * User Sort Posts
      * Just like [Guest Sort Posts](#guest-sort-posts), except that
      * it does't return the posts between blocked users
      * and posts that are hidden or reported by the current user
      * and posts from apexComs that the current user is blocked from,
      * it also adds to every post the current user vote and if he had saved the post.
+     * If the boolean `subscribedApexComs` is true, then it ignores the `apexComID`
+     * and return only posts in the apexComs that the user is subscribed in.
      * Use this request only if the user is logged in and authorized.
      *
      * ###Success Cases :
@@ -267,29 +325,53 @@ class GeneralController extends Controller
      *
      * ###Failure Cases:
      * 1. ApexCom is not found (status code 404).
-     * 2. The `token` is invalid, return a message about the error (status code 400)
-     * 3. There is a server-side error (status code 500).
+     * 2. The user is not subscribed in any apexCom. (status code 400)
+     * 3. The `token` is invalid, return a message about the error (status code 400)
+     * 4. There is a server-side error (status code 500).
      *
      * @authenticated
      *
      * @responseFile responses\validUserSort.json
      * @responseFile 404 responses\apexComNotFound.json
      * @responseFile 400 responses\notAuthorized.json
-     *
+     * @responseFile 400 responses\userNotSubscribedInAnyApexComs.json
+     * 
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
+     * @bodyParam subscribedApexCom bool If true return only the posts in ApexComs that the user is subscribed in, default is false. Example: false
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
     public function userSortPostsBy(Request $request)
     {
+        $validator = validator(
+            $request->only('subscribedApexCom'),
+            ['subscribedApexCom' => 'bool']
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
         $result = $this->guestSortPostsBy($request);
         if (!array_key_exists('posts', $result)) {
             return $result;
         }
-        return $this->filterResult(collect($result), $request['token']);
+
+        $account = new AccountController();
+        $userID = $account->me($request)->getData()->user->id;
+        $subscribed = $request->input('subscribedApexCom', false);
+        if ($subscribed && !Subscriber::query()->where(compact('userID'))->exists()) {
+            return response()->json(
+                ['error' => 'The user is not subscribed in any ApexCom'], 400
+            );
+        }
+        return $this->filterResult(collect($result), $request['token'], $subscribed);
     }
 
+    /**
+     * Get all the existing ApexComs and return their id and name 
+     * 
+     * @return Response
+     */
     /**
      * Apex Names
      * Returns a list of the names and ids of all of the existing ApexComs.

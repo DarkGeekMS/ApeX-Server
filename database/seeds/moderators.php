@@ -12,16 +12,6 @@ class moderators extends Seeder
      */
     public function run()
     {
-        Moderator::create([
-            'apexID' => 't5_1',
-            'userID' => 't2_1'
-        ]);
-
-        Moderator::create([
-            'apexID' => 't5_2',
-            'userID' => 't2_3'
-        ]);
-
         factory(Moderator::class, 10)->create();
     }
 }

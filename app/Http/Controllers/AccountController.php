@@ -246,7 +246,8 @@ class AccountController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string'
+            'username' => 'string',
+            'email' => 'required|email'
             ]
         );
 
@@ -256,10 +257,27 @@ class AccountController extends Controller
             return response()->json($validator->errors(), 400);
         }
         //Getting the username from the request
-        $username = $request->input("username");
+        $email = $request->input("email");
         //Selecting the user from the database
-        $user = User::where("username", $username)->first();
+        $user = User::where("email", $email)->first();
         if ($user) { // Checking if the user exists
+            $authorized = 0;
+            if ($request->has('password')) {
+                $credentials = $request->only(['email' , 'password']);
+                if (JWTAuth::attempt($credentials)) {
+                    $authorized = 1;
+                }
+            }
+            if ($request->has('email')) {
+                if ($request->input('username') == $user->username) {
+                    $authorized = 1;
+                }
+            }
+
+            if (!$authorized) {
+                return response()->json(['msg' => 'not authorized'], 400);
+            }
+                
             try {
                 $codeText = Str::random(15); // Generating random code
                 //Sending the email with random code
@@ -292,7 +310,7 @@ class AccountController extends Controller
      * if the codes are matching then it will return true to indicate that the code
      * is correct, Else it will return false.
      *
-     * @param string username The user's username.
+     * @param string email The user's email.
      * @param string code The user's forgot password code.
      *
      * @return Json a boolean value to indicate whether the code is correct or not.
@@ -314,7 +332,7 @@ class AccountController extends Controller
      * "authorized":false
      * }
      * @bodyParam code int required The entered code.
-     * @bodyParam username string required The user's username.
+     * @bodyParam email string required The user's email.
      */
 
     public function checkCode(Request $request)
@@ -400,7 +418,24 @@ class AccountController extends Controller
         return response()->json(['token' => null], 200);
     }
 
-
+    /**
+     * Delete Message
+     * Validate the input by checking that the given message id is valid and exists,
+     * or return an error message. Check that the logged-in user is authorized
+     * and get his id or return an error message. 
+     * If the user is the sender of the message check that the message isn't already
+     * deleted from the sender and then mark it as deleted form the sender,
+     * or return that it's already deleted.
+     * If the user is the receiver of the message do like above but from the receiver
+     * view instead of the sender.
+     * If the message is deleted from both the sender and receiver,
+     * delete it entirely form the database.
+     * Return a message that contains that the message is deleted successfully
+     * 
+     * @param Request $request
+     * 
+     * @return Resposne
+     */
     /**
      * Delete message
      * Delete a private message or a reply to a message. Either the receiver or the
@@ -480,6 +515,21 @@ class AccountController extends Controller
     }
 
 
+     /**
+      * readMsg.
+      * This Function is used to read a sent message.
+      *
+      * it receives the token of the logged in user.
+      * it gets the id of the sent message.
+      * then it checks that a message exists with the given id.
+      * if not it returns an error message.
+      * then it gets the subject and the content of the message with the given id and all its replies.
+      *
+      * @param string token the JWT representation of the user, admin or moderator.
+      * @param string  ID The id of the message.
+      * must be at least 4 chars starts with t4_.
+      * @return Json deleted , the subject and the content of the message and all its replies.
+      */
 
     /**
      * readMsg
@@ -493,15 +543,18 @@ class AccountController extends Controller
      *
      * @bodyParam ID string required The id of the message.
      * @bodyParam token JWT required Used to verify the user recieving the message.
+     * @response  500{
+     * "error" : "Message doesnot exist"
+     * }
      */
 
     public function readMsg(Request $request)
     {
+        //get the logged in user id 
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
-        $type=$user->type;
         $id=$user->id;
-
+        //validate that the input data is correct
         $validator = validator(
             $request->all(),
             ['ID' => 'required|string']
@@ -509,11 +562,14 @@ class AccountController extends Controller
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
+        //get the id of the message
         $msgid= $request['ID'];
         $msgCheck=DB::table('messages')->where('id', '=', $msgid)->get();
+        //if the message doesnot exist return an error message
         if (count($msgCheck)==0) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
+        //get the subject and the content of the message and all its replies
         $subject=DB::table('messages')->where('id', '=', $msgid)->select('subject')->get();
         $msg=DB::table('messages')->join('users', 'messages.receiver', '=', 'users.id')
             ->where('messages.id', '=', $msgid)
@@ -521,8 +577,8 @@ class AccountController extends Controller
             ->orderBy('messages.created_at', 'asc')
             ->select('username', 'content', 'messages.created_at')
             ->get();
-        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ]);
-       //$json_output = json_encode( [$msg,$subject] );
+
+        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ],200);
         return $json_output;
     }
 
@@ -864,6 +920,20 @@ class AccountController extends Controller
         }
     }
 
+    /**
+      * profileInfo.
+      * This Function is used to return the profile info of the user.
+      *
+      * it receives the token of the logged in user.
+      * it gets the personal information (username, profile picture , karma count) of the logged in user
+      * then it checks if the user is a moderator (type=2) it gets the apexcoms the user moderates.
+      * it gets the posts posted by the user and his vote and save statuses.
+      * it gets the saved and hidden posts by the user. 
+      * then it returns all the profile information.
+      *
+      * @param string token the JWT representation of the user, admin or moderator.
+      * @return Json profile , user profile information.
+      */
 
     /**
      * profileInfo
@@ -879,31 +949,53 @@ class AccountController extends Controller
 
     public function profileInfo(Request $request)
     {
+        //get the logged in user id and type
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
+
+        //get the personal information (username, profile picture , karma count)of the logged in user
         $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
-        $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
-        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')
-        ->where('posts.posted_by', '=', $id)->select('content')->get();
-        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')
-        ->where('posts.posted_by', '=', $id)->select('content')->get();
+       
+        //if the user is a moderator get the apexcoms the user moderates
+        if ($type == 2) {
         $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')
         ->where('moderators.userID', '=', $id)->select('name', 'description')->get();
+        }
+        //get the posts posted by the user and his vote and save statuses
+        $posts=Post::query()->where('posted_by',$id)->orderby('created_at','asc');
+        $posts->each(
+            function ($posts) use ($id) {
+                $posts['userVote'] = $posts->userVote($id);
+                $posts['Saved'] = $posts->isSavedBy($id);
+            }
+        );
+        //get the saved and hidden posts by the logged in user 
+        $savedPosts=Post::query()->isSavedBy($id);
+        $hiddenPosts=Post::query()->isHiddenBy($id);
 
-
+        //return all the profile information
         if ($type == 2) {
             $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ,'apex_coms'=>$apexcom  ]);
         } else {
             $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ]);
         }
         return $json_output;
     }
 
-
+    /**
+      * blockList.
+      * This Function is used to return the blocked users name & IDs by the logged in user.
+      *
+      * it receives the token of the logged in user.
+      * it returns a list of the names and ids of the blocked users by the logged in useer
+      *
+      * @param string token the JWT representation of the user, admin or moderator.
+      * @return Json blocklist , list of the blocked users by the logged in user.
+      */
 
 
     /**
@@ -920,16 +1012,35 @@ class AccountController extends Controller
 
     public function blockList(Request $request)
     {
-        //get the logged in user id and type
+        //get the logged in user id 
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
+        //get the blocklist of the logged in user
         $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
         ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
         return response()->json(['blocklist' =>$blocklist]);
     }
 
-
+    /**
+     * Get Inbox Messages
+     * Validate the input by checking that the logged-in user is authorized
+     * and get his id or return an error message.
+     * Check that the `max` is a valid integer or return an error message.
+     * If the `max` is not given don't limit the result.
+     * Get the messages that is not replies, order them by latest messages,
+     * limit them by `max` and select all attributes except 
+     * `delSent`, `delReceived` and `received`. 
+     * Get from the messages the messages that is sent by the user, the messages
+     * that are received and read by him and the messages that are received
+     * and not read, then collect the `read` and `unread` messages in `all`.
+     * Return the sent messages and the received messages that are divided into
+     * `read`, `unread` and `all`.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     /**
      * Get Inbox Messages
      * Return a json contains the not-deleted inbox messages (without its replies)

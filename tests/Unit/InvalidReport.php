@@ -5,7 +5,10 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use DB;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\User;
+use App\Models\Moderator;
 
 class InvalidReport extends TestCase
 {
@@ -19,21 +22,27 @@ class InvalidReport extends TestCase
      //no user
     public function noUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => '1561998'
+              'username' => $user['username'],
+              'password' => 'non'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(400);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't3_5',
+            'name' => $post['id'],
             'content' => 'report a problem'
             ]
         );
@@ -45,6 +54,13 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -56,15 +72,21 @@ class InvalidReport extends TestCase
     //no post
     public function noPost()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
@@ -82,6 +104,11 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -93,15 +120,20 @@ class InvalidReport extends TestCase
     //no comment
     public function noComment()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
@@ -119,6 +151,11 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -130,21 +167,27 @@ class InvalidReport extends TestCase
     //no content
     public function noContent()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(400);
@@ -155,6 +198,14 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -166,21 +217,27 @@ class InvalidReport extends TestCase
     // admin in the website
     public function adminUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 3]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'King',
-            'password' => 'queen12'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't3_4',
+            'name' => $post['id'],
             'content' => 'report a problem'
             ]
         );
@@ -192,6 +249,13 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -203,21 +267,29 @@ class InvalidReport extends TestCase
     //moderator in the apexcom holds the post or comment to be reported
     public function modUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 2]);
+        $post = factory(Post::class)->create();
+        Moderator::create(['apexID' => $post['apex_id'], 'userID' => $user['id']]);
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't3_4',
+            'name' => $post['id'],
             'content' => 'report a problem'
             ]
         );
@@ -229,6 +301,15 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+
+        Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -240,21 +321,28 @@ class InvalidReport extends TestCase
     //the owner of the post to be reported
     public function ownerP()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'kareem',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't3_7',
+            'name' => $post['id'],
             'content' => 'report a problem'
             ]
         );
@@ -266,6 +354,14 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -277,21 +373,28 @@ class InvalidReport extends TestCase
     //the owner of the comment to be reported
     public function ownerC()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $comment = factory(Comment::class)->create();
+        Comment::where('id', $comment['id'])->update(['commented_by' => $user['id']]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'kareem',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't1_10',
+            'name' => $comment['id'],
             'content' => 'report a problem'
             ]
         );
@@ -303,6 +406,13 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+        Comment::where('id', $comment['id'])->delete();
+        $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -314,21 +424,31 @@ class InvalidReport extends TestCase
     //the owner of the post has the comment to be reported
     public function ownerPC()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+        $comment = factory(Comment::class)->create();
+        Comment::where('id', $comment['id'])->update(['root' => $post['id']]);
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'kareem',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't1_8',
+            'name' => $comment['id'],
             'content' => 'report a problem'
             ]
         );
@@ -340,6 +460,17 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
+
+        Comment::where('id', $comment['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $comment['id']]);
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -351,21 +482,30 @@ class InvalidReport extends TestCase
     //moderator in the apexCom where the post has this comment
     public function modC()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 2]);
+        $post = factory(Post::class)->create();
+        Moderator::create(['apexID' => $post['apex_id'], 'userID' => $user['id']]);
+        $comment = factory(Comment::class)->create();
+        Comment::where('id', $comment['id'])->update(['root' => $post['id']]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Report',
             [
             'token' => $token,
-            'name' => 't1_14',
+            'name' => $comment['id'],
             'content' => 'report a problem'
             ]
         );
@@ -377,85 +517,17 @@ class InvalidReport extends TestCase
             'token' => $token
             ]
         );
-    }
 
-// done already before
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
+        Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
+        Comment::where('id', $comment['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $comment['id']]);
 
-    public function reportPost()
-    {
-          DB::table('report_posts')->insert(['postID' => 't3_14', 'userID' => 't2_1', 'content' => 'bla bla']);
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
 
-          $loginResponse = $this->json(
-              'POST',
-              '/api/SignIn',
-              [
-              'username' => 'mondaTalaat',
-              'password' => 'monda21'
-              ]
-          );
-          $token = $loginResponse->json('token');
-          $response = $this->json(
-              'POST',
-              '/api/Report',
-              [
-              'token' => $token,
-              'name' => 't3_14',
-              'content' => 'report user'
-              ]
-          );
-          $response->assertStatus(400);
-          $logoutResponse = $this->json(
-              'POST',
-              '/api/SignOut',
-              [
-              'token' => $token
-              ]
-          );
-          DB::table('report_posts')->where(['postID' => 't3_14', 'userID' => 't2_1'])->delete();
-    }
-
-      /**
-       *
-       * @test
-       *
-       * @return void
-       */
-      //ordinary user report a comment
-    public function reportComment()
-    {
-          DB::table('report_comments')->insert(['comID' => 't1_14', 'userID' => 't2_1', 'content' => 'bla bla']);
-          $loginResponse = $this->json(
-              'POST',
-              '/api/SignIn',
-              [
-              'username' => 'mondaTalaat',
-              'password' => 'monda21'
-              ]
-          );
-          $token = $loginResponse->json('token');
-          $response = $this->json(
-              'POST',
-              '/api/Report',
-              [
-              'token' => $token,
-              'name' => 't1_14',
-              'content' => 'report user'
-              ]
-          );
-          $response->assertStatus(400);
-          $logoutResponse = $this->json(
-              'POST',
-              '/api/SignOut',
-              [
-              'token' => $token
-              ]
-          );
-          DB::table('report_comments')->where(['comID' => 't1_14', 'userID' => 't2_1'])->delete();
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }
