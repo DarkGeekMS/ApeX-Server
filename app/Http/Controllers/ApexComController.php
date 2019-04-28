@@ -91,7 +91,13 @@ class ApexComController extends Controller
         $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
             ->select('posted_by')->distinct('posted_by')->get()->count();
 
-        $moderators = Moderator::where('apexID', $apex_id)->get('userID');
+        $moderators = Moderator::where('apexID', $apex_id);
+        $moderators = User::joinSub(
+            $moderators, 'moderators',
+            function ($join) {
+                $join->on('id', '=', 'moderators.userID');
+            }
+        )->get(['userID', 'username']);
 
         $subscribers_count = Subscriber::where('apexID', $apex_id)->count();
 
@@ -103,14 +109,14 @@ class ApexComController extends Controller
 
         $rules = $apexCom->rules;
 
+        $avatar = $apexCom->avatar;
+
+        $banner = $apexCom->banner;
+
         return response()->json(
             compact(
-                'contributers_count',
-                'moderators',
-                'subscribers_count',
-                'name',
-                'description',
-                'rules'
+                'contributers_count', 'moderators', 'avatar', 'banner',
+                'subscribers_count', 'name', 'description', 'rules'
             )
         );
     }
@@ -168,7 +174,13 @@ class ApexComController extends Controller
         $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
             ->select('posted_by')->distinct('posted_by')->get()->count();
 
-        $moderators = Moderator::where('apexID', $apex_id)->get('userID');
+        $moderators = Moderator::where('apexID', $apex_id);
+        $moderators = User::select('id', 'username')->joinSub(
+            $moderators, 'moderator',
+            function ($join) {
+                $join->on('id', '=', 'moderator.userID');
+            }
+        )->get();
 
         $subscribers_count = Subscriber::where('apexID', $apex_id)->count();
 
@@ -180,14 +192,14 @@ class ApexComController extends Controller
 
         $rules = $apexCom->rules;
 
+        $avatar = $apexCom->avatar;
+
+        $banner = $apexCom->banner;
+
         return response()->json(
             compact(
-                'contributers_count',
-                'moderators',
-                'subscribers_count',
-                'name',
-                'description',
-                'rules'
+                'contributers_count', 'moderators', 'avatar', 'banner',
+                'subscribers_count', 'name', 'description', 'rules'
             )
         );
     }
@@ -272,7 +284,9 @@ class ApexComController extends Controller
         $r = $request->all();
         if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $parsed = parse_url($r['video_url']);
-            if ($parsed['scheme'] != 'https' || $parsed['host'] != 'www.youtube.com' || $parsed['path'] != '/watch') {
+            if ($parsed['scheme'] != 'https' || $parsed['host'] != 'www.youtube.com'
+                || ($parsed['path'] != '/watch' && SUBSTR($parsed['path'], 0, 6) != '/embed')
+            ) {
                 return response()->json(['error' => 'the url is not a youtube video'], 400);
             }
         }
