@@ -362,9 +362,9 @@ class CommentandLinksController extends Controller
     * if not it returns an error message post or comment is not found.
     * if a comment exists with the given id, it checks that the comment is  commented by the logged in user
     * if the comment doesnot belong to the logged in user it returns an error message
-    * otherwise update the comment with the given content 
+    * otherwise update the comment with the given content
     * if a post exists with the given id, it checks that the post is  posted by the logged in user
-    * if the post doesnot belong to the logged in user it returns an error message 
+    * if the post doesnot belong to the logged in user it returns an error message
     * otherwise update the post with the given content
     *
     * @param string token the JWT representation of the user, admin or moderator.
@@ -402,7 +402,7 @@ class CommentandLinksController extends Controller
 
     public function editText(Request $request)
     {
-        //get the logged in user id 
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
@@ -436,23 +436,17 @@ class CommentandLinksController extends Controller
             //if the comment is not commented by the logged in user return an error message
             if (!count($commentcheck2)) {
                 return response()->json(['error' => 'user is not the owner of the post or comment'], 403);
-            } 
-            //otherwise update the comment with the given content
-            else {
+            } else {   //otherwise update the comment with the given content
                 DB::table('comments')->where('id', $textid)->update(['content' => $content]);
                 return response()->json(['value'=>true], 200);
             }
-        } 
-        //check if there is a post with the given id
-        elseif (count($postcheck)) {
+        } elseif (count($postcheck)) {    //check if there is a post with the given id
             //check that the post is posted by the logged in user
             $postcheck2=DB::table('posts')->where([['posted_by', '=', $id],['id','=',$textid]])->get();
             //if the post is not posted by the logged in user return an error message
             if (!count($postcheck2)) {
                 return response()->json(['error' => 'user is not the owner of the post or comment'], 403);
-            } 
-            //otherwise update the post with the given content
-            else {
+            } else {    //otherwise update the post with the given content
                 DB::table('posts')->where('id', $textid)->update(['content' => $content]);
                 return response()->json(['value'=>true], 200);
             }
@@ -708,11 +702,12 @@ class CommentandLinksController extends Controller
         }
 
         $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+
         $data = json_decode(json_encode($data, true), true);
         $comments = [];
         $this->buildTree($data, $comments);
 
-        return response()->json($comments, 200);
+        return response()->json(['comment' => $comments], 200);
     }
 
 
@@ -1140,8 +1135,8 @@ class CommentandLinksController extends Controller
         $postid=$request['ID'];
         $post=DB::table('posts')->where('id', '=', $postid)->get();
         //check that a comment exists with the given id
-        if (count($comment)) {                                            
-            $commentsaved=DB::table('save_comments')->where([                  
+        if (count($comment)) {
+            $commentsaved=DB::table('save_comments')->where([
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->get();
@@ -1156,8 +1151,8 @@ class CommentandLinksController extends Controller
                 DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
             }
          //check that a post exists with the given id
-        } elseif (count($post)) {                                                     
-            $postsaved=DB::table('save_posts')->where([                                 
+        } elseif (count($post)) {
+            $postsaved=DB::table('save_posts')->where([
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->get();
