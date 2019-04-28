@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Block;
 use App\Models\Post;
 use App\Models\ApexBlock;
+use App\Models\User;
 
 class search extends TestCase
 {
@@ -42,14 +43,15 @@ class search extends TestCase
      */
     public function userSearch()
     {
-
+        //get a user from block table
+        $user = Block::inRandomOrder()->firstOrFail()->blocker()->first();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
-            ['username' => 'mondaTalaat', 'password' => 'monda21']
-        );
+            ['username' => $user->username, 'password' => 'monda21']
+        )->assertStatus(200);
         $token = $loginResponse->json('token');
-        $userID = 't2_1';
+        $userID = $user->id;
 
         $response = $this->json(
             'POST',
@@ -58,8 +60,7 @@ class search extends TestCase
             'query' => 'any',
             'token' => $token
             ]
-        );
-        $response->assertStatus(200);
+        )->assertStatus(200);
 
         //check that there are no posts from blocked users
         //or posts from apexComs that the user is blocked from
