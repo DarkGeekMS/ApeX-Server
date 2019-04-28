@@ -5,6 +5,10 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Comment;
+use App\Models\Post;
+use App\Models\Message;
+use App\Models\User;
 
 class InvalidReply extends TestCase
 {
@@ -18,25 +22,39 @@ class InvalidReply extends TestCase
   //no user
     public function noUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => '1561998'
+            'username' => $user['username'],
+            'password' => 'non'
             ]
         );
-        $t = $loginResponse->json('token');
-        $loginResponse->assertStatus(400);
+
+        $signIn->assertStatus(400);
+
+        $token = $signIn->json('token');
+
+        $this->assertDatabaseHas('posts', ['id' => $post['id']]);
         $response = $this->json(
             'POST',
             '/api/AddReply',
             [
-            'token' => $t,
-            'parent' => 't1_5'
+            'token' => $token,
+            'parent' => $post['id']
             ]
         );
         $response->assertStatus(400);
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
   /**
@@ -47,16 +65,20 @@ class InvalidReply extends TestCase
     */
     public function noPost()
     {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mondaTalaat',
-             'password' => 'monda21'
-             ]
-         );
-         $token = $loginResponse->json('token');
-         $loginResponse->assertStatus(200);
+        $user = factory(User::class)->create();
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
          $response = $this->json(
              'POST',
              '/api/AddReply',
@@ -74,6 +96,11 @@ class InvalidReply extends TestCase
              'token' => $token
              ]
          );
+         // delete user added to database
+         User::where('id', $user['id'])->forceDelete();
+
+         //check that the user deleted from database
+         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
      /**
@@ -85,16 +112,20 @@ class InvalidReply extends TestCase
 
     public function noComment()
     {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mondaTalaat',
-             'password' => 'monda21'
-             ]
-         );
-         $token = $loginResponse->json('token');
-         $loginResponse->assertStatus(200);
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
          $response = $this->json(
              'POST',
              '/api/AddReply',
@@ -112,6 +143,11 @@ class InvalidReply extends TestCase
              'token' => $token
              ]
          );
+         // delete user added to database
+         User::where('id', $user['id'])->forceDelete();
+
+         //check that the user deleted from database
+         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
      /**
@@ -123,16 +159,20 @@ class InvalidReply extends TestCase
 
     public function noMessage()
     {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mondaTalaat',
-             'password' => 'monda21'
-             ]
-         );
-         $token = $loginResponse->json('token');
-         $loginResponse->assertStatus(200);
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
          $response = $this->json(
              'POST',
              '/api/AddReply',
@@ -150,6 +190,11 @@ class InvalidReply extends TestCase
              'token' => $token
              ]
          );
+         // delete user added to database
+         User::where('id', $user['id'])->forceDelete();
+
+         //check that the user deleted from database
+         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
      /**
@@ -161,22 +206,28 @@ class InvalidReply extends TestCase
 
     public function noContent()
     {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mondaTalaat',
-             'password' => 'monda21'
-             ]
-         );
-         $token = $loginResponse->json('token');
-         $loginResponse->assertStatus(200);
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
          $response = $this->json(
              'POST',
              '/api/AddReply',
              [
              'token' => $token,
-             'parent' => 't1_10'
+             'parent' => $post['id']
              ]
          );
          $response->assertStatus(400);
@@ -187,6 +238,13 @@ class InvalidReply extends TestCase
              'token' => $token
              ]
          );
+         Post::where('id', $post['id'])->delete();
+         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+         // delete user added to database
+         User::where('id', $user['id'])->forceDelete();
+
+         //check that the user deleted from database
+         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
   /**
@@ -197,62 +255,33 @@ class InvalidReply extends TestCase
     */
     public function lockedPost1()
     {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mondaTalaat',
-             'password' => 'monda21'
-             ]
-         );
-         $token = $loginResponse->json('token');
-         $loginResponse->assertStatus(200);
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+        Post::where('id', $post['id'])->update(['locked' => 1]);
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $user['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
+
          $response = $this->json(
              'POST',
              '/api/AddReply',
              [
              'token' => $token,
-             'parent' => 't3_8',
+             'parent' => $post['id'],
              'content' => ' reply to locked post '
              ]
          );
-         $response->assertStatus(400);
-         $logoutResponse = $this->json(
-             'POST',
-             '/api/SignOut',
-             [
-             'token' => $token
-             ]
-         );
-    }
 
-  /**
-    *
-    * @test
-    *
-    * @return void
-    */
-    public function lockedPost2()
-    {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mondaTalaat',
-             'password' => 'monda21'
-             ]
-         );
-         $token = $loginResponse->json('token');
-         $loginResponse->assertStatus(200);
-         $response = $this->json(
-             'POST',
-             '/api/AddReply',
-             [
-             'token' => $token,
-             'parent' => 't3_8',
-             'content' => ' reply to locked post'
-             ]
-         );
          $response->assertStatus(400);
          $logoutResponse = $this->json(
              'POST',
@@ -261,5 +290,12 @@ class InvalidReply extends TestCase
              'token' => $token
              ]
          );
+         Post::where('id', $post['id'])->delete();
+         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+         // delete user added to database
+         User::where('id', $user['id'])->forceDelete();
+
+         //check that the user deleted from database
+         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

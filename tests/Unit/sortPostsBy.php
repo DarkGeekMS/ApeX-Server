@@ -79,15 +79,18 @@ class sortPostsBy extends TestCase
      */
     public function userSort()
     {
+        //get a user from block table
+        $user = Block::inRandomOrder()->firstOrFail()->blocker()->first();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
-            ['username' => 'mondaTalaat', 'password' => 'monda21']
-        );
+            ['username' => $user->username, 'password' => 'monda21']
+        )->assertStatus(200);
         $token = $loginResponse->json('token');
-        $userID = 't2_1';
+        $userID = $user->id;
 
-        $response = $this->json('POST', '/api/SortPosts', compact('token'));
+        $response = $this->json('POST', '/api/SortPosts', compact('token'))
+            ->assertStatus(200);
         $posts = $response->json('posts');
 
         //check that there are no posts from blocked users or hidden posts or reported posts
