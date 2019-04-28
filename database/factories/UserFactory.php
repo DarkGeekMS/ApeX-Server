@@ -23,7 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
         'id' => 't2_'.(string)($lastUser + $i++),
         'fullname'=>$faker->name,
         'email' => $faker->unique()->safeEmail,
-        'username'=>$faker->userName,
+        'username'=>$faker->unique()->userName,
         'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
         'avatar'=>'public\img\def.jpg',
         'karma'=>1,

@@ -20,21 +20,18 @@ class userData extends TestCase
     private function _createUser()
     {
         $user = factory(User::class)->create();
-
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
-            [
-            'username' => $user['username'],
-            'password' => 'monda21'
-            ]
+            ['username' => $user['username'], 'password' => 'monda21']
         );
 
         $signIn->assertStatus(200);
 
         $token = $signIn->json('token');
+        $userID = $user['id'];
 
-        return [$user, $token];
+        return [$userID, $token];
     }
 
     /**
@@ -48,7 +45,7 @@ class userData extends TestCase
      */
     public function validUserData()
     {
-        [$user, $token] = $this->_createUser();
+        [$userID, $token] = $this->_createUser();
 
         $username = User::inRandomOrder()->firstOrFail()['username'];
 
@@ -67,7 +64,7 @@ class userData extends TestCase
             $response->assertStatus(200)->assertSee('userData')->assertSee('posts');
         }
 
-        User::where('id', $user['id'])->forceDelete();
+        User::where('id', $userID)->forceDelete();
     }
 
     /**
@@ -81,7 +78,7 @@ class userData extends TestCase
     {
         $username = '-1';
 
-        [$user, $token] = $this->_createUser();
+        [$userID, $token] = $this->_createUser();
 
         $methods = [
             'GET' => compact('username'),
@@ -98,7 +95,7 @@ class userData extends TestCase
             $response->assertStatus(404)->assertSee('User is not found');
         }
 
-        User::where('id', $user['id'])->forceDelete();
+        User::where('id', $userID)->forceDelete();
     }
 
     /**
@@ -110,7 +107,7 @@ class userData extends TestCase
      */
     public function missingUsername()
     {
-        [$user, $token] = $this->_createUser();
+        [$userID, $token] = $this->_createUser();
 
         $methods = [
             'GET' => [],
@@ -127,7 +124,7 @@ class userData extends TestCase
             $response->assertStatus(400)->assertSee('username');
         }
 
-        User::where('id', $user['id'])->forceDelete();
+        User::where('id', $userID)->forceDelete();
     }
 
     /**
@@ -141,12 +138,12 @@ class userData extends TestCase
      */
     public function blokcedUserData()
     {
-        [$user1, $token] = $this->_createUser();
+        [$user1ID, $token] = $this->_createUser();
         //block some user from the data base
 
         $user2 = User::firstOrFail();
         $username = $user2['username'];
-        Block::insert(['blockerID' => $user1['id'], 'blockedID' => $user2['id']]);
+        Block::insert(['blockerID' => $user1ID, 'blockedID' => $user2['id']]);
 
         $response = $this->json(
             'POST',
@@ -158,7 +155,7 @@ class userData extends TestCase
             ->assertSee("blocked users can't view the data of each other");
 
         //delete the block relation and the created user
-        Block::where(['blockerID' => $user1['id'], 'blockedID' => $user2['id']])->delete();
-        User::where('id', $user1['id'])->forceDelete();
+        Block::where(['blockerID' => $user1ID, 'blockedID' => $user2['id']])->delete();
+        User::where('id', $user1ID)->forceDelete();
     }
 }
