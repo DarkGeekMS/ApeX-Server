@@ -33,7 +33,7 @@ class ApexComController extends Controller
    * @param string token the JWT representation of the user in frontend.
    * @return array the apexComs names and Ids
    */
-   
+
   /**
    * getApexComs
    * getapexcom names which user subscribe in.
@@ -337,7 +337,7 @@ class ApexComController extends Controller
      * @response 400 {"error":"You are blocked from this Apexcom"}
      * @response 200 [true]
      *
-     * @bodyParam ApexCom_id string required The fullname of the community required to be subscribed.
+     * @bodyParam ApexCom_ID string required The fullname of the community required to be subscribed.
      * @bodyParam token JWT required Verifying user ID.
      */
 
