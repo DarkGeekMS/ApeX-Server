@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use App\Models\Post;
 
 class InvalidHide extends TestCase
 {
@@ -18,26 +20,37 @@ class InvalidHide extends TestCase
     //no user
     public function noUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'tc'
+              'username' => $user['username'],
+              'password' => 'non'
             ]
         );
-        $token = $loginResponse->json('token');
-        $loginResponse->assertStatus(400);
+
+        $signIn->assertStatus(400);
+
+        $token = $signIn->json('token');
+
         $response = $this->json(
             'POST',
             '/api/Hide',
             [
             'token' => $token,
-            'name' => 't3_5'
+            'name' => $post['id']
             ]
         );
-
         $response->assertStatus(400);
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -48,15 +61,20 @@ class InvalidHide extends TestCase
      */
     public function noPost()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/Hide',
@@ -73,5 +91,10 @@ class InvalidHide extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

@@ -5,6 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\User;
 
 class InvalidLock extends TestCase
 {
@@ -18,21 +21,27 @@ class InvalidLock extends TestCase
     //not moderator in the apeXcom where the post in
     public function notModerator()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/LockPost',
             [
             'token' => $token,
-            'name' => 't3_5'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(400);
@@ -43,6 +52,14 @@ class InvalidLock extends TestCase
             'token' => $token
             ]
         );
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -54,15 +71,21 @@ class InvalidLock extends TestCase
     //no post
     public function noPost()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/LockPost',
@@ -79,6 +102,11 @@ class InvalidLock extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -90,23 +118,37 @@ class InvalidLock extends TestCase
     //no user
     public function noUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 3]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => '1561998'
+              'username' => $user['username'],
+              'password' => 'non'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(400);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'POST',
             '/api/LockPost',
             [
             'token' => $token,
-            'name' => 't3_6'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(400);
+
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

@@ -5,8 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Post;
 use App\Models\User;
-use DB;
+use App\Models\Comment;
 
 class InvalidDelete extends TestCase
 {
@@ -49,7 +50,11 @@ class InvalidDelete extends TestCase
             'token' => $token
             ]
         );
-        DB::table('users')->where('id', $admin['id'])->delete();
+        // delete user added to database
+        User::where('id', $admin['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
 
 
@@ -92,7 +97,11 @@ class InvalidDelete extends TestCase
             'token' => $token
             ]
         );
-        DB::table('users')->where('id', $admin['id'])->delete();
+        // delete user added to database
+        User::where('id', $admin['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
 
     /**
@@ -104,24 +113,37 @@ class InvalidDelete extends TestCase
     //not valid user
     public function noUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 3]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'Anyone',
-            'password' => '451447'
+            'username' => $user['username'],
+            'password' => 'non'
             ]
         );
-        $token = $loginResponse->json('token');
+
+        $signIn->assertStatus(400);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't3_5'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(400);
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -133,25 +155,27 @@ class InvalidDelete extends TestCase
     //not post owner , admin or moderator in the apexcom where the post in
     public function notAllowed()
     {
-        $admin = factory(User::class)->create();
-
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => $admin['username'],
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
 
         $signIn->assertStatus(200);
+
         $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't3_6'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(400);
@@ -162,6 +186,12 @@ class InvalidDelete extends TestCase
             'token' => $token
             ]
         );
-        DB::table('users')->where('id', $admin['id'])->delete();
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

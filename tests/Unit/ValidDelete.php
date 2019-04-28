@@ -5,8 +5,10 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
+use App\Models\Post;
 use App\Models\Comment;
+use App\Models\User;
+use App\Models\Moderator;
 
 class ValidDelete extends TestCase
 {
@@ -22,25 +24,35 @@ class ValidDelete extends TestCase
      //response status = 200 comment deleted successfully.
     public function postOwnerC()
     {
-         $loginResponse = $this->json(
-             'POST',
-             '/api/SignIn',
-             [
-             'username' => 'mX',
-             'password' => 'killa$&12'
-             ]
-         );
-         $token = $loginResponse->json('token');
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+        $comment = factory(Comment::class)->create();
+        Comment::where('id', $comment['id'])->update(['root' => $post['id']]);
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+              'username' => $user['username'],
+              'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
          $response = $this->json(
              'DELETE',
              '/api/Delete',
              [
              'token' => $token,
-             'name' => 't1_1'
+             'name' => $comment['id']
              ]
          );
          $response->assertStatus(200);
-         $this->assertDatabaseMissing('comments', ['id' => 't1_1']);
+         $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
          $logoutResponse = $this->json(
              'POST',
              '/api/SignOut',
@@ -48,6 +60,13 @@ class ValidDelete extends TestCase
              'token' => $token
              ]
          );
+         Post::where('id', $post['id'])->delete();
+         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+         // delete user added to database
+         User::where('id', $user['id'])->forceDelete();
+
+         //check that the user deleted from database
+         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -61,25 +80,32 @@ class ValidDelete extends TestCase
      //response status = 200 post deleted successfully.
     public function postOwner()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $post = factory(Post::class)->create();
+        Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mX',
-            'password' => 'killa$&12'
+            'username' => $user['username'],
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't3_1'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('posts', ['id' => 't3_1']);
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -87,6 +113,11 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -100,25 +131,32 @@ class ValidDelete extends TestCase
     //response status = 200 comment deleted successfully.
     public function commentOwner()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
+        $comment = factory(Comment::class)->create();
+        Comment::where('id', $comment['id'])->update(['commented_by' => $user['id']]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'Anyone',
-            'password' => 'anyone'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't1_2'
+            'name' => $comment['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('comments', ['id' => 't1_2']);
+        $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -126,6 +164,11 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -137,25 +180,31 @@ class ValidDelete extends TestCase
     //admin in the website delete post
     public function adminPost()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 3]);
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'King',
-            'password' => 'queen12'
+            'username' => $user['username'],
+            'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't3_2'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('posts', ['id' => 't3_2']);
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -163,6 +212,11 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -174,25 +228,31 @@ class ValidDelete extends TestCase
     //admin in the website delete post
     public function adminComment()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 3]);
+        $comment = factory(Comment::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'King',
-            'password' => 'queen12'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't1_3'
+            'name' => $comment['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('comments', ['id' => 't1_3']);
+        $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -200,6 +260,11 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -211,26 +276,34 @@ class ValidDelete extends TestCase
     //moderator in the apexcom where the post or comment to be deleted
     public function moderatorComment()
     {
-
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 2]);
+        $post = factory(Post::class)->create();
+        Moderator::create(['apexID' => $post['apex_id'], 'userID' => $user['id']]);
+        $comment = factory(Comment::class)->create();
+        Comment::where('id', $comment['id'])->update(['root' => $post['id']]);
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't1_4'
+            'name' => $comment['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('comments', ['id' => 't1_4']);
+        $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -238,6 +311,14 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+        Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 
     /**
@@ -249,26 +330,33 @@ class ValidDelete extends TestCase
     //moderator in the apexcom where the post or comment to be deleted
     public function moderatorPost()
     {
+        $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 2]);
+        $post = factory(Post::class)->create();
+        Moderator::create(['apexID' => $post['apex_id'], 'userID' => $user['id']]);
 
-        $loginResponse = $this->json(
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
-        $token = $loginResponse->json()["token"];
+
+        $signIn->assertStatus(200);
+
+        $token = $signIn->json('token');
         $response = $this->json(
             'DELETE',
             '/api/Delete',
             [
             'token' => $token,
-            'name' => 't3_3'
+            'name' => $post['id']
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('posts', ['id' => 't3_3']);
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -276,73 +364,12 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
-    }
+        Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
 
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
-    //moderator in the apexcom where the post or comment to be deleted
-    public function records()
-    {
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
 
-        DB::table('posts')->insert([
-        'id' => 't3_1',
-        'posted_by' => 't2_2',
-        'apex_id' => 't5_1',
-        'title' => 'Anything',
-        'created_at' => '2019-03-23 17:20:30'
-        ]);
-
-        DB::table('posts')->insert([
-        'id' => 't3_2',
-        'posted_by' => 't2_1',
-        'apex_id' => 't5_1',
-        'title' => 'Anything',
-        'created_at' => '2019-03-23 17:20:31'
-        ]);
-
-        DB::table('posts')->insert([
-        'id' => 't3_3',
-        'posted_by' => 't2_4',
-        'apex_id' => 't5_1',
-        'title' => 'Anything',
-        'created_at' => '2019-03-23 17:20:32'
-        ]);
-          DB::table('comments')->insert([
-          'id' => 't1_1',
-          'commented_by' => 't2_1',
-          'content' => 'Hey there',
-          'root' => 't3_1',
-          'created_at' => '2019-03-23 17:20:37'
-          ]);
-
-          DB::table('comments')->insert([
-          'id' => 't1_2',
-          'commented_by' => 't2_3',
-          'content' => 'hii there',
-          'root' => 't3_2',
-          'created_at' => '2019-03-23 17:20:38'
-          ]);
-
-          DB::table('comments')->insert([
-          'id' => 't1_3',
-          'commented_by' => 't2_2',
-          'content' => 'good bye there',
-          'root' => 't3_3',
-          'created_at' => '2019-03-23 17:20:39'
-          ]);
-
-        DB::table('comments')->insert([
-          'id' => 't1_4',
-          'commented_by' => 't2_2',
-          'content' => 'good morning there',
-          'root' => 't3_4',
-          'created_at' => '2019-03-23 17:20:40'
-        ]);
-
-        $this->assertTrue(true);
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

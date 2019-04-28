@@ -15,7 +15,6 @@ use DB;
 class AboutTest extends TestCase
 {
 
-
     use WithFaker;
     /**
      * Test the guest about with out a valid apexcom id and with a valid apexcom id.
