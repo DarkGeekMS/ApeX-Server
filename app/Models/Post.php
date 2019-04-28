@@ -79,4 +79,15 @@ class Post extends Model
     {
         return $this->saves()->where(compact('userID'))->exists();
     }
+
+    public function hiddens()
+    {
+        return $this->hasMany(Hidden::class, 'postID');
+    }
+
+    //return if the given user hid the post
+    public function isHiddenBy($userID)
+    {
+        return $this->hiddens()->where(compact('userID'))->exists();
+    }
 }
