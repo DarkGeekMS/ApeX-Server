@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AccountController;
 use Carbon\Carbon;
@@ -299,8 +300,12 @@ class ApexComController extends Controller
         if (array_key_exists('body', $r) && $r['body'] != "") {
             $v['content'] = $r['body'];
         }
-        if (array_key_exists('img_name', $r) && $r['img_name'] != "") {
-            $v['img'] = $r['img_name'];
+        if ($request->hasfile('img_name')) {
+            $img = $request->file('img_name');
+            $extension = $img->getClientOriginalExtension();
+            $dir = "avatars/posts";
+            $path = $img->storeAs($dir, $id.".".$extension, "public");
+            $v['img'] = Storage::url($path);
         }
         if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $v['videolink'] = $r['video_url'];
@@ -309,7 +314,7 @@ class ApexComController extends Controller
             $v['locked'] = $r['isLocked'];
         }
         Post::create($v);
-        return response()->json('Created', 200);
+        return response()->json($id, 200);
     }
 
 
@@ -468,9 +473,9 @@ class ApexComController extends Controller
 
         // check if apexcom exists update its information if not then create a new apexcom
         // and return true
-
+        
         $exists = apexComModel::where('name', $request['name'])->count();
-
+        
         if (!$exists) {
             // making the id of the new apexcom and creating it
             $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
@@ -481,12 +486,28 @@ class ApexComController extends Controller
                 $newIdx = (int)explode("_", $id)[1];
                 $id = "t5_".($newIdx+$count);
             }
-
+            
             $v = $request->all();
             $v['id'] = $id;
+
+            if ($request->hasfile('avatar')) {
+                $img = $request->file('avatar');
+                $extension = $img->getClientOriginalExtension();
+                $dir = "avatars/Apexcoms avatars";
+                $path = $img->storeAs($dir, $id.".".$extension, "public");
+                $v['avatar'] = Storage::url($path);
+            }
+            if ($request->hasfile('banner')) {
+                $img = $request->file('banner');
+                $extension = $img->getClientOriginalExtension();
+                $dir = "avatars/Apexcoms banners";
+                $path = $img->storeAs($dir, $id.".".$extension, "public");
+                $v['banner'] = Storage::url($path);
+            }
+            
             apexComModel::create($v);
-
-
+            
+            
             // return true to ensure creation of new apexcom
             return response()->json('Created', 200);
         }
