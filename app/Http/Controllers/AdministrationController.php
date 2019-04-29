@@ -53,7 +53,7 @@ class AdministrationController extends Controller
      * "error" : "Unauthorized access"
      * }
      * @response 200{
-     * "value": true
+     * "deleted": true
      * }
      */
 
@@ -87,7 +87,7 @@ class AdministrationController extends Controller
             return response()->json(['error' => 'Unauthorized access'], 300);
         }
         //if the apexcom is deleted successfully return true
-         return response()->json(['value'=>true], 200);
+         return response()->json(['deleted'=>true], 200);
     }
 
 
@@ -140,7 +140,7 @@ class AdministrationController extends Controller
      * "error" : "UnAuthorized Deletion"
      * }
      * @response 200{
-     * "value": true
+     * "deleted": true
      * }
      */
 
@@ -191,7 +191,7 @@ class AdministrationController extends Controller
             }
         }
         //if the user is deleted successfully return true
-        return response()->json(['value'=>true], 200);
+        return response()->json(['deleted'=>true], 200);
     }
 
 
@@ -248,7 +248,7 @@ class AdministrationController extends Controller
      * "error" : "ApexCom doesnot exist"
      * }
      * @response 200{
-     * "value": true
+     * "moderate": true
      * }
      */
 
@@ -305,6 +305,6 @@ class AdministrationController extends Controller
             return response()->json(['error' => 'Unauthorized access'], 500);
         }
         //returns true if the user moderation is added/deleted successfully
-        return response()->json(['value'=>true], 200);
+        return response()->json(['moderate'=>true], 200);
     }
 }
