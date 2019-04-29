@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AccountController;
 use Carbon\Carbon;
@@ -33,7 +34,7 @@ class ApexComController extends Controller
    * @param string token the JWT representation of the user in frontend.
    * @return array the apexComs names and Ids
    */
-   
+
   /**
    * getApexComs
    * getapexcom names which user subscribe in.
@@ -91,7 +92,13 @@ class ApexComController extends Controller
         $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
             ->select('posted_by')->distinct('posted_by')->get()->count();
 
-        $moderators = Moderator::where('apexID', $apex_id)->get('userID');
+        $moderators = Moderator::where('apexID', $apex_id);
+        $moderators = User::joinSub(
+            $moderators, 'moderators',
+            function ($join) {
+                $join->on('id', '=', 'moderators.userID');
+            }
+        )->get(['userID', 'username']);
 
         $subscribers_count = Subscriber::where('apexID', $apex_id)->count();
 
@@ -103,14 +110,14 @@ class ApexComController extends Controller
 
         $rules = $apexCom->rules;
 
+        $avatar = $apexCom->avatar;
+
+        $banner = $apexCom->banner;
+
         return response()->json(
             compact(
-                'contributers_count',
-                'moderators',
-                'subscribers_count',
-                'name',
-                'description',
-                'rules'
+                'contributers_count', 'moderators', 'avatar', 'banner',
+                'subscribers_count', 'name', 'description', 'rules'
             )
         );
     }
@@ -168,7 +175,13 @@ class ApexComController extends Controller
         $contributers_count = DB::table('posts')->where('apex_id', $apex_id)
             ->select('posted_by')->distinct('posted_by')->get()->count();
 
-        $moderators = Moderator::where('apexID', $apex_id)->get('userID');
+        $moderators = Moderator::where('apexID', $apex_id);
+        $moderators = User::select('id', 'username')->joinSub(
+            $moderators, 'moderator',
+            function ($join) {
+                $join->on('id', '=', 'moderator.userID');
+            }
+        )->get();
 
         $subscribers_count = Subscriber::where('apexID', $apex_id)->count();
 
@@ -180,14 +193,14 @@ class ApexComController extends Controller
 
         $rules = $apexCom->rules;
 
+        $avatar = $apexCom->avatar;
+
+        $banner = $apexCom->banner;
+
         return response()->json(
             compact(
-                'contributers_count',
-                'moderators',
-                'subscribers_count',
-                'name',
-                'description',
-                'rules'
+                'contributers_count', 'moderators', 'avatar', 'banner',
+                'subscribers_count', 'name', 'description', 'rules'
             )
         );
     }
@@ -272,7 +285,9 @@ class ApexComController extends Controller
         $r = $request->all();
         if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $parsed = parse_url($r['video_url']);
-            if ($parsed['scheme'] != 'https' || $parsed['host'] != 'www.youtube.com' || $parsed['path'] != '/watch') {
+            if ($parsed['scheme'] != 'https' || $parsed['host'] != 'www.youtube.com'
+                || ($parsed['path'] != '/watch' && SUBSTR($parsed['path'], 0, 6) != '/embed')
+            ) {
                 return response()->json(['error' => 'the url is not a youtube video'], 400);
             }
         }
@@ -285,8 +300,12 @@ class ApexComController extends Controller
         if (array_key_exists('body', $r) && $r['body'] != "") {
             $v['content'] = $r['body'];
         }
-        if (array_key_exists('img_name', $r) && $r['img_name'] != "") {
-            $v['img'] = $r['img_name'];
+        if ($request->hasfile('img_name')) {
+            $img = $request->file('img_name');
+            $extension = $img->getClientOriginalExtension();
+            $dir = "avatars/posts";
+            $path = $img->storeAs($dir, $id.".".$extension, "public");
+            $v['img'] = Storage::url($path);
         }
         if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $v['videolink'] = $r['video_url'];
@@ -295,7 +314,7 @@ class ApexComController extends Controller
             $v['locked'] = $r['isLocked'];
         }
         Post::create($v);
-        return response()->json('Created', 200);
+        return response()->json($id, 200);
     }
 
 
@@ -323,7 +342,7 @@ class ApexComController extends Controller
      * @response 400 {"error":"You are blocked from this Apexcom"}
      * @response 200 [true]
      *
-     * @bodyParam ApexCom_id string required The fullname of the community required to be subscribed.
+     * @bodyParam ApexCom_ID string required The fullname of the community required to be subscribed.
      * @bodyParam token JWT required Verifying user ID.
      */
 
@@ -454,9 +473,9 @@ class ApexComController extends Controller
 
         // check if apexcom exists update its information if not then create a new apexcom
         // and return true
-
+        
         $exists = apexComModel::where('name', $request['name'])->count();
-
+        
         if (!$exists) {
             // making the id of the new apexcom and creating it
             $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
@@ -467,12 +486,28 @@ class ApexComController extends Controller
                 $newIdx = (int)explode("_", $id)[1];
                 $id = "t5_".($newIdx+$count);
             }
-
+            
             $v = $request->all();
             $v['id'] = $id;
+
+            if ($request->hasfile('avatar')) {
+                $img = $request->file('avatar');
+                $extension = $img->getClientOriginalExtension();
+                $dir = "avatars/Apexcoms avatars";
+                $path = $img->storeAs($dir, $id.".".$extension, "public");
+                $v['avatar'] = Storage::url($path);
+            }
+            if ($request->hasfile('banner')) {
+                $img = $request->file('banner');
+                $extension = $img->getClientOriginalExtension();
+                $dir = "avatars/Apexcoms banners";
+                $path = $img->storeAs($dir, $id.".".$extension, "public");
+                $v['banner'] = Storage::url($path);
+            }
+            
             apexComModel::create($v);
-
-
+            
+            
             // return true to ensure creation of new apexcom
             return response()->json('Created', 200);
         }
