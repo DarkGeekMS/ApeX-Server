@@ -13,7 +13,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
+use App\Models\Hidden;
+use App\Models\SavePost;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Message;
@@ -277,7 +280,7 @@ class AccountController extends Controller
             if (!$authorized) {
                 return response()->json(['msg' => 'not authorized'], 400);
             }
-                
+
             try {
                 $codeText = Str::random(15); // Generating random code
                 //Sending the email with random code
@@ -422,7 +425,7 @@ class AccountController extends Controller
      * Delete Message
      * Validate the input by checking that the given message id is valid and exists,
      * or return an error message. Check that the logged-in user is authorized
-     * and get his id or return an error message. 
+     * and get his id or return an error message.
      * If the user is the sender of the message check that the message isn't already
      * deleted from the sender and then mark it as deleted form the sender,
      * or return that it's already deleted.
@@ -431,9 +434,9 @@ class AccountController extends Controller
      * If the message is deleted from both the sender and receiver,
      * delete it entirely form the database.
      * Return a message that contains that the message is deleted successfully
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Resposne
      */
     /**
@@ -523,7 +526,9 @@ class AccountController extends Controller
       * it gets the id of the sent message.
       * then it checks that a message exists with the given id.
       * if not it returns an error message.
-      * then it gets the subject and the content of the message with the given id and all its replies.
+      * it checks whether the logged in user id the sender or the reciever of the message. 
+      * if not it reyurns an error message.
+      * otherwise it returns the message with the given id and all its replies.
       *
       * @param string token the JWT representation of the user, admin or moderator.
       * @param string  ID The id of the message.
@@ -546,11 +551,47 @@ class AccountController extends Controller
      * @response  500{
      * "error" : "Message doesnot exist"
      * }
+     * @response  400{
+     * "error" : "Message doesnot belong to the user"
+     * }
+     * @response  200{
+     *   "message": {
+     *       "id": "t4_100",
+     *       "content": "winter is gone :(",
+     *       "subject": "GOT",
+     *       "sender": "t2_12836",
+     *       "receiver": "t2_1",
+     *       "created_at": null,
+     *       "updated_at": null
+     *   },
+     *   "replies": [
+     *       {
+     *           "id": "t4_1",
+     *          "content": "Rerum pariatur accusantium voluptas qui reprehenderit. Quia similique odio expedita nihil. Aperiam rem accusamus maxime est non at.",
+     *           "subject": "Omnis temporibus molestias adipisci incidunt.",
+     *          "sender": "t2_5",
+     *           "receiver": "t2_9",
+     *           "created_at": "2019-04-29 15:50:28",
+     *           "updated_at": "2019-04-29 15:50:28",
+     *           "sender_name": "queenie.kris"
+     *       },
+     *       {
+     *           "id": "t4_150",
+     *           "content": "Arya stark",
+     *           "subject": null,
+     *           "sender": "t2_1",
+     *            "receiver": "t2_12836",
+     *           "created_at": "2019-04-30 07:49:41",
+     *           "updated_at": null,
+     *           "sender_name": "brekke.violet"
+     *       }
+     *   ]
+     * }
      */
 
     public function readMsg(Request $request)
     {
-        //get the logged in user id 
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
@@ -564,21 +605,28 @@ class AccountController extends Controller
         }
         //get the id of the message
         $msgid= $request['ID'];
-        $msgCheck=DB::table('messages')->where('id', '=', $msgid)->get();
+    
+        //$msg=Message::find($msgid);
+        $msg=Message::where('id', $msgid)->select('id','content','subject','sender','receiver','created_at','updated_at')->first();
         //if the message doesnot exist return an error message
-        if (count($msgCheck)==0) {
+        if (!$msg) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
-        //get the subject and the content of the message and all its replies
-        $subject=DB::table('messages')->where('id', '=', $msgid)->select('subject')->get();
-        $msg=DB::table('messages')->join('users', 'messages.receiver', '=', 'users.id')
-            ->where('messages.id', '=', $msgid)
-            ->orWhere('messages.parent', $msgid)
-            ->orderBy('messages.created_at', 'asc')
-            ->select('username', 'content', 'messages.created_at')
-            ->get();
-
-        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ],200);
+        //check if the logged in user is the sender or the reciever of the message
+        if($msg->sender==$id || $msg->receiver==$id ){
+            $msgReplies=Message::where('parent', $msgid)->orderBy('created_at', 'asc')
+            ->select('id','content','subject','sender','receiver','created_at','updated_at')->get();
+            $msgReplies->each(
+                function ($msgReplies) use ($msgid) {
+                    $msgReplies['sender_name'] = User::find($msgReplies->sender)->username;
+                }
+            );
+        }
+        //if the user is not the sender or the reciever of the message return an error message
+        else{
+            return response()->json(['error' => 'Message doesnot belong to the user'], 400);
+        }       
+        $json_output=response()->json(['message' =>$msg ,'replies'=>$msgReplies], 200);
         return $json_output;
     }
 
@@ -928,7 +976,7 @@ class AccountController extends Controller
       * it gets the personal information (username, profile picture , karma count) of the logged in user
       * then it checks if the user is a moderator (type=2) it gets the apexcoms the user moderates.
       * it gets the posts posted by the user and his vote and save statuses.
-      * it gets the saved and hidden posts by the user. 
+      * it gets the saved and hidden posts by the user.
       * then it returns all the profile information.
       *
       * @param string token the JWT representation of the user, admin or moderator.
@@ -945,6 +993,72 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
+     * @response 200{
+     * {
+     *       "user_info": [
+     *           {
+     *               "username": "s",
+     *               "avatar": "storage/avatars/users/default.png",
+     *               "karma": 1
+     *           }
+     *       ],
+     *       "posts": [
+     *           {
+     *               "id": "t3_100",
+     *               "posted_by": "t2_12836",
+     *               "apex_id": "t5_1",
+     *               "title": "sebak",
+     *               "img": null,
+     *               "videolink": null,
+     *               "content": null,
+     *               "locked": 0,
+     *               "created_at": null,
+     *               "updated_at": null,
+     *               "userVote": 0,
+     *               "votes": 0,
+     *               "comments_count": 0,
+     *               "apex_com_name": "gI1NZRiTkW",
+     *               "post_writer_username": "s"
+     *           }
+     *       ],
+     *       "saved_posts": [
+     *           {
+     *               "id": "t3_1",
+     *               "posted_by": "t2_21",
+     *               "apex_id": "t5_6",
+     *               "title": "LeHGyTsuKb",
+    *              "img": null,
+     *               "videolink": null,
+     *               "content": "Eveniet totam deserunt non magni. Magni non est eligendi magni minima ipsum. Aliquid aliquam dolore minus magni quo.",
+     *               "locked": 0,
+     *               "created_at": "2019-04-29 15:50:27",
+     *              "updated_at": "2019-04-29 15:50:27",
+     *               "votes": -1,
+     *               "comments_count": 3,
+     *               "apex_com_name": "faqc9dVGCf",
+     *               "post_writer_username": "mitchell.bettie"
+     *           }
+     *       ],
+     *       "hidden_posts": [
+     *          {
+     *               "id": "t3_10",
+     *               "posted_by": "t2_165",
+     *               "apex_id": "t5_5",
+     *               "title": "ehof4PuLeS",
+     *               "img": null,
+     *               "videolink": null,
+     *               "content": "Assumenda qui eum nemo eos maxime. Consequatur itaque totam sit illo.",
+     *               "locked": 0,
+     *               "created_at": "2019-04-29 15:50:28",
+     *              "updated_at": "2019-04-29 15:50:28",
+     *               "votes": 1,
+     *               "comments_count": 0,
+     *               "apex_com_name": "LrfjPAVBoN",
+     *               "post_writer_username": "zieme.myriam"
+     *           }
+     *      ]
+     *   }
+     * }
      */
 
     public function profileInfo(Request $request)
@@ -957,32 +1071,23 @@ class AccountController extends Controller
 
         //get the personal information (username, profile picture , karma count)of the logged in user
         $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
-       
-        //if the user is a moderator get the apexcoms the user moderates
-        if ($type == 2) {
-        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')
-        ->where('moderators.userID', '=', $id)->select('name', 'description')->get();
-        }
+
         //get the posts posted by the user and his vote and save statuses
-        $posts=Post::query()->where('posted_by',$id)->orderby('created_at','asc');
+        $posts=Post::query()->where('posted_by', $id)->orderby('created_at', 'asc')->get();
         $posts->each(
             function ($posts) use ($id) {
                 $posts['userVote'] = $posts->userVote($id);
-                $posts['Saved'] = $posts->isSavedBy($id);
             }
         );
-        //get the saved and hidden posts by the logged in user 
-        $savedPosts=Post::query()->isSavedBy($id);
-        $hiddenPosts=Post::query()->isHiddenBy($id);
+        $hiddens= Hidden::where('userID', $id)->pluck('postID');
+        $saved = SavePost::where('userID', $id)->pluck('postID');
+        //get the saved and hidden posts by the logged in user
+        $savedPosts=Post::query()->whereIn('id', $saved)->get();
+        $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
 
-        //return all the profile information
-        if ($type == 2) {
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ,'apex_coms'=>$apexcom  ]);
-        } else {
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ]);
-        }
+        $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ],200);
+
         return $json_output;
     }
 
@@ -1007,19 +1112,27 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
+     * @response 200{
+     *   "blocklist": [
+     *       {
+     *           "username": "brekke.violet",
+     *           "id": "t2_1"
+     *       }
+     *   ]
+     * }
      */
 
 
     public function blockList(Request $request)
     {
-        //get the logged in user id 
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
         //get the blocklist of the logged in user
         $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
         ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
-        return response()->json(['blocklist' =>$blocklist]);
+        return response()->json(['blocklist' =>$blocklist],200);
     }
 
     /**
@@ -1029,16 +1142,16 @@ class AccountController extends Controller
      * Check that the `max` is a valid integer or return an error message.
      * If the `max` is not given don't limit the result.
      * Get the messages that is not replies, order them by latest messages,
-     * limit them by `max` and select all attributes except 
-     * `delSent`, `delReceived` and `received`. 
+     * limit them by `max` and select all attributes except
+     * `delSent`, `delReceived` and `received`.
      * Get from the messages the messages that is sent by the user, the messages
      * that are received and read by him and the messages that are received
      * and not read, then collect the `read` and `unread` messages in `all`.
      * Return the sent messages and the received messages that are divided into
      * `read`, `unread` and `all`.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     /**
