@@ -314,7 +314,7 @@ class ApexComController extends Controller
             $v['locked'] = $r['isLocked'];
         }
         Post::create($v);
-        return response()->json($id, 200);
+        return response()->json(compact('id'));
     }
 
 
@@ -386,11 +386,14 @@ class ApexComController extends Controller
             [['apexID', '=',$apex_id],['userID', '=',$user_id] ]
         )->count();
 
+        $state = 'Subscribed';
+
         // unsubscribe if previously subscribed and return true to ensure the success of unsubscribe.
         if ($unsubscribe) {
             Subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
-            return response()->json('Unsubscribed', 200);
+            $state = 'Unsubscribed';
+            return response()->json(compact('state'));
         }
 
         // if not previously subscribed then subscribe and store it in the database.
@@ -402,7 +405,7 @@ class ApexComController extends Controller
         );
 
         // return true to ensure the success of subscription.
-        return response()->json('Subscribed', 200);
+        return response()->json(compact('state'));
     }
 
 
@@ -475,6 +478,8 @@ class ApexComController extends Controller
         // and return true
         
         $exists = apexComModel::where('name', $request['name'])->count();
+
+        $state = 'Updated';
         
         if (!$exists) {
             // making the id of the new apexcom and creating it
@@ -507,16 +512,16 @@ class ApexComController extends Controller
             
             apexComModel::create($v);
             
-            
-            // return true to ensure creation of new apexcom
-            return response()->json('Created', 200);
+            $state = 'Created';
+            // return state to ensure creation of new apexcom
+            return response()->json(compact('state'));
         }
 
         // update the apexcom with the validated request
         $exists = apexComModel::where('name', $request['name'])->first();
         $validated = $request->all();
         $exists->update($validated);
-        // return true to ensure editing of an existing apexcom
-        return response()->json('Updated', 200);
+        // return state to ensure editing of an existing apexcom
+        return response()->json(compact('state'));
     }
 }
