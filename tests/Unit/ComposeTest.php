@@ -33,7 +33,7 @@ class ComposeTest extends TestCase
         $token = $signIn->json('token');
         $sender = $user['id'];
 
-        $receiver = factory(User::class)->create()->id;
+        $receiver = factory(User::class)->create()->username;
 
         $subject = $this->faker->title;
         $content = $this->faker->text;
@@ -60,6 +60,9 @@ class ComposeTest extends TestCase
 
         $response->assertStatus(200)->assertSee('id');
 
+        //make $params['receiver'] = receiverID instead of receiver username
+        $params['receiver'] = User::where('username', $params['receiver'])
+            ->first()->id;
         $this->assertDatabaseHas('messages', $params->except('token')->toArray());
 
         //remove the composed message
@@ -80,7 +83,7 @@ class ComposeTest extends TestCase
     {
         $params = $this->_createParams();
         //delete receiver, we don't need him
-        User::where('id', $params['receiver'])->delete();
+        User::where('username', $params['receiver'])->forceDelete();
         $params['receiver'] = '-1';
 
         $response = $this->json(
@@ -89,7 +92,7 @@ class ComposeTest extends TestCase
             $params->except('sender')->toArray()
         );
 
-        $response->assertStatus(404)->assertSee('Receiver id is not found');
+        $response->assertStatus(404)->assertSee('Receiver username is not found');
 
         //remove the created user
         User::where('id', $params['sender'])->forceDelete();
@@ -105,10 +108,10 @@ class ComposeTest extends TestCase
     public function blockedUsers()
     {
         $params = $this->_createParams();
-
+        $receiverID = User::where('username', $params['receiver'])->first()->id;
         //block the users before sending the message
         Block::insert(
-            ['blockerID' => $params['receiver'], 'blockedID' => $params['sender']]
+            ['blockerID' => $receiverID, 'blockedID' => $params['sender']]
         );
 
         $response = $this->json(
@@ -122,11 +125,11 @@ class ComposeTest extends TestCase
 
         //unblock users
         Block::where(
-            ['blockerID' => $params['receiver'], 'blockedID' => $params['sender']]
+            ['blockerID' => $receiverID, 'blockedID' => $params['sender']]
         )->delete();
 
         //remove the created users
-        User::where('id', $params['receiver'])
+        User::where('id', $receiverID)
             ->orWhere('id', $params['sender'])->forceDelete();
     }
 
@@ -154,7 +157,7 @@ class ComposeTest extends TestCase
         }
 
         //remove the created users
-        User::where('id', $params['receiver'])
+        User::where('username', $params['receiver'])
             ->orWhere('id', $params['sender'])->forceDelete();
     }
 
@@ -180,7 +183,7 @@ class ComposeTest extends TestCase
             ->assertSee('Not authorized');
 
         //remove the created users
-        User::where('id', $params['receiver'])
+        User::where('username', $params['receiver'])
             ->orWhere('id', $params['sender'])->forceDelete();
     }
 }
