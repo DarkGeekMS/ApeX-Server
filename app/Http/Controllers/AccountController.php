@@ -13,7 +13,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
+use App\Models\Hidden;
+use App\Models\SavePost;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Message;
@@ -277,7 +280,7 @@ class AccountController extends Controller
             if (!$authorized) {
                 return response()->json(['msg' => 'not authorized'], 400);
             }
-                
+
             try {
                 $codeText = Str::random(15); // Generating random code
                 //Sending the email with random code
@@ -422,7 +425,7 @@ class AccountController extends Controller
      * Delete Message
      * Validate the input by checking that the given message id is valid and exists,
      * or return an error message. Check that the logged-in user is authorized
-     * and get his id or return an error message. 
+     * and get his id or return an error message.
      * If the user is the sender of the message check that the message isn't already
      * deleted from the sender and then mark it as deleted form the sender,
      * or return that it's already deleted.
@@ -431,9 +434,9 @@ class AccountController extends Controller
      * If the message is deleted from both the sender and receiver,
      * delete it entirely form the database.
      * Return a message that contains that the message is deleted successfully
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Resposne
      */
     /**
@@ -550,7 +553,7 @@ class AccountController extends Controller
 
     public function readMsg(Request $request)
     {
-        //get the logged in user id 
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
@@ -578,7 +581,7 @@ class AccountController extends Controller
             ->select('username', 'content', 'messages.created_at')
             ->get();
 
-        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ],200);
+        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ], 200);
         return $json_output;
     }
 
@@ -928,7 +931,7 @@ class AccountController extends Controller
       * it gets the personal information (username, profile picture , karma count) of the logged in user
       * then it checks if the user is a moderator (type=2) it gets the apexcoms the user moderates.
       * it gets the posts posted by the user and his vote and save statuses.
-      * it gets the saved and hidden posts by the user. 
+      * it gets the saved and hidden posts by the user.
       * then it returns all the profile information.
       *
       * @param string token the JWT representation of the user, admin or moderator.
@@ -957,32 +960,23 @@ class AccountController extends Controller
 
         //get the personal information (username, profile picture , karma count)of the logged in user
         $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
-       
-        //if the user is a moderator get the apexcoms the user moderates
-        if ($type == 2) {
-        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')
-        ->where('moderators.userID', '=', $id)->select('name', 'description')->get();
-        }
+
         //get the posts posted by the user and his vote and save statuses
-        $posts=Post::query()->where('posted_by',$id)->orderby('created_at','asc');
+        $posts=Post::query()->where('posted_by', $id)->orderby('created_at', 'asc')->get();
         $posts->each(
             function ($posts) use ($id) {
                 $posts['userVote'] = $posts->userVote($id);
-                $posts['Saved'] = $posts->isSavedBy($id);
             }
         );
-        //get the saved and hidden posts by the logged in user 
-        $savedPosts=Post::query()->isSavedBy($id);
-        $hiddenPosts=Post::query()->isHiddenBy($id);
+        $hiddens= Hidden::where('userID', $id)->pluck('postID');
+        $saved = SavePost::where('userID', $id)->pluck('postID');
+        //get the saved and hidden posts by the logged in user
+        $savedPosts=Post::query()->whereIn('id', $saved)->get();
+        $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
 
-        //return all the profile information
-        if ($type == 2) {
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ,'apex_coms'=>$apexcom  ]);
-        } else {
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+        $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
             'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ]);
-        }
+
         return $json_output;
     }
 
@@ -1012,7 +1006,7 @@ class AccountController extends Controller
 
     public function blockList(Request $request)
     {
-        //get the logged in user id 
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
@@ -1029,16 +1023,16 @@ class AccountController extends Controller
      * Check that the `max` is a valid integer or return an error message.
      * If the `max` is not given don't limit the result.
      * Get the messages that is not replies, order them by latest messages,
-     * limit them by `max` and select all attributes except 
-     * `delSent`, `delReceived` and `received`. 
+     * limit them by `max` and select all attributes except
+     * `delSent`, `delReceived` and `received`.
      * Get from the messages the messages that is sent by the user, the messages
      * that are received and read by him and the messages that are received
      * and not read, then collect the `read` and `unread` messages in `all`.
      * Return the sent messages and the received messages that are divided into
      * `read`, `unread` and `all`.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     /**
