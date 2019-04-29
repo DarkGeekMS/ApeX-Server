@@ -10,7 +10,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Moderator;
 
-class ValidDelete extends TestCase
+class ValidDeleteTest extends TestCase
 {
   /**
    *

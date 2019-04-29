@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use \App\Models\User;
 use App\Models\Block;
 
-class blockUser extends TestCase
+class blockUserTest extends TestCase
 {
 
     use WithFaker;

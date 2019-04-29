@@ -9,7 +9,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\User;
 
-class InvalidVote extends TestCase
+class InvalidVoteTest extends TestCase
 {
   /**
    *

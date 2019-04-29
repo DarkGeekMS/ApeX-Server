@@ -283,7 +283,7 @@ class ModerationController extends Controller
                     'comment' => [
                         'id' => $item['commentid'], 'parent' => $item['parent'],
                         'root' => $item['root'], 'content' =>$item['commentcontent'],
-                        'commented_by' => $item['commented_by'], 
+                        'commented_by' => $item['commented_by'],
                         'writerUsername' => User::find($item['commented_by'])->username
                     ],
                     'report' => [

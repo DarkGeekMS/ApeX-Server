@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 use App\Models\Post;
 
-class MoreComments extends TestCase
+class MoreCommentsTest extends TestCase
 {
 
   /**
