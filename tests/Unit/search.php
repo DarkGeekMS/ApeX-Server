@@ -27,7 +27,7 @@ class search extends TestCase
             'GET',
             'api/Search',
             [
-            'query' => 'any'
+            'query' => 'lor'
             ]
         );
         $response->assertStatus(200);
@@ -57,7 +57,7 @@ class search extends TestCase
             'POST',
             'api/Search',
             [
-            'query' => 'any',
+            'query' => 'lor',
             'token' => $token
             ]
         )->assertStatus(200);
