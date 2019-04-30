@@ -6,104 +6,75 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\ApexCom;
 
 class ValidAddMoerator extends TestCase
 {
  /**
-   *Test an admin add a moderator to an apexcom
+   * Test an admin add a moderator to an apexcom
    * @test
    *
    * @return void
    */
     public function addModerator()
     {
-    //sign in with an admin account
-        $adminLoginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'king',
-            'password' => 'queen12'
-            ]
-        );
-        $token = $adminLoginResponse->json("token");
-    //user to be added as a moderator
-        $userLoginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-              'username' => 'mondaTalaat',
-              'password' => 'monda21'
-            ]
-        );
-        $userToken = $userLoginResponse->json("token");
-        $meResponse = $this->json(
-            'POST',
-            '/api/Me',
-            [
-              'token' => $userToken
-            ]
-        );
-        $id = $meResponse->getData()->user->id;
+      $user = factory(User::class)->create();
+      $admin = factory(User::class)->create();
+      User::where('id', $admin['id'])->update(['type' => 3]);
+      $apexcom = factory(ApexCom::class)->create();
 
-    //creating a dummy apexcom
-        $apexid='t5_1';               //id of an existing apexcom
-        $addResponse = $this->json(
-            'POST',
-            '/api/AddModerator',
-            [
-              'token' => $token,
-              'UserID' => $id,
-              'ApexComID'=>$apexid
-            ]
+      $LoginResponse = $this->json(
+          'POST',
+          '/api/SignIn',
+          [
+          'username' => $admin['username'],
+          'password' => 'monda21'
+          ]
+      );
+
+      $LoginResponse ->assertStatus(200);
+
+      $token = $LoginResponse ->json('token');
+      $addResponse = $this->json(
+          'POST',
+          '/api/AddModerator',
+          [
+            'token' => $token,
+            'UserID' => $user['id'],
+            'ApexComID'=>$apexcom['id']
+          ]
         );
-        $addResponse->assertStatus(200)->assertDontSee("token_error");
-    }
-  /**
-   *Test an admin remove a moderator from an apexcom
-   * @test
-   *
-   * @return void
-   */
-    public function deleteModerator()
-    {
-      //sign in with an admin account
-        $adminLoginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-              'username' => 'king',
-              'password' => 'queen12'
-            ]
-        );
-        $token = $adminLoginResponse->json("token");
-        $userLoginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-              'username' => 'mondaTalaat',
-              'password' => 'monda21'
-            ]
-        );
-        $userToken = $userLoginResponse->json("token");
-        $meResponse = $this->json(
-            'POST',
-            '/api/Me',
-            [
-              'token' => $userToken
-            ]
-        );
-        $id = $meResponse->getData()->user->id;
-        $apexid='t5_1';
-        $delResponse = $this->json(
-            'POST',
-            '/api/AddModerator',
-            [
-              'token' => $token,
-              'UserID' => $id,
-              'ApexComID'=>$apexid
-            ]
-        );
-        $delResponse->assertStatus(200)->assertDontSee("token_error");
+      $addResponse->assertStatus(200)->assertDontSee("token_error");
+      $this->assertDatabaseHas('moderators', ['apexID' => $apexcom['id'], 'userID' => $user['id']]);
+
+      $deleteResponse = $this->json(
+        'POST',
+        '/api/AddModerator',
+        [
+          'token' => $token,
+          'UserID' => $user['id'],
+          'ApexComID'=>$apexcom['id']
+        ]
+      );
+      $deleteResponse->assertStatus(200)->assertDontSee("token_error");
+      $this->assertDatabaseMissing('moderators', ['apexID' => $apexcom['id'], 'userID' => $user['id']]);
+      
+      $logoutResponse = $this->json(
+        'POST',
+        '/api/SignOut',
+        [
+        'token' => $token
+        ]
+      );
+      //delete user, admin and apexcom from the database
+      ApexCom::where('id', $apexcom['id'])->delete();
+      $this->assertDatabaseMissing('apex_coms', ['id' => $apexcom['id']]);
+      
+      User::where('id', $user['id'])->forceDelete();
+      $this->assertDatabaseMissing('users', ['id' => $user['id']]);
+
+      User::where('id', $admin['id'])->forceDelete();
+      $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
 }

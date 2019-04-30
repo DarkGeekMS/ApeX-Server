@@ -5,120 +5,77 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 
 class ValidDeleteUser extends TestCase
 {
  /**
-   *Test a user deletes his account (Deactivate)
+   * Test a user deletes his account (Deactivate)
    * @test
    *
    * @return void
    */
     public function Deactivate()
     {
-
-        $SignupResponse = $this->json(
-            'POST',
-            '/api/SignUp',
-            [
-            'email' => 'sebak@gmail.com',
-            'password' => '123456',
-            'username' => 'sebak',
-            ]
-        );
+        $user = factory(User::class)->create();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'sebak',
-            'password' => '123456'
+            'username' => $user['username'],
+            'password' => 'monda21'
             ]
         );
+        $loginResponse->assertStatus(200);
         $token = $loginResponse->json("token");
-        $meResponse = $this->json(
-            'POST',
-            '/api/Me',
-            [
-            'token' => $token
-            ]
-        );
-        $id = $meResponse->getData()->user->id;
-        //to delete a user
+
         $delResponse = $this->json(
             'DELETE',
             '/api/DeleteUser',
             [
             'token' => $token,
-            'UserID' => $id,
-            'passwordConfirmation'=>'123456'
+            'UserID' => $user['id'],
+            'passwordConfirmation'=>'monda21'
             ]
         );
         $delResponse->assertStatus(200)->assertDontSee("token_error");
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
+        $this->assertSoftDeleted('users', ['id' => $user['id']]);
     }
 
  /**
-   *Test an admin delete an existing user
+   * Test an admin delete an existing user
    * @test
    *
    * @return void
    */
     public function AdminDelete()
     {
-      //sign in with an admin account
-        $adminLoginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'king',
-            'password' => 'queen12'
-            ]
-        );
-        $token = $adminLoginResponse->json("token");
-      //user to deleted
-        $userSignupResponse = $this->json(
-            'POST',
-            '/api/SignUp',
-            [
-              'email' => 'sebak@gmail.com',
-              'password' => '123456',
-              'username' => 'sebak',
-            ]
-        );
-        $userLoginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'sebak',
-            'password' => '123456'
-            ]
-        );
-        $userToken = $userLoginResponse->json("token");
-        $meResponse = $this->json(
-            'POST',
-            '/api/Me',
-            [
-            'token' => $userToken
-            ]
-        );
-        $id = $meResponse->getData()->user->id;
+        $user = factory(User::class)->create();
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
 
+        $loginResponse = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+            'username' => $admin['username'],
+            'password' => 'monda21'
+            ]
+        );
+
+        $loginResponse->assertStatus(200);
+        $token = $loginResponse->json("token");
         $delResponse = $this->json(
             'DELETE',
             '/api/DeleteUser',
             [
             'token' => $token,
-            'UserID' => $id,
-            'passwordConfirmation'=>'12'
+            'UserID' => $user['id'],
+            'passwordConfirmation'=>'monda21'
             ]
         );
         $delResponse->assertStatus(200)->assertDontSee("token_error");
+        $this->assertSoftDeleted('users', ['id' => $user['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -126,5 +83,8 @@ class ValidDeleteUser extends TestCase
             'token' => $token
             ]
         );
+        //delete admin from the database
+        User::where('id', $admin['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
 }

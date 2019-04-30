@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\ApexCom;
 
 class InvalidDeleteApexCom extends TestCase
 {
@@ -18,38 +19,39 @@ class InvalidDeleteApexCom extends TestCase
    */
     public function noApexCom()
     {
-    //login by an admin
-        $admin = factory(User::class)->create();
-        User::where('id', $admin['id'])->update(['type' => 3]);
+      //login by an admin
+      $admin = factory(User::class)->create();
+      User::where('id', $admin['id'])->update(['type' => 3]);
 
-        $signIn = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-              'username' => $admin['username'],
-              'password' => 'monda21'
-            ]
-        );
+      $signIn = $this->json(
+          'POST',
+          '/api/SignIn',
+          [
+            'username' => $admin['username'],
+            'password' => 'monda21'
+          ]
+      );
 
-        $signIn->assertStatus(200);
-        $token = $signIn->json('token');
-        $delResponse = $this->json(
-            'DELETE',
-            '/api/DeleteApexcom',
-            [
-            'token' => $token,
-            'Apex_ID' => 't3_1000'               //wrong Apex_ID
-            ]
-        );
-        $delResponse->assertStatus(500)->assertSee("ApexCom doesnot exist");
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-              'token' => $token
-            ]
-        );
-        DB::table('users')->where('id', $admin['id'])->delete();
+      $signIn->assertStatus(200);
+      $token = $signIn->json('token');
+      $delResponse = $this->json(
+          'DELETE',
+          '/api/DeleteApexcom',
+          [
+          'token' => $token,
+          'Apex_ID' => 't3_1000'               //wrong Apex_ID
+          ]
+      );
+      $delResponse->assertStatus(500)->assertSee("ApexCom doesnot exist");
+      $logoutResponse = $this->json(
+          'POST',
+          '/api/SignOut',
+          [
+            'token' => $token
+          ]
+      );
+      User::where('id', $admin['id'])->forceDelete();
+      $this->assertDatabaseMissing('users', ['id' => $admin['id']]);;
     }
  /**
    * User deletes an apexcom (not admin)
@@ -72,22 +74,16 @@ class InvalidDeleteApexCom extends TestCase
 
         $signIn->assertStatus(200);
         $token = $signIn->json('token');
-     //creating a dummy apexcom
-        $id='2';
-        $name='m';
-        $rules='none';
-        $description='none';
-        DB::table('apex_coms')-> insert(['id' => $id, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
+        $apexcom = factory(ApexCom::class)->create();
         $delResponse = $this->json(
             'DELETE',
             '/api/DeleteApexcom',
             [
               'token' => $token,
-              'Apex_ID' => $id
+              'Apex_ID' => $apexcom['id']
             ]
         );
         $delResponse->assertStatus(300)->assertSee("Unauthorized access");
-        DB::table('apex_coms')->where('id', '=', $id)->delete();
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -95,6 +91,10 @@ class InvalidDeleteApexCom extends TestCase
               'token' => $token
             ]
         );
-        DB::table('users')->where('id', $admin['id'])->delete();
+        ApexCom::where('id', $apexcom['id'])->delete();
+        $this->assertDatabaseMissing('apex_coms', ['id' => $apexcom['id']]);
+
+        User::where('id', $admin['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
 }

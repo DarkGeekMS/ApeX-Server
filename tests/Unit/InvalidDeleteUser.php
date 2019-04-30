@@ -86,7 +86,7 @@ class InvalidDeleteUser extends TestCase
             [
               'token' => $token,
               'UserID' => $user['id'],
-              'passwordConfirmation'=>'123456'
+              'passwordConfirmation'=>'monda21'
             ]
         );
         $delResponse->assertStatus(300)->assertSee("UnAuthorized Deletion");
@@ -111,7 +111,7 @@ class InvalidDeleteUser extends TestCase
     public function wrongPassword()
     {
 
-      //user to be deletes his account
+      //user to delete his account
         $user = factory(User::class)->create();
 
         $signIn = $this->json(

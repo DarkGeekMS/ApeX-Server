@@ -1107,6 +1107,9 @@ class CommentandLinksController extends Controller
      * @response  404{
      * "error" : "post or comment doesnot exist"
      * }
+     * @response 400{
+     * "error": "Not authorized"
+     * }
      * @response 200{
      * "value": true
      * }
