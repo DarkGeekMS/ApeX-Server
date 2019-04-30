@@ -5,31 +5,30 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\User;
 
-class ValidReport extends TestCase
+class ValidVoteTest extends TestCase
 {
-  /**
-   *
-   * @test
-   *
-   * @return void
-   */
-     //moderator in apexcom not include the reported post
-    public function reportPost()
+
+     /**
+      *
+      * @test
+      *
+      * @return void
+      */
+
+    public function PostVote()
     {
         $user = factory(User::class)->create();
-        User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => $user['username'],
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
 
@@ -38,26 +37,39 @@ class ValidReport extends TestCase
         $token = $signIn->json('token');
         $response = $this->json(
             'POST',
-            '/api/Report',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => $post['id'],
-            'content' => 'report user'
+            'dir' => 1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('report_posts', ['postID' => $post['id'] , 'userID' => $user['id']]);
+        $this->assertDatabaseHas('votes', ['postID' => $post['id'] , 'userID' => $user['id'] , 'dir' => 1]);
+
         $response = $this->json(
             'POST',
-            '/api/Report',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => $post['id'],
-            'content' => 'report user'
+            'dir' => -1
             ]
         );
-        $response->assertStatus(400);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('votes', ['postID' => $post['id'] , 'userID' => $user['id'] , 'dir' => -1]);
 
+        $response = $this->json(
+            'POST',
+            '/api/Vote',
+            [
+            'token' => $token,
+            'name' => $post['id'],
+            'dir' => -1
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('votes', ['postID' => $post['id'] , 'userID' => $user['id']]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -65,9 +77,11 @@ class ValidReport extends TestCase
             'token' => $token
             ]
         );
-        DB::table('report_posts')->where('postID', $post['id'])->where('userID', $user['id'])->delete();
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -81,18 +95,17 @@ class ValidReport extends TestCase
      *
      * @return void
      */
-    //ordinary user report a comment
-    public function reportComment()
+    //new vote on a comment
+    public function CommentVote()
     {
         $user = factory(User::class)->create();
-        User::where('id', $user['id'])->update(['type' => 1]);
         $comment = factory(Comment::class)->create();
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => $user['username'],
-            'password' => 'monda21'
+              'username' => $user['username'],
+              'password' => 'monda21'
             ]
         );
 
@@ -101,25 +114,37 @@ class ValidReport extends TestCase
         $token = $signIn->json('token');
         $response = $this->json(
             'POST',
-            '/api/Report',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => $comment['id'],
-            'content' => 'report user'
+            'dir' => 1
             ]
         );
         $response->assertStatus(200);
-        $this->assertDatabaseHas('report_comments', ['comID' => $comment['id'] , 'userID' =>  $user['id']]);
+        $this->assertDatabaseHas('comment_votes', ['comID' =>  $comment['id'] , 'userID' => $user['id'] , 'dir' => 1]);
         $response = $this->json(
             'POST',
-            '/api/Report',
+            '/api/Vote',
             [
             'token' => $token,
             'name' => $comment['id'],
-            'content' => 'report user'
+            'dir' => -1
             ]
         );
-        $response->assertStatus(400);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('comment_votes', ['comID' =>  $comment['id'] , 'userID' => $user['id'] , 'dir' => -1]);
+        $response = $this->json(
+            'POST',
+            '/api/Vote',
+            [
+            'token' => $token,
+            'name' => $comment['id'],
+            'dir' => -1
+            ]
+        );
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('comment_votes', ['comID' =>  $comment['id'] , 'userID' => $user['id'] ]);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -127,9 +152,11 @@ class ValidReport extends TestCase
             'token' => $token
             ]
         );
-        DB::table('report_comments')->where('comID', $comment['id'])->where('userID', $user['id'])->delete();
         Comment::where('id', $comment['id'])->delete();
         $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
+
+        User::where('id', $comment['commented_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 

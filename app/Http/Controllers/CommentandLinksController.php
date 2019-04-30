@@ -707,7 +707,7 @@ class CommentandLinksController extends Controller
         $comments = [];
         $this->buildTree($data, $comments);
 
-        return response()->json(['comment' => $comments], 200);
+        return response()->json(['comments' => $comments], 200);
     }
 
 

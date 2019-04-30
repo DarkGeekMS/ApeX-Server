@@ -10,7 +10,7 @@ use DB;
 use \App\Models\User;
 use App\Models\Block;
 
-class GetApexcoms extends TestCase
+class GetApexcomsTest extends TestCase
 {
     use WithFaker;
     /**

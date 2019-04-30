@@ -10,7 +10,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Moderator;
 
-class ValidDelete extends TestCase
+class ValidDeleteTest extends TestCase
 {
   /**
    *
@@ -27,7 +27,12 @@ class ValidDelete extends TestCase
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
+        $dummy = User::find($post['posted_by']);
         Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+
+        User::where('id', $dummy['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $dummy['id']]);
+
         $comment = factory(Comment::class)->create();
         Comment::where('id', $comment['id'])->update(['root' => $post['id']]);
 
@@ -62,6 +67,9 @@ class ValidDelete extends TestCase
          );
          Post::where('id', $post['id'])->delete();
          $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+         User::where('id', $comment['commented_by'])->forceDelete();
+         $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
          // delete user added to database
          User::where('id', $user['id'])->forceDelete();
 
@@ -83,7 +91,13 @@ class ValidDelete extends TestCase
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
+        $dummy = User::find($post['posted_by']);
+
         Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+
+        User::where('id', $dummy['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $dummy['id']]);
+
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -134,7 +148,12 @@ class ValidDelete extends TestCase
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 1]);
         $comment = factory(Comment::class)->create();
+        $dummy = User::find($comment['commented_by']);
         Comment::where('id', $comment['id'])->update(['commented_by' => $user['id']]);
+
+        User::where('id', $dummy['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $dummy['id']]);
+
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -212,6 +231,9 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -260,6 +282,9 @@ class ValidDelete extends TestCase
             'token' => $token
             ]
         );
+
+        User::where('id', $comment['commented_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -314,6 +339,12 @@ class ValidDelete extends TestCase
         Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $comment['commented_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -365,6 +396,9 @@ class ValidDelete extends TestCase
             ]
         );
         Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
 
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();

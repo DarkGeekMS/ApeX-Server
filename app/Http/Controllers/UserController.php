@@ -112,7 +112,7 @@ class UserController extends Controller
      * Check the logged-in user is authenticated and get his id by requesting `me`.
      * Check that the given sender and receiver are not blocked from each other.
      * If all the input is valid, insert a new row in `messages` table
-     * contains the message data.
+     * contains the message data, then return the id of the inserted message.
      *
      * @param Request $request
      *
@@ -142,7 +142,7 @@ class UserController extends Controller
      * @response 400 {"content":["The content field is required."]}
      * @response 400 {"error":"Not authorized"}
      *
-     * @bodyParam receiver string required The id of the user to be messaged. Example: t2_1
+     * @bodyParam receiver string required The username of the user to be messaged. Example: king
      * @bodyParam subject string required The subject of the message. Example: Hello
      * @bodyParam content text required the body of the message. Example: Can I have a date with you?
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
@@ -162,10 +162,12 @@ class UserController extends Controller
             return response($validator->errors(), 400);
         }
 
-        if (!User::query()->where('id', $request->receiver)->exists()) {
-            return response(['error' => 'Receiver id is not found'], 404);
+        if (!User::query()->where('username', $request->receiver)->exists()) {
+            return response(['error' => 'Receiver username is not found'], 404);
         }
+        //get receiver id
         $receiver = $request->receiver;
+        $receiver = User::where('username', $receiver)->first()->id;
 
         $account = new AccountController();
         $meResponse = $account->me($request);

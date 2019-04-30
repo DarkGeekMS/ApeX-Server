@@ -24,14 +24,14 @@ class GeneralController extends Controller
 
     /**
      * Search for ApexComs, Users and posts that matches the given query.
-     * Validate the input by checking that the query is string and 
+     * Validate the input by checking that the query is string and
      * at least 3 characters.
      * Get the ApexComs that have name or description that matche the query.
      * Get the Users that have fullname or username thath matche the query.
      * Get the Posts that have title or content that match the query.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     /**
@@ -125,7 +125,7 @@ class GeneralController extends Controller
             //remove them from the result
             $result['posts'] = $result['posts']
                 ->whereNotIn('apex_id', $apexList)->flatten();
-                
+
             //add the current user vote on the posts and if he had saved it
             $result['posts']->each(
                 function ($post) use ($userID) {
@@ -149,9 +149,7 @@ class GeneralController extends Controller
                     ->whereNotIn('id', $blockList)->flatten();
             }
 
-
             if ($result->has('apexComs')) {
-
                 $result['apexComs'] = $result['apexComs']
                     ->whereNotIn('id', $apexList)->flatten();
 
@@ -172,9 +170,9 @@ class GeneralController extends Controller
     /**
      * Get the result from `guestSearch` request, then filter the result
      * using `filterResult` function.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     /**
@@ -226,9 +224,9 @@ class GeneralController extends Controller
      * else it uses that id to get the posts in that apexCom if there is no
      * `subscribedApexCom` parameter in the request (not called from userSortPosts),
      * then it return the posts sorted by the given sortingParam.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     /**
@@ -304,9 +302,9 @@ class GeneralController extends Controller
      * check that there are ApexComs that the user is subscribed in,
      * or return an error message,
      * then return the filtered results using `filterResult` function.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     /**
@@ -335,7 +333,7 @@ class GeneralController extends Controller
      * @responseFile 404 responses\apexComNotFound.json
      * @responseFile 400 responses\notAuthorized.json
      * @responseFile 400 responses\userNotSubscribedInAnyApexComs.json
-     * 
+     *
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
      * @bodyParam subscribedApexCom bool If true return only the posts in ApexComs that the user is subscribed in, default is false. Example: false
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
@@ -360,16 +358,14 @@ class GeneralController extends Controller
         $userID = $account->me($request)->getData()->user->id;
         $subscribed = $request->input('subscribedApexCom', false);
         if ($subscribed && !Subscriber::query()->where(compact('userID'))->exists()) {
-            return response()->json(
-                ['error' => 'The user is not subscribed in any ApexCom'], 400
-            );
+            return response()->json(['error' => 'The user is not subscribed in any ApexCom'], 400);
         }
         return $this->filterResult(collect($result), $request['token'], $subscribed);
     }
 
     /**
-     * Get all the existing ApexComs and return their id and name 
-     * 
+     * Get all the existing ApexComs and return their id and name
+     *
      * @return Response
      */
     /**
@@ -385,8 +381,8 @@ class GeneralController extends Controller
     public function apexNames()
     {
         try {
-            $Anames = ApexCom::select('id', 'name')->get();
-            return response()->json([$Anames], 200);
+            $apexComs = ApexCom::select('id', 'name')->get();
+            return response()->json(compact('apexComs'));
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }

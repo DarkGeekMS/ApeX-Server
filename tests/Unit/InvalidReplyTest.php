@@ -10,7 +10,7 @@ use App\Models\Post;
 use App\Models\Message;
 use App\Models\User;
 
-class InvalidReply extends TestCase
+class InvalidReplyTest extends TestCase
 {
 
   /**
@@ -50,6 +50,9 @@ class InvalidReply extends TestCase
         $response->assertStatus(400);
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -240,6 +243,8 @@ class InvalidReply extends TestCase
          );
          Post::where('id', $post['id'])->delete();
          $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+         User::where('id', $post['posted_by'])->forceDelete();
+         $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
          // delete user added to database
          User::where('id', $user['id'])->forceDelete();
 
@@ -292,6 +297,9 @@ class InvalidReply extends TestCase
          );
          Post::where('id', $post['id'])->delete();
          $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+         User::where('id', $post['posted_by'])->forceDelete();
+         $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
          // delete user added to database
          User::where('id', $user['id'])->forceDelete();
 
@@ -310,7 +318,12 @@ class InvalidReply extends TestCase
           $user = factory(User::class)->create();
           $user2 = factory(User::class)->create();
           $post = factory(Post::class)->create();
+          $dummy = User::find($post['posted_by']);
           Post::where('id', $post['id'])->update(['posted_by' => $user2['id']]);
+
+          User::where('id', $dummy['id'])->forceDelete();
+          $this->assertDatabaseMissing('users', ['id' => $dummy['id']]);
+
           User::where('id', $user2['id'])->delete();
 
           $signIn = $this->json(

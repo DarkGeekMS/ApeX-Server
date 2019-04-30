@@ -6,20 +6,112 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Post;
-use App\Models\Comment;
 use App\Models\User;
-use App\Models\Moderator;
+use App\Models\Comment;
 
-class ValidLock extends TestCase
+class InvalidDeleteTest extends TestCase
 {
-  /**
-   *
-   * @test
-   *
-   * @return void
-   */
-    //admin lock post
-    public function adminLock()
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //no post
+    public function noPost()
+    {
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+              'username' => $admin['username'],
+              'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
+        $response = $this->json(
+            'DELETE',
+            '/api/Delete',
+            [
+            'token' => $token,
+            'name' => 't3_06'
+            ]
+        );
+        $response->assertStatus(404);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+            'token' => $token
+            ]
+        );
+        // delete user added to database
+        User::where('id', $admin['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
+    }
+
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //no comment or reply
+    public function noComment()
+    {
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
+
+        $signIn = $this->json(
+            'POST',
+            '/api/SignIn',
+            [
+              'username' => $admin['username'],
+              'password' => 'monda21'
+            ]
+        );
+
+        $signIn->assertStatus(200);
+        $token = $signIn->json('token');
+        $response = $this->json(
+            'DELETE',
+            '/api/Delete',
+            [
+            'token' => $token,
+            'name' => 't1_01'
+            ]
+        );
+        $response->assertStatus(404);
+        $logoutResponse = $this->json(
+            'POST',
+            '/api/SignOut',
+            [
+            'token' => $token
+            ]
+        );
+        // delete user added to database
+        User::where('id', $admin['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
+    }
+
+    /**
+     *
+     * @test
+     *
+     * @return void
+     */
+    //not valid user
+    public function noUser()
     {
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 3]);
@@ -28,43 +120,29 @@ class ValidLock extends TestCase
             'POST',
             '/api/SignIn',
             [
-              'username' => $user['username'],
-              'password' => 'monda21'
+            'username' => $user['username'],
+            'password' => 'non'
             ]
         );
 
-        $signIn->assertStatus(200);
+        $signIn->assertStatus(400);
 
         $token = $signIn->json('token');
         $response = $this->json(
-            'POST',
-            '/api/LockPost',
+            'DELETE',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => $post['id']
             ]
         );
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('posts', ['id' => $post['id'] , 'locked' => 1]);
-        $response = $this->json(
-            'POST',
-            '/api/LockPost',
-            [
-            'token' => $token,
-            'name' => $post['id']
-            ]
-        );
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('posts', ['id' => $post['id'] , 'locked' => 0]);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
+        $response->assertStatus(400);
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
+
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -78,12 +156,12 @@ class ValidLock extends TestCase
      *
      * @return void
      */
-    //post owner lock the post
-    public function ownerLock()
+    //not post owner , admin or moderator in the apexcom where the post in
+    public function notAllowed()
     {
         $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
-        Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -97,25 +175,14 @@ class ValidLock extends TestCase
 
         $token = $signIn->json('token');
         $response = $this->json(
-            'POST',
-            '/api/LockPost',
+            'DELETE',
+            '/api/Delete',
             [
             'token' => $token,
             'name' => $post['id']
             ]
         );
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('posts', ['id' => $post['id'] , 'locked' => 1]);
-        $response = $this->json(
-            'POST',
-            '/api/LockPost',
-            [
-            'token' => $token,
-            'name' => $post['id']
-            ]
-        );
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('posts', ['id' => $post['id'] , 'locked' => 0]);
+        $response->assertStatus(400);
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -125,69 +192,10 @@ class ValidLock extends TestCase
         );
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
-        // delete user added to database
-        User::where('id', $user['id'])->forceDelete();
 
-        //check that the user deleted from database
-        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
-    }
-
-    /**
-     *
-     * @test
-     *
-     * @return void
-     */
-    //moderator in the Apexcom where the post in lock the post
-    public function moderatorLock()
-    {
-        $user = factory(User::class)->create();
-        $post = factory(Post::class)->create();
-        User::where('id', $user['id'])->update(['type' => 2]);
-        Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
-        Moderator::create(['apexID' => $post['apex_id'], 'userID' => $user['id']]);
-        $signIn = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => $user['username'],
-            'password' => 'monda21'
-            ]
-        );
-
-        $signIn->assertStatus(200);
-
-        $token = $signIn->json('token');
-        $response = $this->json(
-            'POST',
-            '/api/LockPost',
-            [
-            'token' => $token,
-            'name' => $post['id']
-            ]
-        );
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('posts', ['id' => $post['id'] , 'locked' => 1]);
-        $response = $this->json(
-            'POST',
-            '/api/LockPost',
-            [
-            'token' => $token,
-            'name' => $post['id']
-            ]
-        );
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('posts', ['id' => $post['id'] , 'locked' => 0]);
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-        Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
-        Post::where('id', $post['id'])->delete();
-        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
+        
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 

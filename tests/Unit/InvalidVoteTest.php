@@ -9,7 +9,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\User;
 
-class InvalidVote extends TestCase
+class InvalidVoteTest extends TestCase
 {
   /**
    *
@@ -143,6 +143,9 @@ class InvalidVote extends TestCase
 
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -191,6 +194,10 @@ class InvalidVote extends TestCase
         );
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
+        
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 

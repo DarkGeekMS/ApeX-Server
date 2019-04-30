@@ -12,6 +12,6 @@ class subscribers extends Seeder
      */
     public function run()
     {
-        factory(Subscriber::class, 10)->create();
+        factory(Subscriber::class, 5)->create();
     }
 }

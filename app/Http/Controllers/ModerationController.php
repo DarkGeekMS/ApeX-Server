@@ -88,9 +88,15 @@ class ModerationController extends Controller
             [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
         )->count();
 
-        // return an error for if the user was already blocked from the apexcom.
+        $state = 'Blocked';
+
+        // unblock the user if he was already blocked from the apexcom and return unblocked.
         if ($Isblocked != 0) {
-            return response()->json(['error' => 'The user is already blocked from this Apexcom'], 400);
+            ApexBlock::where(
+                [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
+            )->delete();
+            $state = 'Unblocked';
+            return response()->json(compact('state'));
         }
 
         ApexBlock::create(
@@ -100,8 +106,8 @@ class ModerationController extends Controller
             ]
         );
 
-        // return true to ensure the success of blocking from the apexcom.
-        return response()->json('Blocked', 200);
+        // return stste to ensure the success of blocking from the apexcom.
+        return response()->json(compact('state'));
     }
 
 
@@ -173,8 +179,8 @@ class ModerationController extends Controller
         if ($IsComment) {
             // delete the report and return deleted report on comment
             ReportComment::where([['comID', '=',$report_id],['userID', '=',$user_id] ])->delete();
-
-            return response()->json('Ignore report on comment', 200);
+            $state = 'Ignore report on comment';
+            return response()->json(compact('state'));
         }
 
         // checking if the reported was a post
@@ -185,8 +191,8 @@ class ModerationController extends Controller
         if ($IsPost) {
             // delete the report and return deleted report on post
             ReportPost::where([['PostID', '=',$report_id],['userID', '=',$user_id] ])->delete();
-
-            return response()->json('Ignore report on Post', 200);
+            $state = 'Ignore report on post';
+            return response()->json(compact('state'));
         }
 
         // if it was not a report on post or comment return a message error
@@ -277,7 +283,7 @@ class ModerationController extends Controller
                     'comment' => [
                         'id' => $item['commentid'], 'parent' => $item['parent'],
                         'root' => $item['root'], 'content' =>$item['commentcontent'],
-                        'commented_by' => $item['commented_by'], 
+                        'commented_by' => $item['commented_by'],
                         'writerUsername' => User::find($item['commented_by'])->username
                     ],
                     'report' => [

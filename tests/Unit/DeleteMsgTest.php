@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Message;
 use App\Models\User;
 
-class DeleteMsg extends TestCase
+class DeleteMsgTest extends TestCase
 {
     use WithFaker;
 

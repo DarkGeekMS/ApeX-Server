@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use App\Models\Message;
 use App\Models\User;
 
-class Inbox extends TestCase
+class InboxTest extends TestCase
 {
     /**
      * Test a valid request to inbox.

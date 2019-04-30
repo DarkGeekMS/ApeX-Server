@@ -14,6 +14,7 @@ use App\Models\ApexBlock;
 use App\Models\User;
 use App\Models\Moderator;
 use App\Models\Post;
+use App\Models\ApexCom;
 
 /**
  * @group ApexCom
@@ -44,6 +45,7 @@ class ApexComController extends Controller
    * 1) NoAccessRight token is not authorized.
    *
    * @bodyParam token JWT required Verifying user ID.
+   * @bodyParam general bool set to get all the epexComs names and ids.
    */
 
     public function getApexComs(Request $request)
@@ -51,12 +53,26 @@ class ApexComController extends Controller
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
+        $validator = validator(
+            $request->all(),
+            [
+                'general' => 'bool|nullable'
+            ]
+        );
 
-        $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        if ($request['general']) {
+            $apexs = ApexCom::select('name', 'id')->get();
+        } else {
+            $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
             ->where('subscribers.userID', '=', $userID)
             ->select('name', 'apexID')
             ->get();
-        return response()->json([$apexs], 200);
+        }
+        return response()->json(['apexComs' => $apexs], 200);
     }
 
     /**
@@ -94,7 +110,8 @@ class ApexComController extends Controller
 
         $moderators = Moderator::where('apexID', $apex_id);
         $moderators = User::joinSub(
-            $moderators, 'moderators',
+            $moderators,
+            'moderators',
             function ($join) {
                 $join->on('id', '=', 'moderators.userID');
             }
@@ -116,8 +133,14 @@ class ApexComController extends Controller
 
         return response()->json(
             compact(
-                'contributers_count', 'moderators', 'avatar', 'banner',
-                'subscribers_count', 'name', 'description', 'rules'
+                'contributers_count',
+                'moderators',
+                'avatar',
+                'banner',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
             )
         );
     }
@@ -177,7 +200,8 @@ class ApexComController extends Controller
 
         $moderators = Moderator::where('apexID', $apex_id);
         $moderators = User::select('id', 'username')->joinSub(
-            $moderators, 'moderator',
+            $moderators,
+            'moderator',
             function ($join) {
                 $join->on('id', '=', 'moderator.userID');
             }
@@ -199,8 +223,14 @@ class ApexComController extends Controller
 
         return response()->json(
             compact(
-                'contributers_count', 'moderators', 'avatar', 'banner',
-                'subscribers_count', 'name', 'description', 'rules'
+                'contributers_count',
+                'moderators',
+                'avatar',
+                'banner',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
             )
         );
     }
@@ -314,7 +344,7 @@ class ApexComController extends Controller
             $v['locked'] = $r['isLocked'];
         }
         Post::create($v);
-        return response()->json($id, 200);
+        return response()->json(compact('id'));
     }
 
 
@@ -386,11 +416,14 @@ class ApexComController extends Controller
             [['apexID', '=',$apex_id],['userID', '=',$user_id] ]
         )->count();
 
+        $state = 'Subscribed';
+
         // unsubscribe if previously subscribed and return true to ensure the success of unsubscribe.
         if ($unsubscribe) {
             Subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
-            return response()->json('Unsubscribed', 200);
+            $state = 'Unsubscribed';
+            return response()->json(compact('state'));
         }
 
         // if not previously subscribed then subscribe and store it in the database.
@@ -402,7 +435,7 @@ class ApexComController extends Controller
         );
 
         // return true to ensure the success of subscription.
-        return response()->json('Subscribed', 200);
+        return response()->json(compact('state'));
     }
 
 
@@ -473,9 +506,11 @@ class ApexComController extends Controller
 
         // check if apexcom exists update its information if not then create a new apexcom
         // and return true
-        
+
         $exists = apexComModel::where('name', $request['name'])->count();
-        
+
+        $state = 'Updated';
+
         if (!$exists) {
             // making the id of the new apexcom and creating it
             $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
@@ -486,7 +521,7 @@ class ApexComController extends Controller
                 $newIdx = (int)explode("_", $id)[1];
                 $id = "t5_".($newIdx+$count);
             }
-            
+
             $v = $request->all();
             $v['id'] = $id;
 
@@ -504,19 +539,19 @@ class ApexComController extends Controller
                 $path = $img->storeAs($dir, $id.".".$extension, "public");
                 $v['banner'] = Storage::url($path);
             }
-            
+
             apexComModel::create($v);
-            
-            
-            // return true to ensure creation of new apexcom
-            return response()->json('Created', 200);
+
+            $state = 'Created';
+            // return state to ensure creation of new apexcom
+            return response()->json(compact('state'));
         }
 
         // update the apexcom with the validated request
         $exists = apexComModel::where('name', $request['name'])->first();
         $validated = $request->all();
         $exists->update($validated);
-        // return true to ensure editing of an existing apexcom
-        return response()->json('Updated', 200);
+        // return state to ensure editing of an existing apexcom
+        return response()->json(compact('state'));
     }
 }

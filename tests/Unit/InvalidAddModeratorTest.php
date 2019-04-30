@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\ApexCom;
 
-class InvalidAddMoerator extends TestCase
+class InvalidAddMoeratorTest extends TestCase
 {
  /**
    * Test an admin add a moderator to an apexcom
