@@ -79,6 +79,9 @@ class ValidVoteTest extends TestCase
         );
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -151,6 +154,9 @@ class ValidVoteTest extends TestCase
         );
         Comment::where('id', $comment['id'])->delete();
         $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
+
+        User::where('id', $comment['commented_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 

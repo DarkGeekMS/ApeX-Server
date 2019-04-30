@@ -33,6 +33,9 @@ class MoreCommentsTest extends TestCase
 
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
     }
 
   /**
@@ -45,7 +48,6 @@ class MoreCommentsTest extends TestCase
     public function AuthRetrieve()
     {
         $user = factory(User::class)->create();
-        User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
         $signIn = $this->json(
             'POST',
@@ -68,8 +70,13 @@ class MoreCommentsTest extends TestCase
             ]
         );
         $response->assertStatus(200);
+        
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
+
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
