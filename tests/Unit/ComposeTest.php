@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Block;
 use Illuminate\Support\Collection;
 
-class Compose extends TestCase
+class ComposeTest extends TestCase
 {
     use WithFaker;
 

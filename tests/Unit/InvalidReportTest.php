@@ -10,7 +10,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Moderator;
 
-class InvalidReport extends TestCase
+class InvalidReportTest extends TestCase
 {
   /**
    *

@@ -56,7 +56,7 @@ class ApexComController extends Controller
             ->where('subscribers.userID', '=', $userID)
             ->select('name', 'apexID')
             ->get();
-        return response()->json([$apexs], 200);
+        return response()->json(['apexComs' => $apexs], 200);
     }
 
     /**
@@ -94,7 +94,8 @@ class ApexComController extends Controller
 
         $moderators = Moderator::where('apexID', $apex_id);
         $moderators = User::joinSub(
-            $moderators, 'moderators',
+            $moderators,
+            'moderators',
             function ($join) {
                 $join->on('id', '=', 'moderators.userID');
             }
@@ -116,8 +117,14 @@ class ApexComController extends Controller
 
         return response()->json(
             compact(
-                'contributers_count', 'moderators', 'avatar', 'banner',
-                'subscribers_count', 'name', 'description', 'rules'
+                'contributers_count',
+                'moderators',
+                'avatar',
+                'banner',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
             )
         );
     }
@@ -177,7 +184,8 @@ class ApexComController extends Controller
 
         $moderators = Moderator::where('apexID', $apex_id);
         $moderators = User::select('id', 'username')->joinSub(
-            $moderators, 'moderator',
+            $moderators,
+            'moderator',
             function ($join) {
                 $join->on('id', '=', 'moderator.userID');
             }
@@ -199,8 +207,14 @@ class ApexComController extends Controller
 
         return response()->json(
             compact(
-                'contributers_count', 'moderators', 'avatar', 'banner',
-                'subscribers_count', 'name', 'description', 'rules'
+                'contributers_count',
+                'moderators',
+                'avatar',
+                'banner',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
             )
         );
     }
@@ -476,11 +490,11 @@ class ApexComController extends Controller
 
         // check if apexcom exists update its information if not then create a new apexcom
         // and return true
-        
+
         $exists = apexComModel::where('name', $request['name'])->count();
 
         $state = 'Updated';
-        
+
         if (!$exists) {
             // making the id of the new apexcom and creating it
             $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
@@ -491,7 +505,7 @@ class ApexComController extends Controller
                 $newIdx = (int)explode("_", $id)[1];
                 $id = "t5_".($newIdx+$count);
             }
-            
+
             $v = $request->all();
             $v['id'] = $id;
 
@@ -509,9 +523,9 @@ class ApexComController extends Controller
                 $path = $img->storeAs($dir, $id.".".$extension, "public");
                 $v['banner'] = Storage::url($path);
             }
-            
+
             apexComModel::create($v);
-            
+
             $state = 'Created';
             // return state to ensure creation of new apexcom
             return response()->json(compact('state'));

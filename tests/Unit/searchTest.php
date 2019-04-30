@@ -10,7 +10,7 @@ use App\Models\Post;
 use App\Models\ApexBlock;
 use App\Models\User;
 
-class search extends TestCase
+class searchTest extends TestCase
 {
     use WithFaker;
 

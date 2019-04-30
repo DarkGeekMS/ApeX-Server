@@ -526,7 +526,7 @@ class AccountController extends Controller
       * it gets the id of the sent message.
       * then it checks that a message exists with the given id.
       * if not it returns an error message.
-      * it checks whether the logged in user id the sender or the reciever of the message. 
+      * it checks whether the logged in user id the sender or the reciever of the message.
       * if not it reyurns an error message.
       * otherwise it returns the message with the given id and all its replies.
       *
@@ -605,27 +605,25 @@ class AccountController extends Controller
         }
         //get the id of the message
         $msgid= $request['ID'];
-    
+
         //$msg=Message::find($msgid);
-        $msg=Message::where('id', $msgid)->select('id','content','subject','sender','receiver','created_at','updated_at')->first();
+        $msg=Message::where('id', $msgid)->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->first();
         //if the message doesnot exist return an error message
         if (!$msg) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
         //check if the logged in user is the sender or the reciever of the message
-        if($msg->sender==$id || $msg->receiver==$id ){
+        if ($msg->sender==$id || $msg->receiver==$id ) {
             $msgReplies=Message::where('parent', $msgid)->orderBy('created_at', 'asc')
-            ->select('id','content','subject','sender','receiver','created_at','updated_at')->get();
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->get();
             $msgReplies->each(
                 function ($msgReplies) use ($msgid) {
                     $msgReplies['sender_name'] = User::find($msgReplies->sender)->username;
                 }
             );
-        }
-        //if the user is not the sender or the reciever of the message return an error message
-        else{
+        } else { //if the user is not the sender or the reciever of the message return an error message
             return response()->json(['error' => 'Message doesnot belong to the user'], 400);
-        }       
+        }
         $json_output=response()->json(['message' =>$msg ,'replies'=>$msgReplies], 200);
         return $json_output;
     }
@@ -740,7 +738,7 @@ class AccountController extends Controller
             $user->avatar = $dir; // stroing the directory.
         }
         $user->save(); // saving the changes
-        return response()->json(true, 200); // returning true with success response.
+        return response()->json(['updated' =>true], 200); // returning true with success response.
     }
 
 
@@ -790,7 +788,7 @@ class AccountController extends Controller
             "avatar" => $user->avatar,
             "notification" => $user->notification
         ];
-        return response()->json($user, 200);
+        return response()->json([ 'userData' => $user], 200);
     }
 
 
@@ -1086,7 +1084,7 @@ class AccountController extends Controller
         $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
 
         $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ],200);
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ], 200);
 
         return $json_output;
     }
@@ -1132,7 +1130,7 @@ class AccountController extends Controller
         //get the blocklist of the logged in user
         $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
         ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
-        return response()->json(['blocklist' =>$blocklist],200);
+        return response()->json(['blocklist' =>$blocklist], 200);
     }
 
     /**
