@@ -1189,7 +1189,10 @@ class AccountController extends Controller
 
         $messages = Message::notReply()->with('sender:id,username')
             ->with('receiver:id,username')->latest()->take($limit)
-            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at');
+            ->select(
+                'id', 'content', 'subject', 'sender',
+                'receiver', 'received as read', 'created_at', 'updated_at'
+            );
 
         $sent = clone $messages;
         $read = clone $messages;
