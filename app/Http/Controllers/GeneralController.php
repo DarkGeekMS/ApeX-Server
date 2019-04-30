@@ -385,8 +385,8 @@ class GeneralController extends Controller
     public function apexNames()
     {
         try {
-            $Anames = ApexCom::select('id', 'name')->get();
-            return response()->json([$Anames], 200);
+            $apexComs = ApexCom::select('id', 'name')->get();
+            return response()->json(compact('apexComs'));
         } catch (\Exception $e) {
             return response(['error'=>'server-side error'], 500);
         }
