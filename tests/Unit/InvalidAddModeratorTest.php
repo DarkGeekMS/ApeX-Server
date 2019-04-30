@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
-class InvalidAddMoerator extends TestCase
+class InvalidAddMoeratorTest extends TestCase
 {
  /**
    *Test an admin add a moderator to an apexcom

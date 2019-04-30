@@ -11,7 +11,7 @@ use App\Models\Post;
 use App\Models\Subscriber;
 use App\Models\User;
 
-class sortPostsBy extends TestCase
+class sortPostsByTest extends TestCase
 {
     use WithFaker;
 
@@ -133,9 +133,9 @@ class sortPostsBy extends TestCase
 
     /**
      * Test sortPosts when subscribedApexCom is true
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function subscribedApexCom()
@@ -154,7 +154,7 @@ class sortPostsBy extends TestCase
         $response = $this->json(
             'POST', '/api/SortPosts', compact('token', 'subscribedApexCom')
         )->assertStatus(200);
-        
+
         //check that the posts are from apexCom that the user is subscribed in
         $posts = $response->json('posts');
         foreach ($posts as $post) {
@@ -164,16 +164,16 @@ class sortPostsBy extends TestCase
     }
 
     /**
-     * Test sortPosts when subscribedApexCom is true and 
+     * Test sortPosts when subscribedApexCom is true and
      * there is no apexComs that the user is Subscribed in
-     * 
+     *
      * @test
-     * 
+     *
      * @return void
      */
     public function noSubscribedApexCom()
     {
-        //create a new user and get his token 
+        //create a new user and get his token
         $user = factory(User::class)->create();
         $signIn = $this->json(
             'POST',

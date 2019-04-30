@@ -526,7 +526,9 @@ class AccountController extends Controller
       * it gets the id of the sent message.
       * then it checks that a message exists with the given id.
       * if not it returns an error message.
-      * then it gets the subject and the content of the message with the given id and all its replies.
+      * it checks whether the logged in user id the sender or the reciever of the message.
+      * if not it reyurns an error message.
+      * otherwise it returns the message with the given id and all its replies.
       *
       * @param string token the JWT representation of the user, admin or moderator.
       * @param string  ID The id of the message.
@@ -549,6 +551,42 @@ class AccountController extends Controller
      * @response  500{
      * "error" : "Message doesnot exist"
      * }
+     * @response  400{
+     * "error" : "Message doesnot belong to the user"
+     * }
+     * @response  200{
+     *   "message": {
+     *       "id": "t4_100",
+     *       "content": "winter is gone :(",
+     *       "subject": "GOT",
+     *       "sender": "t2_12836",
+     *       "receiver": "t2_1",
+     *       "created_at": null,
+     *       "updated_at": null
+     *   },
+     *   "replies": [
+     *       {
+     *           "id": "t4_1",
+     *          "content": "Rerum pariatur accusantium voluptas qui reprehenderit. Quia similique odio expedita nihil. Aperiam rem accusamus maxime est non at.",
+     *           "subject": "Omnis temporibus molestias adipisci incidunt.",
+     *          "sender": "t2_5",
+     *           "receiver": "t2_9",
+     *           "created_at": "2019-04-29 15:50:28",
+     *           "updated_at": "2019-04-29 15:50:28",
+     *           "sender_name": "queenie.kris"
+     *       },
+     *       {
+     *           "id": "t4_150",
+     *           "content": "Arya stark",
+     *           "subject": null,
+     *           "sender": "t2_1",
+     *            "receiver": "t2_12836",
+     *           "created_at": "2019-04-30 07:49:41",
+     *           "updated_at": null,
+     *           "sender_name": "brekke.violet"
+     *       }
+     *   ]
+     * }
      */
 
     public function readMsg(Request $request)
@@ -567,21 +605,26 @@ class AccountController extends Controller
         }
         //get the id of the message
         $msgid= $request['ID'];
-        $msgCheck=DB::table('messages')->where('id', '=', $msgid)->get();
+
+        //$msg=Message::find($msgid);
+        $msg=Message::where('id', $msgid)->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->first();
         //if the message doesnot exist return an error message
-        if (count($msgCheck)==0) {
+        if (!$msg) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
-        //get the subject and the content of the message and all its replies
-        $subject=DB::table('messages')->where('id', '=', $msgid)->select('subject')->get();
-        $msg=DB::table('messages')->join('users', 'messages.receiver', '=', 'users.id')
-            ->where('messages.id', '=', $msgid)
-            ->orWhere('messages.parent', $msgid)
-            ->orderBy('messages.created_at', 'asc')
-            ->select('username', 'content', 'messages.created_at')
-            ->get();
-
-        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ], 200);
+        //check if the logged in user is the sender or the reciever of the message
+        if ($msg->sender==$id || $msg->receiver==$id ) {
+            $msgReplies=Message::where('parent', $msgid)->orderBy('created_at', 'asc')
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->get();
+            $msgReplies->each(
+                function ($msgReplies) use ($msgid) {
+                    $msgReplies['sender_name'] = User::find($msgReplies->sender)->username;
+                }
+            );
+        } else { //if the user is not the sender or the reciever of the message return an error message
+            return response()->json(['error' => 'Message doesnot belong to the user'], 400);
+        }
+        $json_output=response()->json(['message' =>$msg ,'replies'=>$msgReplies], 200);
         return $json_output;
     }
 
@@ -695,7 +738,7 @@ class AccountController extends Controller
             $user->avatar = $dir; // stroing the directory.
         }
         $user->save(); // saving the changes
-        return response()->json(true, 200); // returning true with success response.
+        return response()->json(['updated' =>true], 200); // returning true with success response.
     }
 
 
@@ -745,7 +788,7 @@ class AccountController extends Controller
             "avatar" => $user->avatar,
             "notification" => $user->notification
         ];
-        return response()->json($user, 200);
+        return response()->json([ 'userData' => $user], 200);
     }
 
 
@@ -948,6 +991,72 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
+     * @response 200{
+     * {
+     *       "user_info": [
+     *           {
+     *               "username": "s",
+     *               "avatar": "storage/avatars/users/default.png",
+     *               "karma": 1
+     *           }
+     *       ],
+     *       "posts": [
+     *           {
+     *               "id": "t3_100",
+     *               "posted_by": "t2_12836",
+     *               "apex_id": "t5_1",
+     *               "title": "sebak",
+     *               "img": null,
+     *               "videolink": null,
+     *               "content": null,
+     *               "locked": 0,
+     *               "created_at": null,
+     *               "updated_at": null,
+     *               "userVote": 0,
+     *               "votes": 0,
+     *               "comments_count": 0,
+     *               "apex_com_name": "gI1NZRiTkW",
+     *               "post_writer_username": "s"
+     *           }
+     *       ],
+     *       "saved_posts": [
+     *           {
+     *               "id": "t3_1",
+     *               "posted_by": "t2_21",
+     *               "apex_id": "t5_6",
+     *               "title": "LeHGyTsuKb",
+    *              "img": null,
+     *               "videolink": null,
+     *               "content": "Eveniet totam deserunt non magni. Magni non est eligendi magni minima ipsum. Aliquid aliquam dolore minus magni quo.",
+     *               "locked": 0,
+     *               "created_at": "2019-04-29 15:50:27",
+     *              "updated_at": "2019-04-29 15:50:27",
+     *               "votes": -1,
+     *               "comments_count": 3,
+     *               "apex_com_name": "faqc9dVGCf",
+     *               "post_writer_username": "mitchell.bettie"
+     *           }
+     *       ],
+     *       "hidden_posts": [
+     *          {
+     *               "id": "t3_10",
+     *               "posted_by": "t2_165",
+     *               "apex_id": "t5_5",
+     *               "title": "ehof4PuLeS",
+     *               "img": null,
+     *               "videolink": null,
+     *               "content": "Assumenda qui eum nemo eos maxime. Consequatur itaque totam sit illo.",
+     *               "locked": 0,
+     *               "created_at": "2019-04-29 15:50:28",
+     *              "updated_at": "2019-04-29 15:50:28",
+     *               "votes": 1,
+     *               "comments_count": 0,
+     *               "apex_com_name": "LrfjPAVBoN",
+     *               "post_writer_username": "zieme.myriam"
+     *           }
+     *      ]
+     *   }
+     * }
      */
 
     public function profileInfo(Request $request)
@@ -975,7 +1084,7 @@ class AccountController extends Controller
         $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
 
         $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ]);
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ], 200);
 
         return $json_output;
     }
@@ -1001,6 +1110,14 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      *
      * @bodyParam token JWT required Used to verify the user.
+     * @response 200{
+     *   "blocklist": [
+     *       {
+     *           "username": "brekke.violet",
+     *           "id": "t2_1"
+     *       }
+     *   ]
+     * }
      */
 
 
@@ -1013,7 +1130,7 @@ class AccountController extends Controller
         //get the blocklist of the logged in user
         $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
         ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
-        return response()->json(['blocklist' =>$blocklist]);
+        return response()->json(['blocklist' =>$blocklist], 200);
     }
 
     /**

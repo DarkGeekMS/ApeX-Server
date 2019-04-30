@@ -10,7 +10,7 @@ use App\Models\Message;
 use App\Models\Post;
 use App\Models\User;
 
-class ValidReply extends TestCase
+class ValidReplyTest extends TestCase
 {
   /**
    *
