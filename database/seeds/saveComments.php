@@ -12,6 +12,6 @@ class saveComments extends Seeder
      */
     public function run()
     {
-        factory(SaveComment::class, 10)->create();
+        factory(SaveComment::class, 5)->create();
     }
 }

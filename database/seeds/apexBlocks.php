@@ -12,6 +12,6 @@ class apexBlocks extends Seeder
      */
     public function run()
     {
-        factory(ApexBlock::class, 10)->create();
+        factory(ApexBlock::class, 5)->create();
     }
 }

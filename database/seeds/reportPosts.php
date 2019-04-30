@@ -12,6 +12,6 @@ class reportPosts extends Seeder
      */
     public function run()
     {
-        factory(ReportPost::class, 10)->create();
+        factory(ReportPost::class, 5)->create();
     }
 }
