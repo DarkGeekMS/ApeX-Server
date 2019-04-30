@@ -12,6 +12,6 @@ class reportComments extends Seeder
      */
     public function run()
     {
-        factory(ReportComment::class, 10)->create();
+        factory(ReportComment::class, 5)->create();
     }
 }

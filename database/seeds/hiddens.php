@@ -12,6 +12,6 @@ class hiddens extends Seeder
      */
     public function run()
     {
-        factory(Hidden::class, 10)->create();
+        factory(Hidden::class, 5)->create();
     }
 }
