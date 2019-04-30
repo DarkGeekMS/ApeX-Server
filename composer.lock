@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "870a4345576c40a094c5c145f28b7c2f",
+    "content-hash": "99aa59964ec01ec2662115ba3e8434d5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -122,16 +122,16 @@
         },
         {
             "name": "berkayk/onesignal-laravel",
-            "version": "v1.0.1",
+            "version": "0.9.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/berkayk/laravel-onesignal.git",
-                "reference": "5e880ba6c16f610e46ab1c603eb54a06ef688bb1"
+                "reference": "543f042a845569e26680b7204076240c8f61785a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/berkayk/laravel-onesignal/zipball/5e880ba6c16f610e46ab1c603eb54a06ef688bb1",
-                "reference": "5e880ba6c16f610e46ab1c603eb54a06ef688bb1",
+                "url": "https://api.github.com/repos/berkayk/laravel-onesignal/zipball/543f042a845569e26680b7204076240c8f61785a",
+                "reference": "543f042a845569e26680b7204076240c8f61785a",
                 "shasum": ""
             },
             "require": {
@@ -144,16 +144,6 @@
                 "vlucas/phpdotenv": "^2.2"
             },
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Berkayk\\OneSignal\\OneSignalServiceProvider"
-                    ],
-                    "aliases": {
-                        "OneSignal": "Berkayk\\OneSignal\\OneSignalFacade"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Berkayk\\OneSignal\\": "src/"
@@ -182,7 +172,7 @@
                 "onesignal",
                 "push"
             ],
-            "time": "2018-11-08T11:43:37+00:00"
+            "time": "2017-09-22T09:52:00+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -928,6 +918,74 @@
                 "nsm"
             ],
             "time": "2019-02-27T15:22:30+00:00"
+        },
+        {
+            "name": "laravel-notification-channels/onesignal",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-notification-channels/onesignal.git",
+                "reference": "aaae22ff27a8009ffe302105691b90f962ace5db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-notification-channels/onesignal/zipball/aaae22ff27a8009ffe302105691b90f962ace5db",
+                "reference": "aaae22ff27a8009ffe302105691b90f962ace5db",
+                "shasum": ""
+            },
+            "require": {
+                "berkayk/onesignal-laravel": "^0.9.3",
+                "illuminate/notifications": "5.*",
+                "illuminate/support": "5.*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^3.5",
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NotificationChannels\\OneSignal\\OneSignalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\OneSignal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be"
+                },
+                {
+                    "name": "Marcel Pociot",
+                    "email": "hello@marcelpociot.com",
+                    "homepage": "http://marcelpociot.com"
+                },
+                {
+                    "name": "Lukas Kämmerling",
+                    "email": "kontakt@lukas-kaemmerling.de",
+                    "homepage": "https://lukas-kaemmerling.de"
+                },
+                {
+                    "name": "David Llop",
+                    "email": "hello@davidllop.com",
+                    "homepage": "http://davidllop.com"
+                }
+            ],
+            "description": "OneSignal Notifications driver",
+            "homepage": "https://github.com/laravel-notification-channels/onesignal",
+            "time": "2018-03-09T07:12:22+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2792,16 +2850,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "5b7ab6beaa5b053b8d3c9b13367ada9b292e12e1"
+                "reference": "6ebbe61f48069033225c9d3fa7eb5ed116d766d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/5b7ab6beaa5b053b8d3c9b13367ada9b292e12e1",
-                "reference": "5b7ab6beaa5b053b8d3c9b13367ada9b292e12e1",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6ebbe61f48069033225c9d3fa7eb5ed116d766d6",
+                "reference": "6ebbe61f48069033225c9d3fa7eb5ed116d766d6",
                 "shasum": ""
             },
             "require": {
@@ -2842,7 +2900,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-03-30T15:58:42+00:00"
+            "time": "2019-04-17T14:56:00+00:00"
         },
         {
             "name": "symfony/http-kernel",

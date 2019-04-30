@@ -53,24 +53,12 @@ class ApexComController extends Controller
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
-        $validator = validator(
-            $request->all(),
-            [
-                'general' => 'bool|nullable'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        if ($request['general']) {
-            $apexs = ApexCom::select('name', 'id')->get();
+        $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
+        if ((!$request->has('general') || $request['general'] == false)) {
+            $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
         } else {
-            $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
-            ->where('subscribers.userID', '=', $userID)
-            ->select('name', 'apexID')
-            ->get();
+            $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
+            $apexs = ApexCom::whereIn('id', $subApex)->whereNotIn('id', $blocked)->select('name', 'id')->get();
         }
         return response()->json(['apexComs' => $apexs], 200);
     }
