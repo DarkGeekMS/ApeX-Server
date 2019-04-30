@@ -6,44 +6,40 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\ApexCom;
 
 class ValidDeleteApexCom extends TestCase
 {
   /**
-    *Test deleting an apexcom by an admin
+    * Test deleting an apexcom by an admin
     * @test
     *
     * @return void
     */
     public function deleteApexCom()
     {
-        //login by an admin
+        $admin = factory(User::class)->create();
+        User::where('id', $admin['id'])->update(['type' => 3]);
          $loginResponse = $this->json(
              'POST',
              '/api/SignIn',
              [
-             'username' => 'king',
-             'password' => 'queen12'
+             'username' => $admin['username'],
+             'password' => 'monda21'
              ]
          );
          $token = $loginResponse->json("token");
-         //creating a dummy apexcom
-         $id='2';
-         $name='m';
-         $rules='none';
-         $description='none';
-         DB::table('apex_coms')-> insert(['id' => $id, 'name' =>$name,'rules'=>$rules,'description'=>$description]);
-         //to delete an apexcom
+         $apexcom = factory(ApexCom::class)->create();
          $delResponse = $this->json(
              'DELETE',
              '/api/DeleteApexcom',
              [
              'token' => $token,
-             'Apex_ID' => $id
+             'Apex_ID' => $apexcom['id']
              ]
          );
          $delResponse->assertStatus(200)->assertDontSee("token_error");
-         DB::table('apex_coms')->where('id', '=', $id)->delete();
          $logoutResponse = $this->json(
              'POST',
              '/api/SignOut',
@@ -51,5 +47,10 @@ class ValidDeleteApexCom extends TestCase
              'token' => $token
              ]
          );
+         ApexCom::where('id', $apexcom['id'])->delete();
+         $this->assertDatabaseMissing('apex_coms', ['id' => $apexcom['id']]);
+
+         User::where('id', $admin['id'])->forceDelete();
+         $this->assertDatabaseMissing('users', ['id' => $admin['id']]);
     }
 }

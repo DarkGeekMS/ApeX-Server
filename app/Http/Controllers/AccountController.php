@@ -555,6 +555,7 @@ class AccountController extends Controller
      * "error" : "Message doesnot belong to the user"
      * }
      * @response  200{
+     *   "subject": "GOT"
      *   "message": {
      *       "id": "t4_100",
      *       "content": "winter is gone :(",
@@ -606,8 +607,9 @@ class AccountController extends Controller
         //get the id of the message
         $msgid= $request['ID'];
 
-        //$msg=Message::find($msgid);
-        $msg=Message::where('id', $msgid)->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->first();
+    
+        $msg=Message::where('id', $msgid)->select('id','content','subject','sender','receiver','created_at','updated_at')->first();
+
         //if the message doesnot exist return an error message
         if (!$msg) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
@@ -623,8 +625,8 @@ class AccountController extends Controller
             );
         } else { //if the user is not the sender or the reciever of the message return an error message
             return response()->json(['error' => 'Message doesnot belong to the user'], 400);
-        }
-        $json_output=response()->json(['message' =>$msg ,'replies'=>$msgReplies], 200);
+        }       
+        $json_output=response()->json(['subject'=>$msg->subject,'message' =>$msg ,'replies'=>$msgReplies ], 200);
         return $json_output;
     }
 

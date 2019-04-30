@@ -5,6 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Comment;
 
 class SaveValid extends TestCase
 {
@@ -16,21 +19,14 @@ class SaveValid extends TestCase
    */
     public function saveComment()
     {
-        $SignupResponse = $this->json(
-            'POST',
-            '/api/SignUp',
-            [
-            'email' => 'sebak@gmail.com',
-            'password' => '123456',
-            'username' => 'sebak',
-            ]
-        );
+        $user = factory(User::class)->create();
+        $comment = factory(Comment::class)->create();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'sebak',
-            'password' => '123456'
+            'username' => $user['username'],
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -40,46 +36,23 @@ class SaveValid extends TestCase
             '/api/Save',
             [
             'token' => $token,
-            'ID' => 't1_10' //id of an existing comment
+            'ID' => $comment['id']
             ]
         );
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
-
- /**
-   *
-   * @test
-   *
-   * @return void
-   */
-    public function unsaveComment()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'sebak',
-            'password' => '123456'
-            ]
-        );
-        $token = $loginResponse->json()["token"];
-        //to unsave a saved comment
-        $saveResponse = $this->json(
+        $this->assertDatabaseHas('save_comments', ['comID' => $comment['id'] , 'userID' => $user['id']]);
+        //to unsave saved comment
+        $unsaveResponse = $this->json(
             'POST',
             '/api/Save',
             [
             'token' => $token,
-            'ID' => 't1_10' //id of an existing comment
+            'ID' => $comment['id']
             ]
         );
-        $saveResponse->assertStatus(200)->assertDontSee("token_error");
+        $unsaveResponse->assertStatus(200)->assertDontSee("token_error");
+        $this->assertDatabaseMissing('save_comments', ['comID' => $comment['id'] , 'userID' => $user['id']]);
+
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -87,7 +60,15 @@ class SaveValid extends TestCase
             'token' => $token
             ]
         );
+        // delete user and comment from the database
+        Comment::where('id', $comment['id'])->delete();
+        $this->assertDatabaseMissing('comments', ['id' => $comment['id']]);
+        
+        User::where('id', $user['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
+
     }
+
 
  /**
    *
@@ -97,60 +78,41 @@ class SaveValid extends TestCase
    */
     public function savePost()
     {
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'sebak',
-            'password' => '123456'
+            'username' => $user['username'],
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
+
         //to save a post
         $saveResponse = $this->json(
             'POST',
             '/api/Save',
             [
             'token' => $token,
-            'ID' => 't3_10' //id of an existing post
+            'ID' => $post['id']
             ]
         );
         $saveResponse->assertStatus(200)->assertDontSee("token_error");
-        $logoutResponse = $this->json(
-            'POST',
-            '/api/SignOut',
-            [
-            'token' => $token
-            ]
-        );
-    }
- /**
-   *
-   * @test
-   *
-   * @return void
-   */
-    public function unsavePost()
-    {
-        $loginResponse = $this->json(
-            'POST',
-            '/api/SignIn',
-            [
-            'username' => 'sebak',
-            'password' => '123456'
-            ]
-        );
-        $token = $loginResponse->json()["token"];
-        //to unsave a saved post
-        $saveResponse = $this->json(
+        $this->assertDatabaseHas('save_posts', ['postID' => $post['id'] , 'userID' => $user['id']]);
+        //to unsave saved post
+        $unsaveResponse = $this->json(
             'POST',
             '/api/Save',
             [
             'token' => $token,
-            'ID' => 't3_10' //id of an existing post
+            'ID' => $post['id']
             ]
         );
-        $saveResponse->assertStatus(200)->assertDontSee("token_error");
+        $unsaveResponse->assertStatus(200)->assertDontSee("token_error");
+        $this->assertDatabaseMissing('save_posts', ['postID' => $post['id'] , 'userID' => $user['id']]);
+
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',
@@ -158,5 +120,13 @@ class SaveValid extends TestCase
             'token' => $token
             ]
         );
+        // delete user and post from the database
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        
+        User::where('id', $user['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
+
     }
+
 }

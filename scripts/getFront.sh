@@ -15,11 +15,8 @@ main() {
 
     echo Compiling...
 
-    cp scripts/fix $FRONT_DIR/fix # temp workaround
-
     pushd $FRONT_DIR
       npm install
-      mv fix node_modules/@intervolga/optimize-cssnano-plugin/index.js # temp workaround
       npm run build
     popd
     
