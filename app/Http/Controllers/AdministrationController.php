@@ -190,10 +190,9 @@ class AdministrationController extends Controller
                  // if the user is not an admin check that the logged in user has the same given id
                 return response()->json(['error' => 'UnAuthorized Deletion'], 300);
         }
-    }
         //if the user is deleted successfully return true
         return response()->json(['deleted'=>true], 200);
-}
+    }
 
 
 
