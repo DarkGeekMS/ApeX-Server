@@ -34,16 +34,16 @@ class validupdateprefs extends TestCase
             'POST',
             '/api/UpdatePreferences',
             [
-            'username' => $username,
+            'username' => "zozo",
             'fullname' => $newname,
             'email' => $newemail,
             'notification' => $newnot,
             'token' => $token
             ]
         );
-        $newuser = User::where("username", $username)->first();
+        $newuser = User::where("id", $user["id"])->first();
         User::where('id', $user['id'])->forceDelete();
-        $this->assertTrue($newuser->username == $username);
+        $this->assertTrue($newuser->username == "zozo");
         $this->assertTrue($newuser->email == $newemail);
         $this->assertTrue($newuser->notification == $newnot);
         $this->assertTrue($newuser->fullname == $newname);

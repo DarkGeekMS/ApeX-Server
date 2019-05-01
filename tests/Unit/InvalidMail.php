@@ -20,8 +20,9 @@ class InvalidMail extends TestCase
             '/api/MailVerification',
             [
             'username' => 'MohamedRamzy5',
+            'email' => 'zezo@gmail.com'
             ]
         );
-        $response->assertStatus(400)->assertSee('Username is not found');
+        $response->assertStatus(400);
     }
 }

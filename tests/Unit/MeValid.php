@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class MeValid extends TestCase
 {
@@ -16,11 +17,13 @@ class MeValid extends TestCase
      */
     public function testExample()
     {
+        $user = factory(User::class)->create();
+
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user["username"],
             'password' => 'monda21'
             ]
         );
@@ -41,5 +44,7 @@ class MeValid extends TestCase
             ]
         );
         $response1->assertStatus(200)->assertDontSee("token_error");
+        User::where('id', $user['id'])->forceDelete();
+
     }
 }
