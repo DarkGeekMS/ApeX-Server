@@ -56,6 +56,9 @@ class InvalidReportTest extends TestCase
         );
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -201,6 +204,9 @@ class InvalidReportTest extends TestCase
 
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -251,6 +257,9 @@ class InvalidReportTest extends TestCase
         );
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -305,6 +314,9 @@ class InvalidReportTest extends TestCase
         Moderator::where('apexID', $post['apex_id'])->where('userID', $user['id'])->delete();
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -324,7 +336,11 @@ class InvalidReportTest extends TestCase
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
+        $dummy = User::find($post['posted_by']);
         Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+        User::where('id', $dummy['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $dummy['id']]);
+
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -376,7 +392,13 @@ class InvalidReportTest extends TestCase
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 1]);
         $comment = factory(Comment::class)->create();
+
+        $dummy = User::find($comment['commented_by']);
         Comment::where('id', $comment['id'])->update(['commented_by' => $user['id']]);
+
+        User::where('id', $dummy['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $dummy['id']]);
+
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -427,7 +449,9 @@ class InvalidReportTest extends TestCase
         $user = factory(User::class)->create();
         User::where('id', $user['id'])->update(['type' => 1]);
         $post = factory(Post::class)->create();
+        $dummy = User::find($post['posted_by']);
         Post::where('id', $post['id'])->update(['posted_by' => $user['id']]);
+        User::where('id', $dummy['id'])->forceDelete();
         $comment = factory(Comment::class)->create();
         Comment::where('id', $comment['id'])->update(['root' => $post['id']]);
 
@@ -466,6 +490,9 @@ class InvalidReportTest extends TestCase
 
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $comment['commented_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 
@@ -524,6 +551,12 @@ class InvalidReportTest extends TestCase
 
         Post::where('id', $post['id'])->delete();
         $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+
+        User::where('id', $post['posted_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $post['posted_by']]);
+
+        User::where('id', $comment['commented_by'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
         // delete user added to database
         User::where('id', $user['id'])->forceDelete();
 

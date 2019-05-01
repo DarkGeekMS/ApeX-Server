@@ -14,6 +14,7 @@ use App\Models\ApexBlock;
 use App\Models\User;
 use App\Models\Moderator;
 use App\Models\Post;
+use App\Models\ApexCom;
 
 /**
  * @group ApexCom
@@ -44,6 +45,7 @@ class ApexComController extends Controller
    * 1) NoAccessRight token is not authorized.
    *
    * @bodyParam token JWT required Verifying user ID.
+   * @bodyParam general bool set to get all the epexComs names and ids.
    */
 
     public function getApexComs(Request $request)
@@ -51,11 +53,13 @@ class ApexComController extends Controller
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
-
-        $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
-            ->where('subscribers.userID', '=', $userID)
-            ->select('name', 'apexID')
-            ->get();
+        $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
+        if ((!$request->has('general') || $request['general'] == false)) {
+            $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
+        } else {
+            $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
+            $apexs = ApexCom::whereIn('id', $subApex)->whereNotIn('id', $blocked)->select('name', 'id')->get();
+        }
         return response()->json(['apexComs' => $apexs], 200);
     }
 

@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use App\Models\Post;
 
 class InvalidSave extends TestCase
 {
@@ -16,16 +18,19 @@ class InvalidSave extends TestCase
    */
     public function noPostOrComnent()
     {
+        $user = factory(User::class)->create();
+
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user['username'],
             'password' => 'monda21'
             ]
         );
+        $loginResponse->assertStatus(200);
         $token = $loginResponse->json("token");
-        //to unsave a saved post
+
         $saveResponse = $this->json(
             'POST',
             '/api/Save',
@@ -42,6 +47,11 @@ class InvalidSave extends TestCase
             'token' => $token
             ]
         );
+        // delete user added to database
+        User::where('id', $user['id'])->forceDelete();
+
+        //check that the user deleted from database
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
     /**
     *
@@ -51,31 +61,34 @@ class InvalidSave extends TestCase
     */
     public function noUser()
     {
-        $loginResponse = $this->json(
+        $user = factory(User::class)->create();
+        $post = factory(Post::class)->create();
+        $signIn = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'sebak',
-            'password' => '123'         //wrong password
+              'username' => $user['username'],
+              'password' => 'non'               //wrong password
             ]
         );
-        $token = $loginResponse->json("token");
-    //to unsave a saved post
+
+        $signIn->assertStatus(400);
+        $token = $signIn->json('token');
+
         $saveResponse = $this->json(
             'POST',
             '/api/Save',
             [
               'token' => $token,
-              'ID' => 't3_1'              //id of an existing post
+              'ID' => $post['id']
             ]
         );
-          $saveResponse->assertStatus(400);
-          $logoutResponse = $this->json(
-              'POST',
-              '/api/SignOut',
-              [
-              'token' => $token
-              ]
-          );
+        $saveResponse->assertStatus(400);
+        // delete user and post from the database
+        Post::where('id', $post['id'])->delete();
+        $this->assertDatabaseMissing('posts', ['id' => $post['id']]);
+        
+        User::where('id', $user['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }

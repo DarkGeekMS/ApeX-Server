@@ -12,6 +12,6 @@ class savePosts extends Seeder
      */
     public function run()
     {
-        factory(SavePost::class, 10)->create();
+        factory(SavePost::class, 5)->create();
     }
 }
