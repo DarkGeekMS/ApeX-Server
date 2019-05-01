@@ -97,7 +97,7 @@ class UserController extends Controller
         }
 
         try {
-            Block::insert(compact('blockerID', 'blockedID'));
+            Block::create(compact('blockerID', 'blockedID'));
         } catch (\Exception $e) {
             return response()->json(['error' => 'server-side error'], 500);
         }
@@ -186,7 +186,7 @@ class UserController extends Controller
         $content = $request->content;
 
         try {
-            Message::insert(compact('id', 'sender', 'receiver', 'subject', 'content'));
+            Message::create(compact('id', 'sender', 'receiver', 'subject', 'content'));
         } catch (\Exception $e) {
             response(['error' => 'server-side error'], 500);
         }

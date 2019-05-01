@@ -569,7 +569,7 @@ class AccountController extends Controller
      *       {
      *           "id": "t4_1",
      *          "content": "Rerum pariatur accusantium voluptas qui reprehenderit. Quia similique odio expedita nihil. Aperiam rem accusamus maxime est non at.",
-     *           "subject": "Omnis temporibus molestias adipisci incidunt.",
+     *           "subject": null,
      *          "sender": "t2_5",
      *           "receiver": "t2_9",
      *           "created_at": "2019-04-29 15:50:28",
