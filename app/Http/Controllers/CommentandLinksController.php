@@ -19,6 +19,7 @@ use App\Models\Message;
 use App\Models\Hidden;
 use App\Models\Post;
 use App\Models\Block;
+use OneSignal;
 
 /**
  * this Class contains all the endpoints responsible for all posts and comments interactions.
@@ -64,7 +65,7 @@ class CommentandLinksController extends Controller
      * @authenticated
      *
      * @bodyParam content string required The body of the comment.
-     * @bodyParam parent string required The fullname of the thing to be replied to.
+     * @bodyParam parent string required The fullname of the thing to be replied to (post , comment or message).
      * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
@@ -81,8 +82,14 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "token_error":"invalid Action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "comment":"t1_12"
+     * }
+     * @response  {
+     * "reply":"t1_10"
+     * }
+     * @response  {
+     * "id":"t4_12"
      * }
      */
 
@@ -143,6 +150,13 @@ class CommentandLinksController extends Controller
               'id' =>$id,
               'content' => $request['content']
             ]);
+          /*  OneSignal::sendNotificationToAll(
+                "Some Message",
+                $url = null,
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );*/
             //return the id of the submitted reply
             return response()->json(['reply' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
@@ -174,6 +188,15 @@ class CommentandLinksController extends Controller
               'id' =>$id,
               'content' => $request['content']
             ]);
+
+        /*    OneSignal::sendNotificationToUser(
+                "Some Message",
+                $userID,
+                $url = null,
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );*/
             //return the id of the submitted comment
             return response()->json(['comment' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
@@ -187,12 +210,14 @@ class CommentandLinksController extends Controller
             $userF = 't2_0';
             if ($message['sender'] == $user['id']) {
                 $userF = $message['receiver'];
-            } else {
+            } elseif ($message['receiver'] == $user['id']) {
                 $userF = $message['sender'];
+            } else {
+                return response()->json(['error' => 'Invalid action'], 400);
             }
             //create the id of the new message by counting table messages records and increment it by 1
-            $lastcom =Message::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
-            $id = 't4_'.(string)($lastcom +1);
+            $lastmsg =Message::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't4_'.(string)($lastmsg +1);
             //insert the new message record in the message table
             Message::create([
               'parent' => $parent,
@@ -202,6 +227,14 @@ class CommentandLinksController extends Controller
               'content' => $request['content'],
               'subject' => $message['subject']
             ]);
+          /*  OneSignal::sendNotificationToExternalUser(
+                "Some Message",
+                " be5dd772-6815-4367-9c46-ffc057f766ff ",
+                $url = null,
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );*/
             //return the id of the created message
             return response()->json(['id' => $id], 200);
         }
@@ -262,8 +295,8 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "token_error":"invalid action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "deleted":"true"
      * }
      */
 
@@ -428,9 +461,7 @@ class CommentandLinksController extends Controller
         //if there is no comment or post with the given id return an error message
         if (!count($commentcheck) && !count($postcheck)) {
             return response()->json(['error' => 'post or comment is not found'], 500);
-        }
-        //check if there is a comment with the given id
-        elseif (count($commentcheck)) {
+        } elseif (count($commentcheck)) {         //check if there is a comment with the given id
             //check that the comment is commented by the logged in user
             $commentcheck2=DB::table('comments')->where([['commented_by', '=', $id],['id','=',$textid]])->get();
             //if the comment is not commented by the logged in user return an error message
@@ -494,8 +525,8 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "token_error":"Not allowed"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response {
+     * "locked": true
      * }
      */
 
@@ -574,8 +605,11 @@ class CommentandLinksController extends Controller
      * @response  404{
      * "error" : "post not exists"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response {
+     * "hide": true
+     * }
+     * @response {
+     * "un-hide": true
      * }
      */
 
@@ -615,7 +649,7 @@ class CommentandLinksController extends Controller
      * moreChildren
      * to retrieve additional comments omitted from a base comment tree (comment , replies).
      * Success Cases :
-     * 1) return thr retrieved comments or replies.
+     * 1) return thr retrieved comments and replies sorted by date { level represent the comment depth}.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found for any of the parent IDs.
@@ -624,6 +658,104 @@ class CommentandLinksController extends Controller
      *
      * @bodyParam parent string required The fullname of the posts whose comments are being fetched
      * @bodyParam token JWT required Verifying user ID.
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  {
+     *  "comments": [
+     *    {
+     *      "id": "t1_4",
+     *        "commented_by": "t2_145",
+     *     "content": "Laboriosam est excepturi esse adipisci. Neque quia sed modi exercitationem nihil earum a dolores.
+     * Omnis enim consectetur ipsam esse consequatur.",
+     *        "root": "t3_1",
+     *      "parent": null,
+     *      "created_at": "2019-05-01 16:02:32",
+     *      "updated_at": "2019-05-01 16:02:32",
+     *        "userVote": 0,
+     *      "Saved": false,
+     *      "votes": -1,
+     *      "writerUsername": "gkutch",
+     *      "level": 0
+     *  },
+     *    {
+     *        "id": "t1_6",
+     *        "commented_by": "t2_186",
+     *        "content": "Cupiditate eius id et aut unde. Nemo culpa dolores molestiae autem nisi explicabo.
+     * Optio animi molestiae laboriosam pariatur at unde sit earum. Quae quas molestias laborum laboriosam.",
+     *        "root": "t3_1",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 16:02:32",
+     *        "updated_at": "2019-05-01 16:02:32",
+     *        "userVote": 0,
+     *        "Saved": false,
+     *        "votes": 0,
+     *        "writerUsername": "dariana.ortiz",
+     *        "level": 0
+     *    },
+     *    {
+     *        "id": "t1_7",
+     *        "commented_by": "t2_208",
+     *      "content": "Consequatur fugiat enim aut deserunt pariatur minus.
+     * Velit modi laudantium consequatur. Autem est voluptas molestiae rerum.",
+     *        "root": "t3_1",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 16:02:32",
+     *        "updated_at": "2019-05-01 16:02:32",
+     *        "userVote": 0,
+     *        "Saved": false,
+     *        "votes": 0,
+     *        "writerUsername": "julio16",
+     *        "level": 0
+     *    },
+     *    {
+     *        "id": "t1_8",
+     *        "commented_by": "t2_231",
+     *        "content": "In velit qui ex. Unde consequuntur labore dolorum ducimus sit aut ea.
+     * Commodi quis est corporis animi quia. Iste est assumenda rerum beatae modi et.",
+     *        "root": "t3_1",
+     *        "parent": null,
+     *         "created_at": "2019-05-01 16:02:32",
+     *        "updated_at": "2019-05-01 16:02:32",
+     *        "userVote": 0,
+     *        "Saved": false,
+     *        "votes": 0,
+     *        "writerUsername": "wheidenreich",
+     *        "level": 0
+     *    },
+     *    {
+     *        "id": "t1_11",
+     *        "commented_by": "t2_3873",
+     *        "content": "fjjfjf",
+     *        "root": "t3_1",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 16:33:02",
+     *        "updated_at": "2019-05-01 16:33:02",
+     *        "userVote": 0,
+     *         "Saved": false,
+     *        "votes": 0,
+     *        "writerUsername": "1111",
+     *        "level": 0
+     *    },
+     *     {
+     *        "id": "t1_12",
+     *        "commented_by": "t2_3873",
+     *        "content": "hahah",
+     *        "root": "t3_1",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 18:20:00",
+     *        "updated_at": "2019-05-01 18:20:00",
+     *        "userVote": 0,
+     *        "Saved": false,
+     *        "votes": 0,
+     *        "writerUsername": "1111",
+     *        "level": 0
+     *    },
+     * ]
+     * }
      */
 
 
@@ -687,10 +819,29 @@ class CommentandLinksController extends Controller
      * Success Cases :
      * 1) return the retrieved comments or replies.
      * failure Cases:
-     * 1) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+     * 1) post  fullname (ID) is not found.
      *
-     * @bodyParam parent string required The fullname of the posts whose comments are being fetched
-     * ( post , comment or message ).
+     * @bodyParam parent string required The fullname of the post whose comments are being fetched
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  {
+     *    "comments": [
+     *    {
+     *        "id": "t1_10",
+     *        "commented_by": "t2_280",
+     *        "content": "Doloremque voluptatum tempora id vitae quis. Consequatur eos nobis et qui.
+     * Expedita quo ea est aut quia ea. Quas velit est et est ex quasi ipsam.",
+     *        "root": "t3_2",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 16:02:32",
+     *        "updated_at": "2019-05-01 16:02:32",
+     *        "votes": 2,
+     *        "writerUsername": "lew.collier",
+     *        "level": 0
+     *        }
+     *    ]
+     *}
      */
 
 
@@ -710,7 +861,7 @@ class CommentandLinksController extends Controller
         return response()->json(['comments' => $comments], 200);
     }
 
-
+//private function used to buld the comments tree
     private function buildTree(array & $elements, array & $branch, $parentId = null, $level = 0)
     {
         if (empty($elements)) {
@@ -762,17 +913,20 @@ class CommentandLinksController extends Controller
 
     /**
      * report
-     * report a post , comment or a message to the ApexCom moderator
-     * ( message's reports will be sent to the site admin), posts or comments will be hidden implicitly as well.
-     * ( moderators don't report posts).
+     * report a post , comment to the ApexCom moderator
+     *  posts or comments will be hidden implicitly as well.
+     * ( moderators con't report postsor comment in their ApexComs).
+     * user can't report his post or comment.
+     * user can't report comment on his post.
+     * admin can't report on post or comment.
      * Success Cases :
-     * 1) return true to ensure that the report is sent to the moderator of the ApexCom.
+     * 1) return true to ensure that the report is added successfully.
      * failure Cases:
-     * 1) send reason (index) out of the associative array range.
+     * 1) no content send.
      * 2) NoAccessRight token is not authorized.
      *
-     * @bodyParam name string required The fullname of the post,comment or message to report.
-     * @bodyParam content string The reason for the report from an associative array.
+     * @bodyParam name string required The fullname of the post or comment  to report.
+     * @bodyParam content string The reason for the report.
      * (will be in frontend).
      * @bodyParam token JWT required Verifying user ID.
 
@@ -791,8 +945,8 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "error" : "invalid Action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "reported":true
      * }
      */
 
@@ -948,7 +1102,7 @@ class CommentandLinksController extends Controller
      * @authenticated
      *
      * @bodyParam name string required The fullname of the post,comment or reply to vote on.
-     * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
+     * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote).
      * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
@@ -959,8 +1113,8 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "error":"Invalid Action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "votes":5
      * }
      */
 

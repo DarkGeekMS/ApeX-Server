@@ -129,7 +129,7 @@ class AdministrationController extends Controller
      *
      * @bodyParam UserID string required The ID of the user to be deleted.
      * @bodyParam token JWT required Used to verify the admin or the same user ID.
-     * @bodyParam passwordConfirmation string required Used to verify the user deactivating his account.
+     * @bodyParam passwordConfirmation string  Used to verify the user deactivating his account.
      * @response  500{
      * "error" : "User doesnot exist"
      * }
@@ -154,8 +154,9 @@ class AdministrationController extends Controller
         //validate that the input data is correct
         $validator = validator(
             $request->all(),
-            ['UserID' => 'required|string',
-             'passwordConfirmation'=>'required|string'
+            [
+              'UserID' => 'required|string',
+             'passwordConfirmation'=>'string'
             ]
         );
         if ($validator->fails()) {
@@ -174,25 +175,25 @@ class AdministrationController extends Controller
         //get the hashed password of the user with the given id
         $dbPassword=DB::table('users')->where('id', '=', $userid)->value('password');
 
+        if ($id==$userid) {
+                //check that the password confirmation matches the user password
+            if ($password && Hash::check($password, $dbPassword)) {
+                User::where('id', $userid)->delete();
+            } elseif ($password) {   //if password confirmation doesnot match return Wrong password entered
+                    return response()->json(['error' => 'Wrong password entered'], 501);
+            }
+        }
         //check if the logged in user is an admin
         if ($type==3) {
                 User::where('id', $userid)->delete();
         } else {
                  // if the user is not an admin check that the logged in user has the same given id
-            if ($id==$userid) {
-                    //check that the password confirmation matches the user password
-                if (Hash::check($password, $dbPassword)) {
-                    User::where('id', $userid)->delete();
-                } else {  //if password confirmation doesnot match return Wrong password entered
-                        return response()->json(['error' => 'Wrong password entered'], 501);
-                }
-            } else {      //if the user doesnot have the same id return an error message unauthorized deletion
-                    return response()->json(['error' => 'UnAuthorized Deletion'], 300);
-            }
+                return response()->json(['error' => 'UnAuthorized Deletion'], 300);
         }
+    }
         //if the user is deleted successfully return true
         return response()->json(['deleted'=>true], 200);
-    }
+}
 
 
 
@@ -229,10 +230,10 @@ class AdministrationController extends Controller
      * addModerator
      * Adding (or Deleting) a moderator to ApexCom.
      * Success Cases :
-     * 1) return true to ensure that the moderator is added successfully.
+     * 1) return true to ensure that the moderator is added/deleted successfully.
      * failure Cases:
      * 1) user fullname (ID) is not found.
-     * 2) apex com is not found.
+     * 2) apex com ID is not found.
      * 3) NoAccessRight the token is not the site admin token id.
      *
      * @bodyParam ApexComID string required The ID of the ApexCom.
@@ -253,8 +254,8 @@ class AdministrationController extends Controller
      */
 
 
-    public function addModerator(Request $request)
-    {
+public function addModerator(Request $request)
+{
         //get the logged in user id and type
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
@@ -267,44 +268,44 @@ class AdministrationController extends Controller
              'ApexComID'=>'required|string'
             ]
         );
-        if ($validator->fails()) {
-            return  response()->json($validator->errors(), 400);
-        }
+    if ($validator->fails()) {
+          return  response()->json($validator->errors(), 400);
+    }
         //get the id of the user to be added as moderator
         $userid= $request['UserID'];
         //check that there is a user with the given id
         $userexists=DB::table('users')->where('id', '=', $userid)->get();
         //if the user doesnot exist return an error message user doesnot exist
-        if (!count($userexists)) {
-            return response()->json(['error' => 'User doesnot exist'], 403);
-        }
+    if (!count($userexists)) {
+        return response()->json(['error' => 'User doesnot exist'], 403);
+    }
         //get the id of the apexcom
         $apexid=$request['ApexComID'];
         //check that there is an apex com with the given id
         $apex=DB::table('apex_coms')->where('id', '=', $apexid)->get();
        //if the apexcom doesnot exist return an error message apexcom doesnot exist
-        if (!count($apex)) {
-            return response()->json(['error' => 'ApexCom doesnot exist'], 404);
-        }
+    if (!count($apex)) {
+        return response()->json(['error' => 'ApexCom doesnot exist'], 404);
+    }
         //check that the logged in user is an admin
-        if ($type==3) {
+    if ($type==3) {
             //check if the user is already a moderator for the apexcom
-            $check=DB::table('moderators')->where([['userID', '=', $userid],['apexID','=',$apexid]])->get();
+        $check=DB::table('moderators')->where([['userID', '=', $userid],['apexID','=',$apexid]])->get();
             //if the user is a moderator remove his moderation
-            if (count($check)) {
+        if (count($check)) {
                 DB::table('moderators')->where([
                     ['userID', '=', $userid],
                     ['apexID', '=', $apexid]
                     ])->delete();
-            } else {    //if the user is not moderator add him as moderator for the given apexcom
+        } else {    //if the user is not moderator add him as moderator for the given apexcom
                 DB::table('moderators')->insert(
                     ['apexID' => $apexid, 'userID' =>$userid]
                 );
-            }
-        } else {    //if the logged in user is not an admin return an error message Unauthorized access
-            return response()->json(['error' => 'Unauthorized access'], 500);
         }
+    } else {    //if the logged in user is not an admin return an error message Unauthorized access
+            return response()->json(['error' => 'Unauthorized access'], 500);
+    }
         //returns true if the user moderation is added/deleted successfully
         return response()->json(['moderate'=>true], 200);
-    }
+}
 }
