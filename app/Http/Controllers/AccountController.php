@@ -365,14 +365,14 @@ class AccountController extends Controller
                 ->where('code', $codeText)->first();
             if ($code) {
                 //Returning the response indicating that the code is correct
-                return response()->json(['authorized' => true], 200);
+                return response()->json($user->username, 200);
             } else {
                 //Returning the response indicating that the code is not correct
-                return response()->json(['authorized' => false], 400);
+                return response()->json([false], 400);
             }
         } else {
             //Returning the response indicating that the user is not found
-            return response()->json(['authorized' => false], 400);
+            return response()->json([false], 400);
         }
     }
 
