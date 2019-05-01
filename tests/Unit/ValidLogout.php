@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class ValidLogout extends TestCase
 {
@@ -16,23 +17,15 @@ class ValidLogout extends TestCase
      */
     public function testExample()
     {
-        $email = Str::random(15)."@gmail.com";
-        $username = Str::random(15);
-        $firstSignup = $this->json(
-            'POST',
-            '/api/SignUp',
-            [
-            'email' => $email,
-            'password' => '1234567',
-            'username' => $username
-            ]
-        );
+        $user = factory(User::class)->create();
+        $username = $user["username"];
+
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
             'username' => $username,
-            'password' => '1234567'
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -44,5 +37,7 @@ class ValidLogout extends TestCase
             ]
         );
         $logoutResponse->assertStatus(200)->assertJson(["token" => null]);
+        User::where('id', $user['id'])->forceDelete();
+
     }
 }

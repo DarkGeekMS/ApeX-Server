@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class ValidLogin extends TestCase
 {
@@ -16,12 +17,13 @@ class ValidLogin extends TestCase
      */
     public function testExample()
     {
+        $user = factory(User::class)->create();
 
         $response = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user["username"],
             'password' => 'monda21'
             ]
         );
@@ -35,5 +37,7 @@ class ValidLogin extends TestCase
             ]
         );
         $response1->assertStatus(200);
+        User::where('id', $user['id'])->forceDelete();
+
     }
 }

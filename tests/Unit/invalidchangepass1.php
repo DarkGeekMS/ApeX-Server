@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 
 class invalidchangepass1 extends TestCase
 {
@@ -15,13 +16,14 @@ class invalidchangepass1 extends TestCase
      */
     public function testExample()
     {
-        $username = "mondaTalaat";
+        $user = factory(User::class)->create();
+        $username = $user["username"];
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
             'username' => $username,
-            'password' => '123456'
+            'password' => 'monda21'
             ]
         );
         $token = $loginResponse->json()["token"];
@@ -37,5 +39,6 @@ class invalidchangepass1 extends TestCase
             ]
         );
         $changeRequest->assertStatus(400);
+        User::where('id', $user['id'])->forceDelete();
     }
 }

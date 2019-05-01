@@ -16,7 +16,8 @@ class validupdateprefs extends TestCase
      */
     public function testExample()
     {
-        $username = "mondaTalaat";
+        $user = factory(User::class)->create();
+        $username = $user["username"];
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
@@ -27,24 +28,27 @@ class validupdateprefs extends TestCase
         );
         $token = $loginResponse->json()["token"];
         $newname = "Remonda Talaat";
-        $newemail = "mondatalaat@gmail.com";
+        $newemail = "zezsso@gmail.com";
         $newnot = 0;
         $updateprefs = $this->json(
             'POST',
             '/api/UpdatePreferences',
             [
-            'username' => $username,
+            'username' => "zozo",
             'fullname' => $newname,
             'email' => $newemail,
             'notification' => $newnot,
             'token' => $token
             ]
         );
-        $user = User::where("username", $username)->first();
-        $this->assertTrue($user->username == $username);
-        $this->assertTrue($user->email == $newemail);
-        $this->assertTrue($user->notification == $newnot);
-        $this->assertTrue($user->fullname == $newname);
+        $newuser = User::where("id", $user["id"])->first();
+        User::where('id', $user['id'])->forceDelete();
+        $this->assertTrue($newuser->username == "zozo");
+        $this->assertTrue($newuser->email == $newemail);
+        $this->assertTrue($newuser->notification == $newnot);
+        $this->assertTrue($newuser->fullname == $newname);
+
         $updateprefs->assertStatus(200);
+
     }
 }

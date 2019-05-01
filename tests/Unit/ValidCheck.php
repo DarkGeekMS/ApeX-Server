@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use app\Models\Code;
-use app\Models\User;
+use App\Models\User;
 
 class ValidCheck extends TestCase
 {
@@ -17,24 +17,27 @@ class ValidCheck extends TestCase
      */
     public function testExample()
     {
-        $username =  'MohamedRamzy';
+        $user = factory(User::class)->create();
+        $username =  $user["username"];
         $response = $this->json(
             'POST',
             '/api/MailVerification',
             [
             'username' => $username,
+            'email' => $user["email"]
             ]
         );
         $id = User::where('username', $username)->first()->id;
         $code = Code::where('id', $id)->first()->code;
         $response = $this->json(
             'POST',
-            '/api/MailVerification',
+            '/api/CheckCode',
             [
-            'username' => 'MohamedRamzy',
+            'email' => $user["email"],
             'code' => $code
             ]
         );
         $response->assertStatus(200);
+        User::where('id', $user['id'])->forceDelete();
     }
 }

@@ -321,7 +321,7 @@ class AccountController extends Controller
      * @param string email The user's email.
      * @param string code The user's forgot password code.
      *
-     * @return Json a boolean value to indicate whether the code is correct or not.
+     * @return string the username or returns false
      *
      */
 
@@ -334,10 +334,10 @@ class AccountController extends Controller
      * 1) Code is invalid.
      *
      * @response{
-     * "authorized":true
+     * "MohamedRamzy"
      * }
      * @response  400{
-     * "authorized":false
+     * false
      * }
      * @bodyParam code int required The entered code.
      * @bodyParam email string required The user's email.
@@ -370,14 +370,14 @@ class AccountController extends Controller
                 ->where('code', $codeText)->first();
             if ($code) {
                 //Returning the response indicating that the code is correct
-                return response()->json(['authorized' => true], 200);
+                return response()->json($user->username, 200);
             } else {
                 //Returning the response indicating that the code is not correct
-                return response()->json(['authorized' => false], 400);
+                return response()->json([false], 400);
             }
         } else {
             //Returning the response indicating that the user is not found
-            return response()->json(['authorized' => false], 400);
+            return response()->json([false], 400);
         }
     }
 
@@ -573,7 +573,7 @@ class AccountController extends Controller
      *       {
      *           "id": "t4_1",
      *          "content": "Rerum pariatur accusantium voluptas qui reprehenderit. Quia similique odio expedita nihil. Aperiam rem accusamus maxime est non at.",
-     *           "subject": "Omnis temporibus molestias adipisci incidunt.",
+     *           "subject": null,
      *          "sender": "t2_5",
      *           "receiver": "t2_9",
      *           "created_at": "2019-04-29 15:50:28",

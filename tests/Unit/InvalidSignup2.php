@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class InvalidSignup2 extends TestCase
 {
@@ -16,17 +17,8 @@ class InvalidSignup2 extends TestCase
      */
     public function testExample()
     {
-        $email = Str::random(15)."@gmail.com";
-        $username = Str::random(15);
-        $firstSignup = $this->json(
-            'POST',
-            '/api/SignUp',
-            [
-            'email' => $email,
-            'password' => '1234567',
-            'username' => $username
-            ]
-        );
+        $user = factory(User::class)->create();
+        $username = $user["username"];
         $duplicateSignup = $this->json(
             'POST',
             '/api/SignUp',
@@ -37,5 +29,6 @@ class InvalidSignup2 extends TestCase
             ]
         );
         $duplicateSignup->assertStatus(400);
+        User::where('id', $user['id'])->forceDelete();
     }
 }
