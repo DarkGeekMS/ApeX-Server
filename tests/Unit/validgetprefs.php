@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 
 class validgetprefs extends TestCase
 {
@@ -15,11 +16,12 @@ class validgetprefs extends TestCase
      */
     public function testExample()
     {
+        $user = factory(User::class)->create();
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
             [
-            'username' => 'mondaTalaat',
+            'username' => $user["username"],
             'password' => 'monda21'
             ]
         );
@@ -39,5 +41,6 @@ class validgetprefs extends TestCase
             'token' => $token
             ]
         );
+        User::where('id', $user['id'])->forceDelete();
     }
 }
