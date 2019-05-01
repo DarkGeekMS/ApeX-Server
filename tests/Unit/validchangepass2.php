@@ -17,7 +17,8 @@ class validchangepass2 extends TestCase
      */
     public function testExample()
     {
-        $username = "mondaTalaat";
+        $user = factory(User::class)->create();
+        $username = $user["username"];
         $loginResponse = $this->json(
             'POST',
             '/api/SignIn',
@@ -31,7 +32,8 @@ class validchangepass2 extends TestCase
             'POST',
             '/api/MailVerification',
             [
-                'username' => $username
+                'username' => $username,
+                'email' => $user["email"]
             ]
         );
         $user = User::where("username", $username)->first();
@@ -48,5 +50,6 @@ class validchangepass2 extends TestCase
             ]
         );
         $changeRequest->assertStatus(200);
+        User::where('id', $user['id'])->forceDelete();
     }
 }
