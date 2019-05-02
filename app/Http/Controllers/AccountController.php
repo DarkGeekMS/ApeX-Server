@@ -144,7 +144,7 @@ class AccountController extends Controller
 
         //creating new user with the posted data from the request
         $user = new User($requestData);
-        $avatar = "storage/avatars/users/default.png"; //setting the default avatar
+        $avatar = "/storage/avatars/users/default.png"; //setting the default avatar
         $user->avatar = $avatar;
         $user->id = $id;
         $user->save(); //saving the user to the database
