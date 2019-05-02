@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "d7047234-bae6-4931-a057-99355f7a8200",
+      });
+    });
+  </script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -95,5 +104,6 @@
                 </div>
             </div>
         </div>
+        <div class='onesignal-customlink-container'></div>
     </body>
 </html>

@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Response;
+use OneSignal;
 
 /**
  * @group User
@@ -191,6 +192,14 @@ class UserController extends Controller
             response(['error' => 'server-side error'], 500);
         }
 
+/*      OneSignal::sendNotificationToUser(
+             $reciever['username'].'Send you a message',
+              $reciever['id'],
+              $url = null,
+              $data = null,
+              $buttons = null,
+              $schedule = null
+        );*/
         return compact('id');
     }
 

@@ -38,14 +38,33 @@ class ApexComController extends Controller
 
   /**
    * getApexComs
-   * getapexcom names which user subscribe in.
+   * getapexcom names which user subscribe in or all apexCom names the user can visit.
    * Success Cases :
-   * 1) return the apexComs names and ids the user subscribed in.
+   * 1) return the apexComs names and ids the user subscribed in or the apexComs names and ids user can access.
    * failure Cases:
    * 1) NoAccessRight token is not authorized.
    *
    * @bodyParam token JWT required Verifying user ID.
    * @bodyParam general bool set to get all the epexComs names and ids.
+   * @response  400{
+   * "error" : "Unauthorized access"
+   * }
+   * @response 200{
+   * "apexComs": [
+   *                {
+   *                  "name" : 'sports',
+   *                  "id" : t5_1
+   *                },
+   *                {
+   *                  "name" : 'foods',
+   *                  "id" : t5_2
+   *                },
+   *                {
+   *                  "name" : 'data',
+   *                  "id" : t5_3
+   *                }
+   *          ]
+   * }
    */
 
     public function getApexComs(Request $request)
@@ -54,7 +73,7 @@ class ApexComController extends Controller
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
-        if ((!$request->has('general') || $request['general'] == false)) {
+        if ((!$request->has('general') || $request['general'] == 'false')) {
             $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
         } else {
             $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
@@ -65,7 +84,8 @@ class ApexComController extends Controller
 
     /**
      * Guest about
-     * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
+     * to get data about an ApexCom (moderators (name and id ) ,
+     * name, contributors , rules , description and subscribers count).
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then about information of apexcom is returned.
      *
@@ -77,7 +97,7 @@ class ApexComController extends Controller
      * @response 404 {"error":"ApexCom is not found."}
      * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
      *
-     * @bodyParam ApexCom_ID string required The fullname of the community.
+     * @bodyParam ApexCom_ID string required The fullname of the Apexcom.
      */
     public function guestAbout(Request $request)
     {
@@ -135,7 +155,8 @@ class ApexComController extends Controller
 
     /**
      * About
-     * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count) with a logged in user.
+     * to get data about an ApexCom (moderators , name, contributors , rules,
+     * description and subscribers count) with a logged in user.
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
      * Then, The about information of apexcom is returned.
@@ -230,7 +251,8 @@ class ApexComController extends Controller
      * to post text , image or video in any ApexCom.
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
-     * Validation to request parameters is done, the post shall contain title and at least a body, an image, or a video url.
+     * Validation to request parameters is done,
+     * the post shall contain title and at least a body, an image, or a video url.
      * if validation fails logical error is returned, else a new post is added and return 'created'.
      *
      * ###Success Cases :
@@ -432,9 +454,11 @@ class ApexComController extends Controller
      * Site Admin
      * Used by the site admin to create or update a new ApexCom.
      * First, a verification that the user creating or updating apexcom is an admin, if not a logical error is returned.
-     * Then, validating the request parameters the name, description and rules are required, banner and avatar are optional but they should be images.
+     * Then, validating the request parameters the name,
+     * description and rules are required, banner and avatar are optional but they should be images.
      * If, the validation fails all validation errors are returned.
-     * Then, check if the apexcom with this name exists or not, if it already exists then its data is updatad and return 'updated'.
+     * Then, check if the apexcom with this name exists or not,
+     * if it already exists then its data is updatad and return 'updated'.
      * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
      *
      * ###Success Cases :

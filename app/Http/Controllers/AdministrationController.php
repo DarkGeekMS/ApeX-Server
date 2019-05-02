@@ -129,7 +129,7 @@ class AdministrationController extends Controller
      *
      * @bodyParam UserID string required The ID of the user to be deleted.
      * @bodyParam token JWT required Used to verify the admin or the same user ID.
-     * @bodyParam passwordConfirmation string required Used to verify the user deactivating his account.
+     * @bodyParam passwordConfirmation string  Used to verify the user deactivating his account.
      * @response  500{
      * "error" : "User doesnot exist"
      * }
@@ -154,8 +154,9 @@ class AdministrationController extends Controller
         //validate that the input data is correct
         $validator = validator(
             $request->all(),
-            ['UserID' => 'required|string',
-             'passwordConfirmation'=>'required|string'
+            [
+              'UserID' => 'required|string',
+              'passwordConfirmation'=>'string|nullable'
             ]
         );
         if ($validator->fails()) {
@@ -164,7 +165,7 @@ class AdministrationController extends Controller
         //get the id of the user to be deleted
         $userid= $request['UserID'];
          //check that there is a user with the given id
-         $usertobedeleted=DB::table('users')->where('id', '=', $userid)->get();
+         $usertobedeleted=User::find($userid);
          //if the user doesnot exist return an error message user doesnot exist
         if (!count($usertobedeleted)) {
              return response()->json(['error' => 'User doesnot exist'], 500);
@@ -174,26 +175,24 @@ class AdministrationController extends Controller
         //get the hashed password of the user with the given id
         $dbPassword=DB::table('users')->where('id', '=', $userid)->value('password');
 
+        if ($id==$userid) {
+                //check that the password confirmation matches the user password
+            if (Hash::check($password, $dbPassword)) {
+                User::where('id', $userid)->delete();
+            } else {   //if password confirmation doesnot match return Wrong password entered
+                    return response()->json(['error' => 'Wrong password entered'], 501);
+            }
+        }
         //check if the logged in user is an admin
         if ($type==3) {
                 User::where('id', $userid)->delete();
         } else {
                  // if the user is not an admin check that the logged in user has the same given id
-            if ($id==$userid) {
-                    //check that the password confirmation matches the user password
-                if (Hash::check($password, $dbPassword)) {
-                    User::where('id', $userid)->delete();
-                } else {  //if password confirmation doesnot match return Wrong password entered
-                        return response()->json(['error' => 'Wrong password entered'], 501);
-                }
-            } else {      //if the user doesnot have the same id return an error message unauthorized deletion
-                    return response()->json(['error' => 'UnAuthorized Deletion'], 300);
-            }
+                return response()->json(['error' => 'UnAuthorized Deletion'], 300);
         }
         //if the user is deleted successfully return true
         return response()->json(['deleted'=>true], 200);
     }
-
 
 
 
@@ -229,10 +228,10 @@ class AdministrationController extends Controller
      * addModerator
      * Adding (or Deleting) a moderator to ApexCom.
      * Success Cases :
-     * 1) return true to ensure that the moderator is added successfully.
+     * 1) return true to ensure that the moderator is added/deleted successfully.
      * failure Cases:
      * 1) user fullname (ID) is not found.
-     * 2) apex com is not found.
+     * 2) apex com ID is not found.
      * 3) NoAccessRight the token is not the site admin token id.
      *
      * @bodyParam ApexComID string required The ID of the ApexCom.
@@ -292,7 +291,7 @@ class AdministrationController extends Controller
             $check=DB::table('moderators')->where([['userID', '=', $userid],['apexID','=',$apexid]])->get();
             //if the user is a moderator remove his moderation
             if (count($check)) {
-                DB::table('moderators')->where([
+                  DB::table('moderators')->where([
                     ['userID', '=', $userid],
                     ['apexID', '=', $apexid]
                     ])->delete();

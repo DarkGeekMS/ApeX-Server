@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +20,21 @@ $factory->define(User::class, function (Faker $faker) {
     static $i = 1;
     $lastUser = User::withTrashed()
     ->selectRaw('CONVERT( SUBSTR(id, 4), INT) AS intID')->get()->max('intID');
+    $Uname = $faker->unique()->userName;
+    while (!User::withTrashed()->where('username', $Uname)->get()) {
+        $Uname = $faker->unique()->userName;
+    }
+    $mail = $faker->unique()->safeEmail;
+    while (!User::withTrashed()->where('email', $mail)->get()) {
+        $mail = $faker->unique()->safeEmail;
+    }
     return [
         'id' => 't2_'.(string)($lastUser + $i++),
         'fullname'=>$faker->name,
-        'email' => preg_replace('/@example\..*/', '@domain.com', $faker->unique()->safeEmail),
-        'username'=>$faker->unique()->userName,
+        'email' =>  $mail,
+        'username'=> $Uname,
         'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-        'avatar'=>'public\img\def.jpg',
+        'avatar'=>'/storage/avatars/users/t2_3872.jpg',
         'karma'=>1,
         'notification'=>true,
         'type'=>rand(1, 3)
