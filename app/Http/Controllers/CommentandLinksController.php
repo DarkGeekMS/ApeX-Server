@@ -671,20 +671,6 @@ class CommentandLinksController extends Controller
      * @response  {
      *    "comments": [
      *    {
-     *        "id": "t1_11",
-     *        "commented_by": "t2_3873",
-     *        "content": "fjjfjf",
-     *        "root": "t3_1",
-     *        "parent": null,
-     *        "created_at": "2019-05-01 16:33:02",
-     *        "updated_at": "2019-05-01 16:33:02",
-     *        "userVote": 0,
-     *         "Saved": false,
-     *        "votes": 0,
-     *        "writerUsername": "1111",
-     *        "level": 0
-     *    },
-     *     {
      *        "id": "t1_12",
      *        "commented_by": "t2_3873",
      *        "content": "hahah",
@@ -697,7 +683,7 @@ class CommentandLinksController extends Controller
      *        "votes": 0,
      *        "writerUsername": "1111",
      *        "level": 0
-     *    },
+     *    }
      * ]
      * }
      */
