@@ -40,7 +40,6 @@ class InvalidDeleteUserTest extends TestCase
             [
               'token' => $token,
               'UserID' => 't3_1000',               //wrong UserID
-              'passwordConfirmation'=>'123456'
             ]
         );
         $delResponse->assertStatus(500)->assertSee("User doesnot exist");
@@ -113,6 +112,7 @@ class InvalidDeleteUserTest extends TestCase
 
       //user to delete his account
         $user = factory(User::class)->create();
+        User::where('id', $user['id'])->update(['type' => 1]);
 
         $signIn = $this->json(
             'POST',
@@ -132,7 +132,7 @@ class InvalidDeleteUserTest extends TestCase
             [
             'token' => $token,
             'UserID' => $user['id'],
-            'passwordConfirmation'=>'123456'
+            'passwordConfirmation'=>'123456' //wrong password
             ]
         );
         $delResponse->assertStatus(501)->assertSee("Wrong password entered");

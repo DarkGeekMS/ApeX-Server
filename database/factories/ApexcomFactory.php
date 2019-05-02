@@ -8,8 +8,8 @@ $factory->define(App\Models\ApexCom::class, function (Faker $faker) {
     return [
       'id' =>  't5_'.(string)($lastApex + $i++),
       'name' => str_random(10),
-      'avatar'=>'public\img\apx.png',
-      'banner'=>'public\img\banner.jpg',
+      'avatar'=>'/storage/avatars/users/t2_3872.jpg',
+      'banner'=>'/storage/avatars/users/t2_3872.jpg',
       'rules' => $faker->text,
       'description' => $faker->text,
     ];
