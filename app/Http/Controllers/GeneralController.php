@@ -251,8 +251,7 @@ class GeneralController extends Controller
      * @responseFile 404 responses\apexComNotFound.json
      *
      * @queryParam apexComID The ID of the ApexComm that contains the posts, default is null. Example: t5_1
-     * @queryParam sortingParam The sorting parameter,
-     * takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
+     * @queryParam sortingParam The sorting parameter,takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      */
 
     public function guestSortPostsBy(Request $request)
@@ -336,10 +335,8 @@ class GeneralController extends Controller
      * @responseFile 400 responses\userNotSubscribedInAnyApexComs.json
      *
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
-     * @bodyParam subscribedApexCom bool If true return only the posts in ApexComs that the user is subscribed in,
-     * default is false. Example: false
-     * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`],
-     * default is `date`. Example: votes
+     * @bodyParam subscribedApexCom bool If true return only the posts in ApexComs that the user is subscribed in, default is false. Example: false
+     * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
     public function userSortPostsBy(Request $request)

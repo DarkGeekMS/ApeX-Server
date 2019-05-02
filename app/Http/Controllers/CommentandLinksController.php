@@ -665,67 +665,7 @@ class CommentandLinksController extends Controller
      * "error" : "post not exists"
      * }
      * @response  {
-     *  "comments": [
-     *    {
-     *      "id": "t1_4",
-     *        "commented_by": "t2_145",
-     *     "content": "Laboriosam est excepturi esse adipisci. Neque quia sed modi exercitationem nihil earum a dolores.
-     * Omnis enim consectetur ipsam esse consequatur.",
-     *        "root": "t3_1",
-     *      "parent": null,
-     *      "created_at": "2019-05-01 16:02:32",
-     *      "updated_at": "2019-05-01 16:02:32",
-     *        "userVote": 0,
-     *      "Saved": false,
-     *      "votes": -1,
-     *      "writerUsername": "gkutch",
-     *      "level": 0
-     *  },
-     *    {
-     *        "id": "t1_6",
-     *        "commented_by": "t2_186",
-     *        "content": "Cupiditate eius id et aut unde. Nemo culpa dolores molestiae autem nisi explicabo.
-     * Optio animi molestiae laboriosam pariatur at unde sit earum. Quae quas molestias laborum laboriosam.",
-     *        "root": "t3_1",
-     *        "parent": null,
-     *        "created_at": "2019-05-01 16:02:32",
-     *        "updated_at": "2019-05-01 16:02:32",
-     *        "userVote": 0,
-     *        "Saved": false,
-     *        "votes": 0,
-     *        "writerUsername": "dariana.ortiz",
-     *        "level": 0
-     *    },
-     *    {
-     *        "id": "t1_7",
-     *        "commented_by": "t2_208",
-     *      "content": "Consequatur fugiat enim aut deserunt pariatur minus.
-     * Velit modi laudantium consequatur. Autem est voluptas molestiae rerum.",
-     *        "root": "t3_1",
-     *        "parent": null,
-     *        "created_at": "2019-05-01 16:02:32",
-     *        "updated_at": "2019-05-01 16:02:32",
-     *        "userVote": 0,
-     *        "Saved": false,
-     *        "votes": 0,
-     *        "writerUsername": "julio16",
-     *        "level": 0
-     *    },
-     *    {
-     *        "id": "t1_8",
-     *        "commented_by": "t2_231",
-     *        "content": "In velit qui ex. Unde consequuntur labore dolorum ducimus sit aut ea.
-     * Commodi quis est corporis animi quia. Iste est assumenda rerum beatae modi et.",
-     *        "root": "t3_1",
-     *        "parent": null,
-     *         "created_at": "2019-05-01 16:02:32",
-     *        "updated_at": "2019-05-01 16:02:32",
-     *        "userVote": 0,
-     *        "Saved": false,
-     *        "votes": 0,
-     *        "writerUsername": "wheidenreich",
-     *        "level": 0
-     *    },
+     *    "comments": [
      *    {
      *        "id": "t1_11",
      *        "commented_by": "t2_3873",
@@ -830,8 +770,7 @@ class CommentandLinksController extends Controller
      *    {
      *        "id": "t1_10",
      *        "commented_by": "t2_280",
-     *        "content": "Doloremque voluptatum tempora id vitae quis. Consequatur eos nobis et qui.
-     * Expedita quo ea est aut quia ea. Quas velit est et est ex quasi ipsam.",
+     *        "content": "Doloremque voluptatum tempora id vitae quis. Consequatur eos nobis et qui. Expedita quo ea est aut quia ea. Quas velit est et est ex quasi ipsam.",
      *        "root": "t3_2",
      *        "parent": null,
      *        "created_at": "2019-05-01 16:02:32",

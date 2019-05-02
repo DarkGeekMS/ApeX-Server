@@ -83,6 +83,10 @@ class ValidDeleteUser extends TestCase
             'token' => $token
             ]
         );
+        //delete user from the database
+        User::where('id', $user['id'])->forceDelete();
+        $this->assertDatabaseMissing('users', ['id' => $user['id']]);
+
         //delete admin from the database
         User::where('id', $admin['id'])->forceDelete();
         $this->assertDatabaseMissing('users', ['id' => $admin['id']]);

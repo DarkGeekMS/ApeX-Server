@@ -95,8 +95,7 @@ class ApexComController extends Controller
      * 2) ApexCom fullname (ApexCom_id) is not found.
      *
      * @response 404 {"error":"ApexCom is not found."}
-     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],
-     * "subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
+     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
      *
      * @bodyParam ApexCom_ID string required The fullname of the Apexcom.
      */
@@ -173,8 +172,7 @@ class ApexComController extends Controller
      * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
-     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],
-     * "subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
+     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
      *
      * @bodyParam ApexCom_ID string required The fullname of the community.
      * @bodyParam token JWT required Verifying user ID.
