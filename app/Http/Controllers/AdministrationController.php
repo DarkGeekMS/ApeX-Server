@@ -96,17 +96,17 @@ class AdministrationController extends Controller
       * deleteUser.
       * This Function is used to delete a user by an admin or used for self-delete(Account deactivation).
       *
-      * it receives the token of the logged in user.
+      * it receives the token of the logged in user and gets his type and id.
+      * it checks if the logged in user is an admin(type=3) it gets the user id.
+      * otherwise, it gets the id of the logged in user and password confirmation.
       * it gets the id of the user to deleted.
       * then it checks that a user exists with the given id.
       * if not it returns an error message user doesnot exist.
-      * it gets password confirmation in case of account deactivation.
-      * then it gets the hashed password of the user with the given id.
-      * it checks that the logged in user is an admin.
-      * if the logged user is an admin it deletes the user.
-      * if he is not an admin it checks that the logged in user has the same given id.
+      * if the logged user is an admin it deletes the user and returns true.
+      * otherwise it checks that the logged user has the same id of the user to be deleted (Deactivation)
       * if the ids are different it returns an error message UnAuthorized Deletion.
-      * if the ids match it checks that the hashed password is the same as the password confirmation.
+      * if the ids match it gets the hashed password of the user with the given id.
+      * then it checks that the hashed password is the same as the password confirmation.
       * if the passwords doesnot match it returns an error message Wrong password entered.
       * otherwise it deletes the user (deactivate the account) and returns true.
       *
@@ -151,43 +151,56 @@ class AdministrationController extends Controller
         $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
-        //validate that the input data is correct
-        $validator = validator(
+        //if the logged in user is an admin get the id of the user to be deleted
+        if($type==3){
+            $validator = validator(
             $request->all(),
             [
-              'UserID' => 'required|string',
-              'passwordConfirmation'=>'string|nullable'
+              'UserID' => 'required|string'
             ]
-        );
-        if ($validator->fails()) {
-            return  response()->json($validator->errors(), 400);
+            );
+            if ($validator->fails()) {
+                return  response()->json($validator->errors(), 400);
+            }
+        }
+        // if the logged in user is not an admin get the id of the user to be deleted and password confirmation
+        else{
+            $validator = validator(
+            $request->all(),
+            [
+                'UserID' => 'required|string',
+                'passwordConfirmation'=>'required|string'
+            ]
+            );
+            if ($validator->fails()) {
+                return  response()->json($validator->errors(), 400);
+            }
         }
         //get the id of the user to be deleted
         $userid= $request['UserID'];
-         //check that there is a user with the given id
-         $usertobedeleted=User::find($userid);
-         //if the user doesnot exist return an error message user doesnot exist
-        if (!count($usertobedeleted)) {
+        //check that there is a user with the given id
+        $usertobedeleted=User::find($userid);
+        //if the user doesnot exist return an error message user doesnot exist
+        if (!$usertobedeleted) {
              return response()->json(['error' => 'User doesnot exist'], 500);
         }
-        //get the password confirmation(in case of account deactivation)
-        $password=$request['passwordConfirmation'];
-        //get the hashed password of the user with the given id
-        $dbPassword=DB::table('users')->where('id', '=', $userid)->value('password');
-
-        if ($id==$userid) {
-                //check that the password confirmation matches the user password
+        //check if the logged in user is an admin
+        if ($type==3) {
+            User::where('id', $userid)->delete();
+        }
+        // if the user is not an admin check that the logged in user has the same given id
+        else if ($id==$userid) {
+            //get the password confirmation(in case of account deactivation)
+            $password=$request['passwordConfirmation'];
+            //get the hashed password of the user with the given id
+            $dbPassword=DB::table('users')->where('id', '=', $userid)->value('password');
+            //check that the password confirmation matches the user password
             if (Hash::check($password, $dbPassword)) {
                 User::where('id', $userid)->delete();
             } else {   //if password confirmation doesnot match return Wrong password entered
                     return response()->json(['error' => 'Wrong password entered'], 501);
             }
-        }
-        //check if the logged in user is an admin
-        if ($type==3) {
-                User::where('id', $userid)->delete();
-        } else {
-                 // if the user is not an admin check that the logged in user has the same given id
+        }else {
                 return response()->json(['error' => 'UnAuthorized Deletion'], 300);
         }
         //if the user is deleted successfully return true
