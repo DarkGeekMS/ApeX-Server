@@ -71,7 +71,6 @@ class ValidDeleteUserTest extends TestCase
             [
             'token' => $token,
             'UserID' => $user['id'],
-            'passwordConfirmation'=>'monda21'
             ]
         );
         $delResponse->assertStatus(200)->assertDontSee("token_error");

@@ -34,7 +34,7 @@ $factory->define(User::class, function (Faker $faker) {
         'email' =>  $mail,
         'username'=> $Uname,
         'password' => '$2y$10$EFyhgTaTJGLEtHg3ylrJ/eAIoEFZ/UZ4w3/dMF5CF4NteCsB/PcgS',
-        'avatar'=>'public\img\def.jpg',
+        'avatar'=>'/storage/avatars/users/t2_3872.jpg',
         'karma'=>1,
         'notification'=>true,
         'type'=>rand(1, 3)
