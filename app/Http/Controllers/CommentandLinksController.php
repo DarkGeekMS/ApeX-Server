@@ -1168,7 +1168,7 @@ class CommentandLinksController extends Controller
         return response()->json(['error' => 'Invalid Action'], 400);
     }
 
-  /**
+   /**
     * save.
     * This Function is used to save/unsave a comment or post.
     *
@@ -1184,7 +1184,7 @@ class CommentandLinksController extends Controller
     * @param string token the JWT representation of the user.
     * @param string ID The ID of the comment or post.
     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-    * @return boolean saved , if the comment or post is saved or unsaved successfully.
+    * @return boolean value , if the comment or post is saved or unsaved successfully.
     */
 
 
@@ -1208,7 +1208,16 @@ class CommentandLinksController extends Controller
      * "error": "Not authorized"
      * }
      * @response 200{
-     * "value": true
+     * "value": "the post is saved successfully"
+     * }
+     * @response 200{
+     * "value": "the post is unsaved successfully"
+     * }     
+     * @response 200{
+     * "value": "the comment is saved successfully"
+     * }     
+     * @response 200{
+     * "value": "the comment is unsaved successfully"
      * }
      */
 
@@ -1246,9 +1255,14 @@ class CommentandLinksController extends Controller
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->delete();
+                //return that the comment is unsaved successfully
+                return response()->json(['value'=>'the comment is unsaved successfully'], 200);
             } else {
               //otherwise insert it so it's saved
-                DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
+                //DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
+                SaveComment::create(['comID' => $commentid, 'userID' =>$id]);
+                //return that the comment is saved successfully
+                return response()->json(['value'=>'the comment is saved successfully'], 200);
             }
          //check that a post exists with the given id
         } elseif (count($post)) {
@@ -1262,15 +1276,19 @@ class CommentandLinksController extends Controller
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->delete();
+                //return that the post is unsaved successfully
+                return response()->json(['value'=>'the post is unsaved successfully'], 200);
             } else {
               //otherwise insert it so it's saved
-                DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
+                //DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
+                SavePost::create(['postID' => $postid, 'userID' =>$id]);
+                //return that the post is saved successfully
+                return response()->json(['value'=>'the post is saved successfully'], 200);
             }
         } else {
           //if no post or comment return error message
             return response()->json(['error' => 'post or comment doesnot exist'], 404);
         }
-        //return true to ensure that the post is saved/unsaved successfully
-        return response()->json(['value'=>true], 200);
+
     }
 }
