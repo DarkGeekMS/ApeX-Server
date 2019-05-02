@@ -138,7 +138,7 @@ class ValidReplyTest extends TestCase
 
             User::where('id', $comment['commented_by'])->forceDelete();
             $this->assertDatabaseMissing('users', ['id' => $comment['commented_by']]);
-            
+
             User::where('id', $user['id'])->forceDelete();
             //check that the user deleted from database
             $this->assertDatabaseMissing('users', ['id' => $user['id']]);
@@ -160,7 +160,7 @@ class ValidReplyTest extends TestCase
 
         $user = factory(User::class)->create();
         $msg = factory(Message::class)->create();
-
+        Message::where('id', $msg['id'])->update(['sender' => $user['id']]);
         $signIn = $this->json(
             'POST',
             '/api/SignIn',

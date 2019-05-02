@@ -251,7 +251,7 @@ class GeneralController extends Controller
      * @responseFile 404 responses\apexComNotFound.json
      *
      * @queryParam apexComID The ID of the ApexComm that contains the posts, default is null. Example: t5_1
-     * @queryParam sortingParam The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
+     * @queryParam sortingParam The sorting parameter,takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      */
 
     public function guestSortPostsBy(Request $request)
@@ -393,7 +393,8 @@ class GeneralController extends Controller
      * Get Subscribers
      * Returns a list of the users subscribed to a certain ApexCom to an authorized user.
      * It first checks the apexcom id, if it wasnot found an error is returned.
-     * Then a check that the authorized user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Then a check that the authorized user is not blocked from the apexcom,
+     * if he was blocked a logical error is returned.
      * Then, it gets the username and id of the subscribers and returns them.
      *
      * ###Success Cases :

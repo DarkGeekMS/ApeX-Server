@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Response;
+use OneSignal;
 
 /**
  * @group User
@@ -97,7 +98,7 @@ class UserController extends Controller
         }
 
         try {
-            Block::insert(compact('blockerID', 'blockedID'));
+            Block::create(compact('blockerID', 'blockedID'));
         } catch (\Exception $e) {
             return response()->json(['error' => 'server-side error'], 500);
         }
@@ -186,11 +187,18 @@ class UserController extends Controller
         $content = $request->content;
 
         try {
-            Message::insert(compact('id', 'sender', 'receiver', 'subject', 'content'));
+            Message::create(compact('id', 'sender', 'receiver', 'subject', 'content'));
         } catch (\Exception $e) {
             response(['error' => 'server-side error'], 500);
         }
 
+      /*  OneSignal::sendNotificationToAll(
+            "Some Message",
+            $url = null,
+            $data = null,
+            $buttons = null,
+            $schedule = null
+        );*/
         return compact('id');
     }
 
