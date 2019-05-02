@@ -18,8 +18,8 @@ class ApexCom extends Migration
                 function (Blueprint $table) {
                     $table->string('id')->unique();
                     $table->string('name')->unique();
-                    $table->string('avatar')->default('public\img\apx.png');
-                    $table->string('banner')->default('public\img\banner.jpg');
+                    $table->string('avatar')->default('/storage/avatars/users/t2_3872.jpg');
+                    $table->string('banner')->default('/storage/avatars/users/t2_3872.jpg');
                     $table->text('rules');
                     $table->text('description');
                     $table->timestamps();
