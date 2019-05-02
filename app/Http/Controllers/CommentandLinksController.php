@@ -150,8 +150,10 @@ class CommentandLinksController extends Controller
               'id' =>$id,
               'content' => $request['content']
             ]);
-          /*  OneSignal::sendNotificationToAll(
-                "Some Message",
+
+        /*    OneSignal::sendNotificationToUser(
+                $commentOwner['username'].'Add a reply to your comment',
+                $commentOwner['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
@@ -189,9 +191,9 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
 
-        /*    OneSignal::sendNotificationToUser(
-                "Some Message",
-                $userID,
+          /*  OneSignal::sendNotificationToUser(
+                $postOwner['username'].'Add a comment on your post',
+                $postOwner['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
@@ -227,9 +229,11 @@ class CommentandLinksController extends Controller
               'content' => $request['content'],
               'subject' => $message['subject']
             ]);
-          /*  OneSignal::sendNotificationToExternalUser(
-                "Some Message",
-                " be5dd772-6815-4367-9c46-ffc057f766ff ",
+            $reciever = User::find($userF);
+
+/*            OneSignal::sendNotificationToUser(
+                $reciever['username'].'Send you a reply to the message',
+                $reciever['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,

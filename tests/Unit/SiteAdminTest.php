@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\ApexCom;
 use \App\Models\User;
 
-class SiteAdmin extends TestCase
+class SiteAdminTest extends TestCase
 {
 
 

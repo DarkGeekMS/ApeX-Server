@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 
-class ValidDeleteUser extends TestCase
+class ValidDeleteUserTest extends TestCase
 {
  /**
    * Test a user deletes his account (Deactivate)

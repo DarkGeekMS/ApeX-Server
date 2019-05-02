@@ -9,16 +9,15 @@ use Illuminate\Support\Str;
 use App\Models\ApexCom;
 use App\Models\ApexBlock;
 use App\Models\Subscriber;
-use \App\Models\User;
+use App\Models\User;
 use DB;
 
-class GetSubscribers extends TestCase
+class AboutTest extends TestCase
 {
-
 
     use WithFaker;
     /**
-     * Test the guest get subscribers with out a valid apexcom id and with a valid apexcom id.
+     * Test the guest about with out a valid apexcom id and with a valid apexcom id.
      *
      * @test
      *
@@ -29,30 +28,31 @@ class GetSubscribers extends TestCase
         // hit the route with out valid apexcomid
         $response = $this->json(
             'GET',
-            '/api/GetSubscribers',
+            '/api/AboutApexcom',
             [
-                'ApexCommID' => '12354'
+                'ApexCom_ID' => '12354'
             ]
         );
 
         // an error that the apexcom is not found
         $response->assertStatus(404)->assertSee('ApexCom is not found.');
 
-        //get any apex com and hit the route with it to get its subscribers
+        //get any apex com and hit the route with it to get its about info
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'GET',
-            '/api/GetSubscribers',
+            '/api/AboutApexcom',
             [
-                'ApexCommID' => $apex_id
+                'ApexCom_ID' => $apex_id
             ]
         );
 
-        // a list of subscribers of apexcom should be returned.
+        // a list of information about apexcom should be returned.
         $response->assertStatus(200);
     }
+
     /**
-     * Test with an Apexcom not found, and with out token.
+     * Test with an Apexcom not found, or with out a token.
      *
      * @test
      *
@@ -60,11 +60,10 @@ class GetSubscribers extends TestCase
      */
     public function apexComNotFound()
     {
-
         // hit the route with out token
         $response = $this->json(
             'POST',
-            '/api/GetSubscribers',
+            '/api/AboutApexcom',
             [
             ]
         );
@@ -86,24 +85,25 @@ class GetSubscribers extends TestCase
 
         $token = $signIn->json('token');
 
-        // hit the route with an invalid id of an apexcom to get its subscribers
+        // hit the route with an invalid id of an apexcom to get its about info
         $response = $this->json(
             'POST',
-            '/api/GetSubscribers',
+            '/api/AboutApexcom',
             [
                 'token' => $token,
-                'ApexCommID' => '12354'
+                'ApexCom_ID' => '12354'
             ]
         );
         // an error that the apexcom is not found
         $response->assertStatus(404)->assertSee('ApexCom is not found.');
 
         // delete user added to database
-        DB::table('users')->where('id', $user['id'])->delete();
+        User::where('id', $user['id'])->forceDelete();
 
         //check that the user deleted from database
         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
+
     /**
      * User Blocked from apexcom.
      *
@@ -113,8 +113,8 @@ class GetSubscribers extends TestCase
      */
     public function userBlockedFromApexcom()
     {
+        //fake a user, sign him up and get the token
         $user = factory(User::class)->create();
-
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -127,6 +127,7 @@ class GetSubscribers extends TestCase
         $signIn->assertStatus(200);
 
         $token = $signIn->json('token');
+
         // get any apexcom and block the signed in user from
         $apex_id = ApexCom::all()->first()->id;
         ApexBlock::create(
@@ -135,7 +136,7 @@ class GetSubscribers extends TestCase
                 'ApexID' => $apex_id
             ]
         );
-        $blockedID =  $user['id'];
+        $blockedID = $user['id'];
         $ApexID = $apex_id;
         //check that the blocked user from apexcom is added to database
         $this->assertDatabaseHas('apex_blocks', compact('blockedID', 'ApexID'));
@@ -143,10 +144,10 @@ class GetSubscribers extends TestCase
         // hit the route with the blocked user
         $response = $this->json(
             'POST',
-            '/api/GetSubscribers',
+            '/api/AboutApexcom',
             [
                 'token' => $token,
-                'ApexCommID' => $apex_id
+                'ApexCom_ID' => $apex_id
             ]
         );
 
@@ -156,16 +157,16 @@ class GetSubscribers extends TestCase
         // delete user added to database and blocked from apexblock table
 
         ApexBlock::where('blockedID', $user['id'])->delete();
-        DB::table('users')->where('id', $user['id'])->delete();
+        User::where('id', $user['id'])->forceDelete();
 
         //check that the blocked user from apexcom is deleted from database
         $this->assertDatabaseMissing('apex_blocks', compact('blockedID', 'ApexID'));
 
-        // check that the user added in test function is deleted from database
+        //check that the user deleted from database
         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
     /**
-     * User gets the subscribers of an apexcom.
+     * User gets the about information of an apexcom.
      *
      * @test
      *
@@ -173,8 +174,8 @@ class GetSubscribers extends TestCase
      */
     public function userSucceeds()
     {
+        //fake a user, sign him up and get the token
         $user = factory(User::class)->create();
-
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
@@ -188,24 +189,22 @@ class GetSubscribers extends TestCase
 
         $token = $signIn->json('token');
 
-        //get any apex com and hit the route with it to get its subscribers
+
+        //get any apex com and hit the route with it to get its about info
         $apex_id = ApexCom::all()->first()->id;
         $response = $this->json(
             'POST',
-            '/api/GetSubscribers',
+            '/api/AboutApexcom',
             [
                 'token' => $token,
-                'ApexCommID' => $apex_id
+                'ApexCom_ID' => $apex_id
             ]
         );
 
-        // a list of subscribers in apexcom should be returned.
+        // a list of information about apexcom should be returned.
         $response->assertStatus(200);
 
-        // delete user added to database
-        DB::table('users')->where('id', $user['id'])->delete();
-
-        //check that the user deleted from database
+        User::where('id', $user['id'])->forceDelete();
         $this->assertDatabaseMissing('users', ['id' => $user['id']]);
     }
 }
