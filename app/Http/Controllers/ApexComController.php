@@ -73,7 +73,7 @@ class ApexComController extends Controller
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
-        if ((!$request->has('general') || $request['general'] == false)) {
+        if ((!$request->has('general') || $request['general'] == 'false')) {
             $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
         } else {
             $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();

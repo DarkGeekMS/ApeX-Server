@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
-class InvalidDeleteUser extends TestCase
+class InvalidDeleteUserTest extends TestCase
 {
  /**
    * User not found

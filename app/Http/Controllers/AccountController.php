@@ -471,8 +471,8 @@ class AccountController extends Controller
      * @response 400 {"error":"The message is already deleted from the receiver"}
      * @response 400 {"error":"Not authorized"}
      *
-     * @bodyParam id string required The id of the message to be deleted.
-     * @bodyParam token JWT required Used to verify the user.
+     * @bodyParam id string required The id of the message to be deleted. Example: t4_1
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI
      */
     public function deleteMsg(Request $request)
     {
@@ -1182,8 +1182,8 @@ class AccountController extends Controller
      * @responseFile 400 responses\notAuthorized.json
      * @responseFile 400 responses\maxMustBeInt.json
      *
-     * @bodyParam max int the maximum number of messages to be returned (default is no limit).
-     * @bodyParam token JWT required Used to verify the user.
+     * @bodyParam max int the maximum number of messages to be returned (default is no limit). Example: 50
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI
      */
     public function inbox(Request $request)
     {
