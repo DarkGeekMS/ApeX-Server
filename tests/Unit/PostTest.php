@@ -11,7 +11,7 @@ use App\Models\ApexBlock;
 use App\Models\Post;
 use \App\Models\User;
 
-class Post extends TestCase
+class PostTest extends TestCase
 {
 
 

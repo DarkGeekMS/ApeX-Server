@@ -192,12 +192,13 @@ class UserController extends Controller
             response(['error' => 'server-side error'], 500);
         }
 
-      /*  OneSignal::sendNotificationToAll(
-            "Some Message",
-            $url = null,
-            $data = null,
-            $buttons = null,
-            $schedule = null
+/*      OneSignal::sendNotificationToUser(
+             $reciever['username'].'Send you a message',
+              $reciever['id'],
+              $url = null,
+              $data = null,
+              $buttons = null,
+              $schedule = null
         );*/
         return compact('id');
     }
