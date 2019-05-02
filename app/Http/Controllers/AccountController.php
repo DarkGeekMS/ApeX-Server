@@ -736,7 +736,7 @@ class AccountController extends Controller
             $extention = explode(".", $imgName)[1]; // Getting extension
             $dir = "avatars/users/"; // initializing the directroy
             $img->storeAs($dir, $user->id.".".$extention, "public"); //stroing avatar
-            $dir = "storage/".$dir.$user->id.".".$extention; // setting the directory
+            $dir = "/storage/".$dir.$user->id.".".$extention; // setting the directory
             $user->avatar = $dir; // stroing the directory.
         }
         $user->save(); // saving the changes
