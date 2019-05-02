@@ -7,7 +7,8 @@ use DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AccountController;
 use App\Models\User;
-
+use App\Models\ApexCom;
+use App\Models\Moderator;
 /**
  * @group Adminstration
  *
@@ -234,7 +235,7 @@ class AdministrationController extends Controller
       * must be at least 4 chars starts with t5_ .
       * @param string  UserID The ID of the user to be added as moderator.
       * must be at least 4 chars starts with t2_ .
-      * @return boolean moderate , if the user moderation is added or deleted successfully.
+      * @return string moderate , whether the user moderation is added or deleted successfully.
       */
 
     /**
@@ -260,7 +261,10 @@ class AdministrationController extends Controller
      * "error" : "ApexCom doesnot exist"
      * }
      * @response 200{
-     * "moderate": true
+     * "moderate": "the user moderation is added successfully"
+     * }
+     * @response 200{
+     * "moderate": "the user moderation is deleted successfully"
      * }
      */
 
@@ -285,17 +289,17 @@ class AdministrationController extends Controller
         //get the id of the user to be added as moderator
         $userid= $request['UserID'];
         //check that there is a user with the given id
-        $userexists=DB::table('users')->where('id', '=', $userid)->get();
+        $userexists=User::find($userid);
         //if the user doesnot exist return an error message user doesnot exist
-        if (!count($userexists)) {
+        if (!$userexists) {
             return response()->json(['error' => 'User doesnot exist'], 403);
         }
         //get the id of the apexcom
         $apexid=$request['ApexComID'];
         //check that there is an apex com with the given id
-        $apex=DB::table('apex_coms')->where('id', '=', $apexid)->get();
+        $apex=ApexCom::find($apexid);
        //if the apexcom doesnot exist return an error message apexcom doesnot exist
-        if (!count($apex)) {
+        if (!$apex) {
             return response()->json(['error' => 'ApexCom doesnot exist'], 404);
         }
         //check that the logged in user is an admin
@@ -308,15 +312,20 @@ class AdministrationController extends Controller
                     ['userID', '=', $userid],
                     ['apexID', '=', $apexid]
                     ])->delete();
+                 //returns  the user moderation is deleted successfully
+                return response()->json(['moderate'=>'the user moderation is deleted  successfully'], 200);
             } else {    //if the user is not moderator add him as moderator for the given apexcom
-                DB::table('moderators')->insert(
-                    ['apexID' => $apexid, 'userID' =>$userid]
-                );
+                Moderator::create([
+                    'apexID' => $apexid ,
+                    'userID' =>$userid
+                ]);
+                User::where('id', $userid)->update(['type' =>2]);
+                //returns  the user moderation is added successfully
+                return response()->json(['moderate'=>'the user moderation is added successfully'], 200);
             }
         } else {    //if the logged in user is not an admin return an error message Unauthorized access
             return response()->json(['error' => 'Unauthorized access'], 500);
         }
-        //returns true if the user moderation is added/deleted successfully
-        return response()->json(['moderate'=>true], 200);
+
     }
 }
