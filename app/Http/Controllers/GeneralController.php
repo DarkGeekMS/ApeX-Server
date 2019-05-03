@@ -409,23 +409,13 @@ class GeneralController extends Controller
      *
      * @authenticated
      *
-     * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
      * @response 200 {
      * "subscribers": [
      *   {
      *       "id": "t2_1017",
-     *       "fullname": null,
-     *       "email": "ms16@gmail.com",
-     *       "username": "ms16",
-     *       "avatar": "storage/avatars/users/default.png",
-     *       "karma": 1,
-     *       "notification": 1,
-     *       "type": 3,
-     *       "created_at": "2019-03-23 21:34:24",
-     *       "updated_at": "2019-03-23 21:34:24",
-     *       "userID": "t2_1017"
+     *       "username": "ms16"
      *   }
      *  ]
      * }
@@ -491,16 +481,7 @@ class GeneralController extends Controller
      * "subscribers": [
      *   {
      *       "id": "t2_1017",
-     *       "fullname": null,
-     *       "email": "ms16@gmail.com",
-     *       "username": "ms16",
-     *       "avatar": "storage/avatars/users/default.png",
-     *       "karma": 1,
-     *       "notification": 1,
-     *       "type": 3,
-     *       "created_at": "2019-03-23 21:34:24",
-     *       "updated_at": "2019-03-23 21:34:24",
-     *       "userID": "t2_1017"
+     *       "username": "ms16"
      *   }
      *  ]
      * }
