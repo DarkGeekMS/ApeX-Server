@@ -57,6 +57,8 @@ class AccountController extends Controller
      * failure Cases:
      * 1) username already exits.
      * 2) email already exists.
+     * 3) username include space.
+     * 4) password less than 6 chars.
      *
      * @bodyParam email string required The email of the user.
      * @bodyParam username string required The choosen username.
@@ -66,7 +68,7 @@ class AccountController extends Controller
      *   "email": "hello@gmail.com",
      *  "username": "MohamedRamzy1234",
      *   "id": "t2_13",
-     *   "avatar": "storage/avatars/users/default.png",
+     *   "avatar": "storage/avatars/users/t2_3872.jpg",
      *   "updated_at": "2019-03-19 18:30:05",
      *   "created_at": "2019-03-19 18:30:05"
      *  },
@@ -142,7 +144,7 @@ class AccountController extends Controller
 
         //creating new user with the posted data from the request
         $user = new User($requestData);
-        $avatar = "storage/avatars/users/default.png"; //setting the default avatar
+        $avatar = "/storage/avatars/users/t2_3872.jpg"; //setting the default avatar
         $user->avatar = $avatar;
         $user->id = $id;
         $user->save(); //saving the user to the database
@@ -229,7 +231,8 @@ class AccountController extends Controller
      * Success Cases :
      * 1) return success or failure message to indicate whether the email is sent or not.
      * failure Cases:
-     * 1) username is not found.
+     * 1) email is not found.
+     * 2) no password or email recieved.
      *
      * @response{
      * "msg":"Email sent successfully"
@@ -240,7 +243,9 @@ class AccountController extends Controller
      * @response  400 {
      * "msg":"Error sending the email"
      * }
-     * @bodyParam username string required The user's username.
+     * @bodyParam username string The user's username.
+     * @bodyParam password string The user's password.
+     * @bodyParam email string required The user's email.
      */
 
     public function mailVerify(Request $request)
@@ -316,7 +321,7 @@ class AccountController extends Controller
      * @param string email The user's email.
      * @param string code The user's forgot password code.
      *
-     * @return Json a boolean value to indicate whether the code is correct or not.
+     * @return string the username or returns false
      *
      */
 
@@ -324,15 +329,15 @@ class AccountController extends Controller
      * checkCode
      * Check whether the user entered the correct reset code sent to his email.
      * Success Cases :
-     * 1) return success msg to indicate whether the code is valid or not
+     * 1) return the username in case of success.
      * Failure Cases :
      * 1) Code is invalid.
      *
      * @response{
-     * "authorized":true
+     * "MohamedRamzy"
      * }
      * @response  400{
-     * "authorized":false
+     * false
      * }
      * @bodyParam code int required The entered code.
      * @bodyParam email string required The user's email.
@@ -365,14 +370,14 @@ class AccountController extends Controller
                 ->where('code', $codeText)->first();
             if ($code) {
                 //Returning the response indicating that the code is correct
-                return response()->json(['authorized' => true], 200);
+                return response()->json($user->username, 200);
             } else {
                 //Returning the response indicating that the code is not correct
-                return response()->json(['authorized' => false], 400);
+                return response()->json([false], 400);
             }
         } else {
             //Returning the response indicating that the user is not found
-            return response()->json(['authorized' => false], 400);
+            return response()->json([false], 400);
         }
     }
 
@@ -466,8 +471,8 @@ class AccountController extends Controller
      * @response 400 {"error":"The message is already deleted from the receiver"}
      * @response 400 {"error":"Not authorized"}
      *
-     * @bodyParam id string required The id of the message to be deleted.
-     * @bodyParam token JWT required Used to verify the user.
+     * @bodyParam id string required The id of the message to be deleted. Example: t4_1
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI
      */
     public function deleteMsg(Request $request)
     {
@@ -526,7 +531,7 @@ class AccountController extends Controller
       * it gets the id of the sent message.
       * then it checks that a message exists with the given id.
       * if not it returns an error message.
-      * it checks whether the logged in user id the sender or the reciever of the message. 
+      * it checks whether the logged in user id the sender or the reciever of the message.
       * if not it reyurns an error message.
       * otherwise it returns the message with the given id and all its replies.
       *
@@ -538,10 +543,9 @@ class AccountController extends Controller
 
     /**
      * readMsg
-     * Read a sent message.
+     * retrieve a message and its replies for any user.
      * Success Cases :
      * 1) return the details of the message.
-     * 2) call moreChildren to retrieve replies to this message.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) message id not found.
@@ -555,6 +559,7 @@ class AccountController extends Controller
      * "error" : "Message doesnot belong to the user"
      * }
      * @response  200{
+     *   "subject": "GOT"
      *   "message": {
      *       "id": "t4_100",
      *       "content": "winter is gone :(",
@@ -568,7 +573,7 @@ class AccountController extends Controller
      *       {
      *           "id": "t4_1",
      *          "content": "Rerum pariatur accusantium voluptas qui reprehenderit. Quia similique odio expedita nihil. Aperiam rem accusamus maxime est non at.",
-     *           "subject": "Omnis temporibus molestias adipisci incidunt.",
+     *           "subject": null,
      *          "sender": "t2_5",
      *           "receiver": "t2_9",
      *           "created_at": "2019-04-29 15:50:28",
@@ -605,28 +610,28 @@ class AccountController extends Controller
         }
         //get the id of the message
         $msgid= $request['ID'];
-    
-        //$msg=Message::find($msgid);
-        $msg=Message::where('id', $msgid)->select('id','content','subject','sender','receiver','created_at','updated_at')->first();
+
+
+        $msg=Message::where('id', $msgid)
+              ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->first();
+
         //if the message doesnot exist return an error message
         if (!$msg) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
         //check if the logged in user is the sender or the reciever of the message
-        if($msg->sender==$id || $msg->receiver==$id ){
+        if ($msg->sender==$id || $msg->receiver==$id) {
             $msgReplies=Message::where('parent', $msgid)->orderBy('created_at', 'asc')
-            ->select('id','content','subject','sender','receiver','created_at','updated_at')->get();
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->get();
             $msgReplies->each(
                 function ($msgReplies) use ($msgid) {
                     $msgReplies['sender_name'] = User::find($msgReplies->sender)->username;
                 }
             );
-        }
-        //if the user is not the sender or the reciever of the message return an error message
-        else{
+        } else { //if the user is not the sender or the reciever of the message return an error message
             return response()->json(['error' => 'Message doesnot belong to the user'], 400);
-        }       
-        $json_output=response()->json(['message' =>$msg ,'replies'=>$msgReplies], 200);
+        }
+        $json_output=response()->json(['subject'=>$msg->subject,'message' =>$msg ,'replies'=>$msgReplies ], 200);
         return $json_output;
     }
 
@@ -736,11 +741,11 @@ class AccountController extends Controller
             $extention = explode(".", $imgName)[1]; // Getting extension
             $dir = "avatars/users/"; // initializing the directroy
             $img->storeAs($dir, $user->id.".".$extention, "public"); //stroing avatar
-            $dir = "storage/".$dir.$user->id.".".$extention; // setting the directory
+            $dir = "/storage/".$dir.$user->id.".".$extention; // setting the directory
             $user->avatar = $dir; // stroing the directory.
         }
         $user->save(); // saving the changes
-        return response()->json(true, 200); // returning true with success response.
+        return response()->json(['updated' =>true], 200); // returning true with success response.
     }
 
 
@@ -771,7 +776,7 @@ class AccountController extends Controller
      * "username":"Azzoz",
      * "email":"Azzoz@hotmail.com",
      * "fullname":"Azzoz mando",
-     * "avatar":"storage/users/default.jpg",
+     * "avatar":"storage/users/t2_3872.jpg",
      * "notification":1
      * }
      */
@@ -790,7 +795,7 @@ class AccountController extends Controller
             "avatar" => $user->avatar,
             "notification" => $user->notification
         ];
-        return response()->json($user, 200);
+        return response()->json([ 'userData' => $user], 200);
     }
 
 
@@ -821,7 +826,7 @@ class AccountController extends Controller
      *   "fullname": null,
      *   "email": "111@gmail.com",
      *   "username": "MohamedRamzy123",
-     *   "avatar": "storage/avatars/users/default.png",
+     *   "avatar": "storage/avatars/users/t2_3872.jpg",
      *   "karma": 1,
      *   "notification": 1,
      *   "type": 1,
@@ -929,7 +934,7 @@ class AccountController extends Controller
                     $user->password = $newpass; //setting password
                     $user->save(); //saving changes
                     Code::where("id", $user->id)->delete(); //Deleting the code
-                    return response()->json(true, 200); // returning true
+                    return response()->json(['changed' => true], 200); // returning true
                 } else {
                     //returning error
                     return response()->json(["error" => "Invalid code"], 400);
@@ -960,7 +965,7 @@ class AccountController extends Controller
             if (JWTAuth::attempt($credentials)) {
                 $user->password = $newpass; //changin password
                 $user->save(); //saving changes
-                return response()->json(true, 200); //return success
+                return response()->json(['changed' => true], 200); //return success
             } else {
                 //return error
                 return response()->json(["error" => "old password is not correct"], 400);
@@ -988,7 +993,6 @@ class AccountController extends Controller
      * Displaying the profile info of the user.
      * Success Cases :
      * 1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
-     * 2) in case of moderator it will also return the reports of the ApexCom he is moderator in.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      *
@@ -998,7 +1002,7 @@ class AccountController extends Controller
      *       "user_info": [
      *           {
      *               "username": "s",
-     *               "avatar": "storage/avatars/users/default.png",
+     *               "avatar": "storage/avatars/users/t2_3872.jpg",
      *               "karma": 1
      *           }
      *       ],
@@ -1029,7 +1033,8 @@ class AccountController extends Controller
      *               "title": "LeHGyTsuKb",
     *              "img": null,
      *               "videolink": null,
-     *               "content": "Eveniet totam deserunt non magni. Magni non est eligendi magni minima ipsum. Aliquid aliquam dolore minus magni quo.",
+     *               "content": "Eveniet totam deserunt non magni.
+     *                 Magni non est eligendi magni minima ipsum. Aliquid aliquam dolore minus magni quo.",
      *               "locked": 0,
      *               "created_at": "2019-04-29 15:50:27",
      *              "updated_at": "2019-04-29 15:50:27",
@@ -1086,7 +1091,7 @@ class AccountController extends Controller
         $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
 
         $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ],200);
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ], 200);
 
         return $json_output;
     }
@@ -1132,7 +1137,7 @@ class AccountController extends Controller
         //get the blocklist of the logged in user
         $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
         ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
-        return response()->json(['blocklist' =>$blocklist],200);
+        return response()->json(['blocklist' =>$blocklist], 200);
     }
 
     /**
@@ -1177,8 +1182,8 @@ class AccountController extends Controller
      * @responseFile 400 responses\notAuthorized.json
      * @responseFile 400 responses\maxMustBeInt.json
      *
-     * @bodyParam max int the maximum number of messages to be returned (default is no limit).
-     * @bodyParam token JWT required Used to verify the user.
+     * @bodyParam max int the maximum number of messages to be returned (default is no limit). Example: 50
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI
      */
     public function inbox(Request $request)
     {
@@ -1191,7 +1196,7 @@ class AccountController extends Controller
 
         $messages = Message::notReply()->with('sender:id,username')
             ->with('receiver:id,username')->latest()->take($limit)
-            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at');
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'received as read', 'created_at', 'updated_at');
 
         $sent = clone $messages;
         $read = clone $messages;

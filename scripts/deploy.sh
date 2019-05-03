@@ -15,7 +15,7 @@ main() {
     # copy docker-compose.yml to update it there
     gcloud compute scp \
 	production-docker-compose.yml \
-	$VM_INSTANCE:docker-compose.yml 
+	$VM_INSTANCE:disk1/docker-compose.yml 
 
     # run docker-compose
     gcloud compute ssh $VM_INSTANCE \

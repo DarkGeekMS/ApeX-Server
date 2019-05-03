@@ -14,6 +14,7 @@ use App\Models\ApexBlock;
 use App\Models\User;
 use App\Models\Moderator;
 use App\Models\Post;
+use App\Models\ApexCom;
 
 /**
  * @group ApexCom
@@ -37,13 +38,33 @@ class ApexComController extends Controller
 
   /**
    * getApexComs
-   * getapexcom names which user subscribe in.
+   * getapexcom names which user subscribe in or all apexCom names the user can visit.
    * Success Cases :
-   * 1) return the apexComs names and ids the user subscribed in.
+   * 1) return the apexComs names and ids the user subscribed in or the apexComs names and ids user can access.
    * failure Cases:
    * 1) NoAccessRight token is not authorized.
    *
    * @bodyParam token JWT required Verifying user ID.
+   * @bodyParam general bool set to get all the epexComs names and ids.
+   * @response  400{
+   * "error" : "Unauthorized access"
+   * }
+   * @response 200{
+   * "apexComs": [
+   *                {
+   *                  "name" : 'sports',
+   *                  "id" : t5_1
+   *                },
+   *                {
+   *                  "name" : 'foods',
+   *                  "id" : t5_2
+   *                },
+   *                {
+   *                  "name" : 'data',
+   *                  "id" : t5_3
+   *                }
+   *          ]
+   * }
    */
 
     public function getApexComs(Request $request)
@@ -51,17 +72,20 @@ class ApexComController extends Controller
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
-
-        $apexs=DB::table('subscribers')->join('apex_coms', 'subscribers.apexID', '=', 'apex_coms.id')
-            ->where('subscribers.userID', '=', $userID)
-            ->select('name', 'apexID')
-            ->get();
-        return response()->json([$apexs], 200);
+        $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
+        if ((!$request->has('general'))) {
+            $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
+        } else {
+            $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
+            $apexs = ApexCom::whereIn('id', $subApex)->whereNotIn('id', $blocked)->select('name', 'id')->get();
+        }
+        return response()->json(['apexComs' => $apexs], 200);
     }
 
     /**
      * Guest about
-     * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count).
+     * to get data about an ApexCom (moderators (name and id ) ,
+     * name, contributors , rules , description and subscribers count).
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then about information of apexcom is returned.
      *
@@ -77,7 +101,7 @@ class ApexComController extends Controller
      *                "avatar":"NULL","rules":"NULL"
      *                }
      *
-     * @bodyParam ApexCom_ID string required The fullname of the community.
+     * @bodyParam ApexCom_ID string required The fullname of the Apexcom.
      */
     public function guestAbout(Request $request)
     {
@@ -98,7 +122,8 @@ class ApexComController extends Controller
 
         $moderators = Moderator::where('apexID', $apex_id);
         $moderators = User::joinSub(
-            $moderators, 'moderators',
+            $moderators,
+            'moderators',
             function ($join) {
                 $join->on('id', '=', 'moderators.userID');
             }
@@ -120,15 +145,22 @@ class ApexComController extends Controller
 
         return response()->json(
             compact(
-                'contributers_count', 'moderators', 'avatar', 'banner',
-                'subscribers_count', 'name', 'description', 'rules'
+                'contributers_count',
+                'moderators',
+                'avatar',
+                'banner',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
             )
         );
     }
 
     /**
      * About
-     * to get data about an ApexCom (moderators , name, contributors , rules , description and subscribers count) with a logged in user.
+     * to get data about an ApexCom (moderators , name, contributors , rules,
+     * description and subscribers count) with a logged in user.
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
      * Then, The about information of apexcom is returned.
@@ -184,7 +216,8 @@ class ApexComController extends Controller
 
         $moderators = Moderator::where('apexID', $apex_id);
         $moderators = User::select('id', 'username')->joinSub(
-            $moderators, 'moderator',
+            $moderators,
+            'moderator',
             function ($join) {
                 $join->on('id', '=', 'moderator.userID');
             }
@@ -206,8 +239,14 @@ class ApexComController extends Controller
 
         return response()->json(
             compact(
-                'contributers_count', 'moderators', 'avatar', 'banner',
-                'subscribers_count', 'name', 'description', 'rules'
+                'contributers_count',
+                'moderators',
+                'avatar',
+                'banner',
+                'subscribers_count',
+                'name',
+                'description',
+                'rules'
             )
         );
     }
@@ -219,7 +258,8 @@ class ApexComController extends Controller
      * to post text , image or video in any ApexCom.
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
-     * Validation to request parameters is done, the post shall contain title and at least a body, an image, or a video url.
+     * Validation to request parameters is done,
+     * the post shall contain title and at least a body, an image, or a video url.
      * if validation fails logical error is returned, else a new post is added and return 'created'.
      *
      * ###Success Cases :
@@ -434,9 +474,11 @@ class ApexComController extends Controller
      * Site Admin
      * Used by the site admin to create or update a new ApexCom.
      * First, a verification that the user creating or updating apexcom is an admin, if not a logical error is returned.
-     * Then, validating the request parameters the name, description and rules are required, banner and avatar are optional but they should be images.
+     * Then, validating the request parameters the name,
+     * description and rules are required, banner and avatar are optional but they should be images.
      * If, the validation fails all validation errors are returned.
-     * Then, check if the apexcom with this name exists or not, if it already exists then its data is updatad and return 'updated'.
+     * Then, check if the apexcom with this name exists or not,
+     * if it already exists then its data is updatad and return 'updated'.
      * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
      *
      * ###Success Cases :
@@ -496,22 +538,16 @@ class ApexComController extends Controller
 
         // check if apexcom exists update its information if not then create a new apexcom
         // and return true
-        
+
         $exists = apexComModel::where('name', $request['name'])->count();
 
         $state = 'Updated';
-        
+
         if (!$exists) {
             // making the id of the new apexcom and creating it
-            $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
-            $id = "t5_1";
-            if ($lastapex) {
-                $count = DB::table('apex_coms') ->where('created_at', $lastapex->created_at)->count();
-                $id = $lastapex->id;
-                $newIdx = (int)explode("_", $id)[1];
-                $id = "t5_".($newIdx+$count);
-            }
-            
+            $lastapex =apexComModel::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't5_'.(string)($lastapex +1);
+  
             $v = $request->all();
             $v['id'] = $id;
 
@@ -529,9 +565,9 @@ class ApexComController extends Controller
                 $path = $img->storeAs($dir, $id.".".$extension, "public");
                 $v['banner'] = Storage::url($path);
             }
-            
+
             apexComModel::create($v);
-            
+
             $state = 'Created';
             // return state to ensure creation of new apexcom
             return response()->json(compact('state'));
