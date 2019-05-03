@@ -20,7 +20,7 @@ class IgnoreReportTest extends TestCase
 
     use WithFaker;
     /**
-     * Test with an Apexcom not found, or with out a token, or without user to ignore a report.
+     * Test with out a token, or without user to ignore a report.
      *
      * @test
      *
@@ -39,7 +39,7 @@ class IgnoreReportTest extends TestCase
         // a token error will apear.
         $response->assertStatus(400)->assertSee('Not authorized');
 
-        //create the moderator and the blocked user and sign in with the moderator.
+        //create the moderator and the reporter user and sign in with the moderator.
         $reporteruser = factory(User::class)->create();
 
         $user = factory(User::class)->create();
@@ -57,7 +57,7 @@ class IgnoreReportTest extends TestCase
 
         $token = $signIn->json('token');
 
-        // hit the route with an invalid id of an apexcom.
+        // hit the route without a reported id.
         $response = $this->json(
             'POST',
             '/api/IgnoreReport',
@@ -66,12 +66,12 @@ class IgnoreReportTest extends TestCase
                 'user_id' => $reporteruser['id']
             ]
         );
-        // an error that the apexcom is not found
+        // an error that the reported post is not found
         $response->assertStatus(404)->assertSee('Unable to find a post or a comment.');
 
         $reported_id = Post::all()->first()->id;
 
-        // hit the route with out a user to be blocked
+        // hit the route with out a reporter user 
         $response = $this->json(
             'POST',
             '/api/IgnoreReport',
@@ -80,7 +80,7 @@ class IgnoreReportTest extends TestCase
                 'report_id' => $reported_id
             ]
         );
-        // an error that the apexcom is not found
+        // an error that the user is not found
         $response->assertStatus(404)->assertSee('User not found.');
         
 
@@ -102,7 +102,7 @@ class IgnoreReportTest extends TestCase
      */
     public function moderationRestrictions()
     {
-        //create the moderator and the blocked user and sign in with the moderator.
+        //create the moderator and the reporter user and sign in with the moderator.
         $reporteruser = factory(User::class)->create();
 
         $user = factory(User::class)->create();
@@ -167,7 +167,7 @@ class IgnoreReportTest extends TestCase
     }
 
     /**
-     * This test function tests the succeeded block and unblock process.
+     * This test function tests the succeeded ignore report process.
      *
      * @test
      *
@@ -175,7 +175,7 @@ class IgnoreReportTest extends TestCase
      */
     public function userSucceeds()
     {
-        //create the moderator and the blocked user and sign in with the moderator.
+        //create the moderator and the reporter user and sign in with the moderator.
         $reporteruser = factory(User::class)->create();
 
         $user = factory(User::class)->create();
