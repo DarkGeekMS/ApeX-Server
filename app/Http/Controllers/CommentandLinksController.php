@@ -56,9 +56,11 @@ class CommentandLinksController extends Controller
     /**
      * add
      * submit a new comment or reply to a comment on a post or reply to any message.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the comment , reply is added successfully.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) post fullname (ID) is not found.
      * 2) NoAccessRight token is not authorized.
      *
@@ -208,6 +210,9 @@ class CommentandLinksController extends Controller
             if (!$message) {
                 return response()->json(['error' => ' message not exists '], 404);
             }
+            if ($message['parent']) {
+                return response()->json(['error' => ' can not reply on a reply in messages '], 400);
+            }
             //get the receiver id from the parent message (messages can be done by only 2 users)
             $userF = 't2_0';
             if ($message['sender'] == $user['id']) {
@@ -273,9 +278,11 @@ class CommentandLinksController extends Controller
      * delete
      * to delete a post or comment or reply from any ApexCom by the owner of the thing,
      * the moderator of this ApexCom or any admin.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post, comment or reply is deleted successfully.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.
      * 3) post , comment or reply fullname (ID) is not found.
@@ -414,9 +421,11 @@ class CommentandLinksController extends Controller
     /**
      * editText
      * to edit the text of a post , comment or reply by its owner.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post or comment updated successfully.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) NoAccessRight the token is not for the owner of the post or comment to be edited.
      * 3) post or comment fullname (ID) is not found.
@@ -509,9 +518,11 @@ class CommentandLinksController extends Controller
      * to lock or unlock a post so it can't recieve new comments.
      * check the user id the post owner or admin in the ApexCom or moderator in the ApexCom holds the post
      * to be able to lock this post otherwise error message Not Allowed will return.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post was locked/unlock.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
      * 3) NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.
@@ -593,9 +604,11 @@ class CommentandLinksController extends Controller
      * hide
      * to hide or UnHide a post from the user view.
      * check valid user and post and if the post was hidden it removes it from hiddens and vice versa.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post hidden.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
      *
@@ -652,9 +665,11 @@ class CommentandLinksController extends Controller
     /**
      * moreChildren
      * to retrieve additional comments omitted from a base comment tree (comment , replies).
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return thr retrieved comments and replies sorted by date { level represent the comment depth}.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found for any of the parent IDs.
      *
@@ -746,9 +761,11 @@ class CommentandLinksController extends Controller
     /**
      * moreChildren
      * to retrieve additional comments omitted from a base comment tree (comment , replies ).
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return the retrieved comments or replies.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) post  fullname (ID) is not found.
      *
      * @bodyParam parent string required The fullname of the post whose comments are being fetched
@@ -848,9 +865,11 @@ class CommentandLinksController extends Controller
      * user can't report his post or comment.
      * user can't report comment on his post.
      * admin can't report on post or comment.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the report is added successfully.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) no content send.
      * 2) NoAccessRight token is not authorized.
      *
@@ -1020,10 +1039,13 @@ class CommentandLinksController extends Controller
 
     /**
      * vote
-     * cast a vote on a post , comment or reply.
-     * Success Cases :
+     * cast a vote on a post , comment or reply and update the karma of the post or comment owner post.
+     * each 50 upVote for a post or 70 upVote for comment will increase the karama by 1.
+     *
+     * ###Success Cases :
      * 1) return total number of votes on this post,comment or reply.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) fullname of the thing to vote on is not found.
      * 3) direction of the vote is not integer between -1 , 1.
@@ -1078,6 +1100,11 @@ class CommentandLinksController extends Controller
               //return error message if the post not found
                 return response()->json(['error' => 'post_not_found'], 404);
             }
+            $postOwner= User::find($post['posted_by']);
+            $prevVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
+            $prevkarama = intdiv($prevVotes, 50);
+            $postOwner->karma -= $prevkarama;
+            $postOwner->save();
             //check if the user voted on this post before or not
             $exists = DB::table('votes')->where('postID', $name)
              ->where('userID', $user['id'])->get();
@@ -1091,25 +1118,27 @@ class CommentandLinksController extends Controller
                 ]);
                 //get the total count of votes on this post and return it
                 $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
-            }
-            //if the user voted in this post before, get the previous vote direction
-            $dir = DB::table('votes')->where('postID', $request['name'])
-             ->where('userID', $user['id'])->value('dir');
-             //if the user votes in the same direction ( cancel the vote)
-            if ($dir == $request['dir']) {
-              //delete the record of this vote and return the total number of votes in this post
-                DB::table('votes')->where('userID', $user['id'])->where('postID', $request['name'])->delete();
-                $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
             } else {
-              //if not we update the vote by its new value and return the total number of votes on this post
-                DB::table('votes')->where('userID', $user['id'])
-                ->where('postID', $request['name'])->update(['dir' => $request['dir']]);
+                //if the user voted in this post before, get the previous vote direction
+                $dir = DB::table('votes')->where('postID', $request['name'])
+                ->where('userID', $user['id'])->value('dir');
+                //if the user votes in the same direction ( cancel the vote)
+                if ($dir == $request['dir']) {
+                  //delete the record of this vote and return the total number of votes in this post
+                    DB::table('votes')->where('userID', $user['id'])->where('postID', $request['name'])->delete();
+                    $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
+                } else {
+                    //if not we update the vote by its new value and return the total number of votes on this post
+                    DB::table('votes')->where('userID', $user['id'])
+                    ->where('postID', $request['name'])->update(['dir' => $request['dir']]);
 
-                $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
+                    $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
+                }
             }
+            $updatedkarama = intdiv((int)$NoVotes, 50);
+            $postOwner->karma  += $updatedkarama;
+            $postOwner->save();
+            return response()->json(['votes' => $NoVotes], 200);
             //if comment
         } elseif ($name[1]==1) {
           //get this comment
@@ -1118,6 +1147,11 @@ class CommentandLinksController extends Controller
             if (!$comment) {
                 return response()->json(['error' => 'comment not exists'], 404);
             }
+            $commentOwner= User::find($comment['commented_by']);
+            $prevVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
+            $prevkarama = intdiv($prevVotes, 70);
+            $commentOwner->karma = $commentOwner->karma - $prevkarama;
+            $commentOwner->save();
             //check if the user voted on this comment before or not
             $exists = DB::table('comment_votes')->where('comID', $request['name'])
              ->where('userID', $user['id'])->get();
@@ -1130,25 +1164,27 @@ class CommentandLinksController extends Controller
                 ]);
                 //get the total count of votes on this post and return it
                 $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
-            }
-            //if the user voted in this post before, get the previous vote direction
-            $dir = DB::table('comment_votes')->where('comID', $request['name'])
-             ->where('userID', $user['id'])->value('dir');
-             //if the user votes in the same direction ( cancel the vote)
-            if ($dir == $request['dir']) {
-              //delete the record of this vote and return the total number of votes in this post
-                DB::table('comment_votes')->where('userID', $user['id'])->where('comID', $request['name'])->delete();
-                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
             } else {
-              //if not we update the vote by its new value and return the total number of votes on this post
-                DB::table('comment_votes')->where('userID', $user['id'])
-                ->where('comID', $request['name'])->update(['dir' => $request['dir']]);
-
-                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
+              //if the user voted in this post before, get the previous vote direction
+                $dir = DB::table('comment_votes')->where('comID', $request['name'])
+                ->where('userID', $user['id'])->value('dir');
+                //if the user votes in the same direction ( cancel the vote)
+                if ($dir == $request['dir']) {
+                  //delete the record of this vote and return the total number of votes in this post
+                    DB::table('comment_votes')->where('userID', $user['id'])
+                    ->where('comID', $request['name'])->delete();
+                    $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
+                } else {
+                  //if not we update the vote by its new value and return the total number of votes on this post
+                    DB::table('comment_votes')->where('userID', $user['id'])
+                    ->where('comID', $request['name'])->update(['dir' => $request['dir']]);
+                    $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
+                }
             }
+            $updatedkarama = intdiv($NoVotes, 70);
+            $commentOwner->karma = $commentOwner->karma + $updatedkarama;
+            $commentOwner->save();
+            return response()->json(['votes' => $NoVotes], 200);
         }
         //if the name sent was not for post or comment return error message
         return response()->json(['error' => 'Invalid Action'], 400);
@@ -1198,10 +1234,10 @@ class CommentandLinksController extends Controller
      * }
      * @response 200{
      * "value": "the post is unsaved successfully"
-     * }     
+     * }
      * @response 200{
      * "value": "the comment is saved successfully"
-     * }     
+     * }
      * @response 200{
      * "value": "the comment is unsaved successfully"
      * }
@@ -1275,6 +1311,5 @@ class CommentandLinksController extends Controller
           //if no post or comment return error message
             return response()->json(['error' => 'post or comment doesnot exist'], 404);
         }
-
     }
 }
