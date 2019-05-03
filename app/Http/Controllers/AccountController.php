@@ -943,7 +943,7 @@ class AccountController extends Controller
                     $user->password = $newpass; //setting password
                     $user->save(); //saving changes
                     Code::where("id", $user->id)->delete(); //Deleting the code
-                    return response()->json(true, 200); // returning true
+                    return response()->json(['changed' => true], 200); // returning true
                 } else {
                     //returning error
                     return response()->json(["error" => "Invalid code"], 400);
@@ -974,7 +974,7 @@ class AccountController extends Controller
             if (JWTAuth::attempt($credentials)) {
                 $user->password = $newpass; //changin password
                 $user->save(); //saving changes
-                return response()->json(true, 200); //return success
+                return response()->json(['changed' => true], 200); //return success
             } else {
                 //return error
                 return response()->json(["error" => "old password is not correct"], 400);

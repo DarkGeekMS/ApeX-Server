@@ -45,7 +45,7 @@ class ApexComController extends Controller
    * 1) NoAccessRight token is not authorized.
    *
    * @bodyParam token JWT required Verifying user ID.
-   * @bodyParam general bool set to get all the epexComs names and ids.
+   * @bodyParam general bool set to 1 get all the epexComs names and ids , 0 to get the user subscribed ones.
    * @response  400{
    * "error" : "Unauthorized access"
    * }
@@ -69,11 +69,19 @@ class ApexComController extends Controller
 
     public function getApexComs(Request $request)
     {
+        $validator = validator(
+            $request->only('general'),
+            ['general' => 'bool']
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
-        if ((!$request->has('general') || $request['general'] == 'false')) {
+        if ($request->has('general') && $request['general']) {
             $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
         } else {
             $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
@@ -95,7 +103,11 @@ class ApexComController extends Controller
      * 2) ApexCom fullname (ApexCom_id) is not found.
      *
      * @response 404 {"error":"ApexCom is not found."}
-     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
+     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3", "username"}],
+     *                "subscribers_count":0,"name":"New dawn",
+     *                "description":"The name says it all.","rules":"NO RULES",
+     *                "avatar":"NULL","rules":"NULL"
+     *                }
      *
      * @bodyParam ApexCom_ID string required The fullname of the Apexcom.
      */
@@ -169,10 +181,13 @@ class ApexComController extends Controller
      *
      * @authenticated
      *
-     * @response 400 {"token_error":"The token could not be parsed from the request"}
      * @response 404 {"error":"ApexCom is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
-     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3"}],"subscribers_count":0,"name":"New dawn","description":"The name says it all.","rules":"NO RULES"}
+     * @response 200 {"contributers_count":2,"moderators":[{"userID":"t2_3", "username"}],
+     *                "subscribers_count":0,"name":"New dawn",
+     *                "description":"The name says it all.","rules":"NO RULES",
+     *                "avatar":"NULL","rules":"NULL"
+     *                }
      *
      * @bodyParam ApexCom_ID string required The fullname of the community.
      * @bodyParam token JWT required Verifying user ID.
@@ -256,12 +271,17 @@ class ApexComController extends Controller
      * if validation fails logical error is returned, else a new post is added and return 'created'.
      *
      * ###Success Cases :
-     * 1) return true to ensure that the post was added to the ApexCom successfully.
+     * 1) return post id to ensure that the post was added to the ApexCom successfully.
      * ###failure Cases:
      * 1) User is blocked from this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
      * 3) Not including text , image or video in the request.
      * 4) NoAccessRight token is not authorized.
+     *
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 404 {"error":"User is not found."}
+     * @response 400 {"error":"You are blocked from this Apexcom"}
+     * @response 400 {"error":"the url is not a youtube video"}
      *
      * @authenticated
      *
@@ -322,15 +342,19 @@ class ApexComController extends Controller
         if ($validated->fails()) {
             return response()->json($validated->errors(), 400);
         }
+        // validating that the url belongs to youtube video.
         $r = $request->all();
         if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $parsed = parse_url($r['video_url']);
+            return $parsed;
             if ($parsed['scheme'] != 'https' || $parsed['host'] != 'www.youtube.com'
                 || ($parsed['path'] != '/watch' && SUBSTR($parsed['path'], 0, 6) != '/embed')
             ) {
                 return response()->json(['error' => 'the url is not a youtube video'], 400);
             }
         }
+
+        // forming the data of the post from request
         $count = Post::selectRaw('CONVERT( SUBSTR(id, 4), INT ) AS intID')->get()->max('intID');
         $id = 't3_'.((int)$count+1);
         $v['id'] = $id;
@@ -340,6 +364,8 @@ class ApexComController extends Controller
         if (array_key_exists('body', $r) && $r['body'] != "") {
             $v['content'] = $r['body'];
         }
+
+        // storing the image file (if exists) in storage and put url in data base
         if ($request->hasfile('img_name')) {
             $img = $request->file('img_name');
             $extension = $img->getClientOriginalExtension();
@@ -353,6 +379,8 @@ class ApexComController extends Controller
         if (array_key_exists('isLocked', $r) && $r['isLocked'] != "") {
             $v['locked'] = $r['isLocked'];
         }
+
+        // creating the post and returning its id.
         Post::create($v);
         return response()->json(compact('id'));
     }
@@ -370,7 +398,7 @@ class ApexComController extends Controller
      * Else, the user will subscribe the apexcom, and it will return 'subscribed'.
      *
      * ###Success Cases :
-     * 1) return true to ensure that the subscription or unsubscribtion has been done successfully.
+     * 1) return state to ensure that the subscription or unsubscribtion has been done successfully.
      * ###failure Cases:
      * 1) user blocked from this ApexCom.
      * 2) ApexCom fullname (ApexCom_id) is not found.
@@ -428,7 +456,7 @@ class ApexComController extends Controller
 
         $state = 'Subscribed';
 
-        // unsubscribe if previously subscribed and return true to ensure the success of unsubscribe.
+        // unsubscribe if previously subscribed and return state to ensure the success of unsubscribe.
         if ($unsubscribe) {
             Subscriber::where([['apexID', '=',$apex_id],['userID', '=',$user_id] ])->delete();
 
@@ -444,7 +472,7 @@ class ApexComController extends Controller
             ]
         );
 
-        // return true to ensure the success of subscription.
+        // return state to ensure the success of subscription.
         return response()->json(compact('state'));
     }
 
@@ -462,7 +490,7 @@ class ApexComController extends Controller
      * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
      *
      * ###Success Cases :
-     * 1) return true to ensure that the ApexCom was created  successfully.
+     * 1) return state to ensure that the ApexCom was created or updated successfully.
      * ###failure Cases:
      * 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
      * 2) Wrong or unsufficient submitted information.
@@ -478,7 +506,7 @@ class ApexComController extends Controller
      * @response 400 {"name":["The description must be at least 3 characters."]}
      * @response 400 {"name":["The rules must be at least 3 characters."]}
      * @response 400 {"avatar":["The avatar must be an image."]}
-     * @response 200 [true]
+     * @response 200 ["state":"Created"]
      *
      * @bodyParam name string required The name of the community.
      * @bodyParam description string required The description of the community.
@@ -525,14 +553,8 @@ class ApexComController extends Controller
 
         if (!$exists) {
             // making the id of the new apexcom and creating it
-            $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
-            $id = "t5_1";
-            if ($lastapex) {
-                $count = DB::table('apex_coms') ->where('created_at', $lastapex->created_at)->count();
-                $id = $lastapex->id;
-                $newIdx = (int)explode("_", $id)[1];
-                $id = "t5_".($newIdx+$count);
-            }
+            $lastapex =apexComModel::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't5_'.(string)($lastapex +1);
 
             $v = $request->all();
             $v['id'] = $id;

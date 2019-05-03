@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['jwt.verify']], function () {
 
     // account
-    Route::post('/DeleteMessage', 'AccountController@deleteMsg');
+    Route::delete('/DeleteMessage', 'AccountController@deleteMsg');
     Route::post('/ReadMessage', 'AccountController@readMsg');
     Route::post('/Me', 'AccountController@me');
     Route::post('/UpdatePreferences', 'AccountController@updates');
