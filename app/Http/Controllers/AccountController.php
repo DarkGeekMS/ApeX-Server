@@ -637,6 +637,8 @@ class AccountController extends Controller
                     $msgReplies['sender_name'] = User::find($msgReplies->sender)->username;
                 }
             );
+            Message::where('parent', $msgid)->update(['received' => true]);
+            Message::where('id', $msgid)->update(['received' => true]);
         } else { //if the user is not the sender or the reciever of the message return an error message
             return response()->json(['error' => 'Message doesnot belong to the user'], 300);
         }
