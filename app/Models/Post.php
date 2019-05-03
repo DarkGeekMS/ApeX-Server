@@ -19,7 +19,8 @@ class Post extends Model
     ];
 
     protected $appends = [
-        'votes', 'comments_count', 'apex_com_name', 'post_writer_username'
+        'votes', 'comments_count', 'apex_com_name', 'post_writer_username',
+        'post_writer_is_deleted'
     ];
     
     public $incrementing = false;
@@ -91,7 +92,7 @@ class Post extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'posted_by');
+        return $this->belongsTo(User::class, 'posted_by')->withTrashed();
     }
 
     /**
@@ -102,6 +103,16 @@ class Post extends Model
     public function getPostWriterUsernameAttribute()
     {
         return $this->user()->first()['username'];
+    }
+
+    /**
+     * Return the if the post writer is deleted
+     * 
+     * @return bool
+     */
+    public function getPostWriterIsDeletedAttribute()
+    {
+        return ($this->user()->first()['deleted_at'] != null);
     }
 
     /**

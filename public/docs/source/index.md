@@ -146,7 +146,7 @@ failure Cases:
 curl -X POST "http://localhost/api/ReadMessage" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"optio","token":"id"}'
+    -d '{"ID":"suscipit","token":"mollitia"}'
 
 ```
 
@@ -160,8 +160,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "optio",
-    "token": "id"
+    "ID": "suscipit",
+    "token": "mollitia"
 }
 
 fetch(url, {
@@ -220,7 +220,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"velit"}'
+    -d '{"token":"sit"}'
 
 ```
 
@@ -234,7 +234,7 @@ let headers = {
 }
 
 let body = {
-    "token": "velit"
+    "token": "sit"
 }
 
 fetch(url, {
@@ -255,7 +255,7 @@ fetch(url, {
         "fullname": null,
         "email": "111@gmail.com",
         "username": "MohamedRamzy123",
-        "avatar": "storage\/avatars\/users\/default.png",
+        "avatar": "storage\/avatars\/users\/t2_3872.jpg",
         "karma": 1,
         "notification": 1,
         "type": 1,
@@ -306,7 +306,7 @@ failure Cases:
 curl -X POST "http://localhost/api/UpdatePreferences" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"enim","fullname":"eligendi","email":"at","avatar":"vel","notifications":false,"token":"aut"}'
+    -d '{"username":"qui","fullname":"modi","email":"accusamus","avatar":"odit","notifications":false,"token":"sunt"}'
 
 ```
 
@@ -320,12 +320,12 @@ let headers = {
 }
 
 let body = {
-    "username": "enim",
-    "fullname": "eligendi",
-    "email": "at",
-    "avatar": "vel",
+    "username": "qui",
+    "fullname": "modi",
+    "email": "accusamus",
+    "avatar": "odit",
     "notifications": false,
-    "token": "aut"
+    "token": "sunt"
 }
 
 fetch(url, {
@@ -376,7 +376,7 @@ failure Cases:
 curl -X POST "http://localhost/api/GetPreferences" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"voluptate"}'
+    -d '{"token":"qui"}'
 
 ```
 
@@ -390,7 +390,7 @@ let headers = {
 }
 
 let body = {
-    "token": "voluptate"
+    "token": "qui"
 }
 
 fetch(url, {
@@ -409,7 +409,7 @@ fetch(url, {
     "username": "Azzoz",
     "email": "Azzoz@hotmail.com",
     "fullname": "Azzoz mando",
-    "avatar": "storage\/users\/default.jpg",
+    "avatar": "storage\/users\/t2_3872.jpg",
     "notification": 1
 }
 ```
@@ -440,7 +440,7 @@ failure Cases:
 curl -X POST "http://localhost/api/BlockList" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"magni"}'
+    -d '{"token":"at"}'
 
 ```
 
@@ -454,7 +454,7 @@ let headers = {
 }
 
 let body = {
-    "token": "magni"
+    "token": "at"
 }
 
 fetch(url, {
@@ -505,7 +505,7 @@ failure Cases:
 curl -X POST "http://localhost/api/ProfileInfo" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"fugiat"}'
+    -d '{"token":"voluptatem"}'
 
 ```
 
@@ -519,7 +519,7 @@ let headers = {
 }
 
 let body = {
-    "token": "fugiat"
+    "token": "voluptatem"
 }
 
 fetch(url, {
@@ -745,7 +745,7 @@ failure Cases:
 curl -X POST "http://localhost/api/SignOut" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"sit"}'
+    -d '{"token":"tempora"}'
 
 ```
 
@@ -759,7 +759,7 @@ let headers = {
 }
 
 let body = {
-    "token": "sit"
+    "token": "tempora"
 }
 
 fetch(url, {
@@ -815,7 +815,7 @@ failure Cases:
 curl -X POST "http://localhost/api/SignUp" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"in","username":"qui","password":"cumque"}'
+    -d '{"email":"ea","username":"aliquam","password":"neque"}'
 
 ```
 
@@ -829,9 +829,9 @@ let headers = {
 }
 
 let body = {
-    "email": "in",
-    "username": "qui",
-    "password": "cumque"
+    "email": "ea",
+    "username": "aliquam",
+    "password": "neque"
 }
 
 fetch(url, {
@@ -851,7 +851,7 @@ fetch(url, {
         "email": "hello@gmail.com",
         "username": "MohamedRamzy1234",
         "id": "t2_13",
-        "avatar": "storage\/avatars\/users\/default.png",
+        "avatar": "storage\/avatars\/users\/t2_3872.jpg",
         "updated_at": "2019-03-19 18:30:05",
         "created_at": "2019-03-19 18:30:05"
     },
@@ -918,7 +918,7 @@ failure Cases:
 curl -X POST "http://localhost/api/SignIn" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"magnam","password":"placeat"}'
+    -d '{"username":"id","password":"corporis"}'
 
 ```
 
@@ -932,8 +932,8 @@ let headers = {
 }
 
 let body = {
-    "username": "magnam",
-    "password": "placeat"
+    "username": "id",
+    "password": "corporis"
 }
 
 fetch(url, {
@@ -995,7 +995,7 @@ failure Cases:
 curl -X POST "http://localhost/api/MailVerification" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"temporibus","password":"non","email":"molestias"}'
+    -d '{"username":"aliquid","password":"itaque","email":"enim"}'
 
 ```
 
@@ -1009,9 +1009,9 @@ let headers = {
 }
 
 let body = {
-    "username": "temporibus",
-    "password": "non",
-    "email": "molestias"
+    "username": "aliquid",
+    "password": "itaque",
+    "email": "enim"
 }
 
 fetch(url, {
@@ -1073,7 +1073,7 @@ Failure Cases :
 curl -X POST "http://localhost/api/CheckCode" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":7,"email":"perferendis"}'
+    -d '{"code":10,"email":"voluptas"}'
 
 ```
 
@@ -1087,8 +1087,8 @@ let headers = {
 }
 
 let body = {
-    "code": 7,
-    "email": "perferendis"
+    "code": 10,
+    "email": "voluptas"
 }
 
 fetch(url, {
@@ -1140,7 +1140,7 @@ change the password.
 curl -X PATCH "http://localhost/api/ChangePassword" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"quaerat","withcode":false,"password":"cupiditate","username":"provident","key":"iusto"}'
+    -d '{"token":"dolorem","withcode":true,"password":"deserunt","username":"assumenda","key":"voluptatem"}'
 
 ```
 
@@ -1154,11 +1154,11 @@ let headers = {
 }
 
 let body = {
-    "token": "quaerat",
-    "withcode": false,
-    "password": "cupiditate",
-    "username": "provident",
-    "key": "iusto"
+    "token": "dolorem",
+    "withcode": true,
+    "password": "deserunt",
+    "username": "assumenda",
+    "key": "voluptatem"
 }
 
 fetch(url, {
@@ -1212,7 +1212,7 @@ failure Cases:
 curl -X DELETE "http://localhost/api/DeleteApexcom" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"cum","token":"praesentium"}'
+    -d '{"Apex_ID":"quibusdam","token":"aut"}'
 
 ```
 
@@ -1226,8 +1226,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "cum",
-    "token": "praesentium"
+    "Apex_ID": "quibusdam",
+    "token": "aut"
 }
 
 fetch(url, {
@@ -1289,7 +1289,7 @@ failure Cases:
 curl -X DELETE "http://localhost/api/DeleteUser" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"fuga","token":"sunt","passwordConfirmation":"quo"}'
+    -d '{"UserID":"autem","token":"delectus","passwordConfirmation":"tempore"}'
 
 ```
 
@@ -1303,9 +1303,9 @@ let headers = {
 }
 
 let body = {
-    "UserID": "fuga",
-    "token": "sunt",
-    "passwordConfirmation": "quo"
+    "UserID": "autem",
+    "token": "delectus",
+    "passwordConfirmation": "tempore"
 }
 
 fetch(url, {
@@ -1376,7 +1376,7 @@ failure Cases:
 curl -X POST "http://localhost/api/AddModerator" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"et","token":"accusamus","UserID":"assumenda"}'
+    -d '{"ApexComID":"odio","token":"libero","UserID":"quo"}'
 
 ```
 
@@ -1390,9 +1390,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "et",
-    "token": "accusamus",
-    "UserID": "assumenda"
+    "ApexComID": "odio",
+    "token": "libero",
+    "UserID": "quo"
 }
 
 fetch(url, {
@@ -1429,7 +1429,14 @@ fetch(url, {
 
 ```json
 {
-    "moderate": true
+    "moderate": "the user moderation is added successfully"
+}
+```
+> Example response (200):
+
+```json
+{
+    "moderate": "the user moderation is deleted successfully"
 }
 ```
 
@@ -1464,7 +1471,7 @@ failure Cases:
 curl -X POST "http://localhost/api/GetApexcoms" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"ullam","general":true}'
+    -d '{"token":"corporis","general":false}'
 
 ```
 
@@ -1478,8 +1485,8 @@ let headers = {
 }
 
 let body = {
-    "token": "ullam",
-    "general": true
+    "token": "corporis",
+    "general": false
 }
 
 fetch(url, {
@@ -1538,7 +1545,7 @@ Then, The about information of apexcom is returned.
 curl -X POST "http://localhost/api/AboutApexcom" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"delectus","token":"sunt"}'
+    -d '{"ApexCom_ID":"ea","token":"alias"}'
 
 ```
 
@@ -1552,8 +1559,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "delectus",
-    "token": "sunt"
+    "ApexCom_ID": "ea",
+    "token": "alias"
 }
 
 fetch(url, {
@@ -1565,13 +1572,6 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (400):
-
-```json
-{
-    "token_error": "The token could not be parsed from the request"
-}
-```
 > Example response (404):
 
 ```json
@@ -1589,18 +1589,7 @@ fetch(url, {
 > Example response (200):
 
 ```json
-{
-    "contributers_count": 2,
-    "moderators": [
-        {
-            "userID": "t2_3"
-        }
-    ],
-    "subscribers_count": 0,
-    "name": "New dawn",
-    "description": "The name says it all.",
-    "rules": "NO RULES"
-}
+{}
 ```
 
 ### HTTP Request
@@ -1627,7 +1616,7 @@ the post shall contain title and at least a body, an image, or a video url.
 if validation fails logical error is returned, else a new post is added and return 'created'.
 
 ###Success Cases :
-1) return true to ensure that the post was added to the ApexCom successfully.
+1) return post id to ensure that the post was added to the ApexCom successfully.
 ###failure Cases:
 1) User is blocked from this ApexCom.
 2) ApexCom fullname (ApexCom_id) is not found.
@@ -1640,7 +1629,7 @@ if validation fails logical error is returned, else a new post is added and retu
 curl -X POST "http://localhost/api/SubmitPost" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"voluptas","title":"ea","body":"corporis","img_name":"suscipit","video_url":"aliquam","isLocked":false,"token":"vero"}'
+    -d '{"ApexCom_id":"et","title":"ut","body":"quia","img_name":"occaecati","video_url":"dolores","isLocked":false,"token":"corporis"}'
 
 ```
 
@@ -1654,13 +1643,13 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "voluptas",
-    "title": "ea",
-    "body": "corporis",
-    "img_name": "suscipit",
-    "video_url": "aliquam",
+    "ApexCom_id": "et",
+    "title": "ut",
+    "body": "quia",
+    "img_name": "occaecati",
+    "video_url": "dolores",
     "isLocked": false,
-    "token": "vero"
+    "token": "corporis"
 }
 
 fetch(url, {
@@ -1672,11 +1661,32 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "ApexCom is not found."
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "User is not found."
+}
+```
 > Example response (400):
 
 ```json
 {
-    "error": "Not authorized"
+    "error": "You are blocked from this Apexcom"
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "the url is not a youtube video"
 }
 ```
 
@@ -1708,7 +1718,7 @@ If, the user already subscribes this apexcom, it will delete the subscription an
 Else, the user will subscribe the apexcom, and it will return 'subscribed'.
 
 ###Success Cases :
-1) return true to ensure that the subscription or unsubscribtion has been done successfully.
+1) return state to ensure that the subscription or unsubscribtion has been done successfully.
 ###failure Cases:
 1) user blocked from this ApexCom.
 2) ApexCom fullname (ApexCom_id) is not found.
@@ -1719,7 +1729,7 @@ Else, the user will subscribe the apexcom, and it will return 'subscribed'.
 curl -X POST "http://localhost/api/Subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"impedit","token":"officiis"}'
+    -d '{"ApexCom_ID":"maiores","token":"laudantium"}'
 
 ```
 
@@ -1733,8 +1743,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "impedit",
-    "token": "officiis"
+    "ApexCom_ID": "maiores",
+    "token": "laudantium"
 }
 
 fetch(url, {
@@ -1801,7 +1811,7 @@ if it already exists then its data is updatad and return 'updated'.
 if apexcom name doesn't exist then a new apexcom is created and return 'created'.
 
 ###Success Cases :
-1) return true to ensure that the ApexCom was created  successfully.
+1) return state to ensure that the ApexCom was created or updated successfully.
 ###failure Cases:
 1) NoAccessRight the token does not support to Create an ApexCom ( not the admin token).
 2) Wrong or unsufficient submitted information.
@@ -1812,7 +1822,7 @@ if apexcom name doesn't exist then a new apexcom is created and return 'created'
 curl -X POST "http://localhost/api/SiteAdmin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"rerum","description":"ipsa","rules":"corrupti","avatar":"qui","banner":"sed","token":"nemo"}'
+    -d '{"name":"aut","description":"et","rules":"repudiandae","avatar":"aut","banner":"nihil","token":"suscipit"}'
 
 ```
 
@@ -1826,12 +1836,12 @@ let headers = {
 }
 
 let body = {
-    "name": "rerum",
-    "description": "ipsa",
-    "rules": "corrupti",
-    "avatar": "qui",
-    "banner": "sed",
-    "token": "nemo"
+    "name": "aut",
+    "description": "et",
+    "rules": "repudiandae",
+    "avatar": "aut",
+    "banner": "nihil",
+    "token": "suscipit"
 }
 
 fetch(url, {
@@ -1923,9 +1933,7 @@ fetch(url, {
 > Example response (200):
 
 ```json
-[
-    true
-]
+{}
 ```
 
 ### HTTP Request
@@ -1963,7 +1971,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/AboutApexcom" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"iste"}'
+    -d '{"ApexCom_ID":"atque"}'
 
 ```
 
@@ -1977,7 +1985,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "iste"
+    "ApexCom_ID": "atque"
 }
 
 fetch(url, {
@@ -1999,18 +2007,7 @@ fetch(url, {
 > Example response (200):
 
 ```json
-{
-    "contributers_count": 2,
-    "moderators": [
-        {
-            "userID": "t2_3"
-        }
-    ],
-    "subscribers_count": 0,
-    "name": "New dawn",
-    "description": "The name says it all.",
-    "rules": "NO RULES"
-}
+{}
 ```
 
 ### HTTP Request
@@ -2044,7 +2041,7 @@ failure Cases:
 curl -X POST "http://localhost/api/AddReply" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"content":"optio","parent":"sequi","token":"quas"}'
+    -d '{"content":"ut","parent":"quo","token":"et"}'
 
 ```
 
@@ -2058,9 +2055,9 @@ let headers = {
 }
 
 let body = {
-    "content": "optio",
-    "parent": "sequi",
-    "token": "quas"
+    "content": "ut",
+    "parent": "quo",
+    "token": "et"
 }
 
 fetch(url, {
@@ -2161,7 +2158,7 @@ failure Cases:
 curl -X DELETE "http://localhost/api/Delete" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"cumque","token":"nostrum"}'
+    -d '{"name":"quo","token":"quidem"}'
 
 ```
 
@@ -2175,8 +2172,8 @@ let headers = {
 }
 
 let body = {
-    "name": "cumque",
-    "token": "nostrum"
+    "name": "quo",
+    "token": "quidem"
 }
 
 fetch(url, {
@@ -2261,7 +2258,7 @@ failure Cases:
 curl -X PATCH "http://localhost/api/EditText" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"distinctio","content":"est","token":"at"}'
+    -d '{"name":"ut","content":"harum","token":"ratione"}'
 
 ```
 
@@ -2275,9 +2272,9 @@ let headers = {
 }
 
 let body = {
-    "name": "distinctio",
-    "content": "est",
-    "token": "at"
+    "name": "ut",
+    "content": "harum",
+    "token": "ratione"
 }
 
 fetch(url, {
@@ -2345,7 +2342,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"occaecati","content":"qui","token":"numquam"}'
+    -d '{"name":"est","content":"vel","token":"autem"}'
 
 ```
 
@@ -2359,9 +2356,9 @@ let headers = {
 }
 
 let body = {
-    "name": "occaecati",
-    "content": "qui",
-    "token": "numquam"
+    "name": "est",
+    "content": "vel",
+    "token": "autem"
 }
 
 fetch(url, {
@@ -2447,7 +2444,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"voluptates","dir":3,"token":"quidem"}'
+    -d '{"name":"aut","dir":6,"token":"amet"}'
 
 ```
 
@@ -2461,9 +2458,9 @@ let headers = {
 }
 
 let body = {
-    "name": "voluptates",
-    "dir": 3,
-    "token": "quidem"
+    "name": "aut",
+    "dir": 6,
+    "token": "amet"
 }
 
 fetch(url, {
@@ -2537,7 +2534,7 @@ failure Cases:
 curl -X POST "http://localhost/api/LockPost" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"qui","token":"officia"}'
+    -d '{"name":"qui","token":"odit"}'
 
 ```
 
@@ -2552,7 +2549,7 @@ let headers = {
 
 let body = {
     "name": "qui",
-    "token": "officia"
+    "token": "odit"
 }
 
 fetch(url, {
@@ -2623,7 +2620,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"natus","token":"qui"}'
+    -d '{"name":"dolorem","token":"nam"}'
 
 ```
 
@@ -2637,8 +2634,8 @@ let headers = {
 }
 
 let body = {
-    "name": "natus",
-    "token": "qui"
+    "name": "dolorem",
+    "token": "nam"
 }
 
 fetch(url, {
@@ -2708,7 +2705,7 @@ failure Cases:
 curl -X POST "http://localhost/api/Save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"est","token":"quia"}'
+    -d '{"ID":"aut","token":"voluptas"}'
 
 ```
 
@@ -2722,8 +2719,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "est",
-    "token": "quia"
+    "ID": "aut",
+    "token": "voluptas"
 }
 
 fetch(url, {
@@ -2753,7 +2750,28 @@ fetch(url, {
 
 ```json
 {
-    "value": true
+    "value": "the post is saved successfully"
+}
+```
+> Example response (200):
+
+```json
+{
+    "value": "the post is unsaved successfully"
+}
+```
+> Example response (200):
+
+```json
+{
+    "value": "the comment is saved successfully"
+}
+```
+> Example response (200):
+
+```json
+{
+    "value": "the comment is unsaved successfully"
 }
 ```
 
@@ -2786,7 +2804,7 @@ failure Cases:
 curl -X POST "http://localhost/api/RetrieveComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"aut","token":"libero"}'
+    -d '{"parent":"omnis","token":"dolorum"}'
 
 ```
 
@@ -2800,8 +2818,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "aut",
-    "token": "libero"
+    "parent": "omnis",
+    "token": "dolorum"
 }
 
 fetch(url, {
@@ -2877,7 +2895,7 @@ failure Cases:
 curl -X GET -G "http://localhost/api/RetrieveComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"commodi"}'
+    -d '{"parent":"fuga"}'
 
 ```
 
@@ -2891,7 +2909,7 @@ let headers = {
 }
 
 let body = {
-    "parent": "commodi"
+    "parent": "fuga"
 }
 
 fetch(url, {
@@ -2946,14 +2964,18 @@ Parameter | Type | Status | Description
 
 Controls the Moderators actions.
 <!-- START_15f937df7c47370b0cde916f9f24285e -->
-## blockUser
-to block a user from ApexCom he is moderator in so that he can&#039;t interact in this ApexCom anymore.
+## Block user
+A functionality related to apexcom moderators to block a user from ApexCom.
 
-Success Cases :
-1) return true to ensure that the post or comment is removed successfully.
-failure Cases:
-1) NoAccessRight the token is not for the moderator of this ApexCom including the post or comment to be removed.
-2) user fullname (id) is not found , already blocked or not subscribed in this ApexCom.
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
+###Success Cases :
+1) return state (blocked/ unblocked) to ensure the success of the process.
+
+###failure Cases:
+1) NoAccessRight the token is not for the moderator of this ApexCom.
+2) user fullname (id) is not found.
+3) Apexcom is not found.
+4) you can not block an admin or moderator in the apexcom.
 
 > Example request:
 
@@ -2961,7 +2983,7 @@ failure Cases:
 curl -X POST "http://localhost/api/ApexcomBlockUser" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"temporibus","user_id":"vel","token":"voluptatem"}'
+    -d '{"ApexCom_id":"ratione","user_id":"quis","token":"libero"}'
 
 ```
 
@@ -2975,9 +2997,9 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "temporibus",
-    "user_id": "vel",
-    "token": "voluptatem"
+    "ApexCom_id": "ratione",
+    "user_id": "quis",
+    "token": "libero"
 }
 
 fetch(url, {
@@ -2989,11 +3011,39 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "ApexCom is not found."
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "User not found."
+}
+```
 > Example response (400):
 
 ```json
 {
-    "error": "Not authorized"
+    "error": "You are not a moderator of this apexcom."
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "You can not block a moderator in the apexcom."
+}
+```
+> Example response (200):
+
+```json
+{
+    "state": "Blocked"
 }
 ```
 
@@ -3011,14 +3061,18 @@ Parameter | Type | Status | Description
 <!-- END_15f937df7c47370b0cde916f9f24285e -->
 
 <!-- START_5ede00f5ff0da85d5e297b781892e239 -->
-## ignoreReport
+## IgnoreReport
 to delete the ignored report from  ApexCom&#039;s reports.
 
-Success Cases :
-1) return true to ensure that the report is deleted successfully.
-failure Cases:
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
+###Success Cases :
+1) return state(post or comment) to ensure that the report is deleted successfully.
+###failure Cases:
 1) NoAccessRight the token is not for the moderator of this ApexCom including the report to be removed.
 2) report fullname (id) is not found.
+3) reported id does not exist (there exist a post or comment with this id but it is not reported
+ by this userid).
+4) user id who made the report is not found.
 
 > Example request:
 
@@ -3026,7 +3080,7 @@ failure Cases:
 curl -X POST "http://localhost/api/IgnoreReport" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"user_id":"ea","reported_id":"itaque","token":"eum"}'
+    -d '{"user_id":"laborum","reported_id":"dolorem","token":"aliquam"}'
 
 ```
 
@@ -3040,9 +3094,9 @@ let headers = {
 }
 
 let body = {
-    "user_id": "ea",
-    "reported_id": "itaque",
-    "token": "eum"
+    "user_id": "laborum",
+    "reported_id": "dolorem",
+    "token": "aliquam"
 }
 
 fetch(url, {
@@ -3054,11 +3108,53 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "Unable to find a post or a comment."
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "Report not found."
+}
+```
+> Example response (404):
+
+```json
+{
+    "error": "User not found."
+}
+```
 > Example response (400):
 
 ```json
 {
-    "error": "Not authorized"
+    "error": "You have no rights to edit posts or comments in this apexcom."
+}
+```
+> Example response (400):
+
+```json
+{
+    "error": "You can not block a moderator in the apexcom."
+}
+```
+> Example response (200):
+
+```json
+{
+    "state": "Ignore report on post"
+}
+```
+> Example response (200):
+
+```json
+{
+    "state": "Ignore report on comment"
 }
 ```
 
@@ -3069,20 +3165,23 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    user_id | string |  required  | The fullname of the user who posted the comment or post to be ignored.
+    user_id | string |  required  | The fullname of the user who reported the comment or post to be ignored.
     reported_id | string |  required  | The fullname of the post or comment to be ignored.
     token | JWT |  required  | Verifying user ID.
 
 <!-- END_5ede00f5ff0da85d5e297b781892e239 -->
 
 <!-- START_a0028868ad09d975e77702f2ecccfd07 -->
-## reviewReports
+## ReviewReports
 view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
 
-Success Cases :
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
+###Success Cases :
 1) return the reported posts and comments.
-failure Cases:
+
+###failure Cases:
 1) NoAccessRight the token is not for the moderator of this ApexCom.
+2) Apexcom is not found.
 
 > Example request:
 
@@ -3090,7 +3189,7 @@ failure Cases:
 curl -X POST "http://localhost/api/ReviewReports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"enim","token":"voluptas"}'
+    -d '{"ApexCom_id":"error","token":"numquam"}'
 
 ```
 
@@ -3104,8 +3203,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "enim",
-    "token": "voluptas"
+    "ApexCom_id": "error",
+    "token": "numquam"
 }
 
 fetch(url, {
@@ -3117,11 +3216,18 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
+> Example response (404):
+
+```json
+{
+    "error": "ApexCom is not found."
+}
+```
 > Example response (400):
 
 ```json
 {
-    "error": "Not authorized"
+    "error": "You are not a moderator of this apexcom."
 }
 ```
 
@@ -3700,7 +3806,8 @@ fetch(url, {
             "votes": 0,
             "comments_count": 0,
             "apex_com_name": "health care",
-            "post_writer_username": "double"
+            "post_writer_username": "double",
+            "post_writer_is_deleted": false
         },
         {
             "id": "t3_15",
@@ -3718,7 +3825,8 @@ fetch(url, {
             "votes": 0,
             "comments_count": 0,
             "apex_com_name": "movies",
-            "post_writer_username": "waleed"
+            "post_writer_username": "waleed",
+            "post_writer_is_deleted": true
         },
         {
             "id": "t3_14",
@@ -3736,7 +3844,8 @@ fetch(url, {
             "votes": 0,
             "comments_count": 1,
             "apex_com_name": "memes",
-            "post_writer_username": "menna"
+            "post_writer_username": "menna",
+            "post_writer_is_deleted": false
         }
     ],
     "sortingParam": "date"
@@ -3972,7 +4081,7 @@ Then, it gets the username and id of the subscribers and returns them.
 curl -X POST "http://localhost/api/GetSubscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"ipsa","token":"commodi"}'
+    -d '{"ApexCommID":"quibusdam","token":"suscipit"}'
 
 ```
 
@@ -3986,8 +4095,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "ipsa",
-    "token": "commodi"
+    "ApexCommID": "quibusdam",
+    "token": "suscipit"
 }
 
 fetch(url, {
@@ -3999,13 +4108,6 @@ fetch(url, {
     .then(json => console.log(json));
 ```
 
-> Example response (400):
-
-```json
-{
-    "token_error": "The token could not be parsed from the request"
-}
-```
 > Example response (404):
 
 ```json
@@ -4027,16 +4129,7 @@ fetch(url, {
     "subscribers": [
         {
             "id": "t2_1017",
-            "fullname": null,
-            "email": "ms16@gmail.com",
-            "username": "ms16",
-            "avatar": "storage\/avatars\/users\/default.png",
-            "karma": 1,
-            "notification": 1,
-            "type": 3,
-            "created_at": "2019-03-23 21:34:24",
-            "updated_at": "2019-03-23 21:34:24",
-            "userID": "t2_1017"
+            "username": "ms16"
         }
     ]
 }
@@ -4281,7 +4374,8 @@ fetch(url, {
             "votes": 1,
             "comments_count": 2,
             "apex_com_name": "gaming area",
-            "post_writer_username": "dina"
+            "post_writer_username": "dina",
+            "post_writer_is_deleted": true
         },
         {
             "id": "t3_11",
@@ -4297,7 +4391,8 @@ fetch(url, {
             "votes": 1,
             "comments_count": 1,
             "apex_com_name": "gaming area",
-            "post_writer_username": "mazen"
+            "post_writer_username": "mazen",
+            "post_writer_is_deleted": false
         },
         {
             "id": "t3_9",
@@ -4313,7 +4408,8 @@ fetch(url, {
             "votes": 1,
             "comments_count": 3,
             "apex_com_name": "Elder Scrolls",
-            "post_writer_username": "ramzy"
+            "post_writer_username": "ramzy",
+            "post_writer_is_deleted": false
         }
     ],
     "sortingParam": "votes"
@@ -4379,28 +4475,44 @@ fetch(url, {
 {
     "apexComs": [
         {
-            "id": "t5_6",
-            "name": "blaaaa"
+            "id": "t5_9",
+            "name": "6PJSkPi3O4"
         },
         {
             "id": "t5_2",
-            "name": "BsvQXRiUs7"
-        },
-        {
-            "id": "t5_1",
-            "name": "l7sVQrrdk8"
-        },
-        {
-            "id": "t5_4",
-            "name": "LNNawHj9cG"
+            "name": "bZSafJqshI"
         },
         {
             "id": "t5_3",
-            "name": "rNmm4P7fnS"
+            "name": "dZqV3Bj62i"
+        },
+        {
+            "id": "t5_1",
+            "name": "gVOD4s664G"
+        },
+        {
+            "id": "t5_8",
+            "name": "JqDexl3ICz"
+        },
+        {
+            "id": "t5_4",
+            "name": "q8iCXr3x4c"
+        },
+        {
+            "id": "t5_7",
+            "name": "ukwiD9jHIs"
         },
         {
             "id": "t5_5",
-            "name": "YLtCsO9Lrn"
+            "name": "vPJ5Mrznvz"
+        },
+        {
+            "id": "t5_10",
+            "name": "XjdhwOADnw"
+        },
+        {
+            "id": "t5_6",
+            "name": "znVEv1sS8a"
         }
     ]
 }
@@ -4430,7 +4542,7 @@ it gets the username and id of the subscribers and returns them.
 curl -X GET -G "http://localhost/api/GetSubscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"vel"}'
+    -d '{"ApexCommID":"sed"}'
 
 ```
 
@@ -4444,7 +4556,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "vel"
+    "ApexCommID": "sed"
 }
 
 fetch(url, {
@@ -4470,16 +4582,7 @@ fetch(url, {
     "subscribers": [
         {
             "id": "t2_1017",
-            "fullname": null,
-            "email": "ms16@gmail.com",
-            "username": "ms16",
-            "avatar": "storage\/avatars\/users\/default.png",
-            "karma": 1,
-            "notification": 1,
-            "type": 3,
-            "created_at": "2019-03-23 21:34:24",
-            "updated_at": "2019-03-23 21:34:24",
-            "userID": "t2_1017"
+            "username": "ms16"
         }
     ]
 }

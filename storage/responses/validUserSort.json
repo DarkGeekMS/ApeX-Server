@@ -16,7 +16,8 @@
             "votes": 0,
             "comments_count": 0,
             "apex_com_name": "health care",
-            "post_writer_username": "double"
+            "post_writer_username": "double",
+            "post_writer_is_deleted": false
         },
         {
             "id": "t3_15",
@@ -34,7 +35,8 @@
             "votes": 0,
             "comments_count": 0,
             "apex_com_name": "movies",
-            "post_writer_username": "waleed"
+            "post_writer_username": "waleed",
+            "post_writer_is_deleted": true
         },
         {
             "id": "t3_14",
@@ -52,7 +54,8 @@
             "votes": 0,
             "comments_count": 1,
             "apex_com_name": "memes",
-            "post_writer_username": "menna"
+            "post_writer_username": "menna",
+            "post_writer_is_deleted": false
         }
     ],
     "sortingParam": "date"
