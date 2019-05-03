@@ -535,7 +535,7 @@ class AccountController extends Controller
       * if not it returns an error message.
       * it checks whether the logged in user id the sender or the reciever of the message.
       * if not it reyurns an error message.
-      * otherwise it returns the message with the given id and all its replies.
+      * otherwise it returns the message with the given id and all its replies(sorted ascending by creation time).
       *
       * @param string token the JWT representation of the user, admin or moderator.
       * @param string  ID The id of the message.
@@ -546,19 +546,26 @@ class AccountController extends Controller
     /**
      * readMsg
      * retrieve a message and its replies for any user.
-     * Success Cases :
-     * 1) return the details of the message.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) message id not found.
+     * ###Success Cases :
+     * 1. return the details of the message (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. Message id not found (status code 500).
+     * 3. Message does not belong to the user (status code 300)
      *
+     * @authenticated
+     * 
      * @bodyParam ID string required The id of the message.
      * @bodyParam token JWT required Used to verify the user recieving the message.
      * @response  500{
      * "error" : "Message doesnot exist"
      * }
-     * @response  400{
+     * @response  300{
      * "error" : "Message doesnot belong to the user"
+     * }
+     * @response 400{
+     * "error": "Not authorized"
      * }
      * @response  200{
      *   "subject": "GOT"
@@ -631,7 +638,7 @@ class AccountController extends Controller
                 }
             );
         } else { //if the user is not the sender or the reciever of the message return an error message
-            return response()->json(['error' => 'Message doesnot belong to the user'], 400);
+            return response()->json(['error' => 'Message doesnot belong to the user'], 300);
         }
         $json_output=response()->json(['subject'=>$msg->subject,'message' =>$msg ,'replies'=>$msgReplies ], 200);
         return $json_output;
@@ -982,9 +989,10 @@ class AccountController extends Controller
       * it receives the token of the logged in user.
       * it gets the personal information (username, profile picture , karma count) of the logged in user
       * then it checks if the user is a moderator (type=2) it gets the apexcoms the user moderates.
-      * it gets the posts posted by the user and his vote and save statuses.
+      * it gets the posts posted by the user and his vote status.
       * it gets the saved and hidden posts by the user.
-      * then it returns all the profile information.
+      * it gets the saved comments and their posts.
+      * then it returns all the retrieved profile information.
       *
       * @param string token the JWT representation of the user, admin or moderator.
       * @return Json profile , user profile information.
@@ -993,12 +1001,19 @@ class AccountController extends Controller
     /**
      * profileInfo
      * Displaying the profile info of the user.
-     * Success Cases :
-     * 1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
+     * ###Success Cases :
+     * 1. return username, profile picture, karma count, lists of the saved, 
+     *      personal and hidden posts and comments of the user (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400)
      *
+     * @authenticated
+     * 
      * @bodyParam token JWT required Used to verify the user.
+     * @response 400{
+     * "error": "Not authorized"
+     * }
      * @response 200{
      * {
      *       "user_info": [
@@ -1063,8 +1078,40 @@ class AccountController extends Controller
      *               "apex_com_name": "LrfjPAVBoN",
      *               "post_writer_username": "zieme.myriam"
      *           }
-     *      ]
-     *   }
+     *      ],
+     *       "saved_comments": [
+     *           {
+     *               "id": "t1_1",
+     *               "commented_by": "t2_186",
+     *               "content": "Rerum qui eveniet provident molestias in. Inventore itaque accusantium quia animi ut. Cupiditate excepturi sunt odio iste dolorem earum dignissimos. Minus asperiores pariatur nemo dolor nulla.",
+     *               "root": [
+     *                   {
+     *                       "id": "t3_9",
+     *                       "posted_by": "t2_145",
+     *                       "apex_id": "t5_1",
+     *                       "title": "33oiFXdPYS",
+     *                       "img": null,
+     *                       "videolink": null,
+     *                       "content": "Architecto ut magnam voluptatem soluta magni molestias. Magni numquam distinctio ut rerum. Fugiat fuga nihil explicabo ex.",
+     *                       "locked": 0,
+     *                       "created_at": "2019-04-29 15:50:28",
+     *                       "updated_at": "2019-04-29 15:50:28",
+     *                       "votes": -1,
+     *                       "comments_count": 2,
+     *                       "apex_com_name": "gI1NZRiTkW",
+     *                       "post_writer_username": "buford.cole"
+     *                   }
+     *               ],
+     *               "parent": null,
+     *               "created_at": "2019-04-29 15:50:30",
+     *               "updated_at": "2019-04-29 15:50:30",
+     *               "userVote": 0,
+     *               "votes": -1,
+     *               "writerUsername": "zola.schneider",
+     *               "level": 0
+     *           }
+     *       ]
+     * 
      * }
      */
 
@@ -1101,8 +1148,6 @@ class AccountController extends Controller
             }
         );
 
-
-
         $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
             'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts,'saved_comments'=>$comments], 200);
 
@@ -1124,12 +1169,18 @@ class AccountController extends Controller
     /**
      * blockList
      * Returns the blocked users name & IDs by the logged in user.
-     * Success Cases :
-     * 1) return the list of the blocked users.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
+     * ###Success Cases :
+     * 1. return the list of the blocked users (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
      *
+     * @authenticated
+     * 
      * @bodyParam token JWT required Used to verify the user.
+     * @response 400{
+     * "error": "Not authorized"
+     * }
      * @response 200{
      *   "blocklist": [
      *       {
