@@ -14,7 +14,8 @@
             "votes": 1,
             "comments_count": 2,
             "apex_com_name": "gaming area",
-            "post_writer_username": "dina"
+            "post_writer_username": "dina",
+            "post_writer_is_deleted": true
         },
         {
             "id": "t3_11",
@@ -30,7 +31,8 @@
             "votes": 1,
             "comments_count": 1,
             "apex_com_name": "gaming area",
-            "post_writer_username": "mazen"
+            "post_writer_username": "mazen",
+            "post_writer_is_deleted": false
         },
         {
             "id": "t3_9",
@@ -46,7 +48,8 @@
             "votes": 1,
             "comments_count": 3,
             "apex_com_name": "Elder Scrolls",
-            "post_writer_username": "ramzy"
+            "post_writer_username": "ramzy",
+            "post_writer_is_deleted": false
         }
     ],
     "sortingParam": "votes"

@@ -313,7 +313,7 @@ class GeneralController extends Controller
      * it does't return the posts between blocked users
      * and posts that are hidden or reported by the current user
      * and posts from apexComs that the current user is blocked from,
-     * it also adds to every post the current user vote and if he had saved the post.
+     * it also adds to every post the current user vote and if he had saved the post,
      * If the boolean `subscribedApexComs` is true, then it ignores the `apexComID`
      * and return only posts in the apexComs that the user is subscribed in.
      * Use this request only if the user is logged in and authorized.
@@ -335,7 +335,7 @@ class GeneralController extends Controller
      * @responseFile 400 responses\userNotSubscribedInAnyApexComs.json
      *
      * @bodyParam apexComID string The ID of the ApexComm that contains the posts, default is null. Example: t5_1
-     * @bodyParam subscribedApexCom bool If true return only the posts in ApexComs that the user is subscribed in, default is false. Example: false
+     * @bodyParam subscribedApexCom bool If true return only the posts in ApexComs that the user is subscribed in, takes a value of [`true`, `false`, `1`, `0`, `"1"`, `"0"`], default is `false`. Example: false
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
