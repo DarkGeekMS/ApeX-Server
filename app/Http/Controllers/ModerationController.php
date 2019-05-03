@@ -120,7 +120,7 @@ class ModerationController extends Controller
         $state = 'Blocked';
 
         // unblock the user if he was already blocked from the apexcom and return unblocked.
-        if ($Isblocked != 0) {
+        if ($Isblocked) {
             ApexBlock::where(
                 [['ApexID', '=',$apex_id],['blockedID', '=',$user_id]]
             )->delete();
@@ -195,7 +195,7 @@ class ModerationController extends Controller
      * }
      * 
      * @bodyParam user_id string required The fullname of the user who reported the comment or post to be ignored.
-     * @bodyParam reported_id string required The fullname of the post or comment to be ignored.
+     * @bodyParam report_id string required The fullname of the post or comment to be ignored.
      * @bodyParam token JWT required Verifying user ID.
      */
 
