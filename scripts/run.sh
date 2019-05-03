@@ -16,7 +16,7 @@ seed() { php7 artisan DB:seed -n --force || echo maybe the database already seed
 unitTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
 
 e2eTests() { 
-    git clone https://${GITHUB_TOKEN}@github.com/RehamGamal97/apeXTesting e2e
+    git clone https://${GITHUB_TOKEN}@github.com/DarkGeekMS/apeXTesting e2e
     pushd e2e
       cat scripts/dependencies | xargs apk add
 
