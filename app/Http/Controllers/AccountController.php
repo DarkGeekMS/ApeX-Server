@@ -43,9 +43,7 @@ class AccountController extends Controller
    * avatar then it will save the user into the database then it will generate a
    * JWT token from its data and returns the token with the data as a response.
    *
-   * @param string email The user's email.
-   * @param string username The user's username.
-   * @param string password The user's password.
+   * @param Request $request
    *
    * @return json the user data and the token.
    *
@@ -164,8 +162,7 @@ class AccountController extends Controller
      * if they are wrong it will return an error message, else it will generate a
      * jwt token and returns it.
      *
-     * @param string username The user's username.
-     * @param string password The user's password.
+     * @param Request $request
      *
      * @return JWT The user's JWT token.
      *
@@ -221,7 +218,7 @@ class AccountController extends Controller
      * database asssociated with the user if exists then it will save the new code
      * in the database and return a success message.
      *
-     * @param string username The user's username.
+     * @param Request $request
      *
      * @return Json A status message indicating the mail is sent or not.
      *
@@ -320,8 +317,7 @@ class AccountController extends Controller
      * if the codes are matching then it will return true to indicate that the code
      * is correct, Else it will return false.
      *
-     * @param string email The user's email.
-     * @param string code The user's forgot password code.
+     * @param Request $request
      *
      * @return string the username or returns false
      *
@@ -391,7 +387,7 @@ class AccountController extends Controller
      * happens it will return an error message, else it will return the token
      * value equals to null to indicate a successfull logout.
      *
-     * @param JWT token The user's JWT token.
+     * @param Request $request
      *
      * @return Json returns null or an error message.
      *
@@ -658,12 +654,7 @@ class AccountController extends Controller
      * then it stores it and stores its directory in the database then the
      * then it returns true to indicate the success.
      *
-     * @param JWT token The user's JWT token.
-     * @param string username The user's username.
-     * @param string email The user's email.
-     * @param string fullname The user's fullname.
-     * @param string notification The user's notification enable value.
-     * @param image the avatar of the user.
+     * @param Request $request
      *
      * @return boolean returns true or an error message.
      *
@@ -768,7 +759,7 @@ class AccountController extends Controller
      * its username, email, fullname, avatar and notification settings then it
      * returns then in a json response.
      *
-     * @param JWT token The user's JWT token.
+     * @param Request $request
      *
      * @return Json returns user preferences as json with keys username, email,
      * fullname, avatar and notification.
@@ -818,7 +809,7 @@ class AccountController extends Controller
      * corresponds to an existing user then it will return an error if that is
      * case else it will return the user object of the token.
      *
-     * @param JWT token The user's token.
+     * @param Request $request
      *
      * @return Json The user's object as json or an error message.
      *
@@ -884,11 +875,7 @@ class AccountController extends Controller
      * 3) new password is less than 6 chars.
      * 4) Code is invalid.
      *
-     * @param token JWT Used to verify the user.
-     * @param withcode bool required changing password using forgot code or not.
-     * @param password string required the new password.
-     * @param username string required the username.
-     * @param key string required the forgot password code or the old password.
+     * @param Request $request
      *
      * @return boolean return true if the password change, otherwise an error.
      */
