@@ -39,12 +39,16 @@ class AdministrationController extends Controller
     /**
      * deleteApexCom
      * Deleting the ApexCom by the admin.
-     * Success Cases :
-     * 1) return true to ensure ApexCom is deleted successfully.
-     * failure Cases:
-     * 1) Apex fullname (ID) is not found.
-     * 2) NoAccessRight the token is not the site admin token id.
+     * ###Success Cases :
+     * 1. Return true to ensure ApexCom is deleted successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. Apex fullname (ID) is not found (status code 500).
+     * 3. Unauthorized access the token is not the site admin token id (status code 300).
      *
+     * @authenticated
+     * 
      * @bodyParam Apex_ID string required The ID of the ApexCom to be deleted.
      * @bodyParam token JWT required Used to verify the admin ID.
      * @response  500{
@@ -52,6 +56,9 @@ class AdministrationController extends Controller
      * }
      * @response  300{
      * "error" : "Unauthorized access"
+     * }
+     * @response 400{
+     * "error": "Not authorized"
      * }
      * @response 200{
      * "deleted": true
@@ -122,20 +129,28 @@ class AdministrationController extends Controller
     /**
      * deleteUser
      * Delete a user from the application by the admin or self-delete (Account deactivation).
-     * Success Cases :
-     * 1) return true to ensure that the user is deleted successfully.
-     * failure Cases:
-     * 1) user fullname (ID) is not found.
-     * 2) NoAccessRight the token is not the site admin or the same user token id.
+     * ###Success Cases :
+     * 1. return true to ensure that the user is deleted successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. User fullname (ID) is not found (status code 500).
+     * 3. UnAuthorized Deletion the token is not the site admin or the same user token id (status code 300).
+     * 4. Wrong password confirmation in case of account deactivation (status code 403).
      *
+     * @authenticated
+     * 
      * @bodyParam UserID string required The ID of the user to be deleted.
      * @bodyParam token JWT required Used to verify the admin or the same user ID.
      * @bodyParam passwordConfirmation string  Used to verify the user deactivating his account.
      * @response  500{
      * "error" : "User doesnot exist"
      * }
-     * @response  501{
+     * @response  403{
      * "error" : "Wrong password entered"
+     * }
+     * @response 400{
+     * "error": "Not authorized"
      * }
      * @response  300{
      * "error" : "UnAuthorized Deletion"
@@ -199,7 +214,7 @@ class AdministrationController extends Controller
             if (Hash::check($password, $dbPassword)) {
                 User::where('id', $userid)->delete();
             } else {   //if password confirmation doesnot match return Wrong password entered
-                    return response()->json(['error' => 'Wrong password entered'], 501);
+                    return response()->json(['error' => 'Wrong password entered'], 403);
             }
         }else {
                 return response()->json(['error' => 'UnAuthorized Deletion'], 300);
@@ -241,24 +256,34 @@ class AdministrationController extends Controller
     /**
      * addModerator
      * Adding (or Deleting) a moderator to ApexCom.
-     * Success Cases :
-     * 1) return true to ensure that the moderator is added/deleted successfully.
-     * failure Cases:
-     * 1) user fullname (ID) is not found.
-     * 2) apex com ID is not found.
-     * 3) NoAccessRight the token is not the site admin token id.
+     * ###Success Cases :
+     * 1. Return json contains 'the user moderation is added  successfully',
+     *        if the user is added as a moderator (status code 200)
+     * 2. Return json contains 'the user moderation is deleted  successfully',
+     *        if the user modration is removed (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. User fullname (ID) is not found (status code 403).
+     * 3. Apex com ID is not found (status code 404).
+     * 4. Unauthorized access the token is not the site admin token id (status code 500).
      *
+     * @authenticated
+     * 
      * @bodyParam ApexComID string required The ID of the ApexCom.
      * @bodyParam token JWT required Used to verify the Admin ID.
      * @bodyParam UserID string required The user ID to be added as a moderator.
-     * @response  500{
-     * "error" : "Unauthorized access"
+     * @response 400{
+     * "error": "Not authorized"
      * }
      * @response  403{
      * "error" : "User doesnot exist"
      * }
      * @response  404{
      * "error" : "ApexCom doesnot exist"
+     * }
+     * @response  500{
+     * "error" : "Unauthorized access"
      * }
      * @response 200{
      * "moderate": "the user moderation is added successfully"

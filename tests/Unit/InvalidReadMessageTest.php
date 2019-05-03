@@ -74,7 +74,7 @@ class InvalidReadMessageTest extends TestCase
             'ID' => $msg['id']
             ]
         );
-        $response->assertStatus(400)->assertSee("Message doesnot belong to the user");
+        $response->assertStatus(300)->assertSee("Message doesnot belong to the user");
         //delete message and users from database
         Message::where('id', $msg['id'])->delete();
         $this->assertDatabaseMissing('messages', ['id' => $msg['id']]);

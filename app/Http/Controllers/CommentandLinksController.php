@@ -421,14 +421,13 @@ class CommentandLinksController extends Controller
     /**
      * editText
      * to edit the text of a post , comment or reply by its owner.
-     *
      * ###Success Cases :
-     * 1) return true to ensure that the post or comment updated successfully.
-     *
-     * ###failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) NoAccessRight the token is not for the owner of the post or comment to be edited.
-     * 3) post or comment fullname (ID) is not found.
+     * 1. Return true to ensure that the post or comment updated successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. No Access Right the token is not for the owner of the post or comment to be edited (status code 403).
+     * 3. post or comment fullname (ID) is not found (status code 500).
      *
      * @authenticated
      *
@@ -1213,11 +1212,19 @@ class CommentandLinksController extends Controller
     /**
      * save
      * Save or UnSave a post or a comment.
-     * Success Cases :
-     * 1) return true to ensure that the post saved successfully.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) post fullname (ID) is not found.
+     * ###Success Cases :
+     * 1. Return json contains 'the post is saved successfully',
+     *        if the user saved a post (status code 200)
+     * 2. Return json contains 'the post is unsaved successfully',
+     *        if the user unsaved a post (status code 200).
+     * 3. Return json contains 'the comment is saved successfully',
+     *        if the user saved a comment (status code 200)
+     * 4. Return json contains 'the comment is umsaved successfully',
+     *        if the user unsaved a comment (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. post or comment fullname (ID) is not found (status code 404).
+     * 2. Invalid token(status code 400).
      *
      * @authenticated
      *
