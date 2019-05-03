@@ -221,15 +221,13 @@ class ModerationController extends Controller
         $apex_id = 0;
         $exists1 = Post::where('id', $report_id)->count();
         if ($exists1) {
-            $apex_id = Post::where('id', $report_id)->get();
-            $apex_id = $apex_id[0]->apex_id;
+            $apex_id = Post::find($report_id)->apex_id;
         }
 
         $exists2 = Comment::where('id', $report_id)->count();
         if ($exists2) {
-            $apex_id = Comment::where('id', $report_id)->get();
-            $apex_id = Post::where('id', $apex_id[0]->root)->get();
-            $apex_id = $apex_id[0]->apex_id;
+            $root = Comment::find($report_id)->root;
+            $apex_id = Post::find($root)->apex_id;
         }
         if (!$exists1 && !$exists2) {
             // if it was not a report on post or comment return a message error
