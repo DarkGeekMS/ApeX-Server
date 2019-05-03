@@ -1,0 +1,6 @@
+init_config:
+instances:
+  - name: database
+    host: 35.232.3.8
+    port: 3306
+    timeout: 1

@@ -1,0 +1,5 @@
+init_config:
+instances:
+  - name: app
+    url: http://35.232.3.8:80
+    timeout: 1
