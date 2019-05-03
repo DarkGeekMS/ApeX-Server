@@ -100,7 +100,7 @@ class ModerationController extends Controller
         )->count();
 
         if (!$IsModerator && $moderator_type != 3) {
-            return response()->json(['error' => 'You are not a moderator of this apexcom.'], 400);
+            return response()->json(['error' => 'You are not a moderator of this apexcom or the admin of the site.'], 400);
         }
 
         // checking if the other user (blocked user) is a moderator for this apexcom or a siteadmin.
@@ -109,7 +109,7 @@ class ModerationController extends Controller
         )->count();
 
         if ($IsModerator || $user_type == 3) {
-            return response()->json(['error' => 'You can not block a moderator in the apexcom.'], 400);
+            return response()->json(['error' => 'You can not block a moderator in the apexcom or the admin of the site.'], 400);
         }
 
         // checking if the user is already blocked
