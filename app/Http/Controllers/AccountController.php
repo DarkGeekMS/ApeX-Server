@@ -663,7 +663,7 @@ class AccountController extends Controller
      * @param string email The user's email.
      * @param string fullname The user's fullname.
      * @param string notification The user's notification enable value.
-     * @param avatar image the avatar of the user.
+     * @param image the avatar of the user.
      *
      * @return boolean returns true or an error message.
      *
@@ -681,10 +681,11 @@ class AccountController extends Controller
      * @bodyParam username string required Enable changing the username.
      * @bodyParam fullname string required Enable changing the fullname.
      * @bodyParam email string required Enable changing the email.
-     * @bodyParam avatar string required Enable changing the profile picture.
-     * @bodyParam notifications bool Enable notifications.
+     * @bodyParam avatar string Enable changing the profile picture.
+     * @bodyParam notification bool Enable notifications.
      * @bodyParam token JWT required Used to verify the user.
      */
+
 
     public function updates(Request $request)
     {
