@@ -50,7 +50,7 @@
 <!-- END_INFO -->
 <h1>Account</h1>
 <p>Controls the authentication, info and messages of any user account.</p>
-<!-- START_645d6604903c8c1a2a20aad9889527d1 -->
+<!-- START_d8051ae0416d98a1408407350b45bf62 -->
 <h2>Delete message</h2>
 <p>Delete a private message or a reply to a message. Either the receiver or the
 sender can delete a message. If both the receiver and the sender
@@ -71,7 +71,7 @@ but still not deleted from the other user. (status code 400)</li>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/DeleteMessage" \
+<pre><code class="language-bash">curl -X DELETE "http://localhost/api/DeleteMessage" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
     -d '{"id":"t4_1","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI"}'
@@ -90,7 +90,7 @@ let body = {
 }
 
 fetch(url, {
-    method: "POST",
+    method: "DELETE",
     headers: headers,
     body: body
 })
@@ -133,7 +133,7 @@ fetch(url, {
     "error": "Not authorized"
 }</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST api/DeleteMessage</code></p>
+<p><code>DELETE api/DeleteMessage</code></p>
 <h4>Body Parameters</h4>
 <table>
 <thead>
@@ -159,22 +159,28 @@ fetch(url, {
 </tr>
 </tbody>
 </table>
-<!-- END_645d6604903c8c1a2a20aad9889527d1 -->
+<!-- END_d8051ae0416d98a1408407350b45bf62 -->
 <!-- START_417c4408f0f4c6bb6a248e1049b05981 -->
 <h2>readMsg</h2>
 <p>retrieve a message and its replies for any user.</p>
-<p>Success Cases :
-1) return the details of the message.
-failure Cases:
-1) NoAccessRight token is not authorized.
-2) message id not found.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>return the details of the message (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400).</li>
+<li>Message id not found (status code 500).</li>
+<li>Message does not belong to the user (status code 300)</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/ReadMessage" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"accusamus","token":"qui"}'
+    -d '{"ID":"suscipit","token":"veritatis"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/ReadMessage");
 
@@ -185,8 +191,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "accusamus",
-    "token": "qui"
+    "ID": "suscipit",
+    "token": "veritatis"
 }
 
 fetch(url, {
@@ -203,10 +209,16 @@ fetch(url, {
     "error": "Message doesnot exist"
 }</code></pre>
 <blockquote>
-<p>Example response (400):</p>
+<p>Example response (300):</p>
 </blockquote>
 <pre><code class="language-json">{
     "error": "Message doesnot belong to the user"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Not authorized"
 }</code></pre>
 <blockquote>
 <p>Example response (200):</p>
@@ -253,7 +265,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Me" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"harum"}'
+    -d '{"token":"ut"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Me");
 
@@ -264,7 +276,7 @@ let headers = {
 }
 
 let body = {
-    "token": "harum"
+    "token": "ut"
 }
 
 fetch(url, {
@@ -283,7 +295,7 @@ fetch(url, {
         "fullname": null,
         "email": "111@gmail.com",
         "username": "MohamedRamzy123",
-        "avatar": "storage\/avatars\/users\/t2_3872.jpg",
+        "avatar": "storage\/avatars\/users\/default.png",
         "karma": 1,
         "notification": 1,
         "type": 1,
@@ -339,7 +351,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/UpdatePreferences" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"repellat","fullname":"et","email":"sunt","avatar":"eius","notifications":false,"token":"ab"}'
+    -d '{"username":"culpa","fullname":"sed","email":"sint","avatar":"est","notifications":true,"token":"distinctio"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/UpdatePreferences");
 
@@ -350,12 +362,12 @@ let headers = {
 }
 
 let body = {
-    "username": "repellat",
-    "fullname": "et",
-    "email": "sunt",
-    "avatar": "eius",
-    "notifications": false,
-    "token": "ab"
+    "username": "culpa",
+    "fullname": "sed",
+    "email": "sint",
+    "avatar": "est",
+    "notifications": true,
+    "token": "distinctio"
 }
 
 fetch(url, {
@@ -436,7 +448,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/GetPreferences" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"molestiae"}'
+    -d '{"token":"earum"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/GetPreferences");
 
@@ -447,7 +459,7 @@ let headers = {
 }
 
 let body = {
-    "token": "molestiae"
+    "token": "earum"
 }
 
 fetch(url, {
@@ -464,7 +476,7 @@ fetch(url, {
     "username": "Azzoz",
     "email": "Azzoz@hotmail.com",
     "fullname": "Azzoz mando",
-    "avatar": "storage\/users\/t2_3872.jpg",
+    "avatar": "storage\/users\/default.jpg",
     "notification": 1
 }</code></pre>
 <h3>HTTP Request</h3>
@@ -492,17 +504,22 @@ fetch(url, {
 <!-- START_71beb86f320860946e78c7d7dff1967e -->
 <h2>blockList</h2>
 <p>Returns the blocked users name &amp; IDs by the logged in user.</p>
-<p>Success Cases :
-1) return the list of the blocked users.
-failure Cases:
-1) NoAccessRight token is not authorized.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>return the list of the blocked users (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400).</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/BlockList" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"libero"}'
+    -d '{"token":"saepe"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/BlockList");
 
@@ -513,7 +530,7 @@ let headers = {
 }
 
 let body = {
-    "token": "libero"
+    "token": "saepe"
 }
 
 fetch(url, {
@@ -523,6 +540,12 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Not authorized"
+}</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -559,17 +582,23 @@ fetch(url, {
 <!-- START_7274ea6372db5e05372084212e168f7e -->
 <h2>profileInfo</h2>
 <p>Displaying the profile info of the user.</p>
-<p>Success Cases :
-1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
-failure Cases:
-1) NoAccessRight token is not authorized.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>return username, profile picture, karma count, lists of the saved,
+personal and hidden posts and comments of the user (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400)</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/ProfileInfo" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"fugiat"}'
+    -d '{"token":"accusantium"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/ProfileInfo");
 
@@ -580,7 +609,7 @@ let headers = {
 }
 
 let body = {
-    "token": "fugiat"
+    "token": "accusantium"
 }
 
 fetch(url, {
@@ -590,6 +619,12 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Not authorized"
+}</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -818,7 +853,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/SignOut" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"quod"}'
+    -d '{"token":"minima"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/SignOut");
 
@@ -829,7 +864,7 @@ let headers = {
 }
 
 let body = {
-    "token": "quod"
+    "token": "minima"
 }
 
 fetch(url, {
@@ -889,7 +924,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/SignUp" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"email":"sunt","username":"quas","password":"voluptatem"}'
+    -d '{"email":"sunt","username":"placeat","password":"qui"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/SignUp");
 
@@ -901,8 +936,8 @@ let headers = {
 
 let body = {
     "email": "sunt",
-    "username": "quas",
-    "password": "voluptatem"
+    "username": "placeat",
+    "password": "qui"
 }
 
 fetch(url, {
@@ -920,7 +955,7 @@ fetch(url, {
         "email": "hello@gmail.com",
         "username": "MohamedRamzy1234",
         "id": "t2_13",
-        "avatar": "storage\/avatars\/users\/t2_3872.jpg",
+        "avatar": "storage\/avatars\/users\/default.png",
         "updated_at": "2019-03-19 18:30:05",
         "created_at": "2019-03-19 18:30:05"
     },
@@ -1001,7 +1036,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/SignIn" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"beatae","password":"at"}'
+    -d '{"username":"quos","password":"amet"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/SignIn");
 
@@ -1012,8 +1047,8 @@ let headers = {
 }
 
 let body = {
-    "username": "beatae",
-    "password": "at"
+    "username": "quos",
+    "password": "amet"
 }
 
 fetch(url, {
@@ -1083,7 +1118,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/MailVerification" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"username":"asperiores","password":"enim","email":"sed"}'
+    -d '{"username":"voluptas","password":"saepe","email":"hic"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/MailVerification");
 
@@ -1094,9 +1129,9 @@ let headers = {
 }
 
 let body = {
-    "username": "asperiores",
-    "password": "enim",
-    "email": "sed"
+    "username": "voluptas",
+    "password": "saepe",
+    "email": "hic"
 }
 
 fetch(url, {
@@ -1171,7 +1206,7 @@ Failure Cases :
 <pre><code class="language-bash">curl -X POST "http://localhost/api/CheckCode" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"code":5,"email":"aliquid"}'
+    -d '{"code":9,"email":"officia"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/CheckCode");
 
@@ -1182,8 +1217,8 @@ let headers = {
 }
 
 let body = {
-    "code": 5,
-    "email": "aliquid"
+    "code": 9,
+    "email": "officia"
 }
 
 fetch(url, {
@@ -1244,7 +1279,7 @@ change the password.</p>
 <pre><code class="language-bash">curl -X PATCH "http://localhost/api/ChangePassword" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"earum","withcode":false,"password":"veritatis","username":"voluptatibus","key":"autem"}'
+    -d '{"token":"assumenda","withcode":false,"password":"nihil","username":"et","key":"et"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/ChangePassword");
 
@@ -1255,11 +1290,11 @@ let headers = {
 }
 
 let body = {
-    "token": "earum",
+    "token": "assumenda",
     "withcode": false,
-    "password": "veritatis",
-    "username": "voluptatibus",
-    "key": "autem"
+    "password": "nihil",
+    "username": "et",
+    "key": "et"
 }
 
 fetch(url, {
@@ -1326,18 +1361,24 @@ fetch(url, {
 <!-- START_6f3609a072184c07ac6ac01b586ad334 -->
 <h2>deleteApexCom</h2>
 <p>Deleting the ApexCom by the admin.</p>
-<p>Success Cases :
-1) return true to ensure ApexCom is deleted successfully.
-failure Cases:
-1) Apex fullname (ID) is not found.
-2) NoAccessRight the token is not the site admin token id.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>Return true to ensure ApexCom is deleted successfully (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400).</li>
+<li>Apex fullname (ID) is not found (status code 500).</li>
+<li>Unauthorized access the token is not the site admin token id (status code 300).</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE "http://localhost/api/DeleteApexcom" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"Apex_ID":"quo","token":"ut"}'
+    -d '{"Apex_ID":"illum","token":"repellat"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/DeleteApexcom");
 
@@ -1348,8 +1389,8 @@ let headers = {
 }
 
 let body = {
-    "Apex_ID": "quo",
-    "token": "ut"
+    "Apex_ID": "illum",
+    "token": "repellat"
 }
 
 fetch(url, {
@@ -1370,6 +1411,12 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">{
     "error": "Unauthorized access"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Not authorized"
 }</code></pre>
 <blockquote>
 <p>Example response (200):</p>
@@ -1408,18 +1455,25 @@ fetch(url, {
 <!-- START_b96b3e30a9c4ebb65ad04d4bb592913d -->
 <h2>deleteUser</h2>
 <p>Delete a user from the application by the admin or self-delete (Account deactivation).</p>
-<p>Success Cases :
-1) return true to ensure that the user is deleted successfully.
-failure Cases:
-1) user fullname (ID) is not found.
-2) NoAccessRight the token is not the site admin or the same user token id.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>return true to ensure that the user is deleted successfully (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400).</li>
+<li>User fullname (ID) is not found (status code 500).</li>
+<li>UnAuthorized Deletion the token is not the site admin or the same user token id (status code 300).</li>
+<li>Wrong password confirmation in case of account deactivation (status code 403).</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE "http://localhost/api/DeleteUser" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"UserID":"voluptates","token":"aperiam","passwordConfirmation":"minima"}'
+    -d '{"UserID":"distinctio","token":"quam","passwordConfirmation":"alias"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/DeleteUser");
 
@@ -1430,9 +1484,9 @@ let headers = {
 }
 
 let body = {
-    "UserID": "voluptates",
-    "token": "aperiam",
-    "passwordConfirmation": "minima"
+    "UserID": "distinctio",
+    "token": "quam",
+    "passwordConfirmation": "alias"
 }
 
 fetch(url, {
@@ -1449,10 +1503,16 @@ fetch(url, {
     "error": "User doesnot exist"
 }</code></pre>
 <blockquote>
-<p>Example response (501):</p>
+<p>Example response (403):</p>
 </blockquote>
 <pre><code class="language-json">{
     "error": "Wrong password entered"
+}</code></pre>
+<blockquote>
+<p>Example response (400):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Not authorized"
 }</code></pre>
 <blockquote>
 <p>Example response (300):</p>
@@ -1503,19 +1563,28 @@ fetch(url, {
 <!-- START_c7286be571297f4b19968cca18b5c899 -->
 <h2>addModerator</h2>
 <p>Adding (or Deleting) a moderator to ApexCom.</p>
-<p>Success Cases :
-1) return true to ensure that the moderator is added/deleted successfully.
-failure Cases:
-1) user fullname (ID) is not found.
-2) apex com ID is not found.
-3) NoAccessRight the token is not the site admin token id.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>Return json contains 'the user moderation is added  successfully',
+if the user is added as a moderator (status code 200)</li>
+<li>Return json contains 'the user moderation is deleted  successfully',
+if the user modration is removed (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400).</li>
+<li>User fullname (ID) is not found (status code 403).</li>
+<li>Apex com ID is not found (status code 404).</li>
+<li>Unauthorized access the token is not the site admin token id (status code 500).</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/AddModerator" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexComID":"minus","token":"vel","UserID":"ipsam"}'
+    -d '{"ApexComID":"nihil","token":"deleniti","UserID":"quis"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/AddModerator");
 
@@ -1526,9 +1595,9 @@ let headers = {
 }
 
 let body = {
-    "ApexComID": "minus",
-    "token": "vel",
-    "UserID": "ipsam"
+    "ApexComID": "nihil",
+    "token": "deleniti",
+    "UserID": "quis"
 }
 
 fetch(url, {
@@ -1539,10 +1608,10 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
-<p>Example response (500):</p>
+<p>Example response (400):</p>
 </blockquote>
 <pre><code class="language-json">{
-    "error": "Unauthorized access"
+    "error": "Not authorized"
 }</code></pre>
 <blockquote>
 <p>Example response (403):</p>
@@ -1555,6 +1624,12 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">{
     "error": "ApexCom doesnot exist"
+}</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "error": "Unauthorized access"
 }</code></pre>
 <blockquote>
 <p>Example response (200):</p>
@@ -1617,7 +1692,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/GetApexcoms" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"token":"consequatur","general":true}'
+    -d '{"token":"rerum","general":true}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/GetApexcoms");
 
@@ -1628,7 +1703,7 @@ let headers = {
 }
 
 let body = {
-    "token": "consequatur",
+    "token": "rerum",
     "general": true
 }
 
@@ -1672,7 +1747,7 @@ fetch(url, {
 <td>general</td>
 <td>boolean</td>
 <td>optional</td>
-<td>set to get all the epexComs names and ids.</td>
+<td>set to 1 get all the epexComs names and ids , 0 to get the user subscribed ones.</td>
 </tr>
 </tbody>
 </table>
@@ -1696,7 +1771,7 @@ Then, The about information of apexcom is returned.</p>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/AboutApexcom" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"facilis","token":"earum"}'
+    -d '{"ApexCom_ID":"est","token":"nemo"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/AboutApexcom");
 
@@ -1707,8 +1782,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "facilis",
-    "token": "earum"
+    "ApexCom_ID": "est",
+    "token": "nemo"
 }
 
 fetch(url, {
@@ -1784,7 +1859,7 @@ if validation fails logical error is returned, else a new post is added and retu
 <pre><code class="language-bash">curl -X POST "http://localhost/api/SubmitPost" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"consequatur","title":"consequatur","body":"et","img_name":"aliquam","video_url":"eum","isLocked":true,"token":"quis"}'
+    -d '{"ApexCom_id":"a","title":"voluptas","body":"soluta","img_name":"cupiditate","video_url":"iusto","isLocked":false,"token":"pariatur"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/SubmitPost");
 
@@ -1795,13 +1870,13 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "consequatur",
-    "title": "consequatur",
-    "body": "et",
-    "img_name": "aliquam",
-    "video_url": "eum",
-    "isLocked": true,
-    "token": "quis"
+    "ApexCom_id": "a",
+    "title": "voluptas",
+    "body": "soluta",
+    "img_name": "cupiditate",
+    "video_url": "iusto",
+    "isLocked": false,
+    "token": "pariatur"
 }
 
 fetch(url, {
@@ -1912,7 +1987,7 @@ Else, the user will subscribe the apexcom, and it will return 'subscribed'.</p>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Subscribe" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"distinctio","token":"commodi"}'
+    -d '{"ApexCom_ID":"voluptatum","token":"neque"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Subscribe");
 
@@ -1923,8 +1998,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "distinctio",
-    "token": "commodi"
+    "ApexCom_ID": "voluptatum",
+    "token": "neque"
 }
 
 fetch(url, {
@@ -2008,7 +2083,7 @@ if apexcom name doesn't exist then a new apexcom is created and return 'created'
 <pre><code class="language-bash">curl -X POST "http://localhost/api/SiteAdmin" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"et","description":"qui","rules":"soluta","avatar":"quos","banner":"consequatur","token":"numquam"}'
+    -d '{"name":"ipsum","description":"omnis","rules":"perferendis","avatar":"quia","banner":"ea","token":"sit"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/SiteAdmin");
 
@@ -2019,12 +2094,12 @@ let headers = {
 }
 
 let body = {
-    "name": "et",
-    "description": "qui",
-    "rules": "soluta",
-    "avatar": "quos",
-    "banner": "consequatur",
-    "token": "numquam"
+    "name": "ipsum",
+    "description": "omnis",
+    "rules": "perferendis",
+    "avatar": "quia",
+    "banner": "ea",
+    "token": "sit"
 }
 
 fetch(url, {
@@ -2174,7 +2249,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/AboutApexcom" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_ID":"temporibus"}'
+    -d '{"ApexCom_ID":"enim"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/AboutApexcom");
 
@@ -2185,7 +2260,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_ID": "temporibus"
+    "ApexCom_ID": "enim"
 }
 
 fetch(url, {
@@ -2232,11 +2307,11 @@ fetch(url, {
 <!-- START_709e545012bcb47c235531fa5a882d4f -->
 <h2>add</h2>
 <p>submit a new comment or reply to a comment on a post or reply to any message.</p>
-<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Success Cases :
-1) return true to ensure that the comment , reply is added successfully.
-failure Cases:
-1) post fullname (ID) is not found.
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<p>1) return true to ensure that the comment , reply is added successfully.</p>
+<h3>failure Cases:</h3>
+<p>1) post fullname (ID) is not found.
 2) NoAccessRight token is not authorized.</p>
 <blockquote>
 <p>Example request:</p>
@@ -2244,7 +2319,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/AddReply" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"content":"magni","parent":"voluptas","token":"non"}'
+    -d '{"content":"quia","parent":"doloremque","token":"non"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/AddReply");
 
@@ -2255,8 +2330,8 @@ let headers = {
 }
 
 let body = {
-    "content": "magni",
-    "parent": "voluptas",
+    "content": "quia",
+    "parent": "doloremque",
     "token": "non"
 }
 
@@ -2353,11 +2428,11 @@ fetch(url, {
 <h2>delete</h2>
 <p>to delete a post or comment or reply from any ApexCom by the owner of the thing,
 the moderator of this ApexCom or any admin.</p>
-<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Success Cases :
-1) return true to ensure that the post, comment or reply is deleted successfully.
-failure Cases:
-1) NoAccessRight token is not authorized.
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<p>1) return true to ensure that the post, comment or reply is deleted successfully.</p>
+<h3>failure Cases:</h3>
+<p>1) NoAccessRight token is not authorized.
 2) NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.
 3) post , comment or reply fullname (ID) is not found.</p>
 <blockquote>
@@ -2366,7 +2441,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X DELETE "http://localhost/api/Delete" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"vel","token":"nostrum"}'
+    -d '{"name":"magnam","token":"qui"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Delete");
 
@@ -2377,8 +2452,8 @@ let headers = {
 }
 
 let body = {
-    "name": "vel",
-    "token": "nostrum"
+    "name": "magnam",
+    "token": "qui"
 }
 
 fetch(url, {
@@ -2455,20 +2530,24 @@ fetch(url, {
 <!-- START_d4f86d1d28b5416fafbe748e1d347701 -->
 <h2>editText</h2>
 <p>to edit the text of a post , comment or reply by its owner.</p>
-<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Success Cases :
-1) return true to ensure that the post or comment updated successfully.
-failure Cases:
-1) NoAccessRight token is not authorized.
-2) NoAccessRight the token is not for the owner of the post or comment to be edited.
-3) post or comment fullname (ID) is not found.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>Return true to ensure that the post or comment updated successfully (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>Invalid token (status code 400).</li>
+<li>No Access Right the token is not for the owner of the post or comment to be edited (status code 403).</li>
+<li>post or comment fullname (ID) is not found (status code 500).</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PATCH "http://localhost/api/EditText" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"non","content":"natus","token":"ipsum"}'
+    -d '{"name":"illum","content":"cupiditate","token":"ut"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/EditText");
 
@@ -2479,9 +2558,9 @@ let headers = {
 }
 
 let body = {
-    "name": "non",
-    "content": "natus",
-    "token": "ipsum"
+    "name": "illum",
+    "content": "cupiditate",
+    "token": "ut"
 }
 
 fetch(url, {
@@ -2550,11 +2629,11 @@ posts or comments will be hidden implicitly as well.</p>
 <p>( moderators con't report postsor comment in their ApexComs).
 user can't report his post or comment.
 user can't report comment on his post.
-admin can't report on post or comment.
-Success Cases :
-1) return true to ensure that the report is added successfully.
-failure Cases:
-1) no content send.
+admin can't report on post or comment.</p>
+<h3>Success Cases :</h3>
+<p>1) return true to ensure that the report is added successfully.</p>
+<h3>failure Cases:</h3>
+<p>1) no content send.
 2) NoAccessRight token is not authorized.</p>
 <blockquote>
 <p>Example request:</p>
@@ -2562,7 +2641,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Report" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"fugit","content":"consequatur","token":"sed"}'
+    -d '{"name":"fuga","content":"quaerat","token":"consequuntur"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Report");
 
@@ -2573,9 +2652,9 @@ let headers = {
 }
 
 let body = {
-    "name": "fugit",
-    "content": "consequatur",
-    "token": "sed"
+    "name": "fuga",
+    "content": "quaerat",
+    "token": "consequuntur"
 }
 
 fetch(url, {
@@ -2657,12 +2736,13 @@ fetch(url, {
 <!-- END_d752fc6bd0cd5d44affc43e585e07ef7 -->
 <!-- START_8c6e4e2ef99acc0aea3c7fe055cb991c -->
 <h2>vote</h2>
-<p>cast a vote on a post , comment or reply.</p>
+<p>cast a vote on a post , comment or reply and update the karma of the post or comment owner post.</p>
 <p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Success Cases :
-1) return total number of votes on this post,comment or reply.
-failure Cases:
-1) NoAccessRight token is not authorized.
+each 50 upVote for a post or 70 upVote for comment will increase the karama by 1.</p>
+<h3>Success Cases :</h3>
+<p>1) return total number of votes on this post,comment or reply.</p>
+<h3>failure Cases:</h3>
+<p>1) NoAccessRight token is not authorized.
 2) fullname of the thing to vote on is not found.
 3) direction of the vote is not integer between -1 , 1.</p>
 <blockquote>
@@ -2671,7 +2751,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Vote" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"vel","dir":10,"token":"ullam"}'
+    -d '{"name":"similique","dir":6,"token":"quidem"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Vote");
 
@@ -2682,9 +2762,9 @@ let headers = {
 }
 
 let body = {
-    "name": "vel",
-    "dir": 10,
-    "token": "ullam"
+    "name": "similique",
+    "dir": 6,
+    "token": "quidem"
 }
 
 fetch(url, {
@@ -2757,11 +2837,11 @@ fetch(url, {
 <p>to lock or unlock a post so it can&#039;t recieve new comments.</p>
 <p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 check the user id the post owner or admin in the ApexCom or moderator in the ApexCom holds the post
-to be able to lock this post otherwise error message Not Allowed will return.
-Success Cases :
-1) return true to ensure that the post was locked/unlock.
-failure Cases:
-1) NoAccessRight token is not authorized.
+to be able to lock this post otherwise error message Not Allowed will return.</p>
+<h3>Success Cases :</h3>
+<p>1) return true to ensure that the post was locked/unlock.</p>
+<h3>failure Cases:</h3>
+<p>1) NoAccessRight token is not authorized.
 2) post fullname (ID) is not found.
 3) NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.</p>
 <blockquote>
@@ -2770,7 +2850,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/LockPost" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"qui","token":"sit"}'
+    -d '{"name":"aut","token":"aspernatur"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/LockPost");
 
@@ -2781,8 +2861,8 @@ let headers = {
 }
 
 let body = {
-    "name": "qui",
-    "token": "sit"
+    "name": "aut",
+    "token": "aspernatur"
 }
 
 fetch(url, {
@@ -2848,11 +2928,11 @@ fetch(url, {
 <h2>hide</h2>
 <p>to hide or UnHide a post from the user view.</p>
 <p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-check valid user and post and if the post was hidden it removes it from hiddens and vice versa.
-Success Cases :
-1) return true to ensure that the post hidden.
-failure Cases:
-1) NoAccessRight token is not authorized.
+check valid user and post and if the post was hidden it removes it from hiddens and vice versa.</p>
+<h3>Success Cases :</h3>
+<p>1) return true to ensure that the post hidden.</p>
+<h3>failure Cases:</h3>
+<p>1) NoAccessRight token is not authorized.
 2) post fullname (ID) is not found.</p>
 <blockquote>
 <p>Example request:</p>
@@ -2860,7 +2940,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Hide" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"name":"suscipit","token":"odio"}'
+    -d '{"name":"voluptatem","token":"earum"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Hide");
 
@@ -2871,8 +2951,8 @@ let headers = {
 }
 
 let body = {
-    "name": "suscipit",
-    "token": "odio"
+    "name": "voluptatem",
+    "token": "earum"
 }
 
 fetch(url, {
@@ -2937,19 +3017,30 @@ fetch(url, {
 <!-- START_3da95270ecd2427490ff1a0778688878 -->
 <h2>save</h2>
 <p>Save or UnSave a post or a comment.</p>
-<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Success Cases :
-1) return true to ensure that the post saved successfully.
-failure Cases:
-1) NoAccessRight token is not authorized.
-2) post fullname (ID) is not found.</p>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<ol>
+<li>Return json contains 'the post is saved successfully',
+if the user saved a post (status code 200)</li>
+<li>Return json contains 'the post is unsaved successfully',
+if the user unsaved a post (status code 200).</li>
+<li>Return json contains 'the comment is saved successfully',
+if the user saved a comment (status code 200)</li>
+<li>Return json contains 'the comment is umsaved successfully',
+if the user unsaved a comment (status code 200).</li>
+</ol>
+<h3>Failure Cases:</h3>
+<ol>
+<li>post or comment fullname (ID) is not found (status code 404).</li>
+<li>Invalid token(status code 400).</li>
+</ol>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/Save" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ID":"sit","token":"quis"}'
+    -d '{"ID":"consequuntur","token":"omnis"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/Save");
 
@@ -2960,8 +3051,8 @@ let headers = {
 }
 
 let body = {
-    "ID": "sit",
-    "token": "quis"
+    "ID": "consequuntur",
+    "token": "omnis"
 }
 
 fetch(url, {
@@ -3038,11 +3129,11 @@ fetch(url, {
 <!-- START_c03c4538b82af21b580b359d5f894744 -->
 <h2>moreChildren</h2>
 <p>to retrieve additional comments omitted from a base comment tree (comment , replies).</p>
-<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Success Cases :
-1) return thr retrieved comments and replies sorted by date { level represent the comment depth}.
-failure Cases:
-1) NoAccessRight token is not authorized.
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
+<h3>Success Cases :</h3>
+<p>1) return thr retrieved comments and replies sorted by date { level represent the comment depth}.</p>
+<h3>failure Cases:</h3>
+<p>1) NoAccessRight token is not authorized.
 2) post fullname (ID) is not found for any of the parent IDs.</p>
 <blockquote>
 <p>Example request:</p>
@@ -3050,7 +3141,7 @@ failure Cases:
 <pre><code class="language-bash">curl -X POST "http://localhost/api/RetrieveComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"et","token":"quia"}'
+    -d '{"parent":"rerum","token":"et"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/RetrieveComments");
 
@@ -3061,8 +3152,8 @@ let headers = {
 }
 
 let body = {
-    "parent": "et",
-    "token": "quia"
+    "parent": "rerum",
+    "token": "et"
 }
 
 fetch(url, {
@@ -3136,17 +3227,17 @@ fetch(url, {
 <!-- START_46e31d79bbf6fc215af1be2850986a81 -->
 <h2>moreChildren</h2>
 <p>to retrieve additional comments omitted from a base comment tree (comment , replies ).</p>
-<p>Success Cases :
-1) return the retrieved comments or replies.
-failure Cases:
-1) post  fullname (ID) is not found.</p>
+<h3>Success Cases :</h3>
+<p>1) return the retrieved comments or replies.</p>
+<h3>failure Cases:</h3>
+<p>1) post  fullname (ID) is not found.</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/RetrieveComments" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"parent":"quo"}'
+    -d '{"parent":"est"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/RetrieveComments");
 
@@ -3157,7 +3248,7 @@ let headers = {
 }
 
 let body = {
-    "parent": "quo"
+    "parent": "est"
 }
 
 fetch(url, {
@@ -3233,7 +3324,7 @@ fetch(url, {
 <pre><code class="language-bash">curl -X POST "http://localhost/api/ApexcomBlockUser" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"et","user_id":"doloribus","token":"aut"}'
+    -d '{"ApexCom_id":"et","user_id":"id","token":"voluptate"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/ApexcomBlockUser");
 
@@ -3245,8 +3336,8 @@ let headers = {
 
 let body = {
     "ApexCom_id": "et",
-    "user_id": "doloribus",
-    "token": "aut"
+    "user_id": "id",
+    "token": "voluptate"
 }
 
 fetch(url, {
@@ -3338,7 +3429,7 @@ by this userid).
 <pre><code class="language-bash">curl -X POST "http://localhost/api/IgnoreReport" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"user_id":"et","reported_id":"numquam","token":"ea"}'
+    -d '{"user_id":"et","reported_id":"est","token":"eveniet"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/IgnoreReport");
 
@@ -3350,8 +3441,8 @@ let headers = {
 
 let body = {
     "user_id": "et",
-    "reported_id": "numquam",
-    "token": "ea"
+    "reported_id": "est",
+    "token": "eveniet"
 }
 
 fetch(url, {
@@ -3384,12 +3475,6 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-json">{
     "error": "You have no rights to edit posts or comments in this apexcom."
-}</code></pre>
-<blockquote>
-<p>Example response (400):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "error": "You can not block a moderator in the apexcom."
 }</code></pre>
 <blockquote>
 <p>Example response (200):</p>
@@ -3452,7 +3537,7 @@ fetch(url, {
 <pre><code class="language-bash">curl -X POST "http://localhost/api/ReviewReports" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCom_id":"ex","token":"reprehenderit"}'
+    -d '{"ApexCom_id":"voluptas","token":"quia"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/ReviewReports");
 
@@ -3463,8 +3548,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCom_id": "ex",
-    "token": "reprehenderit"
+    "ApexCom_id": "voluptas",
+    "token": "quia"
 }
 
 fetch(url, {
@@ -4392,7 +4477,7 @@ Then, it gets the username and id of the subscribers and returns them.</p>
 <pre><code class="language-bash">curl -X POST "http://localhost/api/GetSubscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"sed","token":"natus"}'
+    -d '{"ApexCommID":"dolores","token":"excepturi"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/GetSubscribers");
 
@@ -4403,8 +4488,8 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "sed",
-    "token": "natus"
+    "ApexCommID": "dolores",
+    "token": "excepturi"
 }
 
 fetch(url, {
@@ -4795,44 +4880,116 @@ fetch(url, {
 <pre><code class="language-json">{
     "apexComs": [
         {
-            "id": "t5_9",
-            "name": "6PJSkPi3O4"
+            "id": "t5_17",
+            "name": "0DFMimwvXH"
         },
         {
-            "id": "t5_2",
-            "name": "bZSafJqshI"
+            "id": "t5_24",
+            "name": "0pjHJnsykI"
         },
         {
-            "id": "t5_3",
-            "name": "dZqV3Bj62i"
+            "id": "t5_27",
+            "name": "1TiI90tkGl"
         },
         {
-            "id": "t5_1",
-            "name": "gVOD4s664G"
+            "id": "t5_14",
+            "name": "5R6xBtkMWi"
         },
         {
-            "id": "t5_8",
-            "name": "JqDexl3ICz"
+            "id": "t5_25",
+            "name": "6t492yOgR2"
         },
         {
-            "id": "t5_4",
-            "name": "q8iCXr3x4c"
+            "id": "t5_12",
+            "name": "742HgVteXc"
         },
         {
-            "id": "t5_7",
-            "name": "ukwiD9jHIs"
+            "id": "t5_19",
+            "name": "8FSkAyxTdN"
         },
         {
-            "id": "t5_5",
-            "name": "vPJ5Mrznvz"
+            "id": "t5_13",
+            "name": "A7F2JiJ9Lz"
         },
         {
             "id": "t5_10",
-            "name": "XjdhwOADnw"
+            "name": "comics"
+        },
+        {
+            "id": "t5_18",
+            "name": "dHZXEOkqHF"
+        },
+        {
+            "id": "t5_1",
+            "name": "Elder Scrolls"
+        },
+        {
+            "id": "t5_4",
+            "name": "foods"
+        },
+        {
+            "id": "t5_15",
+            "name": "fZJ70kuKnq"
+        },
+        {
+            "id": "t5_3",
+            "name": "gaming area"
+        },
+        {
+            "id": "t5_11",
+            "name": "GQZEX6QbQ8"
+        },
+        {
+            "id": "t5_23",
+            "name": "hbab"
+        },
+        {
+            "id": "t5_22",
+            "name": "hbabe"
+        },
+        {
+            "id": "t5_9",
+            "name": "health care"
+        },
+        {
+            "id": "t5_7",
+            "name": "memes"
+        },
+        {
+            "id": "t5_8",
+            "name": "movies"
+        },
+        {
+            "id": "t5_2",
+            "name": "New dawn"
+        },
+        {
+            "id": "t5_26",
+            "name": "NXvarZiWLu"
+        },
+        {
+            "id": "t5_5",
+            "name": "sports area"
+        },
+        {
+            "id": "t5_21",
+            "name": "ssportss"
+        },
+        {
+            "id": "t5_20",
+            "name": "stgWFLOkM9"
         },
         {
             "id": "t5_6",
-            "name": "znVEv1sS8a"
+            "name": "technology"
+        },
+        {
+            "id": "t5_16",
+            "name": "v0Jb4Gc5ZR"
+        },
+        {
+            "id": "t5_28",
+            "name": "wj3Z65p27J"
         }
     ]
 }</code></pre>
@@ -4854,7 +5011,7 @@ it gets the username and id of the subscribers and returns them.</p>
 <pre><code class="language-bash">curl -X GET -G "http://localhost/api/GetSubscribers" \
     -H "Api-Version: 0.1.0" \
     -H "Content-Type: application/json" \
-    -d '{"ApexCommID":"aut"}'
+    -d '{"ApexCommID":"exercitationem"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL("http://localhost/api/GetSubscribers");
 
@@ -4865,7 +5022,7 @@ let headers = {
 }
 
 let body = {
-    "ApexCommID": "aut"
+    "ApexCommID": "exercitationem"
 }
 
 fetch(url, {
