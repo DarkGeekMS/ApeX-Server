@@ -187,7 +187,6 @@ class ModerationController extends Controller
      * @response 404 {"error":"Report not found."}
      * @response 404 {"error":"User not found."}
      * @response 400 {"error":"You have no rights to edit posts or comments in this apexcom."}
-     * @response 400 {"error":"You can not block a moderator in the apexcom."}
      * @response 200 {
      *     "state": "Ignore report on post"
      * }
