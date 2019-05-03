@@ -73,7 +73,7 @@ class ApexComController extends Controller
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
-        if ((!$request->has('general') || $request['general'] == 'false')) {
+        if ((!$request->has('general'))) {
             $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
         } else {
             $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
@@ -525,15 +525,9 @@ class ApexComController extends Controller
 
         if (!$exists) {
             // making the id of the new apexcom and creating it
-            $lastapex = DB::table('apex_coms')->orderBy('created_at', 'desc')->first();
-            $id = "t5_1";
-            if ($lastapex) {
-                $count = DB::table('apex_coms') ->where('created_at', $lastapex->created_at)->count();
-                $id = $lastapex->id;
-                $newIdx = (int)explode("_", $id)[1];
-                $id = "t5_".($newIdx+$count);
-            }
-
+            $lastapex =apexComModel::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't5_'.(string)($lastapex +1);
+  
             $v = $request->all();
             $v['id'] = $id;
 
