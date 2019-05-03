@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\ReportComment;
 use App\Models\ReportPost;
+use App\Models\Subscriber;
 
 /**
  * @group Moderation
@@ -22,15 +23,43 @@ use App\Models\ReportPost;
 
 class ModerationController extends Controller
 {
+    /**
+     * Block user from an apexcom.
+     * First check that the user to be blocked and the apexcom are found, 
+     * Return a suitable not found error message (404) if not found.
+     * Then check that the authenicated user is a moderator to the apexcom if not return a suitable logical error.
+     * Then check that the user to be blocked is not a moderator or site admin of the apexcom,
+     * if he was return suitable logical error.
+     * If the user was already blocked unblock him and return the state of 'unblock'.
+     * Else block the user and return the state of 'Block'.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
 
     /**
-     * blockUser
-     * to block a user from ApexCom he is moderator in so that he can't interact in this ApexCom anymore.
-     * Success Cases :
-     * 1) return true to ensure that the post or comment is removed successfully.
-     * failure Cases:
-     * 1) NoAccessRight the token is not for the moderator of this ApexCom including the post or comment to be removed.
-     * 2) user fullname (id) is not found , already blocked or not subscribed in this ApexCom.
+     * Block user
+     * A functionality related to apexcom moderators to block a user from ApexCom.
+     * 
+     * ###Success Cases :
+     * 1) return state (blocked/ unblocked) to ensure the success of the process.
+     * 
+     * ###failure Cases:
+     * 1) NoAccessRight the token is not for the moderator of this ApexCom.
+     * 2) user fullname (id) is not found.
+     * 3) Apexcom is not found.
+     * 4) you can not block an admin or moderator in the apexcom.
+     * 
+     * @authenticated
+     *
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 404 {"error":"User not found."}
+     * @response 400 {"error":"You are not a moderator of this apexcom."}
+     * @response 400 {"error":"You can not block a moderator in the apexcom."}
+     * @response 200 {
+     *     "state": "Blocked"
+     * }
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the user is blocked.
      * @bodyParam user_id string required The fullname of the user to be blocked.
@@ -99,6 +128,17 @@ class ModerationController extends Controller
             return response()->json(compact('state'));
         }
 
+        //check if the user was subscribing the apexcom delete the subscription and block him.
+        $subscribed = Subscriber::where(
+            [['apexID', '=', $apex_id],['userID', '=', $user_id]]
+        )->count();
+
+        if ($subscribed) {
+            Subscriber::where(
+                [['apexID', '=', $apex_id],['userID', '=', $user_id]]
+            )->delete();
+        }
+
         ApexBlock::create(
             [
                 'ApexID' => $apex_id,
@@ -106,22 +146,56 @@ class ModerationController extends Controller
             ]
         );
 
-        // return stste to ensure the success of blocking from the apexcom.
+        // return state to ensure the success of blocking from the apexcom.
         return response()->json(compact('state'));
     }
 
+    /**
+     * Ignore report on a comment or a post .
+     * First check that the user who made the report and that there exists a post or comment with id 
+     * equal to reported id, if not
+     * Return a suitable not found error message (404).
+     * get the apexcom that contains the reported post or comment
+     * Then check that the authenicated user is a moderator to this apexcom if not return a suitable logical error.
+     * if the reported id exists in the reported posts or reported comments tables in database
+     * delete the row and return a state of it was comment or post.
+     * If the reported id does not exist in the reported posts or reported comments tables
+     * return error that the report is not found.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
 
 
     /**
-     * ignoreReport
+     * IgnoreReport
      * to delete the ignored report from  ApexCom's reports.
-     * Success Cases :
-     * 1) return true to ensure that the report is deleted successfully.
-     * failure Cases:
+     * 
+     * ###Success Cases :
+     * 1) return state(post or comment) to ensure that the report is deleted successfully.
+     * ###failure Cases:
      * 1) NoAccessRight the token is not for the moderator of this ApexCom including the report to be removed.
      * 2) report fullname (id) is not found.
+     * 3) reported id does not exist (there exist a post or comment with this id but it is not reported
+     *  by this userid).
+     * 4) user id who made the report is not found.
+     * 
+     * @authenticated
      *
-     * @bodyParam user_id string required The fullname of the user who posted the comment or post to be ignored.
+     * @response 404 {"error":"Unable to find a post or a comment."}
+     * @response 404 {"error":"Report not found."}
+     * @response 404 {"error":"User not found."}
+     * @response 400 {"error":"You have no rights to edit posts or comments in this apexcom."}
+     * @response 400 {"error":"You can not block a moderator in the apexcom."}
+     * @response 200 {
+     *     "state": "Ignore report on post"
+     * }
+     * @response 200 {
+     *     "state": "Ignore report on comment"
+     * }
+     * 
+     * @bodyParam user_id string required The fullname of the user who reported the comment or post to be ignored.
      * @bodyParam reported_id string required The fullname of the post or comment to be ignored.
      * @bodyParam token JWT required Verifying user ID.
      */
@@ -200,12 +274,36 @@ class ModerationController extends Controller
     }
 
     /**
-     * reviewReports
+     * Review reports on comments and posts of an apexcom.
+     * First check that the apexcom exists, if not
+     * Return a suitable not found error message (404).
+     * Then check that the authenicated user is a moderator to this apexcom if not return a suitable logical error.
+     * get the posts in the apexcom 
+     * then join them with posts in reported posts table to get reported posts belonging to apexcom.
+     * Get the comments from posts belonging to apex com 
+     * and join them with reported comments table to get reported comments belonging to apexcom.
+     * put the reported posts and comments in one associative array and return it.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
+
+    /**
+     * ReviewReports
      * view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
-     * Success Cases :
+     * 
+     * ###Success Cases :
      * 1) return the reported posts and comments.
-     * failure Cases:
+     * 
+     * ###failure Cases:
      * 1) NoAccessRight the token is not for the moderator of this ApexCom.
+     * 2) Apexcom is not found.
+     * 
+     * @authenticated
+     * 
+     * @response 404 {"error":"ApexCom is not found."}
+     * @response 400 {"error":"You are not a moderator of this apexcom."}
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the reported comments or posts.
      * @bodyParam token JWT required Verifying user ID.
@@ -233,7 +331,7 @@ class ModerationController extends Controller
         )->count();
 
         if (!$IsModerator && $moderator_type != 3) {
-            return response()->json(['error' => 'You have no rights to review reports on posts or comments in this apexcom.'], 400);
+            return response()->json(['error' => 'You are not a moderator of this apexcom.'], 400);
         }
 
         // get all posts that belongs to apexcom
@@ -288,6 +386,7 @@ class ModerationController extends Controller
                     ],
                     'report' => [
                         'userID' => $item['userID'], 'comID' => $item['comID'],
+                        'reporter_username' => User::find($item['userID'])->username,
                         'content' => $item['report_content'],
                         'created_at' => $item['report_created_at'],
                         'updated_at' => $item['report_updated_at']
@@ -327,6 +426,7 @@ class ModerationController extends Controller
                     ],
                     'report' => [
                         'userID' => $item['userID'], 'postID' => $item['postID'],
+                        'reporter_username' => User::find($item['userID'])->username,
                         'content' => $item['report_content'],
                         'created_at' => $item['report_created_at'],
                         'updated_at' => $item['report_updated_at']
@@ -340,6 +440,6 @@ class ModerationController extends Controller
                 'ReportedPosts' => $reportedposts,
                 'ReportedComments' => $reportedcomments
         );
-        return $reported;
+        return response()->json(compact('reported'));
     }
 }
