@@ -420,6 +420,18 @@ class GeneralController extends Controller
      * @bodyParam ApexCommID string required The ID of the ApexCom that contains the subscribers.
      * @bodyParam token JWT required Verifying user ID.
      */
+    /**
+     * Get Subscribers
+     * Returns a list of the users subscribed to a certain ApexCom to an authorized user.
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the authorized user is not blocked from the apexcom,
+     * if he was blocked a logical error is returned.
+     * Then, it gets the username and id of the subscribers and returns them.
+     *
+     * @param Request $request
+     * 
+     * @return Response
+     */
 
     public function getSubscribers(Request $request)
     {
@@ -486,6 +498,17 @@ class GeneralController extends Controller
      * @bodyParam ApexCommID string required The ID of the ApexComm that contains the subscribers.
      */
 
+    /**
+     * GuestGetSubscribers
+     * Returns a list of the users subscribed to a certain ApexCom to a guest user.
+     * It first checks the apexcom id, if it was not found an error is returned.
+     * it gets the username and id of the subscribers and returns them.
+     *
+     * @param Request $request
+     * 
+     * @return Response
+    */
+    
     public function guestGetSubscribers(Request $request)
     {
         $apex_id = $request['ApexCommID'];

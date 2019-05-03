@@ -25,47 +25,49 @@ use App\Models\ApexCom;
 class ApexComController extends Controller
 {
 
-  /**
-   * getApexComs.
-   * This Function used to get the apexComs names & IDs of the logged in user.
-   *
-   * It makes sure that the user exists in our app,
-   * select the apexComs ID's  and names which this user subscriber in then return them.
-   *
-   * @param string token the JWT representation of the user in frontend.
-   * @return array the apexComs names and Ids
-   */
+    
+    /**
+     * GetApexComs
+     * getapexcom names which user subscribe in or all apexCom names the user can visit.
+     * Success Cases :
+     * 1) return the apexComs names and ids the user subscribed in or the apexComs names and ids user can access.
+     * failure Cases:
+     * 1) NoAccessRight token is not authorized.
+     *
+     * @bodyParam token JWT required Verifying user ID.
+     * @bodyParam general bool set to 1 get all the epexComs names and ids , 0 to get the user subscribed ones.
+     * @response  400{
+     * "error" : "Unauthorized access"
+     * }
+     * @response 200{
+     * "apexComs": [
+     *                {
+     *                  "name" : 'sports',
+     *                  "id" : t5_1
+     *                },
+     *                {
+     *                  "name" : 'foods',
+     *                  "id" : t5_2
+     *                },
+     *                {
+     *                  "name" : 'data',
+     *                  "id" : t5_3
+     *                }
+     *          ]
+     * }
+     */
 
-  /**
-   * getApexComs
-   * getapexcom names which user subscribe in or all apexCom names the user can visit.
-   * Success Cases :
-   * 1) return the apexComs names and ids the user subscribed in or the apexComs names and ids user can access.
-   * failure Cases:
-   * 1) NoAccessRight token is not authorized.
-   *
-   * @bodyParam token JWT required Verifying user ID.
-   * @bodyParam general bool set to 1 get all the epexComs names and ids , 0 to get the user subscribed ones.
-   * @response  400{
-   * "error" : "Unauthorized access"
-   * }
-   * @response 200{
-   * "apexComs": [
-   *                {
-   *                  "name" : 'sports',
-   *                  "id" : t5_1
-   *                },
-   *                {
-   *                  "name" : 'foods',
-   *                  "id" : t5_2
-   *                },
-   *                {
-   *                  "name" : 'data',
-   *                  "id" : t5_3
-   *                }
-   *          ]
-   * }
-   */
+    /**
+     * GetApexComs.
+     * This Function used to get the apexComs names & IDs of the logged in user.
+     *
+     * It makes sure that the user exists in our app,
+     * select the apexComs ID's  and names which this user subscriber in then return them.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * 
+     * @return array the apexComs names and Ids
+     */
 
     public function getApexComs(Request $request)
     {
@@ -90,13 +92,11 @@ class ApexComController extends Controller
         return response()->json(['apexComs' => $apexs], 200);
     }
 
+    
     /**
      * Guest about
      * to get data about an ApexCom (moderators (name and id ) ,
      * name, contributors , rules , description and subscribers count).
-     * It first checks the apexcom id, if it wasnot found an error is returned.
-     * Then about information of apexcom is returned.
-     *
      * Success Cases :
      * 1) return the information about the ApexCom.
      * failure Cases:
@@ -110,6 +110,16 @@ class ApexComController extends Controller
      *                }
      *
      * @bodyParam ApexCom_ID string required The fullname of the Apexcom.
+     */
+
+    /**
+     * Guest About
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then about information of apexcom is returned.
+     *
+     * @param Request $request
+     * 
+     * @return Response
      */
     public function guestAbout(Request $request)
     {
@@ -191,6 +201,17 @@ class ApexComController extends Controller
      *
      * @bodyParam ApexCom_ID string required The fullname of the community.
      * @bodyParam token JWT required Verifying user ID.
+     */
+
+    /**
+     * About
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Then, The about information of apexcom is returned.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
      */
 
     public function about(Request $request)
@@ -292,6 +313,18 @@ class ApexComController extends Controller
      * @bodyParam video_url string The url to attached video to the post.
      * @bodyParam isLocked bool To allow or disallow comments on the posted post.
      * @bodyParam token JWT required Verifying user ID.
+     */
+    /**
+     *  Post
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * Validation to request parameters is done,
+     * the post shall contain title and at least a body, an image, or a video url.
+     * if validation fails logical error is returned, else a new post is added and return 'created'.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
      */
 
     public function submitPost(Request $request)
@@ -413,6 +446,17 @@ class ApexComController extends Controller
      * @bodyParam token JWT required Verifying user ID.
      */
 
+    /**
+     *  Subscribe
+     * It first checks the apexcom id, if it wasnot found an error is returned.
+     * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
+     * If, the user already subscribes this apexcom, it will delete the subscription and return 'unsubscribed'.
+     * Else, the user will subscribe the apexcom, and it will return 'subscribed'.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+    */
 
     public function subscribe(Request $request)
     {
@@ -515,6 +559,20 @@ class ApexComController extends Controller
      * @bodyParam token JWT required Verifying user ID.
      */
 
+    /**
+     *  Site Admin
+     * First, a verification that the user creating or updating apexcom is an admin, if not a logical error is returned.
+     * Then, validating the request parameters the name,
+     * description and rules are required, banner and avatar are optional but they should be images.
+     * If, the validation fails all validation errors are returned.
+     * Then, check if the apexcom with this name exists or not,
+     * if it already exists then its data is updatad and return 'updated'.
+     * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
     public function siteAdmin(Request $request)
     {
         $account = new AccountController();

@@ -22,21 +22,6 @@ use App\Models\Subscriber;
  */
 
 class ModerationController extends Controller
-{
-    /**
-     * Block user from an apexcom.
-     * First check that the user to be blocked and the apexcom are found, 
-     * Return a suitable not found error message (404) if not found.
-     * Then check that the authenicated user is a moderator to the apexcom if not return a suitable logical error.
-     * Then check that the user to be blocked is not a moderator or site admin of the apexcom,
-     * if he was return suitable logical error.
-     * If the user was already blocked unblock him and return the state of 'unblock'.
-     * Else block the user and return the state of 'Block'.
-     * 
-     * @param Request $request
-     * 
-     * @return Response
-     */
 
     /**
      * Block user
@@ -64,6 +49,21 @@ class ModerationController extends Controller
      * @bodyParam ApexCom_id string required The fullname of the community where the user is blocked.
      * @bodyParam user_id string required The fullname of the user to be blocked.
      * @bodyParam token JWT required Verifying user ID.
+     */
+{
+    /**
+     * Block user.
+     * First check that the user to be blocked and the apexcom are found, 
+     * Return a suitable not found error message (404) if not found.
+     * Then check that the authenicated user is a moderator to the apexcom if not return a suitable logical error.
+     * Then check that the user to be blocked is not a moderator or site admin of the apexcom,
+     * if he was return suitable logical error.
+     * If the user was already blocked unblock him and return the state of 'unblock'.
+     * Else block the user and return the state of 'Block'.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
      */
 
     public function blockUser(Request $request)
@@ -149,25 +149,7 @@ class ModerationController extends Controller
         // return state to ensure the success of blocking from the apexcom.
         return response()->json(compact('state'));
     }
-
-    /**
-     * Ignore report on a comment or a post .
-     * First check that the user who made the report and that there exists a post or comment with id 
-     * equal to reported id, if not
-     * Return a suitable not found error message (404).
-     * get the apexcom that contains the reported post or comment
-     * Then check that the authenicated user is a moderator to this apexcom if not return a suitable logical error.
-     * if the reported id exists in the reported posts or reported comments tables in database
-     * delete the row and return a state of it was comment or post.
-     * If the reported id does not exist in the reported posts or reported comments tables
-     * return error that the report is not found.
-     * 
-     * @param Request $request
-     * 
-     * @return Response
-     */
-
-
+    
     /**
      * IgnoreReport
      * to delete the ignored report from  ApexCom's reports.
@@ -198,6 +180,24 @@ class ModerationController extends Controller
      * @bodyParam report_id string required The fullname of the post or comment to be ignored.
      * @bodyParam token JWT required Verifying user ID.
      */
+
+    /**
+     * Ignore report
+     * First check that the user who made the report and that there exists a post or comment with id 
+     * equal to reported id, if not
+     * Return a suitable not found error message (404).
+     * get the apexcom that contains the reported post or comment
+     * Then check that the authenicated user is a moderator to this apexcom if not return a suitable logical error.
+     * if the reported id exists in the reported posts or reported comments tables in database
+     * delete the row and return a state of it was comment or post.
+     * If the reported id does not exist in the reported posts or reported comments tables
+     * return error that the report is not found.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
+
 
     public function ignoreReport(Request $request)
     {
@@ -270,22 +270,7 @@ class ModerationController extends Controller
         return response()->json(['error' => 'Report not found.'], 404);
     }
 
-    /**
-     * Review reports on comments and posts of an apexcom.
-     * First check that the apexcom exists, if not
-     * Return a suitable not found error message (404).
-     * Then check that the authenicated user is a moderator to this apexcom if not return a suitable logical error.
-     * get the posts in the apexcom 
-     * then join them with posts in reported posts table to get reported posts belonging to apexcom.
-     * Get the comments from posts belonging to apex com 
-     * and join them with reported comments table to get reported comments belonging to apexcom.
-     * put the reported posts and comments in one associative array and return it.
-     * 
-     * @param Request $request
-     * 
-     * @return Response
-     */
-
+    
     /**
      * ReviewReports
      * view the reports sent by any user for any post or comment in the ApexCom he is moderator in.
@@ -306,6 +291,22 @@ class ModerationController extends Controller
      * @bodyParam token JWT required Verifying user ID.
      */
 
+    /**
+     * Review reports
+     * First check that the apexcom exists, if not
+     * Return a suitable not found error message (404).
+     * Then check that the authenicated user is a moderator to this apexcom if not return a suitable logical error.
+     * get the posts in the apexcom 
+     * then join them with posts in reported posts table to get reported posts belonging to apexcom.
+     * Get the comments from posts belonging to apex com 
+     * and join them with reported comments table to get reported comments belonging to apexcom.
+     * put the reported posts and comments in one associative array and return it.
+     * 
+     * @param Request $request
+     * 
+     * @return Response
+     */
+    
     public function reviewReports(Request $request)
     {
         $account = new AccountController();
