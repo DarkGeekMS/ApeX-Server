@@ -16,7 +16,7 @@ class Comment extends Model
     ];
 
     protected $appends = [
-        'votes', 'writerUsername' , 'level'
+        'votes', 'writerUsername' , 'level', 'DeletedCommentWriter'
     ];
 
     public $incrementing = false;
@@ -33,7 +33,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'commented_by');
+        return $this->belongsTo(User::class, 'commented_by')->withTrashed();
     }
 
     public function getwriterUsernameAttribute()
@@ -45,6 +45,12 @@ class Comment extends Model
     {
         return 0;
     }
+
+    public function getDeletedCommentWriterAttribute()
+    {
+        return ($this->user()->first()['deleted_at'] != null);
+    }
+
     public function userVote($userID)
     {
         return (int)$this->votes()->where(compact('userID'))->first()['dir'];

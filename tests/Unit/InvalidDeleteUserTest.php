@@ -135,7 +135,7 @@ class InvalidDeleteUserTest extends TestCase
             'passwordConfirmation'=>'123456' //wrong password
             ]
         );
-        $delResponse->assertStatus(501)->assertSee("Wrong password entered");
+        $delResponse->assertStatus(403)->assertSee("Wrong password entered");
         $logoutResponse = $this->json(
             'POST',
             '/api/SignOut',

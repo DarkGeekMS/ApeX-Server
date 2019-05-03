@@ -45,7 +45,7 @@ class ApexComController extends Controller
    * 1) NoAccessRight token is not authorized.
    *
    * @bodyParam token JWT required Verifying user ID.
-   * @bodyParam general bool set to get all the epexComs names and ids.
+   * @bodyParam general bool set to 1 get all the epexComs names and ids , 0 to get the user subscribed ones.
    * @response  400{
    * "error" : "Unauthorized access"
    * }
@@ -69,11 +69,19 @@ class ApexComController extends Controller
 
     public function getApexComs(Request $request)
     {
+        $validator = validator(
+            $request->only('general'),
+            ['general' => 'bool']
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $account=new AccountController;
         //get the user data
         $userID = $account->me($request)->getData()->user->id;
         $blocked = ApexBlock::where('blockedID', $userID)->select('ApexID')->get();
-        if ((!$request->has('general'))) {
+        if ($request->has('general') && $request['general']) {
             $apexs = ApexCom::whereNotIn('id', $blocked)->select('name', 'id')->get();
         } else {
             $subApex= Subscriber::where('userID', $userID)->select('apexID')->get();
@@ -180,7 +188,7 @@ class ApexComController extends Controller
      *                "description":"The name says it all.","rules":"NO RULES",
      *                "avatar":"NULL","rules":"NULL"
      *                }
-     * 
+     *
      * @bodyParam ApexCom_ID string required The fullname of the community.
      * @bodyParam token JWT required Verifying user ID.
      */
@@ -274,7 +282,7 @@ class ApexComController extends Controller
      * @response 404 {"error":"User is not found."}
      * @response 400 {"error":"You are blocked from this Apexcom"}
      * @response 400 {"error":"the url is not a youtube video"}
-     * 
+     *
      * @authenticated
      *
      * @bodyParam ApexCom_id string required The fullname of the community where the post is posted.
@@ -546,7 +554,7 @@ class ApexComController extends Controller
             // making the id of the new apexcom and creating it
             $lastapex =apexComModel::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
             $id = 't5_'.(string)($lastapex +1);
-  
+
             $v = $request->all();
             $v['id'] = $id;
 

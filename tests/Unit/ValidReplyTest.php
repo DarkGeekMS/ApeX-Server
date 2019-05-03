@@ -157,10 +157,10 @@ class ValidReplyTest extends TestCase
     {
         $lastcom =Message::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
         $id = 't4_'.(string)($lastcom +1);
-
         $user = factory(User::class)->create();
         $msg = factory(Message::class)->create();
         Message::where('id', $msg['id'])->update(['sender' => $user['id']]);
+        Message::where('id', $msg['id'])->update(['parent' => null]);
         $signIn = $this->json(
             'POST',
             '/api/SignIn',
