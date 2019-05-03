@@ -30,6 +30,8 @@ e2eTests() {
 
       ./scripts/mailOutput.sh $EMAIL_CONTENT
     popd
+    
+    return $EXIT_CODE
 }
 
 serve() { php7 artisan serve --host=0.0.0.0 --port=80; }
