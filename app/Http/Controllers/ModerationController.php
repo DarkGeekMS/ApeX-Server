@@ -100,7 +100,7 @@ class ModerationController extends Controller
         )->count();
 
         if (!$IsModerator && $moderator_type != 3) {
-            return response()->json(['error' => 'You are not a moderator of this apexcom.'], 400);
+            return response()->json(['error' => 'You are not a moderator of this apexcom or the admin of the site.'], 400);
         }
 
         // checking if the other user (blocked user) is a moderator for this apexcom or a siteadmin.
@@ -109,7 +109,7 @@ class ModerationController extends Controller
         )->count();
 
         if ($IsModerator || $user_type == 3) {
-            return response()->json(['error' => 'You can not block a moderator in the apexcom.'], 400);
+            return response()->json(['error' => 'You can not block a moderator in the apexcom or the admin of the site.'], 400);
         }
 
         // checking if the user is already blocked
@@ -187,7 +187,6 @@ class ModerationController extends Controller
      * @response 404 {"error":"Report not found."}
      * @response 404 {"error":"User not found."}
      * @response 400 {"error":"You have no rights to edit posts or comments in this apexcom."}
-     * @response 400 {"error":"You can not block a moderator in the apexcom."}
      * @response 200 {
      *     "state": "Ignore report on post"
      * }
@@ -221,15 +220,13 @@ class ModerationController extends Controller
         $apex_id = 0;
         $exists1 = Post::where('id', $report_id)->count();
         if ($exists1) {
-            $apex_id = Post::where('id', $report_id)->get();
-            $apex_id = $apex_id[0]->apex_id;
+            $apex_id = Post::find($report_id)->apex_id;
         }
 
         $exists2 = Comment::where('id', $report_id)->count();
         if ($exists2) {
-            $apex_id = Comment::where('id', $report_id)->get();
-            $apex_id = Post::where('id', $apex_id[0]->root)->get();
-            $apex_id = $apex_id[0]->apex_id;
+            $root = Comment::find($report_id)->root;
+            $apex_id = Post::find($root)->apex_id;
         }
         if (!$exists1 && !$exists2) {
             // if it was not a report on post or comment return a message error

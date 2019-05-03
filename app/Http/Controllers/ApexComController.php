@@ -346,7 +346,6 @@ class ApexComController extends Controller
         $r = $request->all();
         if (array_key_exists('video_url', $r) && $r['video_url'] != "") {
             $parsed = parse_url($r['video_url']);
-            return $parsed;
             if ($parsed['scheme'] != 'https' || $parsed['host'] != 'www.youtube.com'
                 || ($parsed['path'] != '/watch' && SUBSTR($parsed['path'], 0, 6) != '/embed')
             ) {
