@@ -14,7 +14,9 @@ use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
 use App\Models\Hidden;
+use App\Models\Comment;
 use App\Models\SavePost;
+use App\Models\SaveComment;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Code;
@@ -68,7 +70,7 @@ class AccountController extends Controller
      *   "email": "hello@gmail.com",
      *  "username": "MohamedRamzy1234",
      *   "id": "t2_13",
-     *   "avatar": "storage/avatars/users/t2_3872.jpg",
+     *   "avatar": "storage/avatars/users/default.png",
      *   "updated_at": "2019-03-19 18:30:05",
      *   "created_at": "2019-03-19 18:30:05"
      *  },
@@ -144,7 +146,7 @@ class AccountController extends Controller
 
         //creating new user with the posted data from the request
         $user = new User($requestData);
-        $avatar = "/storage/avatars/users/t2_3872.jpg"; //setting the default avatar
+        $avatar = "storage/avatars/users/default.png"; //setting the default avatar
         $user->avatar = $avatar;
         $user->id = $id;
         $user->save(); //saving the user to the database
@@ -741,7 +743,7 @@ class AccountController extends Controller
             $extention = explode(".", $imgName)[1]; // Getting extension
             $dir = "avatars/users/"; // initializing the directroy
             $img->storeAs($dir, $user->id.".".$extention, "public"); //stroing avatar
-            $dir = "/storage/".$dir.$user->id.".".$extention; // setting the directory
+            $dir = "storage/".$dir.$user->id.".".$extention; // setting the directory
             $user->avatar = $dir; // stroing the directory.
         }
         $user->save(); // saving the changes
@@ -776,7 +778,7 @@ class AccountController extends Controller
      * "username":"Azzoz",
      * "email":"Azzoz@hotmail.com",
      * "fullname":"Azzoz mando",
-     * "avatar":"storage/users/t2_3872.jpg",
+     * "avatar":"storage/users/default.jpg",
      * "notification":1
      * }
      */
@@ -826,7 +828,7 @@ class AccountController extends Controller
      *   "fullname": null,
      *   "email": "111@gmail.com",
      *   "username": "MohamedRamzy123",
-     *   "avatar": "storage/avatars/users/t2_3872.jpg",
+     *   "avatar": "storage/avatars/users/default.png",
      *   "karma": 1,
      *   "notification": 1,
      *   "type": 1,
@@ -1002,7 +1004,7 @@ class AccountController extends Controller
      *       "user_info": [
      *           {
      *               "username": "s",
-     *               "avatar": "storage/avatars/users/t2_3872.jpg",
+     *               "avatar": "storage/avatars/users/default.png",
      *               "karma": 1
      *           }
      *       ],
@@ -1089,9 +1091,20 @@ class AccountController extends Controller
         //get the saved and hidden posts by the logged in user
         $savedPosts=Post::query()->whereIn('id', $saved)->get();
         $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
+        //get saved comments and their posts
+        $savedcom = SaveComment::where('userID', $id)->pluck('comID');
+        $comments=Comment::query()->whereIn('id', $savedcom)->get();
+        $comments->each(
+            function ($comments) use ($id) {
+                $comments['userVote'] = $comments->userVote($id);
+                $comments['root']=Post::where('id', $comments->root)->get();
+            }
+        );
+
+
 
         $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts ], 200);
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts,'saved_comments'=>$comments], 200);
 
         return $json_output;
     }
