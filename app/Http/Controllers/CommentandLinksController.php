@@ -35,7 +35,7 @@ use OneSignal;
 class CommentandLinksController extends Controller
 {
 
-    
+
 
     /**
      * add
@@ -93,7 +93,7 @@ class CommentandLinksController extends Controller
      * @param string token the JWT representation of the user in frontend.
      * @param string parent the ID of the thing to be replied to.
      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
-     * 
+     *
      * @return string id , the id of the added reply named ( id for msg , reply for comment or reply)
      */
     public function add(Request $request)
@@ -154,14 +154,14 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
 
-        /*    OneSignal::sendNotificationToUser(
+            OneSignal::sendNotificationToUser(
                 $commentOwner['username'].'Add a reply to your comment',
                 $commentOwner['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
                 $schedule = null
-            );*/
+            );
             //return the id of the submitted reply
             return response()->json(['reply' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
@@ -194,14 +194,14 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
 
-          /*  OneSignal::sendNotificationToUser(
+            OneSignal::sendNotificationToUser(
                 $postOwner['username'].'Add a comment on your post',
                 $postOwner['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
                 $schedule = null
-            );*/
+            );
             //return the id of the submitted comment
             return response()->json(['comment' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
@@ -237,14 +237,14 @@ class CommentandLinksController extends Controller
             ]);
             $reciever = User::find($userF);
 
-/*            OneSignal::sendNotificationToUser(
+            OneSignal::sendNotificationToUser(
                 $reciever['username'].'Send you a reply to the message',
                 $reciever['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
                 $schedule = null
-            );*/
+            );
             //return the id of the created message
             return response()->json(['id' => $id], 200);
         }
@@ -309,7 +309,7 @@ class CommentandLinksController extends Controller
      * @param string token the JWT representation of the user in frontend.
      * @param string name the ID of the thing to be deleted.
      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment).
-     * 
+     *
      * @return boolean deleted , if the post/comment deleted successfully.
      */
     public function delete(Request $request)
@@ -403,7 +403,7 @@ class CommentandLinksController extends Controller
      * to edit the text of a post , comment or reply by its owner.
      * ###Success Cases :
      * 1. Return true to ensure that the post or comment updated successfully (status code 200).
-     * 
+     *
      * ###Failure Cases:
      * 1. Invalid token (status code 400).
      * 2. No Access Right the token is not for the owner of the post or comment to be edited (status code 403).
@@ -443,7 +443,7 @@ class CommentandLinksController extends Controller
      * @param string  content The body of the thing to be edited.
      * @param string ID The ID of the comment or post.
      * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-     * 
+     *
      * @return boolean edited , if the comment or post is successfully.
      */
     public function editText(Request $request)
@@ -542,7 +542,7 @@ class CommentandLinksController extends Controller
      * @param string token the JWT representation of the user in frontend.
      * @param string name the ID of the post.
      * must be at least 4 chars starts with t3_.
-     * 
+     *
      * @return boolean locked true to ensure the action done successfully.
      */
     public function lock(Request $request)
@@ -627,7 +627,7 @@ class CommentandLinksController extends Controller
      * @param string token the JWT representation of the user in frontend.
      * @param string name the ID of the post.
      * must be at least 4 chars starts with t3_.
-     * 
+     *
      * @return boolean hide or un-hide is true to ensure the action done successfully.
      */
     public function hide(Request $request)
@@ -705,16 +705,16 @@ class CommentandLinksController extends Controller
 
     /**
      * More Children
-     * Validate the input data by checking that the user is authenticated, 
+     * Validate the input data by checking that the user is authenticated,
      * and check that the `parent` belongs to an existing post.
      * Get all comments on this post and order them by the oldest, and
      * add the current user vote and if he saved the post or not.
      * Build the tree of the comments and replies using `buildTree`.
-     * Get all comments commented by a blocked user or reported and remove them 
+     * Get all comments commented by a blocked user or reported and remove them
      * from the result
-     * 
-     * @param Request $request  
-     * 
+     *
+     * @param Request $request
+     *
      * @return Illuminate\Http\Response
      */
     public function moreChildren(Request $request)
@@ -808,9 +808,9 @@ class CommentandLinksController extends Controller
      * Validate the input data by checking that the `parent` belongs to
      * an existing post. get all the comments on that post and sort them by oldest.
      * Build the tree of comments and replies using the private function `buildTree`
-     * 
-     * @param Request $request  
-     * 
+     *
+     * @param Request $request
+     *
      * @return Illuminate\Http\Response
      */
     public function guestMoreChildren(Request $request)
@@ -831,12 +831,12 @@ class CommentandLinksController extends Controller
 
     /**
      * Private function used to buld the comments tree
-     * 
-     * @param array  $elements  
-     * @param array  $branch    
-     * @param string $parentId  
-     * @param int    $level    
-     * 
+     *
+     * @param array  $elements
+     * @param array  $branch
+     * @param string $parentId
+     * @param int    $level
+     *
      * @return void
      */
     private function buildTree(array & $elements, array & $branch, $parentId = null, $level = 0)
@@ -877,7 +877,7 @@ class CommentandLinksController extends Controller
      * 2) NoAccessRight token is not authorized.
      *
      * @authenticated
-     * 
+     *
      * @bodyParam name string required The fullname of the post or comment  to report.
      * @bodyParam content string The reason for the report.
      * (will be in frontend).
@@ -927,7 +927,7 @@ class CommentandLinksController extends Controller
      * @param string name the ID of the post/comment to be reported.
      * @param string content the content of the report.
      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
-     * 
+     *
      * @return boolean reported is true to ensure the post or comment reported successfully.
      */
     public function report(Request $request)
@@ -1098,7 +1098,7 @@ class CommentandLinksController extends Controller
      * @param integer dir the direction of vote.
      * @param string parent the ID of the thing to be voted on.
      * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-     * 
+     *
      * @return integer votes represent the total number of votes on this post/comment.
      */
     public function vote(Request $request)
@@ -1236,7 +1236,7 @@ class CommentandLinksController extends Controller
      *        if the user saved a comment (status code 200)
      * 4. Return json contains 'the comment is umsaved successfully',
      *        if the user unsaved a comment (status code 200).
-     * 
+     *
      * ###Failure Cases:
      * 1. post or comment fullname (ID) is not found (status code 404).
      * 2. Invalid token(status code 400).
