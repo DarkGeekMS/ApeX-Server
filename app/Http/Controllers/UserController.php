@@ -19,21 +19,7 @@ use OneSignal;
 class UserController extends Controller
 {
 
-    /**
-     * Block a user
-     * Validate the input by checking that the `blockedID` is valid and exists,
-     * if he doesn't exist, return an error contains 'blocked user is not found'.
-     * Also check the logged-in user is authenticated, and get the logged-in user id,
-     * if he is not authenticated return an error contains 'Not authorized'.
-     * if the user have already blocked the blocked user,
-     * Unblock him by removing the record from the database.
-     * Check that the user isn't blocking himself or return an error.
-     * If the input is valid, then block the user.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
+    
     /**
      * Block
      * User block another user, so they can't send private messages to each other
@@ -63,7 +49,21 @@ class UserController extends Controller
      * @bodyParam blockedID string required the id of the user to be blocked. Example: t2_1
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
-
+    /**
+     * Block a user
+     * Validate the input by checking that the `blockedID` is valid and exists,
+     * if he doesn't exist, return an error contains 'blocked user is not found'.
+     * Also check the logged-in user is authenticated, and get the logged-in user id,
+     * if he is not authenticated return an error contains 'Not authorized'.
+     * if the user have already blocked the blocked user,
+     * Unblock him by removing the record from the database.
+     * Check that the user isn't blocking himself or return an error.
+     * If the input is valid, then block the user.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function block(Request $request)
     {
         $validator = validator(
@@ -106,19 +106,7 @@ class UserController extends Controller
         return response()->json(['result' => 'The user has been blocked successfully'], 200);
     }
 
-    /**
-     * Compose a message.
-     * Validate the input by checking that the `receiver` is valid and exists,
-     * and content and subject are valid strings or return an error.
-     * Check the logged-in user is authenticated and get his id by requesting `me`.
-     * Check that the given sender and receiver are not blocked from each other.
-     * If all the input is valid, insert a new row in `messages` table
-     * contains the message data, then return the id of the inserted message.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
+    
     /**
      * Compose
      * Send a private message to another user.
@@ -148,7 +136,19 @@ class UserController extends Controller
      * @bodyParam content text required the body of the message. Example: Can I have a date with you?
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
-
+    /**
+     * Compose a message.
+     * Validate the input by checking that the `receiver` is valid and exists,
+     * and content and subject are valid strings or return an error.
+     * Check the logged-in user is authenticated and get his id by requesting `me`.
+     * Check that the given sender and receiver are not blocked from each other.
+     * If all the input is valid, insert a new row in `messages` table
+     * contains the message data, then return the id of the inserted message.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function compose(Request $request)
     {
         $validator = validator(
@@ -203,15 +203,7 @@ class UserController extends Controller
         return compact('id');
     }
 
-    /**
-     * Get user data
-     * Validate the input by checking that the `username` is a valid and exists,
-     * or return an error. If the input is valid return the user data and his posts.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
+    
     /**
      * Guest Get User Data
      * Return user data to be seen by another user.
@@ -234,7 +226,15 @@ class UserController extends Controller
      *
      * @queryParam username required The username of an existing user. Example: King
      */
-
+    /**
+     * Get user data
+     * Validate the input by checking that the `username` is a valid and exists,
+     * or return an error. If the input is valid return the user data and his posts.
+     *
+     * @param Request $request  
+     *
+     * @return Response|array
+     */
     public function guestUserData(Request $request)
     {
         $validator = validator(
@@ -264,17 +264,7 @@ class UserController extends Controller
         return compact('userData', 'posts');
     }
 
-    /**
-     * Call `guestUserData` if it failed return its response, else
-     * check that the logged-in user is authorized and get his id or return error.
-     * If the users are blocked from each other return an error message.
-     * If the input is valid, filter the result using `filterResult` function from
-     * `GeneralController` and return the filtered result.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
+    
     /**
      * User Get User Data
      * Just like [Guest Get User Data](#guest-get-user-data), except that
@@ -302,7 +292,17 @@ class UserController extends Controller
      * @bodyParam username string required The username of an existing user. Example: King
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMzg0ODYyLCJuYmYiOjE1NTMzODQ4NjIsImp0aSI6Ikg0bU5yR1k0eGpHQkd4eXUiLCJzdWIiOiJ0Ml8yMSIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.OJU25mPYGRiPkBuZCrCxCleaRXLklvHMyMJWX9ijR9I
      */
-
+    /**
+     * Call `guestUserData` if it failed return its response, else
+     * check that the logged-in user is authorized and get his id or return error.
+     * If the users are blocked from each other return an error message.
+     * If the input is valid, filter the result using `filterResult` function from
+     * `GeneralController` and return the filtered result.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function userData(Request $request)
     {
         $result = $this->guestUserData($request);

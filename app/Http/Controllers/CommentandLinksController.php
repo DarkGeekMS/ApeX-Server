@@ -35,23 +35,7 @@ use OneSignal;
 class CommentandLinksController extends Controller
 {
 
-  /**
-   * add.
-   * This Function used to comment on post or another comment or reply to private message.
-   *
-   * It makes sure that the user who want to add the comment (or reply) exists in our app,
-   * Then check what kind of action he want to take depending on the parent ID sent to the function.
-   * as the comment component ID starts with t1 so if the sent id t1 + value,
-   * So he want to reply on comment and so on.
-   * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
-   * check the post\comment owner exists or not ( if not action not valid)
-   * then add the comment\msg reply content in the specific table in the database.
-   *
-   * @param string token the JWT representation of the user in frontend.
-   * @param string parent the ID of the thing to be replied to.
-   * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
-   * @return string id , the id of the added reply named ( id for msg , reply for comment or reply)
-   */
+    
 
     /**
      * add
@@ -94,7 +78,24 @@ class CommentandLinksController extends Controller
      * "id":"t4_12"
      * }
      */
-
+    /**
+     * Add.
+     * This Function used to comment on post or another comment or reply to private message.
+     *
+     * It makes sure that the user who want to add the comment (or reply) exists in our app,
+     * Then check what kind of action he want to take depending on the parent ID sent to the function.
+     * as the comment component ID starts with t1 so if the sent id t1 + value,
+     * So he want to reply on comment and so on.
+     * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
+     * check the post\comment owner exists or not ( if not action not valid)
+     * then add the comment\msg reply content in the specific table in the database.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string parent the ID of the thing to be replied to.
+     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
+     * 
+     * @return string id , the id of the added reply named ( id for msg , reply for comment or reply)
+     */
     public function add(Request $request)
     {
       //get the logged in user
@@ -252,27 +253,6 @@ class CommentandLinksController extends Controller
     }
 
 
-    /**
-     * delete.
-     * This Function used to delete comment or post by their owner, any admin or
-     * any moderator in the apexCom holds this post or comment.
-     * any user can delete any comment on his own posts.
-     *
-     * it receives the token of the logged in user as for the user to delete any post he has to be logged in our app.
-     * It makes sure that the user who want to delete the comment/post exists in our app by the token,
-     *then check what is the thing to be deleted (post or comment).
-     * by checking the second char of the id as posts start with t3 but comment with t1.
-     * In case of post : check the type of the logged in user,
-     * if admin delete the post, if post owner delete the post, if moderator in the apexCom holds the post delete it.
-     * If comment check the same with post
-     * in addition to checking if the logged in is the owner of the post holds this comment, then delete it.
-     * If none of the above return the action is not valid.
-     *
-     * @param string token the JWT representation of the user in frontend.
-     * @param string name the ID of the thing to be deleted.
-     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment).
-     * @return boolean deleted , if the post/comment deleted successfully.
-     */
 
     /**
      * delete
@@ -310,7 +290,28 @@ class CommentandLinksController extends Controller
      * "deleted":"true"
      * }
      */
-
+    /**
+     * Delete.
+     * This Function used to delete comment or post by their owner, any admin or
+     * any moderator in the apexCom holds this post or comment.
+     * any user can delete any comment on his own posts.
+     *
+     * It receives the token of the logged in user as for the user to delete any post he has to be logged in our app.
+     * It makes sure that the user who want to delete the comment/post exists in our app by the token,
+     * then check what is the thing to be deleted (post or comment).
+     * by checking the second char of the id as posts start with t3 but comment with t1.
+     * In case of post : check the type of the logged in user,
+     * if admin delete the post, if post owner delete the post, if moderator in the apexCom holds the post delete it.
+     * If comment check the same with post
+     * in addition to checking if the logged in is the owner of the post holds this comment, then delete it.
+     * If none of the above return the action is not valid.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the thing to be deleted.
+     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment).
+     * 
+     * @return boolean deleted , if the post/comment deleted successfully.
+     */
     public function delete(Request $request)
     {
         //get the logged in user id
@@ -396,27 +397,6 @@ class CommentandLinksController extends Controller
     }
 
 
-    /**
-    * editText.
-    * This Function is used to edit the text of a post , comment or reply by its owner.
-    *
-    * it receives the token of the logged in user.
-    * it gets the id of the comment or post to be edited.
-    * then it checks that a comment or a post exists with the given id.
-    * if not it returns an error message post or comment is not found.
-    * if a comment exists with the given id, it checks that the comment is  commented by the logged in user
-    * if the comment doesnot belong to the logged in user it returns an error message
-    * otherwise update the comment with the given content
-    * if a post exists with the given id, it checks that the post is  posted by the logged in user
-    * if the post doesnot belong to the logged in user it returns an error message
-    * otherwise update the post with the given content
-    *
-    * @param string token the JWT representation of the user, admin or moderator.
-    * @param string  content The body of the thing to be edited.
-    * @param string ID The ID of the comment or post.
-    * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-    * @return boolean edited , if the comment or post is successfully.
-    */
 
     /**
      * editText
@@ -444,7 +424,28 @@ class CommentandLinksController extends Controller
      * "value": true
      * }
      */
-
+    /**
+     * EditText.
+     * This Function is used to edit the text of a post , comment or reply by its owner.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the comment or post to be edited.
+     * then it checks that a comment or a post exists with the given id.
+     * if not it returns an error message post or comment is not found.
+     * if a comment exists with the given id, it checks that the comment is  commented by the logged in user
+     * if the comment doesnot belong to the logged in user it returns an error message
+     * otherwise update the comment with the given content
+     * if a post exists with the given id, it checks that the post is  posted by the logged in user
+     * if the post doesnot belong to the logged in user it returns an error message
+     * otherwise update the post with the given content
+     *
+     * @param string token the JWT representation of the user, admin or moderator.
+     * @param string  content The body of the thing to be edited.
+     * @param string ID The ID of the comment or post.
+     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+     * 
+     * @return boolean edited , if the comment or post is successfully.
+     */
     public function editText(Request $request)
     {
         //get the logged in user id
@@ -496,21 +497,6 @@ class CommentandLinksController extends Controller
         }
     }
 
-    /**
-     * lock.
-     * This Function used to un/lock a post from recieving any new comment.
-     * By his owner, moderator in the apexCom holds the post or admin site.
-     *
-     * It makes sure that the user who want to un/lock the posts exists in our app,
-     * then check if the posts exists in our app.
-     * then check if the logged in user was admin , post owner or moderator in the apexCom holds this post
-     * It toggles the post locked status, if none of them it return Invalid action.
-     *
-     * @param string token the JWT representation of the user in frontend.
-     * @param string name the ID of the post.
-     * must be at least 4 chars starts with t3_.
-     * @return boolean locked true to ensure the action done successfully.
-     */
 
     /**
      * lock
@@ -543,7 +529,22 @@ class CommentandLinksController extends Controller
      * "locked": true
      * }
      */
-
+    /**
+     * Lock.
+     * This Function used to un/lock a post from recieving any new comment.
+     * By his owner, moderator in the apexCom holds the post or admin site.
+     *
+     * It makes sure that the user who want to un/lock the posts exists in our app,
+     * then check if the posts exists in our app.
+     * then check if the logged in user was admin , post owner or moderator in the apexCom holds this post
+     * It toggles the post locked status, if none of them it return Invalid action.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the post.
+     * must be at least 4 chars starts with t3_.
+     * 
+     * @return boolean locked true to ensure the action done successfully.
+     */
     public function lock(Request $request)
     {
         //get the user id using the token
@@ -585,19 +586,6 @@ class CommentandLinksController extends Controller
     }
 
 
-    /**
-     * hide.
-     * This Function used to hide a post by logged in user.
-     *
-     * It makes sure that the user who want to hide the post exists in our app,
-     * Then check the post to be hidden exists in our app.
-     * It check if the post already hidden by this user, remove this record if not add this record in DB.
-     *
-     * @param string token the JWT representation of the user in frontend.
-     * @param string name the ID of the post.
-     * must be at least 4 chars starts with t3_.
-     * @return boolean hide or un-hide is true to ensure the action done successfully.
-     */
 
     /**
      * hide
@@ -628,7 +616,20 @@ class CommentandLinksController extends Controller
      * "un-hide": true
      * }
      */
-
+    /**
+     * Hide.
+     * This Function used to hide a post by logged in user.
+     *
+     * It makes sure that the user who want to hide the post exists in our app,
+     * Then check the post to be hidden exists in our app.
+     * It check if the post already hidden by this user, remove this record if not add this record in DB.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the post.
+     * must be at least 4 chars starts with t3_.
+     * 
+     * @return boolean hide or un-hide is true to ensure the action done successfully.
+     */
     public function hide(Request $request)
     {
         //get the user id using the token
@@ -702,7 +703,20 @@ class CommentandLinksController extends Controller
      * }
      */
 
-
+    /**
+     * More Children
+     * Validate the input data by checking that the user is authenticated, 
+     * and check that the `parent` belongs to an existing post.
+     * Get all comments on this post and order them by the oldest, and
+     * add the current user vote and if he saved the post or not.
+     * Build the tree of the comments and replies using `buildTree`.
+     * Get all comments commented by a blocked user or reported and remove them 
+     * from the result
+     * 
+     * @param Request $request  
+     * 
+     * @return Illuminate\Http\Response
+     */
     public function moreChildren(Request $request)
     {
         //get the user id using the token
@@ -786,10 +800,19 @@ class CommentandLinksController extends Controller
      *        "level": 0
      *        }
      *    ]
-     *}
+     * }
      */
 
-
+    /**
+     * Guest More Children.
+     * Validate the input data by checking that the `parent` belongs to
+     * an existing post. get all the comments on that post and sort them by oldest.
+     * Build the tree of comments and replies using the private function `buildTree`
+     * 
+     * @param Request $request  
+     * 
+     * @return Illuminate\Http\Response
+     */
     public function guestMoreChildren(Request $request)
     {
         $post = Post::find($request['parent']);
@@ -806,7 +829,16 @@ class CommentandLinksController extends Controller
         return response()->json(['comments' => $comments], 200);
     }
 
-//private function used to buld the comments tree
+    /**
+     * Private function used to buld the comments tree
+     * 
+     * @param array  $elements  
+     * @param array  $branch    
+     * @param string $parentId  
+     * @param int    $level    
+     * 
+     * @return void
+     */
     private function buildTree(array & $elements, array & $branch, $parentId = null, $level = 0)
     {
         if (empty($elements)) {
@@ -827,34 +859,6 @@ class CommentandLinksController extends Controller
     }
 
 
-    /**
-     * report.
-     * This Function used to report post or comment by logged in user.
-     * Admin can't report any post/comment as he can take action directly aginst this post/comment.
-     * post/comment owner can't report their own posts or comments.
-     * post owners can't report comment on their own posts as they can take action directly against any comment.
-     * moderator in the apexComs holds the post/comment can't report them.
-     *
-     * It makes sure that the user who want to report the comment/post exists in our app,
-     * check the logged in user if admin return invalid action.
-     * Then check the this to be reported is post or comment.
-     * as the comment component ID starts with t1_ but post with t3_.
-     * check if the logged in user is the post/comment owner,
-     * or moderator in the apexcom holds this post/comment return invalid action.
-     * in case of comment check if the logged in user is the owner of the post holds this comment,
-     * return invalid action.
-     * then check if the user reported this post/comment before,
-     * if so return the user already reported this post/comment.
-     * if not create this report in the DB.
-     *
-     * @authenticated
-     *
-     * @param string token the JWT representation of the user in frontend.
-     * @param string name the ID of the post/comment to be reported.
-     * @param string content the content of the report.
-     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
-     * @return boolean reported is true to ensure the post or comment reported successfully.
-     */
 
     /**
      * report
@@ -872,6 +876,8 @@ class CommentandLinksController extends Controller
      * 1) no content send.
      * 2) NoAccessRight token is not authorized.
      *
+     * @authenticated
+     * 
      * @bodyParam name string required The fullname of the post or comment  to report.
      * @bodyParam content string The reason for the report.
      * (will be in frontend).
@@ -896,7 +902,34 @@ class CommentandLinksController extends Controller
      * "reported":true
      * }
      */
-
+    /**
+     * Report.
+     * This Function used to report post or comment by logged in user.
+     * Admin can't report any post/comment as he can take action directly aginst this post/comment.
+     * post/comment owner can't report their own posts or comments.
+     * post owners can't report comment on their own posts as they can take action directly against any comment.
+     * moderator in the apexComs holds the post/comment can't report them.
+     *
+     * It makes sure that the user who want to report the comment/post exists in our app,
+     * check the logged in user if admin return invalid action.
+     * Then check the this to be reported is post or comment.
+     * as the comment component ID starts with t1_ but post with t3_.
+     * check if the logged in user is the post/comment owner,
+     * or moderator in the apexcom holds this post/comment return invalid action.
+     * in case of comment check if the logged in user is the owner of the post holds this comment,
+     * return invalid action.
+     * then check if the user reported this post/comment before,
+     * if so return the user already reported this post/comment.
+     * if not create this report in the DB.
+     *
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the post/comment to be reported.
+     * @param string content the content of the report.
+     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
+     * 
+     * @return boolean reported is true to ensure the post or comment reported successfully.
+     */
     public function report(Request $request)
     {
         //get the user id using the token
@@ -1016,25 +1049,6 @@ class CommentandLinksController extends Controller
     }
 
 
-    /**
-     * vote.
-     * This Function used to vote on comment or post by a logged in user.
-     *
-     * It makes sure that the user who want to vote on post/comment exists in our app,
-     * Then check the vote will be on comment or post.
-     * as the comment component ID starts with t1_ but post with t3_.
-     * check if the user voted on this post/comment before.
-     * if not create the record and sum the votes on this post/comment then return it.
-     * if it's not the first time for this user to vote on this post/comment,
-     * check if the new vote on is the same as the previous one cancel this record return the updated votes count.
-     * if not update the vote record with the new value and return the updated votes count of the post/comment.
-     *
-     * @param string token the JWT representation of the user in frontend.
-     * @param integer dir the direction of vote.
-     * @param string parent the ID of the thing to be voted on.
-     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-     * @return integer votes represent the total number of votes on this post/comment.
-     */
 
     /**
      * vote
@@ -1067,7 +1081,26 @@ class CommentandLinksController extends Controller
      * "votes":5
      * }
      */
-
+    /**
+     * Vote.
+     * This Function used to vote on comment or post by a logged in user.
+     *
+     * It makes sure that the user who want to vote on post/comment exists in our app,
+     * Then check the vote will be on comment or post.
+     * as the comment component ID starts with t1_ but post with t3_.
+     * check if the user voted on this post/comment before.
+     * if not create the record and sum the votes on this post/comment then return it.
+     * if it's not the first time for this user to vote on this post/comment,
+     * check if the new vote on is the same as the previous one cancel this record return the updated votes count.
+     * if not update the vote record with the new value and return the updated votes count of the post/comment.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param integer dir the direction of vote.
+     * @param string parent the ID of the thing to be voted on.
+     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+     * 
+     * @return integer votes represent the total number of votes on this post/comment.
+     */
     public function vote(Request $request)
     {
         //get the logged in user
@@ -1189,24 +1222,6 @@ class CommentandLinksController extends Controller
         return response()->json(['error' => 'Invalid Action'], 400);
     }
 
-   /**
-    * save.
-    * This Function is used to save/unsave a comment or post.
-    *
-    * it receives the token of the logged in user.
-    * it gets the id of the comment or post to be saved/unsaved.
-    * then it checks that a comment or a post with the given id exists.
-    * if a comment exists, it checks if the comment is previously saved.
-    * if the comment is saved ,it deletes its record so it is unsaved otherwise it saves the comment.
-    * if a post exists, it checks if the post is previously saved.
-    * if the post is saved ,it deletes its record so it is unsaved otherwise it saves the post.
-    * if there is no comment or post with the given id, it returns an error message post or comment doesnot exist.
-    *
-    * @param string token the JWT representation of the user.
-    * @param string ID The ID of the comment or post.
-    * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-    * @return boolean value , if the comment or post is saved or unsaved successfully.
-    */
 
 
     /**
@@ -1249,7 +1264,25 @@ class CommentandLinksController extends Controller
      * "value": "the comment is unsaved successfully"
      * }
      */
-
+    /**
+     * Save.
+     * This Function is used to save/unsave a comment or post.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the comment or post to be saved/unsaved.
+     * then it checks that a comment or a post with the given id exists.
+     * if a comment exists, it checks if the comment is previously saved.
+     * if the comment is saved ,it deletes its record so it is unsaved otherwise it saves the comment.
+     * if a post exists, it checks if the post is previously saved.
+     * if the post is saved ,it deletes its record so it is unsaved otherwise it saves the post.
+     * if there is no comment or post with the given id, it returns an error message post or comment doesnot exist.
+     *
+     * @param string token the JWT representation of the user.
+     * @param string ID The ID of the comment or post.
+     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+     *
+     * @return boolean value , if the comment or post is saved or unsaved successfully.
+     */
     public function save(Request $request)
     {
        //get the logged in user id and type

@@ -17,24 +17,6 @@ use App\Models\Moderator;
 
 class AdministrationController extends Controller
 {
-   /**
-    * deleteApexCom.
-    * This Function is used to delete an apexcom.
-    * only the admin can delete any apexcom.
-    *
-    * it receives the token of the logged in user.
-    * it gets the id of the apexcom to deleted.
-    * then it checks that an apexcom with this id exists.
-    * if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
-    * it checks that the user who want to delete the apexcom is an admin(type=3).
-    * if not it returns an error message unauthorized access.
-    * if the user is an admin it deletes the apexcom and return true.
-    *
-    * @param string token the JWT representation of the admin.
-    * @param string  Apex_ID The ID of the ApexCom to be deleted.
-    * must be at least 4 chars starts with t5_ .
-    * @return boolean deleted , if the apexcom is deleted successfully.
-    */
 
     /**
      * deleteApexCom
@@ -64,7 +46,25 @@ class AdministrationController extends Controller
      * "deleted": true
      * }
      */
-
+    /**
+     * DeleteApexCom.
+     * This Function is used to delete an apexcom.
+     * only the admin can delete any apexcom.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the apexcom to deleted.
+     * then it checks that an apexcom with this id exists.
+     * if the apexcom doesnot exist it returns an error message ApexCom doesnot exist.
+     * it checks that the user who want to delete the apexcom is an admin(type=3).
+     * if not it returns an error message unauthorized access.
+     * if the user is an admin it deletes the apexcom and return true.
+     *
+     * @param string token the JWT representation of the admin.
+     * @param string  Apex_ID The ID of the ApexCom to be deleted.
+     * must be at least 4 chars starts with t5_ .
+     *
+     * @return boolean deleted , if the apexcom is deleted successfully.
+     */
     public function deleteApexCom(Request $request)
     {
         //get the logged in user id and type
@@ -100,31 +100,6 @@ class AdministrationController extends Controller
 
 
 
-    /**
-      * deleteUser.
-      * This Function is used to delete a user by an admin or used for self-delete(Account deactivation).
-      *
-      * it receives the token of the logged in user and gets his type and id.
-      * it checks if the logged in user is an admin(type=3) it gets the user id.
-      * otherwise, it gets the id of the logged in user and password confirmation.
-      * it gets the id of the user to deleted.
-      * then it checks that a user exists with the given id.
-      * if not it returns an error message user doesnot exist.
-      * if the logged user is an admin it deletes the user and returns true.
-      * otherwise it checks that the logged user has the same id of the user to be deleted (Deactivation)
-      * if the ids are different it returns an error message UnAuthorized Deletion.
-      * if the ids match it gets the hashed password of the user with the given id.
-      * then it checks that the hashed password is the same as the password confirmation.
-      * if the passwords doesnot match it returns an error message Wrong password entered.
-      * otherwise it deletes the user (deactivate the account) and returns true.
-      *
-      * @param string token the JWT representation of the user, admin or moderator.
-      * @param string  passwordConfirmation The password of the user to be deleted
-      *(entered anything in case of admin deleting user).
-      * @param string  UserID The ID of the user to be deleted.
-      * must be at least 4 chars starts with t2_ .
-      * @return boolean deleted , if the user is deleted successfully.
-      */
 
     /**
      * deleteUser
@@ -159,7 +134,32 @@ class AdministrationController extends Controller
      * "deleted": true
      * }
      */
-
+    /**
+     * DeleteUser.
+     * This Function is used to delete a user by an admin or used for self-delete(Account deactivation).
+     *
+     * It receives the token of the logged in user and gets his type and id.
+     * it checks if the logged in user is an admin(type=3) it gets the user id.
+     * otherwise, it gets the id of the logged in user and password confirmation.
+     * it gets the id of the user to deleted.
+     * then it checks that a user exists with the given id.
+     * if not it returns an error message user doesnot exist.
+     * if the logged user is an admin it deletes the user and returns true.
+     * otherwise it checks that the logged user has the same id of the user to be deleted (Deactivation)
+     * if the ids are different it returns an error message UnAuthorized Deletion.
+     * if the ids match it gets the hashed password of the user with the given id.
+     * then it checks that the hashed password is the same as the password confirmation.
+     * if the passwords doesnot match it returns an error message Wrong password entered.
+     * otherwise it deletes the user (deactivate the account) and returns true.
+     *
+     * @param string token the JWT representation of the user, admin or moderator.
+     * @param string  passwordConfirmation The password of the user to be deleted
+     * (entered anything in case of admin deleting user).
+     * @param string  UserID The ID of the user to be deleted.
+     * must be at least 4 chars starts with t2_ .
+     * 
+     * @return boolean deleted , if the user is deleted successfully.
+     */
     public function deleteUser(Request $request)
     {
         //get the logged in user id and type
@@ -228,30 +228,6 @@ class AdministrationController extends Controller
 
 
 
-    /**
-      * addModerator.
-      * This Function is used to add a user as a moderator for an apexcom.
-      * only the admin can add moderators to the apexcom.
-      *
-      * it receives the token of the logged in user.
-      * it gets the id of the user to be added as moderator.
-      * then it checks that a user exists with the given id.
-      * if not it returns an error message user doesnot exist.
-      * it gets the id of the apexcom.
-      * then it checks that an apexcom exists with the given id.
-      * if not it returns an error message apexcom doesnot exist.
-      * it checks that the logged in user is an admin.
-      * if the logged user is an admin it checks if the user is already a moderator for the given apex com.
-      * if the user is already a moderator it deletes the moderation and returns true.
-      * if not the user is added as moderator and it returns true.
-      *
-      * @param string token the JWT representation of the admin.
-      * @param string  ApexComID The id of the apexcom adding a moderator to it.
-      * must be at least 4 chars starts with t5_ .
-      * @param string  UserID The ID of the user to be added as moderator.
-      * must be at least 4 chars starts with t2_ .
-      * @return string moderate , whether the user moderation is added or deleted successfully.
-      */
 
     /**
      * addModerator
@@ -293,7 +269,31 @@ class AdministrationController extends Controller
      * }
      */
 
-
+    /**
+     * AddModerator.
+     * This Function is used to add a user as a moderator for an apexcom.
+     * only the admin can add moderators to the apexcom.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the user to be added as moderator.
+     * then it checks that a user exists with the given id.
+     * if not it returns an error message user doesnot exist.
+     * it gets the id of the apexcom.
+     * then it checks that an apexcom exists with the given id.
+     * if not it returns an error message apexcom doesnot exist.
+     * it checks that the logged in user is an admin.
+     * if the logged user is an admin it checks if the user is already a moderator for the given apex com.
+     * if the user is already a moderator it deletes the moderation and returns true.
+     * if not the user is added as moderator and it returns true.
+     *
+     * @param string token the JWT representation of the admin.
+     * @param string  ApexComID The id of the apexcom adding a moderator to it.
+     * must be at least 4 chars starts with t5_ .
+     * @param string  UserID The ID of the user to be added as moderator.
+     * must be at least 4 chars starts with t2_ .
+     * 
+     * @return string moderate , whether the user moderation is added or deleted successfully.
+     */
     public function addModerator(Request $request)
     {
         //get the logged in user id and type

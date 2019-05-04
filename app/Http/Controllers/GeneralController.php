@@ -23,18 +23,6 @@ class GeneralController extends Controller
 {
 
     /**
-     * Search for ApexComs, Users and posts that matches the given query.
-     * Validate the input by checking that the query is string and
-     * at least 3 characters.
-     * Get the ApexComs that have name or description that matche the query.
-     * Get the Users that have fullname or username thath matche the query.
-     * Get the Posts that have title or content that match the query.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    /**
      * Guest Search
      * Returns a json contains posts, apexComs and users that match the given query.
      * Use this request only if the user is a guest and not authorized
@@ -51,6 +39,18 @@ class GeneralController extends Controller
      * @responseFile 400 responses\missingQueryParam.json
      *
      * @queryParam query required The query to be searched for (at least 3 characters). Example: lorem
+     */
+    /**
+     * Search for ApexComs, Users and posts that matches the given query.
+     * Validate the input by checking that the query is string and
+     * at least 3 characters.
+     * Get the ApexComs that have name or description that matche the query.
+     * Get the Users that have fullname or username thath matche the query.
+     * Get the Posts that have title or content that match the query.
+     *
+     * @param Request $request  
+     *
+     * @return Response|array
      */
     public function guestSearch(Request $request)
     {
@@ -91,9 +91,10 @@ class GeneralController extends Controller
      * limit the posts to be from only apexComs that the user is subscribed in
      * it also adds the current user subscription of the apexComs
      *
-     * @param Collection $result the collection that contains posts
-     * @param JWT        $token  to get the userID
-     *
+     * @param Collection $result     the collection that contains posts
+     * @param JWT        $token      to get the userID
+     * @param bool       $subscribed if true, return only the posts in subscribed ApexComs
+     * 
      * @return Response
      */
     public function filterResult(Collection $result, $token, bool $subscribed = false)
@@ -168,14 +169,6 @@ class GeneralController extends Controller
     }
 
     /**
-     * Get the result from `guestSearch` request, then filter the result
-     * using `filterResult` function.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    /**
      * User Search
      * Just like [Guest Search](#guest-search) except that
      * it does't return the posts between blocked users,
@@ -205,7 +198,14 @@ class GeneralController extends Controller
      * @bodyParam query string required The query to be searched for (at least 3 characters). Example: lorem
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
-
+    /**
+     * Get the result from `guestSearch` request, then filter the result
+     * using `filterResult` function.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function userSearch(Request $request)
     {
         $result = $this->guestSearch($request);
@@ -215,20 +215,7 @@ class GeneralController extends Controller
         return $this->filterResult(collect($result), $request['token']);
     }
 
-    /**
-     * Get the posts sorted by date, votes or comments.
-     * Validate the input by checking that the given apexComID exists,
-     * and the sortingParam is one of [`votes`, `date`, `comments`], if it's not,
-     * it uses `date` as a default value.
-     * If the apexComID is not found it return an error,
-     * else it uses that id to get the posts in that apexCom if there is no
-     * `subscribedApexCom` parameter in the request (not called from userSortPosts),
-     * then it return the posts sorted by the given sortingParam.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
+    
     /**
      * Guest Sort Posts
      * Returns a list of posts in a given ApexCom
@@ -253,7 +240,20 @@ class GeneralController extends Controller
      * @queryParam apexComID The ID of the ApexComm that contains the posts, default is null. Example: t5_1
      * @queryParam sortingParam The sorting parameter,takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      */
-
+    /**
+     * Get the posts sorted by date, votes or comments.
+     * Validate the input by checking that the given apexComID exists,
+     * and the sortingParam is one of [`votes`, `date`, `comments`], if it's not,
+     * it uses `date` as a default value.
+     * If the apexComID is not found it return an error,
+     * else it uses that id to get the posts in that apexCom if there is no
+     * `subscribedApexCom` parameter in the request (not called from userSortPosts),
+     * then it return the posts sorted by the given sortingParam.
+     *
+     * @param Request $request  
+     *
+     * @return Response|array
+     */
     public function guestSortPostsBy(Request $request)
     {
         $validator = validator(
@@ -298,16 +298,6 @@ class GeneralController extends Controller
     }
 
     /**
-     * Get the result from `guestSortPostsBy`,
-     * check that there are ApexComs that the user is subscribed in,
-     * or return an error message,
-     * then return the filtered results using `filterResult` function.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    /**
      * User Sort Posts
      * Just like [Guest Sort Posts](#guest-sort-posts), except that
      * it does't return the posts between blocked users
@@ -339,6 +329,16 @@ class GeneralController extends Controller
      * @bodyParam sortingParam string The sorting parameter, takes a value of [`votes`, `date`, `comments`], default is `date`. Example: votes
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
+    /**
+     * Get the result from `guestSortPostsBy`,
+     * check that there are ApexComs that the user is subscribed in,
+     * or return an error message,
+     * then return the filtered results using `filterResult` function.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function userSortPostsBy(Request $request)
     {
         $validator = validator(
@@ -363,11 +363,7 @@ class GeneralController extends Controller
         return $this->filterResult(collect($result), $request['token'], $subscribed);
     }
 
-    /**
-     * Get all the existing ApexComs and return their id and name
-     *
-     * @return Response
-     */
+    
     /**
      * Apex Names
      * Returns a list of the names and ids of all of the existing ApexComs.
@@ -377,6 +373,11 @@ class GeneralController extends Controller
      *
      * ###Failure Cases:
      * 1. There is server-side error (status code 500).
+     */
+    /**
+     * Get all the existing ApexComs and return their id and name
+     *
+     * @return Response
      */
     public function apexNames()
     {
@@ -432,7 +433,6 @@ class GeneralController extends Controller
      * 
      * @return Response
      */
-
     public function getSubscribers(Request $request)
     {
         $account = new AccountController();
@@ -507,8 +507,7 @@ class GeneralController extends Controller
      * @param Request $request the request parameters ApexCommID
      * 
      * @return Response
-    */
-
+     */
     public function guestGetSubscribers(Request $request)
     {
         $apex_id = $request['ApexCommID'];
