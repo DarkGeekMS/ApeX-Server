@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+
     protected $fillable = [
       'id',
       'commented_by',
@@ -15,7 +16,7 @@ class Comment extends Model
     ];
 
     protected $appends = [
-        'votes', 'writerUsername'
+        'votes', 'writerUsername' , 'level', 'DeletedCommentWriter'
     ];
 
     public $incrementing = false;
@@ -32,12 +33,22 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'commented_by');
+        return $this->belongsTo(User::class, 'commented_by')->withTrashed();
     }
 
     public function getwriterUsernameAttribute()
     {
         return $this->user()->first()['username'];
+    }
+
+    public function getLevelAttribute()
+    {
+        return 0;
+    }
+
+    public function getDeletedCommentWriterAttribute()
+    {
+        return ($this->user()->first()['deleted_at'] != null);
     }
 
     public function userVote($userID)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Kalnoy\Nestedset\NestedSet;
 use App\Models\Comment;
 use App\Models\CommentVote;
 use App\Models\Vote;
@@ -18,6 +19,7 @@ use App\Models\Message;
 use App\Models\Hidden;
 use App\Models\Post;
 use App\Models\Block;
+use OneSignal;
 
 /**
  * this Class contains all the endpoints responsible for all posts and comments interactions.
@@ -32,17 +34,24 @@ use App\Models\Block;
 
 class CommentandLinksController extends Controller
 {
+
+    
+
     /**
      * add
      * submit a new comment or reply to a comment on a post or reply to any message.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the comment , reply is added successfully.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) post fullname (ID) is not found.
      * 2) NoAccessRight token is not authorized.
      *
+     * @authenticated
+     *
      * @bodyParam content string required The body of the comment.
-     * @bodyParam parent string required The fullname of the thing to be replied to.
+     * @bodyParam parent string required The fullname of the thing to be replied to (post , comment or message).
      * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
@@ -59,29 +68,34 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "token_error":"invalid Action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "comment":"t1_12"
+     * }
+     * @response  {
+     * "reply":"t1_10"
+     * }
+     * @response  {
+     * "id":"t4_12"
      * }
      */
-
-     /**
-      * add.
-      * This Function used to comment on post or another comment or reply to private message.
-      *
-      * It makes sure that the user who want to add the comment (or reply) exists in our app,
-      * Then check what kind of action he want to take depending on the parent ID sent to the function.
-      * as the comment component ID starts with t1 so if the sent id t1 + value,
-      * So he want to reply on comment and so on.
-      * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
-      * check the post\comment owner exists or not ( if not action not valid)
-      * then add the comment\msg reply content in the specific table in the database.
-      *
-      * @param string token the JWT representation of the user in frontend.
-      * @param string parent the ID of the thing to be replied to.
-      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
-      * @return string id , the id of the added reply named ( id for msg , reply for comment or reply)
-      */
-
+    /**
+     * Add.
+     * This Function used to comment on post or another comment or reply to private message.
+     *
+     * It makes sure that the user who want to add the comment (or reply) exists in our app,
+     * Then check what kind of action he want to take depending on the parent ID sent to the function.
+     * as the comment component ID starts with t1 so if the sent id t1 + value,
+     * So he want to reply on comment and so on.
+     * if (post or comment) check the post is not locked (can receive new comments) (if locked action not valid)
+     * check the post\comment owner exists or not ( if not action not valid)
+     * then add the comment\msg reply content in the specific table in the database.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string parent the ID of the thing to be replied to.
+     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
+     * 
+     * @return string id , the id of the added reply named ( id for msg , reply for comment or reply)
+     */
     public function add(Request $request)
     {
       //get the logged in user
@@ -111,7 +125,9 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'no_comment_reply '], 404);
             }
 
-            if (!$comment['commented_by']) {
+            $commentOwner = User::find($comment['commented_by']);
+
+            if (!$commentOwner) {
                 return response()->json(['error' => 'you can not add any reply on this comment'], 400);
             }
 
@@ -120,16 +136,15 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'you can not add any reply on this post'], 400);
             }
 
-            if (!$post['posted_by']) {
-                return response()->json(['error' => 'you can not add any reply on this post'], 400);
+            $postOwner = User::find($post['posted_by']);
+
+            if (!$postOwner) {
+                return response()->json(['error' => 'you can not add any reply on this comment'], 400);
             }
-            //check mention existance
+
             //create the comment id by getting the last comment id and increment it by 1
-            $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
-            $id = $lastcom->id;
-            $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t1_".($newIdx + $count);
+            $lastcom =Comment::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't1_'.(string)($lastcom +1);
             //add this record in the database
             Comment::create([
               'commented_by'=> $user['id'],
@@ -138,6 +153,15 @@ class CommentandLinksController extends Controller
               'id' =>$id,
               'content' => $request['content']
             ]);
+
+        /*    OneSignal::sendNotificationToUser(
+                $commentOwner['username'].'Add a reply to your comment',
+                $commentOwner['id'],
+                $url = null,
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );*/
             //return the id of the submitted reply
             return response()->json(['reply' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
@@ -148,8 +172,10 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'post not exists '], 404);
             }
 
-            if (!$post['posted_by']) {
-                return response()->json(['error' => 'you can not add any reply on ths post'], 400);
+            $postOwner = User::find($post['posted_by']);
+
+            if (!$postOwner) {
+                return response()->json(['error' => 'you can not comment on this post'], 400);
             }
 
             if ($post['locked']) {
@@ -157,14 +183,8 @@ class CommentandLinksController extends Controller
             }
 
             //create the comment id by getting the total count of comments table and increment it by 1
-            $lastcom = DB::table('comments')->orderBy('created_at', 'desc')->first();
-            $id = "t1_1";
-            if ($lastcom) {
-                $count = DB::table('comments') ->where('created_at', $lastcom->created_at)->count();
-                $id = $lastcom->id;
-                $newIdx = (int)explode("_", $id)[1];
-                $id = "t1_".($newIdx+$count);
-            }
+            $lastcom =Comment::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't1_'.(string)($lastcom +1);
 
             //insert the new record in the database
             Comment::create([
@@ -173,6 +193,15 @@ class CommentandLinksController extends Controller
               'id' =>$id,
               'content' => $request['content']
             ]);
+
+          /*  OneSignal::sendNotificationToUser(
+                $postOwner['username'].'Add a comment on your post',
+                $postOwner['id'],
+                $url = null,
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );*/
             //return the id of the submitted comment
             return response()->json(['comment' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
@@ -182,27 +211,40 @@ class CommentandLinksController extends Controller
             if (!$message) {
                 return response()->json(['error' => ' message not exists '], 404);
             }
+            if ($message['parent']) {
+                return response()->json(['error' => ' can not reply on a reply in messages '], 400);
+            }
             //get the receiver id from the parent message (messages can be done by only 2 users)
             $userF = 't2_0';
             if ($message['sender'] == $user['id']) {
                 $userF = $message['receiver'];
-            } else {
+            } elseif ($message['receiver'] == $user['id']) {
                 $userF = $message['sender'];
+            } else {
+                return response()->json(['error' => 'Invalid action'], 400);
             }
             //create the id of the new message by counting table messages records and increment it by 1
-            $lastcom = DB::table('messages')->orderBy('created_at', 'desc')->first();
-            $count = DB::table('messages') ->where('created_at', $lastcom->created_at)->count();
-            $id = $lastcom->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t4_".($newIdx+$count);
+            $lastmsg =Message::selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+            $id = 't4_'.(string)($lastmsg +1);
             //insert the new message record in the message table
             Message::create([
+              'parent' => $parent,
               'sender'=> $user['id'],
               'receiver' =>$userF,
               'id' =>$id,
               'content' => $request['content'],
               'subject' => $message['subject']
             ]);
+            $reciever = User::find($userF);
+
+/*            OneSignal::sendNotificationToUser(
+                $reciever['username'].'Send you a reply to the message',
+                $reciever['id'],
+                $url = null,
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );*/
             //return the id of the created message
             return response()->json(['id' => $id], 200);
         }
@@ -216,12 +258,16 @@ class CommentandLinksController extends Controller
      * delete
      * to delete a post or comment or reply from any ApexCom by the owner of the thing,
      * the moderator of this ApexCom or any admin.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post, comment or reply is deleted successfully.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) NoAccessRight the token is not for the owner of the thing to be deleted or the moderator of this ApexCom.
      * 3) post , comment or reply fullname (ID) is not found.
+     *
+     * @authenticated
      *
      * @bodyParam name string required The fullname of the post,comment or reply to be deleted.
      * @bodyParam token JWT required Verifying user ID.
@@ -240,33 +286,32 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "token_error":"invalid action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "deleted":"true"
      * }
      */
-
-     /**
-      * delete.
-      * This Function used to delete comment or post by their owner, any admin or
-      * any moderator in the apexCom holds this post or comment.
-      * any user can delete any comment on his own posts.
-      *
-      * it receives the token of the logged in user as for the user to delete any post he has to be logged in our app.
-      * It makes sure that the user who want to delete the comment/post exists in our app by the token,
-      *then check what is the thing to be deleted (post or comment).
-      * by checking the second char of the id as posts start with t3 but comment with t1.
-      * In case of post : check the type of the logged in user,
-      * if admin delete the post, if post owner delete the post, if moderator in the apexCom holds the post delete it.
-      * If comment check the same with post
-      * in addition to checking if the logged in is the owner of the post holds this comment, then delete it.
-      * If none of the above return the action is not valid.
-      *
-      * @param string token the JWT representation of the user in frontend.
-      * @param string name the ID of the thing to be deleted.
-      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment).
-      * @return boolean deleted , if the post/comment deleted successfully.
-      */
-
+    /**
+     * Delete.
+     * This Function used to delete comment or post by their owner, any admin or
+     * any moderator in the apexCom holds this post or comment.
+     * any user can delete any comment on his own posts.
+     *
+     * It receives the token of the logged in user as for the user to delete any post he has to be logged in our app.
+     * It makes sure that the user who want to delete the comment/post exists in our app by the token,
+     * then check what is the thing to be deleted (post or comment).
+     * by checking the second char of the id as posts start with t3 but comment with t1.
+     * In case of post : check the type of the logged in user,
+     * if admin delete the post, if post owner delete the post, if moderator in the apexCom holds the post delete it.
+     * If comment check the same with post
+     * in addition to checking if the logged in is the owner of the post holds this comment, then delete it.
+     * If none of the above return the action is not valid.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the thing to be deleted.
+     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment).
+     * 
+     * @return boolean deleted , if the post/comment deleted successfully.
+     */
     public function delete(Request $request)
     {
         //get the logged in user id
@@ -353,27 +398,61 @@ class CommentandLinksController extends Controller
 
 
 
-
     /**
      * editText
      * to edit the text of a post , comment or reply by its owner.
-     * Success Cases :
-     * 1) return true to ensure that the post or comment updated successfully.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) NoAccessRight the token is not for the owner of the post or comment to be edited.
-     * 3) post or comment fullname (ID) is not found.
+     * ###Success Cases :
+     * 1. Return true to ensure that the post or comment updated successfully (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. No Access Right the token is not for the owner of the post or comment to be edited (status code 403).
+     * 3. post or comment fullname (ID) is not found (status code 500).
+     *
+     * @authenticated
      *
      * @bodyParam name string required The fullname of the self-post ,comment or reply to be edited.
      * @bodyParam content string required The body of the thing to be edited.
      * @bodyParam token JWT required Verifying user ID.
+     * @response  500{
+     * "error" : "post or comment is not found"
+     * }
+     * @response  403{
+     * "error" : "user is not the owner of the post or comment"
+     * }
+     * @response 200{
+     * "value": true
+     * }
      */
-
+    /**
+     * EditText.
+     * This Function is used to edit the text of a post , comment or reply by its owner.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the comment or post to be edited.
+     * then it checks that a comment or a post exists with the given id.
+     * if not it returns an error message post or comment is not found.
+     * if a comment exists with the given id, it checks that the comment is  commented by the logged in user
+     * if the comment doesnot belong to the logged in user it returns an error message
+     * otherwise update the comment with the given content
+     * if a post exists with the given id, it checks that the post is  posted by the logged in user
+     * if the post doesnot belong to the logged in user it returns an error message
+     * otherwise update the post with the given content
+     *
+     * @param string token the JWT representation of the user, admin or moderator.
+     * @param string  content The body of the thing to be edited.
+     * @param string ID The ID of the comment or post.
+     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+     * 
+     * @return boolean edited , if the comment or post is successfully.
+     */
     public function editText(Request $request)
     {
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $id=$user->id;
+        //validate that the input data is correct
         $validator = validator(
             $request->all(),
             ['name' => 'required|string',
@@ -383,36 +462,40 @@ class CommentandLinksController extends Controller
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
+        //get the id of the comment or post to be edited
         $textid= $request['name'];
+        //get the new content to be added
         $content= $request['content'];
 
-
+        //get the id of a comment or a post with the given id
         $commentcheck=DB::table('comments')->where('id', '=', $textid)->get();
         $postcheck=DB::table('posts')->where('id', '=', $textid)->get();
 
-
-
+        //if there is no comment or post with the given id return an error message
         if (!count($commentcheck) && !count($postcheck)) {
             return response()->json(['error' => 'post or comment is not found'], 500);
-        } elseif (count($commentcheck)) {
+        } elseif (count($commentcheck)) {         //check if there is a comment with the given id
+            //check that the comment is commented by the logged in user
             $commentcheck2=DB::table('comments')->where([['commented_by', '=', $id],['id','=',$textid]])->get();
+            //if the comment is not commented by the logged in user return an error message
             if (!count($commentcheck2)) {
-                return response()->json(['error' => 'user is not the owner of the comment'], 403);
-            } else {
+                return response()->json(['error' => 'user is not the owner of the post or comment'], 403);
+            } else {   //otherwise update the comment with the given content
                 DB::table('comments')->where('id', $textid)->update(['content' => $content]);
-                return response()->json(['the comment is updated successfully'], 200);
+                return response()->json(['value'=>true], 200);
             }
-        } elseif (count($postcheck)) {
+        } elseif (count($postcheck)) {    //check if there is a post with the given id
+            //check that the post is posted by the logged in user
             $postcheck2=DB::table('posts')->where([['posted_by', '=', $id],['id','=',$textid]])->get();
+            //if the post is not posted by the logged in user return an error message
             if (!count($postcheck2)) {
-                return response()->json(['error' => 'user is not the owner of the post'], 404);
-            } else {
+                return response()->json(['error' => 'user is not the owner of the post or comment'], 403);
+            } else {    //otherwise update the post with the given content
                 DB::table('posts')->where('id', $textid)->update(['content' => $content]);
-                return response()->json(['the post is updated successfully'], 201);
+                return response()->json(['value'=>true], 200);
             }
         }
     }
-
 
 
     /**
@@ -420,12 +503,16 @@ class CommentandLinksController extends Controller
      * to lock or unlock a post so it can't recieve new comments.
      * check the user id the post owner or admin in the ApexCom or moderator in the ApexCom holds the post
      * to be able to lock this post otherwise error message Not Allowed will return.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post was locked/unlock.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
      * 3) NoAccessRight the user ID is not for the owner of the post or a moderator in the ApexCom includes this post.
+     *
+     * @authenticated
      *
      * @bodyParam name string required The fullname of the post to be locked.
      * @bodyParam token JWT required Verifying user ID.
@@ -438,27 +525,26 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "token_error":"Not allowed"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response {
+     * "locked": true
      * }
      */
-
-     /**
-      * lock.
-      * This Function used to un/lock a post from recieving any new comment.
-      * By his owner, moderator in the apexCom holds the post or admin site.
-      *
-      * It makes sure that the user who want to un/lock the posts exists in our app,
-      * then check if the posts exists in our app.
-      * then check if the logged in user was admin , post owner or moderator in the apexCom holds this post
-      * It toggles the post locked status, if none of them it return Invalid action.
-      *
-      * @param string token the JWT representation of the user in frontend.
-      * @param string name the ID of the post.
-      * must be at least 4 chars starts with t3_.
-      * @return boolean locked true to ensure the action done successfully.
-      */
-
+    /**
+     * Lock.
+     * This Function used to un/lock a post from recieving any new comment.
+     * By his owner, moderator in the apexCom holds the post or admin site.
+     *
+     * It makes sure that the user who want to un/lock the posts exists in our app,
+     * then check if the posts exists in our app.
+     * then check if the logged in user was admin , post owner or moderator in the apexCom holds this post
+     * It toggles the post locked status, if none of them it return Invalid action.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the post.
+     * must be at least 4 chars starts with t3_.
+     * 
+     * @return boolean locked true to ensure the action done successfully.
+     */
     public function lock(Request $request)
     {
         //get the user id using the token
@@ -501,16 +587,19 @@ class CommentandLinksController extends Controller
 
 
 
-
     /**
      * hide
      * to hide or UnHide a post from the user view.
      * check valid user and post and if the post was hidden it removes it from hiddens and vice versa.
-     * Success Cases :
+     *
+     * ###Success Cases :
      * 1) return true to ensure that the post hidden.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) post fullname (ID) is not found.
+     *
+     * @authenticated
      *
      * @bodyParam name string required The fullname of the post to be hidden.
      * @bodyParam token JWT required Verifying user ID.
@@ -520,25 +609,27 @@ class CommentandLinksController extends Controller
      * @response  404{
      * "error" : "post not exists"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response {
+     * "hide": true
+     * }
+     * @response {
+     * "un-hide": true
      * }
      */
-
-     /**
-      * hide.
-      * This Function used to hide a post by logged in user.
-      *
-      * It makes sure that the user who want to hide the post exists in our app,
-      * Then check the post to be hidden exists in our app.
-      * It check if the post already hidden by this user, remove this record if not add this record in DB.
-      *
-      * @param string token the JWT representation of the user in frontend.
-      * @param string name the ID of the post.
-      * must be at least 4 chars starts with t3_.
-      * @return boolean hide or un-hide is true to ensure the action done successfully.
-      */
-
+    /**
+     * Hide.
+     * This Function used to hide a post by logged in user.
+     *
+     * It makes sure that the user who want to hide the post exists in our app,
+     * Then check the post to be hidden exists in our app.
+     * It check if the post already hidden by this user, remove this record if not add this record in DB.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the post.
+     * must be at least 4 chars starts with t3_.
+     * 
+     * @return boolean hide or un-hide is true to ensure the action done successfully.
+     */
     public function hide(Request $request)
     {
         //get the user id using the token
@@ -573,125 +664,222 @@ class CommentandLinksController extends Controller
 
     /**
      * moreChildren
-     * to retrieve additional comments omitted from a base comment tree (comment , replies , private messages).
-     * Success Cases :
-     * 1) return thr retrieved comments or replies (10 reply at a time ).
-     * failure Cases:
+     * to retrieve additional comments omitted from a base comment tree (comment , replies).
+     *
+     * ###Success Cases :
+     * 1) return thr retrieved comments and replies sorted by date { level represent the comment depth}.
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
-     * 2) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
+     * 2) post fullname (ID) is not found for any of the parent IDs.
+     *
+     * @authenticated
      *
      * @bodyParam parent string required The fullname of the posts whose comments are being fetched
-     * ( post , comment or message ).
-     * @bodyParam ID JWT required Verifying user ID.
+     * @bodyParam token JWT required Verifying user ID.
+     * @response  404{
+     * "error" : "user_not_found"
+     * }
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  {
+     *    "comments": [
+     *    {
+     *        "id": "t1_12",
+     *        "commented_by": "t2_3873",
+     *        "content": "hahah",
+     *        "root": "t3_1",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 18:20:00",
+     *        "updated_at": "2019-05-01 18:20:00",
+     *        "userVote": 0,
+     *        "Saved": false,
+     *        "votes": 0,
+     *        "writerUsername": "1111",
+     *        "level": 0
+     *    }
+     * ]
+     * }
      */
 
-
+    /**
+     * More Children
+     * Validate the input data by checking that the user is authenticated, 
+     * and check that the `parent` belongs to an existing post.
+     * Get all comments on this post and order them by the oldest, and
+     * add the current user vote and if he saved the post or not.
+     * Build the tree of the comments and replies using `buildTree`.
+     * Get all comments commented by a blocked user or reported and remove them 
+     * from the result
+     * 
+     * @param Request $request  
+     * 
+     * @return Illuminate\Http\Response
+     */
     public function moreChildren(Request $request)
     {
         //get the user id using the token
         $account=new AccountController;
         $userID = $account->me($request)->getData()->user->id;
-        //get the user by the user id
-        $user = User::find($userID);
+
         $post = Post::find($request['parent']);
         if (!$post) {
             return response()->json(['error' => 'post not exists'], 404);
         }
 
         $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
+
         $data->each(
             function ($data) use ($userID) {
                 $data['userVote'] = $data->userVote($userID);
                 $data['Saved'] = $data->isSavedBy($userID);
             }
         );
-        $base = $data->where('parent', null)->flatten();
-        $data = $data ->where('parent', '<>', null)->flatten();
-        $size = $base->count();
-        $comments = array();
-        $parents= array();
 
-        for ($i=0; $i < $size; $i++) {
-            array_push($comments, $base[i]);
-            $index = $base[0];
-            filterSort($comments, $index, $data);
+        $blockList = Block::where('blockerID', $userID)->pluck('blockedID');
+        $blockList = $blockList->concat(
+            Block::where('blockedID', $userID)->pluck('blockerID')
+        );
+
+        $deleted = $data->whereIn('commented_by', $blockList)->flatten();
+
+        $reportedComments = ReportComment::where(compact('userID'))->pluck('comID');
+
+        $deleted = $deleted->concat($data->whereIn('id', $reportedComments))->flatten();
+
+        $deleted = json_decode(json_encode($deleted, true), true);
+
+        $data = json_decode(json_encode($data, true), true);
+        $comments = [];
+        $this->buildTree($data, $comments);
+
+        for ($i=0; $i <sizeof($deleted); $i++) {
+            for ($j=0; $j < sizeof($comments); $j++) {
+                if ($comments[$j]['id'] == $deleted[$i]['id']) {
+                    $lvl = $comments[$j]['level'];
+                    array_splice($comments, $j, 1);
+                    $k = $j;
+                    while ($k < sizeof($comments) && $comments[$k]['level'] > $lvl) {
+                        array_splice($comments, $k, 1);
+                    }
+                    break;
+                }
+            }
         }
+
         return response()->json(['comments' =>$comments], 200);
-    }
-
-    private function filterSort($comments, $index, $data)
-    {
-        if (empty($data)) {
-            return $comments;
-        }
-        if (in_array($index, $data)) {
-          // code...
-        }
-        return filterSort($comments, $index, $data);
     }
 
     /**
      * moreChildren
      * to retrieve additional comments omitted from a base comment tree (comment , replies ).
-     * Success Cases :
-     * 1) return the retrieved comments or replies.
-     * failure Cases:
-     * 1) post , comment , reply or message fullname (ID) is not found for any of the parent IDs.
      *
-     * @bodyParam parent string required The fullname of the posts whose comments are being fetched
-     * ( post , comment or message ).
+     * ###Success Cases :
+     * 1) return the retrieved comments or replies.
+     *
+     * ###failure Cases:
+     * 1) post  fullname (ID) is not found.
+     *
+     * @bodyParam parent string required The fullname of the post whose comments are being fetched
+     * @response  404{
+     * "error" : "post not exists"
+     * }
+     * @response  {
+     *    "comments": [
+     *    {
+     *        "id": "t1_10",
+     *        "commented_by": "t2_280",
+     *        "content": "Doloremque voluptatum tempora id vitae quis. Consequatur eos nobis et qui. Expedita quo ea est aut quia ea. Quas velit est et est ex quasi ipsam.",
+     *        "root": "t3_2",
+     *        "parent": null,
+     *        "created_at": "2019-05-01 16:02:32",
+     *        "updated_at": "2019-05-01 16:02:32",
+     *        "votes": 2,
+     *        "writerUsername": "lew.collier",
+     *        "level": 0
+     *        }
+     *    ]
+     * }
      */
 
-
+    /**
+     * Guest More Children.
+     * Validate the input data by checking that the `parent` belongs to
+     * an existing post. get all the comments on that post and sort them by oldest.
+     * Build the tree of comments and replies using the private function `buildTree`
+     * 
+     * @param Request $request  
+     * 
+     * @return Illuminate\Http\Response
+     */
     public function guestMoreChildren(Request $request)
     {
         $post = Post::find($request['parent']);
         if (!$post) {
             return response()->json(['error' => 'post not exists'], 404);
         }
+
         $data= Comment::query()->where('root', $request['parent'])->orderBy('created_at', 'asc')->get();
-        $data->toArray();
-        $test = [$data];
-        $comments = $this->buildTree($test);
 
-        //return response()->json(true, 200);
-    }
+        $data = json_decode(json_encode($data, true), true);
+        $comments = [];
+        $this->buildTree($data, $comments);
 
-    private function buildTree(array & $elements, $parentId = null)
-    {
-        $branch = array();
-
-      /*  for ($i=0; $i < count($elements[0]); $i++) {
-            echo $elements[0][$i]['id'];
-        }*/
-        foreach ($elements[0] as $element) {
-        //      echo $element['id'] ;
-       //      echo "  ,  ";
-            if ($element['parent'] == $parentId) {
-                $children = buildTree($elements, $element['id']);
-                if ($children) {
-                    $element['children'] = $children;
-                }
-                $branch[$element['id']] = $element;
-                unset($elements[0][$element['id']]);
-            }
-        }
-        return $branch;
+        return response()->json(['comments' => $comments], 200);
     }
 
     /**
+     * Private function used to buld the comments tree
+     * 
+     * @param array  $elements  
+     * @param array  $branch    
+     * @param string $parentId  
+     * @param int    $level    
+     * 
+     * @return void
+     */
+    private function buildTree(array & $elements, array & $branch, $parentId = null, $level = 0)
+    {
+        if (empty($elements)) {
+            return;
+        }
+        if ($parentId) {
+            $level = $level +1;
+        }
+        foreach ($elements as $element) {
+            if ($element['parent'] == $parentId) {
+                $element['level'] = $level;
+                array_push($branch, $element);
+                $ID = $element['id'];
+                $this->buildTree($elements, $branch, $ID, $level);
+            }
+        }
+        unset($elements[$element['parent']]);
+    }
+
+
+
+    /**
      * report
-     * report a post , comment or a message to the ApexCom moderator
-     * ( message's reports will be sent to the site admin), posts or comments will be hidden implicitly as well.
-     * ( moderators don't report posts).
-     * Success Cases :
-     * 1) return true to ensure that the report is sent to the moderator of the ApexCom.
-     * failure Cases:
-     * 1) send reason (index) out of the associative array range.
+     * report a post , comment to the ApexCom moderator
+     *  posts or comments will be hidden implicitly as well.
+     * ( moderators con't report postsor comment in their ApexComs).
+     * user can't report his post or comment.
+     * user can't report comment on his post.
+     * admin can't report on post or comment.
+     *
+     * ###Success Cases :
+     * 1) return true to ensure that the report is added successfully.
+     *
+     * ###failure Cases:
+     * 1) no content send.
      * 2) NoAccessRight token is not authorized.
      *
-     * @bodyParam name string required The fullname of the post,comment or message to report.
-     * @bodyParam content string The reason for the report from an associative array.
+     * @authenticated
+     * 
+     * @bodyParam name string required The fullname of the post or comment  to report.
+     * @bodyParam content string The reason for the report.
      * (will be in frontend).
      * @bodyParam token JWT required Verifying user ID.
 
@@ -710,38 +898,38 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "error" : "invalid Action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "reported":true
      * }
      */
-
-     /**
-      * report.
-      * This Function used to report post or comment by logged in user.
-      * Admin can't report any post/comment as he can take action directly aginst this post/comment.
-      * post/comment owner can't report their own posts or comments.
-      * post owners can't report comment on their own posts as they can take action directly against any comment.
-      * moderator in the apexComs holds the post/comment can't report them.
-      *
-      * It makes sure that the user who want to report the comment/post exists in our app,
-      * check the logged in user if admin return invalid action.
-      * Then check the this to be reported is post or comment.
-      * as the comment component ID starts with t1_ but post with t3_.
-      * check if the logged in user is the post/comment owner,
-      * or moderator in the apexcom holds this post/comment return invalid action.
-      * in case of comment check if the logged in user is the owner of the post holds this comment,
-      * return invalid action.
-      * then check if the user reported this post/comment before,
-      * if so return the user already reported this post/comment.
-      * if not create this report in the DB.
-      *
-      * @param string token the JWT representation of the user in frontend.
-      * @param string name the ID of the post/comment to be reported.
-      * @param string content the content of the report.
-      * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
-      * @return boolean reported is true to ensure the post or comment reported successfully.
-      */
-
+    /**
+     * Report.
+     * This Function used to report post or comment by logged in user.
+     * Admin can't report any post/comment as he can take action directly aginst this post/comment.
+     * post/comment owner can't report their own posts or comments.
+     * post owners can't report comment on their own posts as they can take action directly against any comment.
+     * moderator in the apexComs holds the post/comment can't report them.
+     *
+     * It makes sure that the user who want to report the comment/post exists in our app,
+     * check the logged in user if admin return invalid action.
+     * Then check the this to be reported is post or comment.
+     * as the comment component ID starts with t1_ but post with t3_.
+     * check if the logged in user is the post/comment owner,
+     * or moderator in the apexcom holds this post/comment return invalid action.
+     * in case of comment check if the logged in user is the owner of the post holds this comment,
+     * return invalid action.
+     * then check if the user reported this post/comment before,
+     * if so return the user already reported this post/comment.
+     * if not create this report in the DB.
+     *
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param string name the ID of the post/comment to be reported.
+     * @param string content the content of the report.
+     * must be at least 4 chars starts with t follwed by ( 3 if post , 1 if comment and 4 if msg).
+     * 
+     * @return boolean reported is true to ensure the post or comment reported successfully.
+     */
     public function report(Request $request)
     {
         //get the user id using the token
@@ -777,7 +965,9 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'post_not_exists'], 404);
             }
 
-            if (!$post['posted_by']) {
+            $postOwner = User::find($post['posted_by']);
+
+            if ($postOwner['deleted_at']) {
                 return response()->json(['error' => 'you can not report this post'], 400);
             }
 
@@ -816,9 +1006,12 @@ class CommentandLinksController extends Controller
                 return response()->json(['error' => 'comment_not_found'], 404);
             }
 
-            if (!$comment['commented_by']) {
+            $commentOwner = User::find($comment['commented_by']);
+
+            if ($commentOwner['deleted_at']) {
                 return response()->json(['error' => 'you can not report this comment'], 400);
             }
+
             //one can't report his own comments.
             if ($user['id'] == $comment['commented_by']) {
                  return response()->json(['error' => 'invalid Action'], 400);
@@ -859,16 +1052,21 @@ class CommentandLinksController extends Controller
 
     /**
      * vote
-     * cast a vote on a post , comment or reply.
-     * Success Cases :
+     * cast a vote on a post , comment or reply and update the karma of the post or comment owner post.
+     * each 50 upVote for a post or 70 upVote for comment will increase the karama by 1.
+     *
+     * ###Success Cases :
      * 1) return total number of votes on this post,comment or reply.
-     * failure Cases:
+     *
+     * ###failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) fullname of the thing to vote on is not found.
      * 3) direction of the vote is not integer between -1 , 1.
      *
+     * @authenticated
+     *
      * @bodyParam name string required The fullname of the post,comment or reply to vote on.
-     * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote , 0 un-vote).
+     * @bodyParam dir int required The direction of the vote ( 1 up-vote , -1 down-vote).
      * @bodyParam token JWT required Verifying user ID.
      * @response  404{
      * "error" : "user_not_found"
@@ -879,31 +1077,30 @@ class CommentandLinksController extends Controller
      * @response  400{
      * "error":"Invalid Action"
      * }
-     * @response  400{
-     * "token_error":"The token has been blacklisted"
+     * @response  {
+     * "votes":5
      * }
      */
-
-     /**
-      * vote.
-      * This Function used to vote on comment or post by a logged in user.
-      *
-      * It makes sure that the user who want to vote on post/comment exists in our app,
-      * Then check the vote will be on comment or post.
-      * as the comment component ID starts with t1_ but post with t3_.
-      * check if the user voted on this post/comment before.
-      * if not create the record and sum the votes on this post/comment then return it.
-      * if it's not the first time for this user to vote on this post/comment,
-      * check if the new vote on is the same as the previous one cancel this record return the updated votes count.
-      * if not update the vote record with the new value and return the updated votes count of the post/comment.
-      *
-      * @param string token the JWT representation of the user in frontend.
-      * @param integer dir the direction of vote.
-      * @param string parent the ID of the thing to be voted on.
-      * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
-      * @return integer votes represent the total number of votes on this post/comment.
-      */
-
+    /**
+     * Vote.
+     * This Function used to vote on comment or post by a logged in user.
+     *
+     * It makes sure that the user who want to vote on post/comment exists in our app,
+     * Then check the vote will be on comment or post.
+     * as the comment component ID starts with t1_ but post with t3_.
+     * check if the user voted on this post/comment before.
+     * if not create the record and sum the votes on this post/comment then return it.
+     * if it's not the first time for this user to vote on this post/comment,
+     * check if the new vote on is the same as the previous one cancel this record return the updated votes count.
+     * if not update the vote record with the new value and return the updated votes count of the post/comment.
+     *
+     * @param string token the JWT representation of the user in frontend.
+     * @param integer dir the direction of vote.
+     * @param string parent the ID of the thing to be voted on.
+     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+     * 
+     * @return integer votes represent the total number of votes on this post/comment.
+     */
     public function vote(Request $request)
     {
         //get the logged in user
@@ -935,6 +1132,11 @@ class CommentandLinksController extends Controller
               //return error message if the post not found
                 return response()->json(['error' => 'post_not_found'], 404);
             }
+            $postOwner= User::find($post['posted_by']);
+            $prevVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
+            $prevkarama = intdiv($prevVotes, 50);
+            $postOwner->karma -= $prevkarama;
+            $postOwner->save();
             //check if the user voted on this post before or not
             $exists = DB::table('votes')->where('postID', $name)
              ->where('userID', $user['id'])->get();
@@ -948,25 +1150,27 @@ class CommentandLinksController extends Controller
                 ]);
                 //get the total count of votes on this post and return it
                 $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
-            }
-            //if the user voted in this post before, get the previous vote direction
-            $dir = DB::table('votes')->where('postID', $request['name'])
-             ->where('userID', $user['id'])->value('dir');
-             //if the user votes in the same direction ( cancel the vote)
-            if ($dir == $request['dir']) {
-              //delete the record of this vote and return the total number of votes in this post
-                DB::table('votes')->where('userID', $user['id'])->where('postID', $request['name'])->delete();
-                $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
             } else {
-              //if not we update the vote by its new value and return the total number of votes on this post
-                DB::table('votes')->where('userID', $user['id'])
-                ->where('postID', $request['name'])->update(['dir' => $request['dir']]);
+                //if the user voted in this post before, get the previous vote direction
+                $dir = DB::table('votes')->where('postID', $request['name'])
+                ->where('userID', $user['id'])->value('dir');
+                //if the user votes in the same direction ( cancel the vote)
+                if ($dir == $request['dir']) {
+                  //delete the record of this vote and return the total number of votes in this post
+                    DB::table('votes')->where('userID', $user['id'])->where('postID', $request['name'])->delete();
+                    $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
+                } else {
+                    //if not we update the vote by its new value and return the total number of votes on this post
+                    DB::table('votes')->where('userID', $user['id'])
+                    ->where('postID', $request['name'])->update(['dir' => $request['dir']]);
 
-                $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
+                    $NoVotes = DB::table('votes')->where('postID', $request['name'])->sum('dir');
+                }
             }
+            $updatedkarama = intdiv((int)$NoVotes, 50);
+            $postOwner->karma  += $updatedkarama;
+            $postOwner->save();
+            return response()->json(['votes' => $NoVotes], 200);
             //if comment
         } elseif ($name[1]==1) {
           //get this comment
@@ -975,6 +1179,11 @@ class CommentandLinksController extends Controller
             if (!$comment) {
                 return response()->json(['error' => 'comment not exists'], 404);
             }
+            $commentOwner= User::find($comment['commented_by']);
+            $prevVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
+            $prevkarama = intdiv($prevVotes, 70);
+            $commentOwner->karma = $commentOwner->karma - $prevkarama;
+            $commentOwner->save();
             //check if the user voted on this comment before or not
             $exists = DB::table('comment_votes')->where('comID', $request['name'])
              ->where('userID', $user['id'])->get();
@@ -987,25 +1196,27 @@ class CommentandLinksController extends Controller
                 ]);
                 //get the total count of votes on this post and return it
                 $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
-            }
-            //if the user voted in this post before, get the previous vote direction
-            $dir = DB::table('comment_votes')->where('comID', $request['name'])
-             ->where('userID', $user['id'])->value('dir');
-             //if the user votes in the same direction ( cancel the vote)
-            if ($dir == $request['dir']) {
-              //delete the record of this vote and return the total number of votes in this post
-                DB::table('comment_votes')->where('userID', $user['id'])->where('comID', $request['name'])->delete();
-                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
             } else {
-              //if not we update the vote by its new value and return the total number of votes on this post
-                DB::table('comment_votes')->where('userID', $user['id'])
-                ->where('comID', $request['name'])->update(['dir' => $request['dir']]);
-
-                $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
-                return response()->json(['votes' => $NoVotes], 200);
+              //if the user voted in this post before, get the previous vote direction
+                $dir = DB::table('comment_votes')->where('comID', $request['name'])
+                ->where('userID', $user['id'])->value('dir');
+                //if the user votes in the same direction ( cancel the vote)
+                if ($dir == $request['dir']) {
+                  //delete the record of this vote and return the total number of votes in this post
+                    DB::table('comment_votes')->where('userID', $user['id'])
+                    ->where('comID', $request['name'])->delete();
+                    $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
+                } else {
+                  //if not we update the vote by its new value and return the total number of votes on this post
+                    DB::table('comment_votes')->where('userID', $user['id'])
+                    ->where('comID', $request['name'])->update(['dir' => $request['dir']]);
+                    $NoVotes = DB::table('comment_votes')->where('comID', $request['name'])->sum('dir');
+                }
             }
+            $updatedkarama = intdiv($NoVotes, 70);
+            $commentOwner->karma = $commentOwner->karma + $updatedkarama;
+            $commentOwner->save();
+            return response()->json(['votes' => $NoVotes], 200);
         }
         //if the name sent was not for post or comment return error message
         return response()->json(['error' => 'Invalid Action'], 400);
@@ -1013,26 +1224,73 @@ class CommentandLinksController extends Controller
 
 
 
-
     /**
      * save
      * Save or UnSave a post or a comment.
-     * Success Cases :
-     * 1) return true to ensure that the post saved successfully.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) post fullname (ID) is not found.
+     * ###Success Cases :
+     * 1. Return json contains 'the post is saved successfully',
+     *        if the user saved a post (status code 200)
+     * 2. Return json contains 'the post is unsaved successfully',
+     *        if the user unsaved a post (status code 200).
+     * 3. Return json contains 'the comment is saved successfully',
+     *        if the user saved a comment (status code 200)
+     * 4. Return json contains 'the comment is umsaved successfully',
+     *        if the user unsaved a comment (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. post or comment fullname (ID) is not found (status code 404).
+     * 2. Invalid token(status code 400).
+     *
+     * @authenticated
      *
      * @bodyParam ID string required The ID of the comment or post.
      * @bodyParam token JWT required Used to verify the user.
+     * @response  404{
+     * "error" : "post or comment doesnot exist"
+     * }
+     * @response 400{
+     * "error": "Not authorized"
+     * }
+     * @response 200{
+     * "value": "the post is saved successfully"
+     * }
+     * @response 200{
+     * "value": "the post is unsaved successfully"
+     * }
+     * @response 200{
+     * "value": "the comment is saved successfully"
+     * }
+     * @response 200{
+     * "value": "the comment is unsaved successfully"
+     * }
      */
-
+    /**
+     * Save.
+     * This Function is used to save/unsave a comment or post.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the comment or post to be saved/unsaved.
+     * then it checks that a comment or a post with the given id exists.
+     * if a comment exists, it checks if the comment is previously saved.
+     * if the comment is saved ,it deletes its record so it is unsaved otherwise it saves the comment.
+     * if a post exists, it checks if the post is previously saved.
+     * if the post is saved ,it deletes its record so it is unsaved otherwise it saves the post.
+     * if there is no comment or post with the given id, it returns an error message post or comment doesnot exist.
+     *
+     * @param string token the JWT representation of the user.
+     * @param string ID The ID of the comment or post.
+     * must be at least 4 chars starts with t1_ in case of comment , t3_ in case of post.
+     *
+     * @return boolean value , if the comment or post is saved or unsaved successfully.
+     */
     public function save(Request $request)
     {
-       //get the logged in user
+       //get the logged in user id and type
         $account=new AccountController;
         $user = $account->me($request)->getData()->user;
         $id= $user->id;
+
+        //validate that the input data is correct
         $validator = validator(
             $request->all(),
             ['ID' => 'required|string']
@@ -1040,16 +1298,16 @@ class CommentandLinksController extends Controller
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
-        //check if the thing to be saved is post or comment by checking both tables
+
+        //get the comments and posts with the given id
         $commentid=$request['ID'];
         $comment=DB::table('comments')->where('id', '=', $commentid)->get();
 
-
         $postid=$request['ID'];
         $post=DB::table('posts')->where('id', '=', $postid)->get();
-        //if comment
-        if (count($comment)) {                                            //to check that the comment exists
-            $commentsaved=DB::table('save_comments')->where([                   //to check if the comment is saved
+        //check that a comment exists with the given id
+        if (count($comment)) {
+            $commentsaved=DB::table('save_comments')->where([
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->get();
@@ -1059,13 +1317,18 @@ class CommentandLinksController extends Controller
                 ['comID', '=', $commentid],
                 ['userID', '=', $id]
                 ])->delete();
+                //return that the comment is unsaved successfully
+                return response()->json(['value'=>'the comment is unsaved successfully'], 200);
             } else {
               //otherwise insert it so it's saved
-                DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
+                //DB::table('save_comments')-> insert(['comID' => $commentid, 'userID' =>$id]);
+                SaveComment::create(['comID' => $commentid, 'userID' =>$id]);
+                //return that the comment is saved successfully
+                return response()->json(['value'=>'the comment is saved successfully'], 200);
             }
-            //if post
-        } elseif (count($post)) {                                                      //to check that the post exists
-            $postsaved=DB::table('save_posts')->where([                                  //to check if the post is saved
+         //check that a post exists with the given id
+        } elseif (count($post)) {
+            $postsaved=DB::table('save_posts')->where([
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->get();
@@ -1075,16 +1338,19 @@ class CommentandLinksController extends Controller
                 ['postID', '=', $postid],
                 ['userID', '=', $id]
                 ])->delete();
+                //return that the post is unsaved successfully
+                return response()->json(['value'=>'the post is unsaved successfully'], 200);
             } else {
               //otherwise insert it so it's saved
-                DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
+                //DB::table('save_posts')->insert(['postID' => $postid, 'userID' =>$id]);
+                SavePost::create(['postID' => $postid, 'userID' =>$id]);
+                //return that the post is saved successfully
+                return response()->json(['value'=>'the post is saved successfully'], 200);
             }
         } else {
           //if no post or comment return error message
             return response()->json(['error' => 'post or comment doesnot exist'], 404);
         }
-        //return true to ensure that the post is saved/unsaved successfully
-        return response()->json(['value'=>true], 200);
     }
 }
 
