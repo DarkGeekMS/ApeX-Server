@@ -19,7 +19,7 @@ use OneSignal;
 class UserController extends Controller
 {
 
-    
+
     /**
      * Block
      * User block another user, so they can't send private messages to each other
@@ -60,7 +60,7 @@ class UserController extends Controller
      * Check that the user isn't blocking himself or return an error.
      * If the input is valid, then block the user.
      *
-     * @param Request $request  
+     * @param Request $request
      *
      * @return Response
      */
@@ -106,7 +106,7 @@ class UserController extends Controller
         return response()->json(['result' => 'The user has been blocked successfully'], 200);
     }
 
-    
+
     /**
      * Compose
      * Send a private message to another user.
@@ -145,7 +145,7 @@ class UserController extends Controller
      * If all the input is valid, insert a new row in `messages` table
      * contains the message data, then return the id of the inserted message.
      *
-     * @param Request $request  
+     * @param Request $request
      *
      * @return Response
      */
@@ -192,18 +192,18 @@ class UserController extends Controller
             response(['error' => 'server-side error'], 500);
         }
 
-/*      OneSignal::sendNotificationToUser(
-             $reciever['username'].'Send you a message',
-              $reciever['id'],
-              $url = null,
-              $data = null,
-              $buttons = null,
-              $schedule = null
-        );*/
+        OneSignal::sendNotificationToUser(
+            $reciever['username'].'Send you a message',
+            $reciever['id'],
+            $url = null,
+            $data = null,
+            $buttons = null,
+            $schedule = null
+        );
         return compact('id');
     }
 
-    
+
     /**
      * Guest Get User Data
      * Return user data to be seen by another user.
@@ -231,7 +231,7 @@ class UserController extends Controller
      * Validate the input by checking that the `username` is a valid and exists,
      * or return an error. If the input is valid return the user data and his posts.
      *
-     * @param Request $request  
+     * @param Request $request
      *
      * @return Response|array
      */
@@ -264,7 +264,7 @@ class UserController extends Controller
         return compact('userData', 'posts');
     }
 
-    
+
     /**
      * User Get User Data
      * Just like [Guest Get User Data](#guest-get-user-data), except that
@@ -299,7 +299,7 @@ class UserController extends Controller
      * If the input is valid, filter the result using `filterResult` function from
      * `GeneralController` and return the filtered result.
      *
-     * @param Request $request  
+     * @param Request $request
      *
      * @return Response
      */
