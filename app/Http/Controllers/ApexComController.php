@@ -117,7 +117,7 @@ class ApexComController extends Controller
      * It first checks the apexcom id, if it wasnot found an error is returned.
      * Then about information of apexcom is returned.
      *
-     * @param Request $request
+     * @param Request $request the request parameters ApexCom_ID.
      * 
      * @return Response
      */
@@ -209,7 +209,7 @@ class ApexComController extends Controller
      * Then a check that the user is not blocked from the apexcom, if he was blocked a logical error is returned.
      * Then, The about information of apexcom is returned.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters ApexCom_ID, token.
      * 
      * @return Response
      */
@@ -322,7 +322,7 @@ class ApexComController extends Controller
      * the post shall contain title and at least a body, an image, or a video url.
      * if validation fails logical error is returned, else a new post is added and return 'created'.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters token, ApexCom_id, title, body, img_name, video_url.
      * 
      * @return Response
      */
@@ -453,7 +453,7 @@ class ApexComController extends Controller
      * If, the user already subscribes this apexcom, it will delete the subscription and return 'unsubscribed'.
      * Else, the user will subscribe the apexcom, and it will return 'subscribed'.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters ApexCom_ID, token.
      * 
      * @return Response
     */
@@ -569,7 +569,7 @@ class ApexComController extends Controller
      * if it already exists then its data is updatad and return 'updated'.
      * if apexcom name doesn't exist then a new apexcom is created and return 'created'.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters name, description, rules, avatar, banner, token
      * 
      * @return Response
      */

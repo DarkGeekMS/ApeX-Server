@@ -61,7 +61,7 @@ class ModerationController extends Controller
      * If the user was already blocked unblock him and return the state of 'unblock'.
      * Else block the user and return the state of 'Block'.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters ApexCom_id, user_id, token.
      * 
      * @return Response
      */
@@ -193,7 +193,7 @@ class ModerationController extends Controller
      * If the reported id does not exist in the reported posts or reported comments tables
      * return error that the report is not found.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters report_id, user_id, token.
      * 
      * @return Response
      */
@@ -302,7 +302,7 @@ class ModerationController extends Controller
      * and join them with reported comments table to get reported comments belonging to apexcom.
      * put the reported posts and comments in one associative array and return it.
      * 
-     * @param Request $request
+     * @param Request $request the request parameters ApexCom_id, token.
      * 
      * @return Response
      */

@@ -428,7 +428,7 @@ class GeneralController extends Controller
      * if he was blocked a logical error is returned.
      * Then, it gets the username and id of the subscribers and returns them.
      *
-     * @param Request $request
+     * @param Request $request the request parameters ApexCommID, token
      * 
      * @return Response
      */
@@ -504,11 +504,11 @@ class GeneralController extends Controller
      * It first checks the apexcom id, if it was not found an error is returned.
      * it gets the username and id of the subscribers and returns them.
      *
-     * @param Request $request
+     * @param Request $request the request parameters ApexCommID
      * 
      * @return Response
     */
-    
+
     public function guestGetSubscribers(Request $request)
     {
         $apex_id = $request['ApexCommID'];
