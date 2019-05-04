@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Message extends Model
 {
@@ -12,11 +14,90 @@ class Message extends Model
       'subject',
       'parent',
       'sender',
-      'receiver',
-      'received',
-      'delSend',
-      'delReceive'
+      'receiver'
     ];
     public $incrementing = false;
+
+    /**
+     * A scope to get messages that is not replies
+     * 
+     * @param Builder $query the query builder
+     * 
+     * @return Builder
+     */
+    public function scopeNotReply(Builder $query) 
+    {
+        return $query->where('parent', null);
+    }
+
+    /**
+     * A scope to get the sent messages by a certain user
+     * 
+     * @param Builder $query  the query builder
+     * @param string  $sender the id of the message sender 
+     * 
+     * @return Builder
+     */
+    public function scopeSentBy(Builder $query, $sender) 
+    {
+        return $query->where(['sender' => $sender, 'delSend' => false]);
+    }
+    
+    /**
+     * A scope to get the received messages by a certain user
+     * 
+     * @param Builder $query    the query builder
+     * @param string  $receiver the id of the message receiver
+     * 
+     * @return Builder
+     */
+    public function scopeReceivedBy(Builder $query, $receiver) 
+    {
+        return $query->where(['receiver' => $receiver, 'delReceive' => false]);
+    }
+
+    /**
+     * A scope to get the read messages
+     * 
+     * @param Builder $query the query builder
+     * 
+     * @return Builder
+     */
+    public function scopeRead(Builder $query) 
+    {
+        return $query->where('received', true);
+    }
+
+    /**
+     * A scope to get the unread messages
+     * 
+     * @param Builder $query the query builder
+     * 
+     * @return Builder
+     */
+    public function scopeUnRead(Builder $query) 
+    {
+        return $query->where('received', false);
+    }
+
+    /**
+     * A relation to the sender of the message
+     * 
+     * @return Relation
+     */
+    public function sender() 
+    {
+        return $this->belongsTo(User::class, 'sender');
+    }
+
+    /**
+     * A relation to the receiver of the message
+     * 
+     * @return Relation
+     */
+    public function receiver() 
+    {
+        return $this->belongsTo(User::class, 'receiver');
+    }
 }
 

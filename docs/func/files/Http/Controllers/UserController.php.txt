@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Response;
+use OneSignal;
 
 /**
  * @group User
@@ -18,7 +19,7 @@ use Illuminate\Http\Response;
 class UserController extends Controller
 {
 
-
+    
     /**
      * Block
      * User block another user, so they can't send private messages to each other
@@ -48,7 +49,21 @@ class UserController extends Controller
      * @bodyParam blockedID string required the id of the user to be blocked. Example: t2_1
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
-
+    /**
+     * Block a user
+     * Validate the input by checking that the `blockedID` is valid and exists,
+     * if he doesn't exist, return an error contains 'blocked user is not found'.
+     * Also check the logged-in user is authenticated, and get the logged-in user id,
+     * if he is not authenticated return an error contains 'Not authorized'.
+     * if the user have already blocked the blocked user,
+     * Unblock him by removing the record from the database.
+     * Check that the user isn't blocking himself or return an error.
+     * If the input is valid, then block the user.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function block(Request $request)
     {
         $validator = validator(
@@ -83,7 +98,7 @@ class UserController extends Controller
         }
 
         try {
-            Block::insert(compact('blockerID', 'blockedID'));
+            Block::create(compact('blockerID', 'blockedID'));
         } catch (\Exception $e) {
             return response()->json(['error' => 'server-side error'], 500);
         }
@@ -91,6 +106,7 @@ class UserController extends Controller
         return response()->json(['result' => 'The user has been blocked successfully'], 200);
     }
 
+    
     /**
      * Compose
      * Send a private message to another user.
@@ -115,12 +131,24 @@ class UserController extends Controller
      * @response 400 {"content":["The content field is required."]}
      * @response 400 {"error":"Not authorized"}
      *
-     * @bodyParam receiver string required The id of the user to be messaged. Example: t2_1
+     * @bodyParam receiver string required The username of the user to be messaged. Example: king
      * @bodyParam subject string required The subject of the message. Example: Hello
      * @bodyParam content text required the body of the message. Example: Can I have a date with you?
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMjgwMTgwLCJuYmYiOjE1NTMyODAxODAsImp0aSI6IldDU1ZZV0ROb1lkbXhwSWkiLCJzdWIiOiJ0Ml8xMDYwIiwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.dLI9n6NQ1EKS5uyzpPoguRPJWJ_NJPKC3o8clofnuQo
      */
-
+    /**
+     * Compose a message.
+     * Validate the input by checking that the `receiver` is valid and exists,
+     * and content and subject are valid strings or return an error.
+     * Check the logged-in user is authenticated and get his id by requesting `me`.
+     * Check that the given sender and receiver are not blocked from each other.
+     * If all the input is valid, insert a new row in `messages` table
+     * contains the message data, then return the id of the inserted message.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function compose(Request $request)
     {
         $validator = validator(
@@ -135,10 +163,12 @@ class UserController extends Controller
             return response($validator->errors(), 400);
         }
 
-        if (!User::query()->where('id', $request->receiver)->exists()) {
-            return response(['error' => 'Receiver id is not found'], 404);
+        if (!User::query()->where('username', $request->receiver)->exists()) {
+            return response(['error' => 'Receiver username is not found'], 404);
         }
+        //get receiver id
         $receiver = $request->receiver;
+        $receiver = User::where('username', $receiver)->first()->id;
 
         $account = new AccountController();
         $meResponse = $account->me($request);
@@ -157,14 +187,23 @@ class UserController extends Controller
         $content = $request->content;
 
         try {
-            Message::insert(compact('id', 'sender', 'receiver', 'subject', 'content'));
+            Message::create(compact('id', 'sender', 'receiver', 'subject', 'content'));
         } catch (\Exception $e) {
             response(['error' => 'server-side error'], 500);
         }
 
+/*      OneSignal::sendNotificationToUser(
+             $reciever['username'].'Send you a message',
+              $reciever['id'],
+              $url = null,
+              $data = null,
+              $buttons = null,
+              $schedule = null
+        );*/
         return compact('id');
     }
 
+    
     /**
      * Guest Get User Data
      * Return user data to be seen by another user.
@@ -187,7 +226,15 @@ class UserController extends Controller
      *
      * @queryParam username required The username of an existing user. Example: King
      */
-
+    /**
+     * Get user data
+     * Validate the input by checking that the `username` is a valid and exists,
+     * or return an error. If the input is valid return the user data and his posts.
+     *
+     * @param Request $request  
+     *
+     * @return Response|array
+     */
     public function guestUserData(Request $request)
     {
         $validator = validator(
@@ -209,9 +256,7 @@ class UserController extends Controller
 
             $posts = Post::where('posted_by', $userData->first()['id'])->get();
 
-            $userData = $userData->select(
-                'id', 'username', 'fullname', 'karma', 'avatar'
-            )->first();
+            $userData = $userData->select('id', 'username', 'fullname', 'karma', 'avatar')->first();
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }
@@ -219,11 +264,12 @@ class UserController extends Controller
         return compact('userData', 'posts');
     }
 
+    
     /**
      * User Get User Data
      * Just like [Guest Get User Data](#guest-get-user-data), except that
      * it does't return user data between blocked users,
-     * it also adds the current user vote on the user's posts 
+     * it also adds the current user vote on the user's posts
      * and if he had saved them.
      * Use this request only if the user is logged in and authorized.
      *
@@ -246,7 +292,17 @@ class UserController extends Controller
      * @bodyParam username string required The username of an existing user. Example: King
      * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9zaWduX3VwIiwiaWF0IjoxNTUzMzg0ODYyLCJuYmYiOjE1NTMzODQ4NjIsImp0aSI6Ikg0bU5yR1k0eGpHQkd4eXUiLCJzdWIiOiJ0Ml8yMSIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.OJU25mPYGRiPkBuZCrCxCleaRXLklvHMyMJWX9ijR9I
      */
-
+    /**
+     * Call `guestUserData` if it failed return its response, else
+     * check that the logged-in user is authorized and get his id or return error.
+     * If the users are blocked from each other return an error message.
+     * If the input is valid, filter the result using `filterResult` function from
+     * `GeneralController` and return the filtered result.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
     public function userData(Request $request)
     {
         $result = $this->guestUserData($request);
@@ -270,7 +326,6 @@ class UserController extends Controller
             $general = new GeneralController();
             $result = $general->filterResult(collect($result), $request['token']);
             return $result;
-            
         } catch (\Exception $e) {
             return response()->json(['error'=>'server-side error'], 500);
         }

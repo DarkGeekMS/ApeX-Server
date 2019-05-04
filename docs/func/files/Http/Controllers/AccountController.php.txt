@@ -13,9 +13,16 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Tymon\JWTAuth\Support\CustomClaims;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use DB;
+use App\Models\Hidden;
+use App\Models\Comment;
+use App\Models\SavePost;
+use App\Models\SaveComment;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Code;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Message;
+use Illuminate\Http\Response;
 
 /**
  * @group Account
@@ -26,6 +33,7 @@ use Illuminate\Support\Facades\Storage;
 class AccountController extends Controller
 {
 
+
     /**
      * SignUp
      * Registers new user into the website.
@@ -34,6 +42,8 @@ class AccountController extends Controller
      * failure Cases:
      * 1) username already exits.
      * 2) email already exists.
+     * 3) username include space.
+     * 4) password less than 6 chars.
      *
      * @bodyParam email string required The email of the user.
      * @bodyParam username string required The choosen username.
@@ -68,24 +78,20 @@ class AccountController extends Controller
      * ]
      * }
      */
-
-     /**
-      * Registers the given user into the website.
-      *
-      * The function takes the email, username and password and validates them
-      * if the validation is failed it will return an error response and if it is
-      * successeded it will generate a new id for the new user then it will hash its
-      * password and creates a new user with the given data and creates a default
-      * avatar then it will save the user into the database then it will generate a
-      * JWT token from its data and returns the token with the data as a response.
-      *
-      * @param string email The user's email.
-      * @param string username The user's username.
-      * @param string password The user's password.
-      *
-      * @return json the user data and the token.
-      *
-      */
+    /**
+     * Registers the given user into the website.
+     *
+     * The function takes the email, username and password and validates them
+     * if the validation is failed it will return an error response and if it is
+     * successeded it will generate a new id for the new user then it will hash its
+     * password and creates a new user with the given data and creates a default
+     * avatar then it will save the user into the database then it will generate a
+     * JWT token from its data and returns the token with the data as a response.
+     *
+     * @param Request $request  
+     *
+     * @return json the user data and the token.
+     */
     public function signUp(Request $request)
     {
         //validating the input data to be correct
@@ -115,7 +121,7 @@ class AccountController extends Controller
         $validator3 = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string|max:50|unique:users',
+            'username' => 'required|string|alpha_dash|max:50|unique:users',
             'avatar' => 'image'
             ]
         );
@@ -125,21 +131,11 @@ class AccountController extends Controller
             return response()->json(['error' => 'Username already exists'], 400);
         }
 
-        $lastUser = DB::table('users')->orderBy('created_at', 'desc')->first();
-        $id = "t2_1";
-        if ($lastUser) {
-            $count = DB::table('users') ->where('created_at', $lastUser->created_at)->count();
-            $id = $lastUser->id;
-            $newIdx = (int)explode("_", $id)[1];
-            $id = "t2_".($newIdx+$count);
-        }
+        $lastUser =User::withTrashed()->selectRaw('CONVERT(SUBSTR(id,4), INT) AS intID')->get()->max('intID');
+        $id = 't2_'.(string)($lastUser +1);
 
         $requestData = $request->all();
         $requestData['id'] = $id;
-        /*removing password_confirmation from the request data as we don't need it
-        in the database
-        */
-        //unset($requestData["password_confirmation"]);
 
         $password = $requestData["password"];
         $requestData["password"] = Hash::make($password); // Hashing the password
@@ -156,6 +152,7 @@ class AccountController extends Controller
         //Returning the user data and the token with 200 status code
         return response()->json(compact('user', 'token'), 200);
     }
+
 
     /**
      * login
@@ -178,21 +175,17 @@ class AccountController extends Controller
      * "error": "could_not_create_token"
      * }
      */
-
-     /**
-      * Signs in the user into the website.
-      *
-      * The function first extracts the credentials of the user and checks for them
-      * if they are wrong it will return an error message, else it will generate a
-      * jwt token and returns it.
-      *
-      * @param string username The user's username.
-      * @param string password The user's password.
-      *
-      * @return JWT The user's JWT token.
-      *
-      */
-
+    /**
+     * Signs in the user into the website.
+     *
+     * The function first extracts the credentials of the user and checks for them
+     * if they are wrong it will return an error message, else it will generate a
+     * jwt token and returns it.
+     *
+     * @param Request $request  
+     *
+     * @return JWT The user's JWT token.
+     */
     public function login(Request $request)
     {
         //Selecting username and password from the request data
@@ -211,13 +204,15 @@ class AccountController extends Controller
         return response()->json(compact('token'));
     }
 
+
     /**
      * mailVerify
      * Send a verification email to the user with a code in case of forgetting password.
      * Success Cases :
      * 1) return success or failure message to indicate whether the email is sent or not.
      * failure Cases:
-     * 1) username is not found.
+     * 1) email is not found.
+     * 2) no password or email recieved.
      *
      * @response{
      * "msg":"Email sent successfully"
@@ -228,34 +223,32 @@ class AccountController extends Controller
      * @response  400 {
      * "msg":"Error sending the email"
      * }
-     * @bodyParam username string required The user's username.
+     * @bodyParam username string The user's username.
+     * @bodyParam password string The user's password.
+     * @bodyParam email string required The user's email.
      */
-
-     /**
-      * Sends a code to the email to reset password.
-      *
-      * The function first validates the input username and if the validator fails it
-      * will return an error else it will check if the user exists in the website if
-      * it doesn't exist it will return an error, Then it will generate random code
-      * and send it to the user's email, Then it will delete all codes in the
-      * database asssociated with the user if exists then it will save the new code
-      * in the database and return a success message.
-      *
-      * @param string username The user's username.
-      *
-      * @return Json A status message indicating the mail is sent or not.
-      *
-      */
-
-
-
+    /**
+     * Sends a code to the email to reset password.
+     *
+     * The function first validates the input username and if the validator fails it
+     * will return an error else it will check if the user exists in the website if
+     * it doesn't exist it will return an error, Then it will generate random code
+     * and send it to the user's email, Then it will delete all codes in the
+     * database asssociated with the user if exists then it will save the new code
+     * in the database and return a success message.
+     *
+     * @param Request $request  
+     *
+     * @return Json A status message indicating the mail is sent or not.
+     */
     public function mailVerify(Request $request)
     {
         //Validating the input parameters of the request
         $validator = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string'
+            'username' => 'string',
+            'email' => 'required|email'
             ]
         );
 
@@ -265,10 +258,27 @@ class AccountController extends Controller
             return response()->json($validator->errors(), 400);
         }
         //Getting the username from the request
-        $username = $request->input("username");
+        $email = $request->input("email");
         //Selecting the user from the database
-        $user = User::where("username", $username)->first();
+        $user = User::where("email", $email)->first();
         if ($user) { // Checking if the user exists
+            $authorized = 0;
+            if ($request->has('password')) {
+                $credentials = $request->only(['email' , 'password']);
+                if (JWTAuth::attempt($credentials)) {
+                    $authorized = 1;
+                }
+            }
+            if ($request->has('email')) {
+                if ($request->input('username') == $user->username) {
+                    $authorized = 1;
+                }
+            }
+
+            if (!$authorized) {
+                return response()->json(['msg' => 'not authorized'], 400);
+            }
+
             try {
                 $codeText = Str::random(15); // Generating random code
                 //Sending the email with random code
@@ -293,48 +303,43 @@ class AccountController extends Controller
 
 
 
-
     /**
      * checkCode
      * Check whether the user entered the correct reset code sent to his email.
      * Success Cases :
-     * 1) return success msg to indicate whether the code is valid or not
+     * 1) return the username in case of success.
      * Failure Cases :
      * 1) Code is invalid.
      *
      * @response{
-     * "authorized":true
+     * "MohamedRamzy"
      * }
      * @response  400{
-     * "authorized":false
+     * false
      * }
      * @bodyParam code int required The entered code.
-     * @bodyParam username string required The user's username.
+     * @bodyParam email string required The user's email.
      */
-
-     /**
-      * Check the forgot password code to be correct.
-      *
-      * The function firstly checks for the input data and if the validator is
-      * failed it will return an error then it will extract the code and username
-      * from the data and get the stored code of the user and compares the 2 codes
-      * if the codes are matching then it will return true to indicate that the code
-      * is correct, Else it will return false.
-      *
-      * @param string username The user's username.
-      * @param string code The user's forgot password code.
-      *
-      * @return Json a boolean value to indicate whether the code is correct or not.
-      *
-      */
-
+    /**
+     * Check the forgot password code to be correct.
+     *
+     * The function firstly checks for the input data and if the validator is
+     * failed it will return an error then it will extract the code and username
+     * from the data and get the stored code of the user and compares the 2 codes
+     * if the codes are matching then it will return true to indicate that the code
+     * is correct, Else it will return false.
+     *
+     * @param Request $request  
+     *
+     * @return string the username or returns false
+     */
     public function checkCode(Request $request)
     {
         //Validating the input parameters of the request
         $validator = Validator::make(
             $request->all(),
             [
-            'username' => 'required|string',
+            'email' => 'required|email',
             'code' => 'required|string'
             ]
         );
@@ -346,8 +351,8 @@ class AccountController extends Controller
         }
 
         $codeText = $request->input('code'); //Getting the code from request
-        $username = $request->input('username'); // Getting the username
-        $user = User::where('username', $username)->first(); //Getting user from DB
+        $email = $request->input('email'); // Getting the username
+        $user = User::where('email', $email)->first(); //Getting user from DB
         //Checking if the user exists
         if ($user) {
             //selecting the corresponding code
@@ -355,17 +360,16 @@ class AccountController extends Controller
                 ->where('code', $codeText)->first();
             if ($code) {
                 //Returning the response indicating that the code is correct
-                return response()->json(['authorized' => true], 200);
+                return response()->json($user->username, 200);
             } else {
                 //Returning the response indicating that the code is not correct
-                return response()->json(['authorized' => false], 400);
+                return response()->json([false], 400);
             }
         } else {
             //Returning the response indicating that the user is not found
-            return response()->json(['authorized' => false], 400);
+            return response()->json([false], 400);
         }
     }
-
 
 
 
@@ -385,20 +389,17 @@ class AccountController extends Controller
      * }
      * @bodyParam token JWT required Used to verify the user.
      */
-
-     /**
-      * Logs out a user from the website.
-      *
-      * The function firstly extracts the token and invalidates it if any error
-      * happens it will return an error message, else it will return the token
-      * value equals to null to indicate a successfull logout.
-      *
-      * @param JWT token The user's JWT token.
-      *
-      * @return Json returns null or an error message.
-      *
-      */
-
+    /**
+     * Logs out a user from the website.
+     *
+     * The function firstly extracts the token and invalidates it if any error
+     * happens it will return an error message, else it will return the token
+     * value equals to null to indicate a successfull logout.
+     *
+     * @param Request $request  
+     *
+     * @return Json returns null or an error message.
+     */
     public function logout(Request $request)
     {
         try {
@@ -413,50 +414,188 @@ class AccountController extends Controller
         return response()->json(['token' => null], 200);
     }
 
-
-
-
     /**
-     * deleteMsg
-     * Delete private messages from the recipient's view of their inbox.
-     * Success Cases :
-     * 1) return true to ensure that the message is deleted successfully.
-     * failure Cases:
-     * 1) message id is not found.
-     * 2) NoAccessRight token is not authorized.
+     * Delete message
+     * Delete a private message or a reply to a message. Either the receiver or the
+     * sender can delete a message. If both the receiver and the sender
+     * have deleted the message, then it's deleted entirely from the database,
+     * If a message is deleted, all its replies will be deleted.
      *
-     * @bodyParam id string required The id of the message to be deleted.
-     * @bodyParam token JWT required Used to verify the user.
+     * ###Success Cases :
+     * 1.The parameters are valid, return json contains
+     *  "the message is deleted successfully" (status code 200).
+     *
+     * ###Failure Cases:
+     * 1. Message ID is not found. (status code 404)
+     * 2. The user is not the sender nor the receiver of the message. (status code 400)
+     * 3. The message is already deleted from the current user
+     *  but still not deleted from the other user. (status code 400)
+     * 4. The `token` is invalid, and the user is not authorized. (status code 400)
+     *
+     * @authenticated
+     *
+     * @response 200 {"result":"The message is deleted successfully"}
+     * @response 404 {"error":"message ID is not found"}
+     * @response 400 {"error":"The user is not the sender nor the receiver of the message"}
+     * @response 400 {"error":"The message is already deleted from the sender"}
+     * @response 400 {"error":"The message is already deleted from the receiver"}
+     * @response 400 {"error":"Not authorized"}
+     *
+     * @bodyParam id string required The id of the message to be deleted. Example: t4_1
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI
      */
-
-    public function deleteMsg()
+    /**
+     * Delete Message
+     * Validate the input by checking that the given message id is valid and exists,
+     * or return an error message. Check that the logged-in user is authorized
+     * and get his id or return an error message.
+     * If the user is the sender of the message check that the message isn't already
+     * deleted from the sender and then mark it as deleted form the sender,
+     * or return that it's already deleted.
+     * If the user is the receiver of the message do like above but from the receiver
+     * view instead of the sender.
+     * If the message is deleted from both the sender and receiver,
+     * delete it entirely form the database.
+     * Return a message that contains that the message is deleted successfully
+     *
+     * @param Request $request  
+     *
+     * @return Resposne
+     */
+    public function deleteMsg(Request $request)
     {
-        return;
+        $validator = validator($request->only('id'), ['id' => 'required|string']);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $userID = $this->me($request)->getData()->user->id;
+        $msgID = $request['id'];
+        $record = Message::find($msgID);
+        if (!$record) {
+            return response()->json(['error' => 'message ID is not found'], 404);
+        }
+        if ($record->sender == $userID) {
+            if ($record->delSend == true) {
+                return response()->json(
+                    ['error' => 'The message is already deleted from the sender'],
+                    400
+                );
+            } else {
+                $record->delSend = true;
+                $record->save();
+            }
+        } elseif ($record->receiver == $userID) {
+            if ($record->delReceive == true) {
+                return response()->json(
+                    ['error' => 'The message is already deleted from the receiver'],
+                    400
+                );
+            } else {
+                $record->delReceive = true;
+                $record->save();
+            }
+        } else {
+            return response()->json(
+                ['error' => 'The user is not the sender nor the receiver of the message'],
+                400
+            );
+        }
+        //check if the message is deleted from both the sender and the receiver
+        if ($record->delSend == true && $record->delReceive == true) {
+            $record->delete();
+        }
+
+        return response()->json(
+            ['result' => 'The message is deleted successfully']
+        );
     }
 
 
 
     /**
      * readMsg
-     * Read a sent message.
-     * Success Cases :
-     * 1) return the details of the message.
-     * 2) call moreChildren to retrieve replies to this message.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
-     * 2) message id not found.
+     * retrieve a message and its replies for any user.
+     * ###Success Cases :
+     * 1. return the details of the message (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
+     * 2. Message id not found (status code 500).
+     * 3. Message does not belong to the user (status code 300)
      *
+     * @authenticated
+     * 
      * @bodyParam ID string required The id of the message.
      * @bodyParam token JWT required Used to verify the user recieving the message.
+     * @response  500{
+     * "error" : "Message doesnot exist"
+     * }
+     * @response  300{
+     * "error" : "Message doesnot belong to the user"
+     * }
+     * @response 400{
+     * "error": "Not authorized"
+     * }
+     * @response  200{
+     *   "subject": "GOT"
+     *   "message": {
+     *       "id": "t4_100",
+     *       "content": "winter is gone :(",
+     *       "subject": "GOT",
+     *       "sender": "t2_12836",
+     *       "receiver": "t2_1",
+     *       "created_at": null,
+     *       "updated_at": null
+     *   },
+     *   "replies": [
+     *       {
+     *           "id": "t4_1",
+     *          "content": "Rerum pariatur accusantium voluptas qui reprehenderit. Quia similique odio expedita nihil. Aperiam rem accusamus maxime est non at.",
+     *           "subject": null,
+     *          "sender": "t2_5",
+     *           "receiver": "t2_9",
+     *           "created_at": "2019-04-29 15:50:28",
+     *           "updated_at": "2019-04-29 15:50:28",
+     *           "sender_name": "queenie.kris"
+     *       },
+     *       {
+     *           "id": "t4_150",
+     *           "content": "Arya stark",
+     *           "subject": null,
+     *           "sender": "t2_1",
+     *            "receiver": "t2_12836",
+     *           "created_at": "2019-04-30 07:49:41",
+     *           "updated_at": null,
+     *           "sender_name": "brekke.violet"
+     *       }
+     *   ]
+     * }
      */
-
+    /**
+     * ReadMsg.
+     * This Function is used to read a sent message.
+     *
+     * It receives the token of the logged in user.
+     * it gets the id of the sent message.
+     * then it checks that a message exists with the given id.
+     * if not it returns an error message.
+     * it checks whether the logged in user id the sender or the reciever of the message.
+     * if not it reyurns an error message.
+     * otherwise it returns the message with the given id and all its replies(sorted ascending by creation time).
+     *
+     * @param string token the JWT representation of the user, admin or moderator.
+     * @param string  ID The id of the message.
+     * must be at least 4 chars starts with t4_.
+     * 
+     * @return Json deleted , the subject and the content of the message and all its replies.
+     */
     public function readMsg(Request $request)
     {
+        //get the logged in user id
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
-        $type=$user->type;
         $id=$user->id;
-
+        //validate that the input data is correct
         $validator = validator(
             $request->all(),
             ['ID' => 'required|string']
@@ -464,24 +603,34 @@ class AccountController extends Controller
         if ($validator->fails()) {
             return  response()->json($validator->errors(), 400);
         }
+        //get the id of the message
         $msgid= $request['ID'];
-        $msgCheck=DB::table('messages')->where('id', '=', $msgid)->get();
-        if (count($msgCheck)==0) {
+
+
+        $msg=Message::where('id', $msgid)
+              ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->first();
+
+        //if the message doesnot exist return an error message
+        if (!$msg) {
             return response()->json(['error' => 'Message doesnot exist'], 500);
         }
-        $subject=DB::table('messages')->where('id', '=', $msgid)->select('subject')->get();
-        $msg=DB::table('messages')->join('users', 'messages.receiver', '=', 'users.id')
-            ->where('messages.id', '=', $msgid)
-            ->orWhere('messages.parent', $msgid)
-            ->orderBy('messages.created_at', 'asc')
-            ->select('username', 'content', 'messages.created_at')
-            ->get();
-        $json_output=response()->json(['message' =>$msg ,'subject'=>$subject ]);
-       //$json_output = json_encode( [$msg,$subject] );
+        //check if the logged in user is the sender or the reciever of the message
+        if ($msg->sender==$id || $msg->receiver==$id) {
+            $msgReplies=Message::where('parent', $msgid)->orderBy('created_at', 'asc')
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'created_at', 'updated_at')->get();
+            $msgReplies->each(
+                function ($msgReplies) use ($msgid) {
+                    $msgReplies['sender_name'] = User::find($msgReplies->sender)->username;
+                }
+            );
+            Message::where('parent', $msgid)->update(['received' => true]);
+            Message::where('id', $msgid)->update(['received' => true]);
+        } else { //if the user is not the sender or the reciever of the message return an error message
+            return response()->json(['error' => 'Message doesnot belong to the user'], 300);
+        }
+        $json_output=response()->json(['subject'=>$msg->subject,'message' =>$msg ,'replies'=>$msgReplies ], 200);
         return $json_output;
     }
-
-
 
 
 
@@ -490,7 +639,6 @@ class AccountController extends Controller
      * Updates the preferences of the user.
      * Success Cases :
      * 1) return true to ensure that the data updated successfully.
-     * 2) in case deactivating the account the account will be deleted.
      * failure Cases:
      * 1) NoAccessRight token is not authorized.
      * 2) the changed email already exists.
@@ -498,16 +646,98 @@ class AccountController extends Controller
      * @bodyParam username string required Enable changing the username.
      * @bodyParam fullname string required Enable changing the fullname.
      * @bodyParam email string required Enable changing the email.
-     * @bodyParam avatar string required Enable changing the profile picture.
-     * @bodyParam pm_notifications bool Enable pm notifications.
+     * @bodyParam avatar string Enable changing the profile picture.
+     * @bodyParam notification bool Enable notifications.
      * @bodyParam token JWT required Used to verify the user.
      */
 
-    public function updates()
+    /**
+     * Changes the preferences of the user.
+     *
+     * The function firstly validates the input data of the user to check
+     * if they are valid then it gets the user data from the given token.
+     * then it checks if there is other users with the given username or email
+     * except the original user, If this is the case then it returns error
+     * else it stores the data and then it extracts the avatar from the request
+     * then it stores it and stores its directory in the database then the
+     * then it returns true to indicate the success.
+     *
+     * @param Request $request  
+     *
+     * @return boolean returns true or an error message.
+     */
+    public function updates(Request $request)
     {
-        return;
-    }
+        //validating the email to be correct
+        $validator1 = Validator::make(
+            $request->all(),
+            [
+            'email' => 'required|string|email|max:100'
+            ]
+        );
 
+        //Returning the validation errors in case of validation failure
+        if ($validator1->fails()) {
+            return response()->json(['error' => 'Invalid email or Email already exists'], 400);
+        }
+        //validating username
+        $validator2 = Validator::make(
+            $request->all(),
+            [
+            'username' => 'required|string|alpha_dash|max:50'
+            ]
+        );
+        //returning errors in the case of username failure
+        if ($validator2->fails()) {
+            return response()->json(['error' => 'Username already exists'], 400);
+        }
+        //validating the input avatar
+        $validator3 = Validator::make(
+            $request->all(),
+            [
+                'avatar' => 'image'
+            ]
+        );
+        //returning error in the case of avatar failure.
+        if ($validator3->fails()) {
+            return response()->json(['error' => 'Avatar is not valid'], 400);
+        }
+        $account = new AccountController;
+        $user = $account->me($request)->getData()->user; // Getting user data
+        $id = $user->id; // Getting id
+        $user = User::where("id", $id)->first(); //Getting the user from database
+        $requestData = $request->all(); // Getting request data
+        // Getting number of previous users with the input username
+        $prevUsers = count(User::where("username", $requestData["username"])->get());
+        //checking if there is users otherthan the given user
+        if ($prevUsers && $user->username != $requestData["username"]) {
+            return response()->json(["error" => "username exists"], 400);
+        }
+        //Getting number of previous users with the input email.
+        $prevEmails = count(User::where("email", $requestData["email"])->get());
+        //Checking if there is users otherthan the given user
+        if ($prevEmails && $user->email != $requestData["email"]) {
+            return response()->json(["error" => "email already exists"], 400);
+        }
+        //Updating the user data
+        $user->username = $requestData["username"];
+        $user->email = $requestData["email"];
+        $user->fullname = $requestData["fullname"];
+        $user->notification = $requestData["notification"];
+        //checking if the request has an input avatar
+        if ($request->hasfile('avatar')) {
+            //getting avatar object
+            $img = $request->file('avatar');
+            $imgName = $img->getClientOriginalName(); //Getting image name
+            $extention = explode(".", $imgName)[1]; // Getting extension
+            $dir = "avatars/users/"; // initializing the directroy
+            $img->storeAs($dir, $user->id.".".$extention, "public"); //stroing avatar
+            $dir = "storage/".$dir.$user->id.".".$extention; // setting the directory
+            $user->avatar = $dir; // stroing the directory.
+        }
+        $user->save(); // saving the changes
+        return response()->json(['updated' =>true], 200); // returning true with success response.
+    }
 
 
 
@@ -528,25 +758,25 @@ class AccountController extends Controller
      * "notification":1
      * }
      */
-
-     /**
-      * Gets the preferences of the user.
-      *
-      * The function gets the user associated with the given token then it returns
-      * its username, email, fullname, avatar and notification settings then it
-      * returns then in a json response.
-      *
-      * @param JWT token The user's JWT token.
-      *
-      * @return Json returns user preferences as json with keys username, email,
-      * fullname, avatar and notification.
-      *
-      */
-
+    /**
+     * Gets the preferences of the user.
+     *
+     * The function gets the user associated with the given token then it returns
+     * its username, email, fullname, avatar and notification settings then it
+     * returns then in a json response.
+     *
+     * @param Request $request  
+     *
+     * @return Json returns user preferences as json with keys username, email,
+     * fullname, avatar and notification.
+     */
     public function prefs(Request $request)
     {
         $account = new AccountController;
+        //getting user info from the token
         $user = $account->me($request)->getData()->user;
+        $user = User::where("id", $user->id)->first();
+        //returning the user data in an array
         $user = [
             "username" => $user->username,
             "email" => $user->email,
@@ -554,9 +784,8 @@ class AccountController extends Controller
             "avatar" => $user->avatar,
             "notification" => $user->notification
         ];
-        return response()->json($user, 200);
+        return response()->json([ 'userData' => $user], 200);
     }
-
 
 
 
@@ -590,20 +819,17 @@ class AccountController extends Controller
      * }
      * @bodyParam token JWT required Used to verify the user.
      */
-
-     /**
-      * Returns the user of the sent token.
-      *
-      * The function extracts the token given in the request then it checks if it
-      * corresponds to an existing user then it will return an error if that is
-      * case else it will return the user object of the token.
-      *
-      * @param JWT token The user's token.
-      *
-      * @return Json The user's object as json or an error message.
-      *
-      */
-
+    /**
+     * Returns the user of the sent token.
+     *
+     * The function extracts the token given in the request then it checks if it
+     * corresponds to an existing user then it will return an error if that is
+     * case else it will return the user object of the token.
+     *
+     * @param Request $request  
+     *
+     * @return Json The user's object as json or an error message.
+     */
     public function me(Request $request)
     {
         try {
@@ -622,8 +848,9 @@ class AccountController extends Controller
     }
 
 
+
     /**
-     * changePassword
+     * ChangePassword
      * to change the password of any user.
      * Success Cases :
      * 1) return ture to ensure the password updated successfully.
@@ -631,93 +858,402 @@ class AccountController extends Controller
      * 1) NoAccessRight token is not authorized.
      * 2) old password not right.
      * 3) new password is less than 6 chars.
-     *
-     * @bodyParam token JWT required Used to verify the user.
-     * @bodyParam oldPassword string required Used to verify the user is the account owner.
-     * @bodyParam newPassword string required Used to update the old password to the new one.
+     * 4) Code is invalid.
+     * 
+     * @bodyParam token JWT Used to verify the user.
+     * @bodyParam withcode bool required changing password using forgot code or not.
+     * @bodyParam password string required the new password.
+     * @bodyParam username string required the username.
+     * @bodyParam key string required the forgot password code or the old password.
+     * 
+     * @return Json The user's object as json or an error message.
      */
 
-
+    /**
+     * Change password whether with the old password or the forgot password code
+     *
+     * The function first check if i want to change the password using the code.
+     * or by inputting the old password, IN the first option we won't require a
+     * token if we change it with the code first i will compare the code with the
+     * code in the database then if it is true i will change the password
+     * and delete the code, If we change without code, We will compare
+     * the old password with the given one and if they are match we will
+     * change the password.
+     * 
+     * @param Request $request  
+     *
+     * @return boolean return true if the password change, otherwise an error.
+     */
     public function changePassword(Request $request)
     {
-        return;
+        //validating the password
+        $validator = Validator::make(
+            $request->all(),
+            [
+            'password' => 'required|string|min:6'
+            ]
+        );
+        //returning an error if the password is not as required
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Invalid password less than 6 chars'], 400);
+        }
+        $requestData = $request->all(); //Getting the request data
+        //whether to change password with code or not
+        $withCode = $requestData["withCode"];
+        $username = $requestData["username"]; //Getting username
+        if ($withCode == "1") {
+            $code = $requestData["key"]; //Getting the code
+            $username = $requestData["username"]; //Getting username
+            $user = User::where("username", $username)->first(); //Get user from DB
+            if (!$user) { //Checking for the user
+                return response()->json(["error" => "user doesn't exist"]);
+            }
+            $storedCode = Code::where("id", $user->id)->first(); //Get code from DB
+            if ($storedCode) { //check for the code
+                if ($storedCode->code == $code) { //check if codes are equal
+                    //hashing the new password
+                    $newpass = Hash::make($requestData["password"]);
+                    $user->password = $newpass; //setting password
+                    $user->save(); //saving changes
+                    Code::where("id", $user->id)->delete(); //Deleting the code
+                    return response()->json(['changed' => true], 200); // returning true
+                } else {
+                    //returning error
+                    return response()->json(["error" => "Invalid code"], 400);
+                }
+            } else {
+                //returning error
+                return response()->json(["error" => "Invalid code"], 400);
+            }
+        } else {
+            //creating new account
+            $account = new AccountController;
+            $user = $account->me($request)->getData(); //get user from token
+            if (!isset($user->user)) { //checking for user
+                //returning error
+                return response()->json(["error" => "invalid token"], 400);
+            }
+            $user = $user->user; //getting user
+            $user = User::where("id", $user->id)->first(); // get user from DB
+            $oldpass = $requestData["key"]; //getting old pass
+            $newpass = Hash::make($requestData["password"]); //hashing the new one
+            $username = $user->username; //Getting username
+            //setting credentials
+            $credentials = [
+                "username" => $username,
+                "password" => $oldpass
+            ];
+            //try to login with the old password and username
+            if (JWTAuth::attempt($credentials)) {
+                $user->password = $newpass; //changin password
+                $user->save(); //saving changes
+                return response()->json(['changed' => true], 200); //return success
+            } else {
+                //return error
+                return response()->json(["error" => "old password is not correct"], 400);
+            }
+        }
     }
 
 
     /**
      * profileInfo
      * Displaying the profile info of the user.
-     * Success Cases :
-     * 1) return username, profile picture , karma count , lists of the saved , personal and hidden posts of the user.
-     * 2) in case of moderator it will also return the reports of the ApexCom he is moderator in.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
+     * ###Success Cases :
+     * 1. return username, profile picture, karma count, lists of the saved, 
+     *      personal and hidden posts and comments of the user (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400)
      *
+     * @authenticated
+     * 
      * @bodyParam token JWT required Used to verify the user.
+     * @response 400{
+     * "error": "Not authorized"
+     * }
+     * @response 200{
+     * {
+     *       "user_info": [
+     *           {
+     *               "username": "s",
+     *               "avatar": "storage/avatars/users/default.png",
+     *               "karma": 1
+     *           }
+     *       ],
+     *       "posts": [
+     *           {
+     *               "id": "t3_100",
+     *               "posted_by": "t2_12836",
+     *               "apex_id": "t5_1",
+     *               "title": "sebak",
+     *               "img": null,
+     *               "videolink": null,
+     *               "content": null,
+     *               "locked": 0,
+     *               "created_at": null,
+     *               "updated_at": null,
+     *               "userVote": 0,
+     *               "votes": 0,
+     *               "comments_count": 0,
+     *               "apex_com_name": "gI1NZRiTkW",
+     *               "post_writer_username": "s"
+     *           }
+     *       ],
+     *       "saved_posts": [
+     *           {
+     *               "id": "t3_1",
+     *               "posted_by": "t2_21",
+     *               "apex_id": "t5_6",
+     *               "title": "LeHGyTsuKb",
+    *              "img": null,
+     *               "videolink": null,
+     *               "content": "Eveniet totam deserunt non magni.
+     *                 Magni non est eligendi magni minima ipsum. Aliquid aliquam dolore minus magni quo.",
+     *               "locked": 0,
+     *               "created_at": "2019-04-29 15:50:27",
+     *              "updated_at": "2019-04-29 15:50:27",
+     *               "votes": -1,
+     *               "comments_count": 3,
+     *               "apex_com_name": "faqc9dVGCf",
+     *               "post_writer_username": "mitchell.bettie"
+     *           }
+     *       ],
+     *       "hidden_posts": [
+     *          {
+     *               "id": "t3_10",
+     *               "posted_by": "t2_165",
+     *               "apex_id": "t5_5",
+     *               "title": "ehof4PuLeS",
+     *               "img": null,
+     *               "videolink": null,
+     *               "content": "Assumenda qui eum nemo eos maxime. Consequatur itaque totam sit illo.",
+     *               "locked": 0,
+     *               "created_at": "2019-04-29 15:50:28",
+     *              "updated_at": "2019-04-29 15:50:28",
+     *               "votes": 1,
+     *               "comments_count": 0,
+     *               "apex_com_name": "LrfjPAVBoN",
+     *               "post_writer_username": "zieme.myriam"
+     *           }
+     *      ],
+     *       "saved_comments": [
+     *           {
+     *               "id": "t1_1",
+     *               "commented_by": "t2_186",
+     *               "content": "Rerum qui eveniet provident molestias in. Inventore itaque accusantium quia animi ut. Cupiditate excepturi sunt odio iste dolorem earum dignissimos. Minus asperiores pariatur nemo dolor nulla.",
+     *               "root": [
+     *                   {
+     *                       "id": "t3_9",
+     *                       "posted_by": "t2_145",
+     *                       "apex_id": "t5_1",
+     *                       "title": "33oiFXdPYS",
+     *                       "img": null,
+     *                       "videolink": null,
+     *                       "content": "Architecto ut magnam voluptatem soluta magni molestias. Magni numquam distinctio ut rerum. Fugiat fuga nihil explicabo ex.",
+     *                       "locked": 0,
+     *                       "created_at": "2019-04-29 15:50:28",
+     *                       "updated_at": "2019-04-29 15:50:28",
+     *                       "votes": -1,
+     *                       "comments_count": 2,
+     *                       "apex_com_name": "gI1NZRiTkW",
+     *                       "post_writer_username": "buford.cole"
+     *                   }
+     *               ],
+     *               "parent": null,
+     *               "created_at": "2019-04-29 15:50:30",
+     *               "updated_at": "2019-04-29 15:50:30",
+     *               "userVote": 0,
+     *               "votes": -1,
+     *               "writerUsername": "zola.schneider",
+     *               "level": 0
+     *           }
+     *       ]
+     * 
+     * }
      */
 
+    /**
+     * ProfileInfo.
+     * This Function is used to return the profile info of the user.
+     *
+     * It receives the token of the logged in user.
+     * it gets the personal information (username, profile picture , karma count) of the logged in user
+     * then it checks if the user is a moderator (type=2) it gets the apexcoms the user moderates.
+     * it gets the posts posted by the user and his vote status.
+     * it gets the saved and hidden posts by the user.
+     * it gets the saved comments and their posts.
+     * then it returns all the retrieved profile information.
+     *
+     * @param string token the JWT representation of the user, admin or moderator.
+     * 
+     * @return Json profile , user profile information.
+     */
     public function profileInfo(Request $request)
     {
+        //get the logged in user id and type
         $account=new AccountController;
         $user=$account->me($request)->getData()->user;
         $type=$user->type;
         $id=$user->id;
+
+        //get the personal information (username, profile picture , karma count)of the logged in user
         $info=DB::table('users')->where('id', '=', $id)->select('username', 'avatar', 'karma')->get();
-        $posts=DB::table('posts')->where('posted_by', '=', $id)->select('content')->get();
-        $savedposts=DB::table('save_posts')->join('posts', 'save_posts.postID', '=', 'posts.id')
-        ->where('posts.posted_by', '=', $id)->select('content')->get();
-        $hiddenposts=DB::table('hiddens')->join('posts', 'hiddens.postID', '=', 'posts.id')
-        ->where('posts.posted_by', '=', $id)->select('content')->get();
-        $apexcom=DB::table('moderators')->join('apex_coms', 'moderators.apexID', '=', 'apex_coms.id')
-        ->where('moderators.userID', '=', $id)->select('name', 'description')->get();
 
+        //get the posts posted by the user and his vote and save statuses
+        $posts=Post::query()->where('posted_by', $id)->orderby('created_at', 'asc')->get();
+        $posts->each(
+            function ($posts) use ($id) {
+                $posts['userVote'] = $posts->userVote($id);
+            }
+        );
+        $hiddens= Hidden::where('userID', $id)->pluck('postID');
+        $saved = SavePost::where('userID', $id)->pluck('postID');
+        //get the saved and hidden posts by the logged in user
+        $savedPosts=Post::query()->whereIn('id', $saved)->get();
+        $hiddenPosts=Post::query()->whereIn('id', $hiddens)->get();
+        //get saved comments and their posts
+        $savedcom = SaveComment::where('userID', $id)->pluck('comID');
+        $comments=Comment::query()->whereIn('id', $savedcom)->get();
+        $comments->each(
+            function ($comments) use ($id) {
+                $comments['userVote'] = $comments->userVote($id);
+                $comments['root']=Post::where('id', $comments->root)->get();
+            }
+        );
 
-        if ($type == 2) {
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ,'apex_coms'=>$apexcom  ]);
-        } else {
-            $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
-            'saved_posts'=>$savedposts ,'hidden_posts'=>$hiddenposts ]);
-        }
+        $json_output=response()->json(['user_info' =>$info ,'posts'=>$posts ,
+            'saved_posts'=>$savedPosts ,'hidden_posts'=>$hiddenPosts,'saved_comments'=>$comments], 200);
+
         return $json_output;
     }
-
 
 
 
     /**
      * blockList
      * Returns the blocked users name & IDs by the logged in user.
-     * Success Cases :
-     * 1) return the list of the blocked users.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
+     * ###Success Cases :
+     * 1. return the list of the blocked users (status code 200).
+     * 
+     * ###Failure Cases:
+     * 1. Invalid token (status code 400).
      *
+     * @authenticated
+     * 
      * @bodyParam token JWT required Used to verify the user.
+     * @response 400{
+     * "error": "Not authorized"
+     * }
+     * @response 200{
+     *   "blocklist": [
+     *       {
+     *           "username": "brekke.violet",
+     *           "id": "t2_1"
+     *       }
+     *   ]
+     * }
      */
-
-
+    /**
+     * BlockList.
+     * This Function is used to return the blocked users name & IDs by the logged in user.
+     *
+     * It receives the token of the logged in user.
+     * it returns a list of the names and ids of the blocked users by the logged in useer
+     *
+     * @param string token the JWT representation of the user, admin or moderator.
+     * 
+     * @return Json blocklist , list of the blocked users by the logged in user.
+     */
     public function blockList(Request $request)
     {
-        return;
+        //get the logged in user id
+        $account=new AccountController;
+        $user=$account->me($request)->getData()->user;
+        $id=$user->id;
+        //get the blocklist of the logged in user
+        $blocklist=DB::table('blocks')->join('users', 'blocks.blockedID', '=', 'users.id')
+        ->where('blocks.blockerID', '=', $id)->select('users.username', 'users.id')->get();
+        return response()->json(['blocklist' =>$blocklist], 200);
     }
 
-
     /**
-     * messages
-     * Returns the inbox messages of the user.
-     * Success Cases :
-     * 1) return lists of the inbox messages of the user categorized by All , Sent and Unread.
-     * failure Cases:
-     * 1) NoAccessRight token is not authorized.
+     * Get Inbox Messages
+     * Return a json contains the not-deleted inbox messages (without its replies)
+     *  of the current user divided into `sent` and `received` messages,
+     *  and the `received` messages are divided into `read`, `unread` and `all`
+     *  that contain both `read` and `unread` messages,
+     *  all messages are sorted by latest messages.
      *
-     * @bodyParam max int the maximum number of messages to be returned.
-     * @bodyParam token JWT required Used to verify the user.
+     * ###Success Cases :
+     * 1. The logged-in user is authorized,
+     *  return the result successfully (status code 200)
+     *
+     * ###Failure Cases:
+     * 1. The `token` is invalid, or the user is not found. (status code 400 or 404)
+     * 2. The `max` is invalid (status code 400)
+     *
+     * @authenticated
+     *
+     * @responseFile 200 responses\validInbox.json
+     * @responseFile 404 responses\userNotFoundJWTMiddlewareAuthentication.json
+     * @responseFile 400 responses\notAuthorized.json
+     * @responseFile 400 responses\maxMustBeInt.json
+     *
+     * @bodyParam max int the maximum number of messages to be returned (default is no limit). Example: 50
+     * @bodyParam token JWT required Used to verify the user. Example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9TaWduSW4iLCJpYXQiOjE1NTY3MTEwNjMsIm5iZiI6MTU1NjcxMTA2MywianRpIjoibExYQ3ZoY25ORmRPY0IxeCIsInN1YiI6InQyXzEyODM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ONpwJdRUzyitYLly3ULnfMlGlbOhCPAd4J6BhqMNRBI
      */
-
-    public function inbox()
+    /**
+     * Get Inbox Messages
+     * Validate the input by checking that the logged-in user is authorized
+     * and get his id or return an error message.
+     * Check that the `max` is a valid integer or return an error message.
+     * If the `max` is not given don't limit the result.
+     * Get the messages that is not replies, order them by latest messages,
+     * limit them by `max` and select all attributes except
+     * `delSent`, `delReceived` and `received`.
+     * Get from the messages the messages that is sent by the user, the messages
+     * that are received and read by him and the messages that are received
+     * and not read, then collect the `read` and `unread` messages in `all`.
+     * Return the sent messages and the received messages that are divided into
+     * `read`, `unread` and `all`.
+     *
+     * @param Request $request  
+     *
+     * @return Response
+     */
+    public function inbox(Request $request)
     {
-        return;
+        $validator = validator($request->only('max'), ['max' => 'int|nullable']);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $limit = $request->input('max', null);
+        $userID = $this->me($request)->getData()->user->id;
+
+        $messages = Message::notReply()->with('sender:id,username')
+            ->with('receiver:id,username')->latest()->take($limit)
+            ->select('id', 'content', 'subject', 'sender', 'receiver', 'received as read', 'created_at', 'updated_at');
+
+        $sent = clone $messages;
+        $read = clone $messages;
+        $unread = clone $messages;
+
+        $sent = $sent->sentBy($userID)->get();
+
+        $read = $read->receivedBy($userID)->read();
+
+        $unread = $unread->receivedBy($userID)->unread();
+
+        $all = clone $read;
+        $all = $all->union($unread)->latest()->get();  //all received messages
+
+        $read = $read->get();
+        $unread = $unread->get();
+
+        $received = compact('read', 'unread', 'all');
+
+        return compact('sent', 'received');
     }
 }
 

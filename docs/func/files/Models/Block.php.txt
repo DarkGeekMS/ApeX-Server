@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Block extends Model
 {
@@ -27,6 +28,26 @@ class Block extends Model
                 $query->where(['blockerID' => $id2, 'blockedID' => $id1]);
             }
         )->exists();
+    }
+
+    /**
+     * A relation to the blocker user
+     * 
+     * @return Relation
+     */
+    public function blocker()
+    {
+        return $this->belongsTo(User::class, 'blockerID');
+    }
+
+    /**
+     * A relation to the blocked user
+     * 
+     * @return Relation
+     */
+    public function blocked()
+    {
+        return $this->belongsTo(User::class, 'blockedID');
     }
 }
 
