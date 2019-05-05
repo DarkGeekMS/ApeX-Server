@@ -154,14 +154,14 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
 
-            OneSignal::sendNotificationToUser(
+          /*  OneSignal::sendNotificationToUser(
                 $commentOwner['username'].'Add a reply to your comment',
                 $commentOwner['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
                 $schedule = null
-            );
+            );*/
             //return the id of the submitted reply
             return response()->json(['reply' => $id], 200);
         } elseif ($parent[1]==3) {                   //add comment
@@ -194,14 +194,14 @@ class CommentandLinksController extends Controller
               'content' => $request['content']
             ]);
 
-            OneSignal::sendNotificationToUser(
+      /*      OneSignal::sendNotificationToUser(
                 $postOwner['username'].'Add a comment on your post',
                 $postOwner['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
                 $schedule = null
-            );
+            );*/
             //return the id of the submitted comment
             return response()->json(['comment' => $id], 200);
         } elseif ($parent[1]==4) {                  //reply to message
@@ -237,14 +237,14 @@ class CommentandLinksController extends Controller
             ]);
             $reciever = User::find($userF);
 
-            OneSignal::sendNotificationToUser(
+        /*    OneSignal::sendNotificationToUser(
                 $reciever['username'].'Send you a reply to the message',
                 $reciever['id'],
                 $url = null,
                 $data = null,
                 $buttons = null,
                 $schedule = null
-            );
+            );*/
             //return the id of the created message
             return response()->json(['id' => $id], 200);
         }
