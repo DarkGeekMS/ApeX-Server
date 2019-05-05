@@ -6,6 +6,7 @@ services:
         args:
           - WEB_BRANCH=${WEB_BRANCH-master}
           - SEED=${SEED}
+          - GITHUB_TOKEN=${GITHUB_TOKEN}
       env_file:
         - .env
       ports:

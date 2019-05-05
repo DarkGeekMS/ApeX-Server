@@ -1,7 +1,6 @@
 #!/bin/bash
 set -ex
 
-
 getFront() { ./scripts/getFront.sh $WEB_BRANCH; }
 
 install() { composer install --optimize-autoloader; }
@@ -36,22 +35,18 @@ e2eTests() {
 
 serve() { php7 artisan serve --host=0.0.0.0 --port=80; }
 
-getFront
-install
-migrate
-php7 artisan jwt:secret -f -n
+$(sleep 10 && migrate || exit 1) &
 
-# link public folder
+php7 artisan jwt:secret -f -n
 php7 artisan storage:link -n -q
 
 if [[ "$SEED" == 'true' ]]; then 
-    seed
+	$(sleep 30 && seed || exit 1) &
 fi
 
 if [[ "$UNIT_TEST" == 'true' ]] || [[ "$E2E_TEST" == 'true' ]]; then
-
     serve &
-    sleep 10
+    sleep 40
 else
     serve
 fi

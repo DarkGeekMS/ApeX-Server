@@ -12,6 +12,7 @@ services:
         SEED: ${SEED}
         UNIT_TEST: ${UNIT_TEST}
         E2E_TEST: ${E2E_TEST}
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
     env_file:
       - .env
     ports:
