@@ -39,6 +39,7 @@ serve() { php7 artisan serve --host=0.0.0.0 --port=80; }
 getFront
 install
 migrate
+php7 artisan jwt:secret -f -n
 
 # link public folder
 php7 artisan storage:link -n -q
