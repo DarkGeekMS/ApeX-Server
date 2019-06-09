@@ -5,7 +5,7 @@
 
 ## Brief Description
 
-Backend code of ApeX, a social media application that mimicks reddit.
+Backend code of ApeX, a social media application that mimics reddit.
 
 
 ## Utilized Technologies 
@@ -17,7 +17,7 @@ Backend code of ApeX, a social media application that mimicks reddit.
 
 ## Running Guide (development)
 
-## With Docker:
+### With Docker:
 ```
 ./scripts/runDevDocker.sh [PORT NUMBER] [FRONT END BRANCH] [true to enable seeding]
 ```
