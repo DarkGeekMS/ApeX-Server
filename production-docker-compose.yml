@@ -2,11 +2,10 @@ version: '3.4'
 services:
     app:
       build:
-        context: https://${GITHUB_TOKEN}@github.com/DarkGeekMS/ApeX-Server.git#${BRANCH-master}
+        context: https://github.com/DarkGeekMS/ApeX-Server.git#${BRANCH-master}
         args:
           - WEB_BRANCH=${WEB_BRANCH-master}
-          - SEED=${SEED}
-          - GITHUB_TOKEN=${GITHUB_TOKEN}
+          - SEED=${SEED-false}
       env_file:
         - .env
       ports:

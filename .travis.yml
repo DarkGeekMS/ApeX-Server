@@ -19,26 +19,26 @@ branches:
 services:
   - docker
 
-cache:
-  directories:
-    - $HOME/google-cloud-sdk
+script: bash scripts/runCIDocker.sh
 
-env:
-  global:
-    - CLOUDSDK_CORE_DISABLE_PROMPTS=1 
+# uncomment to add auto deployment to travis
 
-script: bash scripts/ci.sh
-
-
-before_deploy:
-  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
-      rm -rf $HOME/google-cloud-sdk;
-      curl https://sdk.cloud.google.com | bash > /dev/null;
-    fi
-  - source $HOME/google-cloud-sdk/path.bash.inc
-  - gcloud version
-  - openssl aes-256-cbc -K $encrypted_12c8071d2874_key -iv $encrypted_12c8071d2874_iv -in ./scripts/encrypted-deploy-key -out ./scripts/deploy-key.json -d
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: env BRANCH=master ./scripts/deploy.sh "./scripts/deploy-key.json"
+# env:
+#   global:
+#     - CLOUDSDK_CORE_DISABLE_PROMPTS=1 
+# cache:
+#   directories:
+#     - $HOME/google-cloud-sdk
+# before_deploy:
+#   - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+#       rm -rf $HOME/google-cloud-sdk;
+#       curl https://sdk.cloud.google.com | bash > /dev/null;
+#     fi
+#   - source $HOME/google-cloud-sdk/path.bash.inc
+#   - gcloud version
+## add decryption command encrypted-deploy-key to deploy-key.json, the encryption should be done using travis-ci-cli tool
+# deploy:
+#   skip_cleanup: true
+#   provider: script
+## fill env variables with vm details
+#   script: env PROJECT_ID='<your gcloud project id>' COMPUTE_ZONE='<gcloud compute zone>' VM_INSTANCE='<userName>@<vmName>' BRANCH=master ./scripts/deploy.sh "./scripts/deploy-key.json"

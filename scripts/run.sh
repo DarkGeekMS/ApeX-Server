@@ -10,12 +10,12 @@ migrate() {
     composer dump-autoload
 }
 
-seed() { php7 artisan DB:seed -n --force || echo maybe the database already seeded, ignoring; }
+seed() { php7 artisan DB:seed -n --force; }
 
 unitTests() { ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php --testdox tests; }
 
 e2eTests() { 
-    git clone https://${GITHUB_TOKEN}@github.com/DarkGeekMS/apeXTesting e2e
+    git clone https://github.com/DarkGeekMS/apeXTesting e2e
     pushd e2e
       cat scripts/dependencies | xargs apk add
 

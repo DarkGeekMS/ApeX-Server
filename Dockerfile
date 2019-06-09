@@ -5,19 +5,18 @@ WORKDIR /app
 ARG WEB_BRANCH=master
 ENV WEB_BRANCH=${WEB_BRANCH}
 
-ARG GITHUB_TOKEN
-ENV GITHUB_TOKEN=${GITHUB_TOKEN}
-
-RUN apk update && apk add bash git
-RUN bash /app/scripts/getFront.sh ${WEB_BRANCH}
+RUN apk update &&\
+    apk add bash git &&\
+    bash /app/scripts/getFront.sh ${WEB_BRANCH}
 
 FROM alpine
 
 COPY --from=front /app /app
 WORKDIR /app
 
-RUN apk update
-RUN cat scripts/dependencies | xargs apk add && composer install --optimize-autoloader
+RUN apk update &&\ 
+    cat scripts/dependencies | xargs apk add &&\ 
+    composer install --optimize-autoloader
 
 ARG SEED
 ENV SEED=${SEED}

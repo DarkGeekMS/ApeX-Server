@@ -1,10 +1,6 @@
 #!/bin/bash
 set -eox pipefail
 
-PROJECT_ID="lunar-clone-235511"
-COMPUTE_ZONE="us-central1-c"
-VM_INSTANCE="mido3ds@main"
-
 main() {
     # login
     gcloud auth activate-service-account --key-file="$GCP_KEYFILE_SECRET"
@@ -14,25 +10,25 @@ main() {
 
     # copy docker-compose.yml to update it there
     gcloud compute scp \
-	production-docker-compose.yml \
-	$VM_INSTANCE:disk1/docker-compose.yml 
+      production-docker-compose.yml \
+      $VM_INSTANCE:/apex/docker-compose.yml 
 
     # run docker-compose
     gcloud compute ssh $VM_INSTANCE \
-	--command="cd disk1 && sudo BRANCH=${BRANCH} \
-		   docker-compose -p production up --build --no-deps -d"
+        --command="cd /apex && sudo BRANCH=${BRANCH} \
+            docker-compose -p production up --build --no-deps -d"
 }
 
 if [[ -z "$BRANCH" ]]; then
-	BRANCH=`git rev-parse --abbrev-ref HEAD`
+    BRANCH=`git rev-parse --abbrev-ref HEAD`
 fi
 
-if [[ "$#" == 1 ]]; then
-  GCP_KEYFILE_SECRET="$1"
+if [[ "$#" == 1 ]] && [[ ! -z "$PROJECT_ID" ]] && [[ ! -z "$COMPUTE_ZONE" ]] && [[ ! -z "$VM_INSTANCE" ]]; then
+    GCP_KEYFILE_SECRET="$1"
 else
-  echo "Wrong number of arguments specified."
-  echo "Usage: deploy.sh /path/to/keyfile"
-  exit 1
+    echo "Wrong number of arguments specified."
+    echo "Usage: env PROJECT_ID='<your gcloud project id>' COMPUTE_ZONE='<gcloud compute zone>' VM_INSTANCE='<userName>@<vmName>' deploy.sh /path/to/keyfile"
+    exit 1
 fi
 
 main
