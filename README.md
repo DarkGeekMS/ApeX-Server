@@ -1,6 +1,6 @@
 # ApeX Backend
 
-### Notice: Apex is no longer maintained or deployed!
+### Note: Apex is no longer maintained or deployed!
 [![Build Status](https://travis-ci.com/DarkGeekMS/ApeX-Server.svg?token=kEyZRKsdTeESZQ8KMgx8&branch=master)](https://travis-ci.com/DarkGeekMS/ApeX-Server)
 
 ## Brief Description
