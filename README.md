@@ -3,7 +3,7 @@
 
 ## Brief Description
 
-This is the repository for backend code of ApeX, an application mimicking reddit.
+Backend code of ApeX, a social media application that mimicks reddit.
 
 
 ## Utilized Technologies 
