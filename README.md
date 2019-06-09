@@ -23,6 +23,3 @@ php artisan DB:seed
 php artisan jwt:secret
 php artisan storage:link
 ```
-
-## Host IP
-http://35.232.3.8/
